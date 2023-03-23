@@ -18,7 +18,7 @@ export default function Dashboard() {
   return (
     <Flex >
     <Box m={'100px 70px 50px 70px'} >
-    <Image h={'600px'} w='100%' src={fondo} alt='Logo palmosima' />
+    <Image h={'600px'} w='100%' src={fondo} alt='Logo patolsima' />
     </Box>
     </Flex>
   );

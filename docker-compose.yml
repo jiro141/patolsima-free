@@ -2,8 +2,8 @@ version: "3.9"
 
 services:
   app:
-    container_name: palmosimaui
-    image: palmosimaui
+    container_name: patolsima_ui
+    image: patolsima_ui
     build:
       context: .
     ports:
@@ -13,5 +13,5 @@ services:
 
 networks:
   frontend:
-    name: palmosima-api_frontend 
+    name: patolsima-api_frontend 
     external: true

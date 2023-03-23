@@ -81,7 +81,7 @@ export default function AuthNavbar(props) {
     >
       <CreativeTimLogo w="32px" h="32px" me="10px" />
       <Text fontSize="sm" mt="3px">
-        Palmosima
+        Patolsima
       </Text>
     </Link>
   );

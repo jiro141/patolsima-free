@@ -155,7 +155,7 @@ function SignIn() {
             borderBottomLeftRadius='20px'>
             <Box >
               <Text color={'whiteAlpha.900'} textAlign={'justify'} fontWeight='medium' margin={'600px 40px'} >
-                La misión de Laboratorio de Anatomía Patológica Palmosima es prestar un servicio de salud, mediante la realización de estudios de laboratorio de citologías, biopsias e inmunohistoquímica, con garantía en la precisión y exactitud de los resultados, satisfaciendo las necesidades de nuestros clientes y brindándoles un servicio de calidad.
+                La misión de Laboratorio de Anatomía Patológica Patolsima es prestar un servicio de salud, mediante la realización de estudios de laboratorio de citologías, biopsias e inmunohistoquímica, con garantía en la precisión y exactitud de los resultados, satisfaciendo las necesidades de nuestros clientes y brindándoles un servicio de calidad.
               </Text>
             </Box>
           </Box>

@@ -182,7 +182,7 @@ const SidebarContent = ({ logoText, routes }) => {
   return (
     <>
       <Box   w="70%" h="5px" m=" 5px 10px 150px 10px" >
-        <Image src={Logo} alt='Logo palmosima' />
+        <Image src={Logo} alt='Logo patolsima' />
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
         <Box m={"0px 20px"}><Reloj  /></Box>
         <Fecha/>
