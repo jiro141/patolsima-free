@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Progress, Input, Button, Box, Text } from "@chakra-ui/react";
 import FormStation from './Components/MultiStationForm ';
 import FormConfirmationPopup from './Components/FormConfirmationPopup';
+import BarraProgresiva from './Components/BarraProgresiva';
 import "./Components/FormConfirmationPopup.css"
 
 const MultiStationForm = () => {
@@ -45,17 +46,17 @@ const MultiStationForm = () => {
       setCurrentStation(currentStation - 1);
     }
   };
+
   const nombreEstacion = () => {
     switch (currentStation) {
       case 1:
-        nombreEstacion == "Pasiente"
-        break;
+        return "Cliente";
       case 2:
-        nombreEstacion == "Medico"
-        break;
+        return "Medico";
       case 3:
-        nombreEstacion == "Muestra"
-        break;
+        return "Muestra";
+      default:
+        return "";
     }
   };
 
@@ -102,39 +103,24 @@ const MultiStationForm = () => {
     setShowConfirmationPopup(false);
     setCurrentStation(3);
   };
-
   return (
-    <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px'  m={'140px 30px 0 30px'} className="multistation-form">
-      <Box className="form-header">
-        {/* <Text fontSize="xl">
-          {(() => {
-            switch (currentStation) {
-              case 1:
-                return "Pasiente";
-              case 2:
-                return "Medico";
-              case 3:
-                return "Muestra";
-              default:
-                return "";
-            }
-          })()}
-        </Text> */}
-
+    <>
+      <BarraProgresiva currentStation={currentStation} />
+      <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'140px 30px 100px 30px'} className="multistation-form">
+        {currentStation === 1 && (
+          <FormStation stationName="Cliente" formData={formData.Cliente} onChange={handleStationDataChange} onNext={handleNextStation} />
+        )}
+        {currentStation === 2 && (
+          <FormStation stationName="Medico" formData={formData.Medico} onChange={handleStationDataChange} onNext={handleNextStation} onPrevious={handlePreviousStation} />
+        )}
+        {currentStation === 3 && (
+          <FormStation stationName="Muestra" formData={formData.Muestra} onChange={handleStationDataChange} onPrevious={handlePreviousStation} />
+        )}
+        {showConfirmationPopup && (
+          <FormConfirmationPopup formData={formData} onConfirm={handleConfirmationPopupConfirm} onBack={handleConfirmationPopupBack} />
+        )}
       </Box>
-      {currentStation === 1 && (
-        <FormStation stationName="Cliente" formData={formData.Cliente} onChange={handleStationDataChange} onNext={handleNextStation} />
-      )}
-      {currentStation === 2 && (
-        <FormStation stationName="Medico" formData={formData.Medico} onChange={handleStationDataChange} onNext={handleNextStation} onPrevious={handlePreviousStation} />
-      )}
-      {currentStation === 3 && (
-        <FormStation stationName="Muestra" formData={formData.Muestra} onChange={handleStationDataChange} onPrevious={handlePreviousStation} />
-      )}
-      {showConfirmationPopup && (
-        <FormConfirmationPopup formData={formData} onConfirm={handleConfirmationPopupConfirm} onBack={handleConfirmationPopupBack} />
-      )}
-    </Box>
+    </>
   );
 };
 

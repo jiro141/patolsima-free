@@ -3,10 +3,19 @@ import Calendar from 'react-calendar';
 import '../../css/style.css';
 
 export function Calendario() {
-  const [value, onChange] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+
+  const formatShortYear = (locale, date) => {
+    return date.getFullYear();
+  }
+
   return (
     <div>
-      <Calendar onChange={onChange} value={value} />
+      <Calendar
+        value={date}
+        onChange={setDate}
+        formatShortYear={formatShortYear}
+      />
     </div>
   );
 }

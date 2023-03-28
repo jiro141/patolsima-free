@@ -7,16 +7,18 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  Image
+  Image,
+  Grid
 } from "@chakra-ui/react";
+import { TimeIcon } from "@chakra-ui/icons";
 import IconBox from "components/Icons/IconBox";
 import Logo from "assets/img/logo.png";
 import { Separator } from "components/Separator/Separator";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import {Reloj} from "components/Sidebar/Reloj";
-import {Fecha} from "components/Sidebar/Fecha";
-import {Calendario} from "components/Sidebar/Calendario"
+import { Reloj } from "components/Sidebar/Reloj";
+import { Fecha } from "components/Sidebar/Fecha";
+import { Calendario } from "components/Sidebar/Calendario"
 
 
 // this function creates the links and collapses that appear in the sidebar (left menu)
@@ -71,7 +73,7 @@ const SidebarContent = ({ logoText, routes }) => {
           </div>
         );
       }
-     
+
       return (
         <NavLink to={prop.layout + prop.path} key={prop.name}>
           {activeRoute(prop.layout + prop.path) === "active" ? (
@@ -184,14 +186,19 @@ const SidebarContent = ({ logoText, routes }) => {
 
   return (
     <>
-      <Box   w="70%" h="5px" m=" 5px 10px 150px 10px" >
+      <Box w="70%" h="5px" m=" 5px 10px 150px 10px" >
         <Image src={Logo} alt='Logo palmosima' />
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
-        <Box m={"0px 20px"}><Reloj  /></Box>
-        <Fecha/>
+          <Grid templateColumns={'1fr 2fr'}>
+            <TimeIcon boxSize={6} />
+            <Box>
+              <Box m={"0px 20px"}><Reloj /></Box>
+              <Fecha />
+            </Box>
+          </Grid>
         </Box>
       </Box>
-      <Box  pt={"10px"} mb="5px">
+      <Box pt={"10px"} mb="5px">
         <Link
           href={`#`}
           target="_blank"
@@ -202,7 +209,7 @@ const SidebarContent = ({ logoText, routes }) => {
           justifyContent="center"
           alignItems="center"
           fontSize="11px"
-          
+
         >
           <Text fontSize="sm" mt="3px">
           </Text>
@@ -212,7 +219,7 @@ const SidebarContent = ({ logoText, routes }) => {
       <Stack direction="column" mb="40px">
         <Box>{links}</Box>
       </Stack>
-      <Calendario/>
+      <Calendario />
     </>
   )
 }

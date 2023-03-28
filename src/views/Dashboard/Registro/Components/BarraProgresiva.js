@@ -1,21 +1,43 @@
-import { Badge, Progress } from "@chakra-ui/react";
+import { Badge, Box, Text } from "@chakra-ui/react";
 import React from "react";
 
-const BarraProgresiva = (props) => {
-  const completedSteps = props.step - 1;
-
+const BarraProgresiva = ({ currentStation }) => {
   return (
-    <Progress value={completedSteps} max={3} borderRadius="10px">
-      <Badge colorScheme="blue" fontSize="lg" px={4} py={2} mr={2}>
-        Cliente
-      </Badge>
-      <Badge colorScheme={completedSteps >= 1 ? "green" : "gray"} fontSize="lg" px={4} py={2} mr={2}>
-        Médico
-      </Badge>
-      <Badge colorScheme={completedSteps >= 2 ? "green" : "gray"} fontSize="lg" px={4} py={2} mr={2}>
-        Muestra
-      </Badge>
-    </Progress>
+    <Box display="flex" justifyContent="space-around">
+      <Box textAlign="center">
+        {currentStation === "cliente" ? (
+          <Text fontSize="2xl" fontWeight="bold">
+            Cliente
+          </Text>
+        ) : (
+          <Badge variant="outline" colorScheme="blue">
+            .
+          </Badge>
+        )}
+      </Box>
+      <Box textAlign="center">
+        {currentStation === "medico" ? (
+          <Text fontSize="2xl" fontWeight="bold">
+            Médico
+          </Text>
+        ) : (
+          <Badge variant="outline" colorScheme="blue">
+            .
+          </Badge>
+        )}
+      </Box>
+      <Box textAlign="center">
+        {currentStation === "muestra" ? (
+          <Text fontSize="2xl" fontWeight="bold">
+            Muestra
+          </Text>
+        ) : (
+          <Badge variant="outline" colorScheme="blue">
+            .
+          </Badge>
+        )}
+      </Box>
+    </Box>
   );
 };
 

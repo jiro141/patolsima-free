@@ -111,9 +111,11 @@
     background: #1376975e;
   }
   .react-calendar__tile--active {
+    width: 100%;
+    height: 100%;
     background: #137797;
     color: white;
-    border-radius: 10px;
+    border-radius: 60%;
     font-weight: 700;
     
   }
