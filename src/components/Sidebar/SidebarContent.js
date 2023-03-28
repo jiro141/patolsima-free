@@ -12,11 +12,13 @@ import {
 import IconBox from "components/Icons/IconBox";
 import Logo from "assets/img/logo.png";
 import { Separator } from "components/Separator/Separator";
-import { SidebarHelp } from "components/Sidebar/SidebarHelp";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {Reloj} from "components/Sidebar/Reloj";
 import {Fecha} from "components/Sidebar/Fecha";
+import {Calendario} from "components/Sidebar/Calendario"
+
+
 // this function creates the links and collapses that appear in the sidebar (left menu)
 
 
@@ -69,6 +71,7 @@ const SidebarContent = ({ logoText, routes }) => {
           </div>
         );
       }
+     
       return (
         <NavLink to={prop.layout + prop.path} key={prop.name}>
           {activeRoute(prop.layout + prop.path) === "active" ? (
@@ -182,13 +185,13 @@ const SidebarContent = ({ logoText, routes }) => {
   return (
     <>
       <Box   w="70%" h="5px" m=" 5px 10px 150px 10px" >
-        <Image src={Logo} alt='Logo patolsima' />
+        <Image src={Logo} alt='Logo palmosima' />
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
         <Box m={"0px 20px"}><Reloj  /></Box>
         <Fecha/>
         </Box>
       </Box>
-      <Box  pt={"25px"} mb="12px">
+      <Box  pt={"10px"} mb="5px">
         <Link
           href={`#`}
           target="_blank"
@@ -209,9 +212,9 @@ const SidebarContent = ({ logoText, routes }) => {
       <Stack direction="column" mb="40px">
         <Box>{links}</Box>
       </Stack>
-      <SidebarHelp/>
+      <Calendario/>
     </>
   )
 }
 
-export default SidebarContent
+export default SidebarContent;

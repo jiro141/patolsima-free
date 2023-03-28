@@ -1,11 +1,12 @@
-// import
+﻿// import
 import Dashboard from "views/Dashboard/Dashboard";
-import Tables from "views/Dashboard/Tables";
 import Billing from "views/Dashboard/Billing";
 import RTLPage from "views/Dashboard/RTL";
 import Profile from "views/Dashboard/Profile";
 import SignIn from "views/Auth/SignIn.js";
 import SignUp from "views/Auth/SignUp.js";
+import Registro from "views/Dashboard/Registro"
+import Muestras from "views/Dashboard/Muestras"
 
 import {
   HomeIcon,
@@ -26,29 +27,22 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
-    path: "/tables",
+    path: "/Registro",
     name: "Registro",
     rtlName: "لوحة القيادة",
     icon: <StatsIcon color="inherit" />,
-    component: Tables,
+    component: Registro,
     layout: "/admin",
   },
   {
-    path: "/billing",
-    name: "Facturacion",
+    path: "/Muestras",
+    name: "Muestras",
     rtlName: "لوحة القيادة",
     icon: <CreditIcon color="inherit" />,
-    component: Billing,
+    component: Muestras,
     layout: "/admin",
   },
-  {
-    path: "/rtl-support-page",
-    name: "RTL",
-    rtlName: "آرتيإل",
-    icon: <SupportIcon color="inherit" />,
-    component: RTLPage,
-    layout: "/rtl",
-  },
+  
   {
     name: "Patólogia",
     category: "account",
@@ -56,13 +50,13 @@ var dashRoutes = [
     state: "pageCollapse",
     views: [
       {
-        path: "/profile",
-        name: "Profile",
+        path: "/SignUp",
+        name: "SingUp",
         rtlName: "لوحة القيادة",
         icon: <PersonIcon color="inherit" />,
         secondaryNavbar: true,
-        component: Profile,
-        layout: "/admin",
+        component: SignUp,
+        layout: "/auth",
       },
       {
         path: "/signin",
@@ -72,15 +66,7 @@ var dashRoutes = [
         component: SignIn,
         layout: "/auth",
       },
-      {
-        path: "/signup",
-        name: "Sign Up",
-        rtlName: "لوحة القيادة",
-        icon: <RocketIcon color="inherit" />,
-        secondaryNavbar: true,
-        component: SignUp,
-        layout: "/auth",
-      },
+      
     ],
   },
 ];

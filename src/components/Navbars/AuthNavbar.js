@@ -152,7 +152,7 @@ export default function AuthNavbar(props) {
   );
   return (
     <Flex
-    visibility={'hidden'}
+    // visibility={'hidden'}
       position={navbarPosition}
       top="16px"
       left="50%"
