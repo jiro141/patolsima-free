@@ -87,9 +87,6 @@ const MultiStationForm = () => {
 
   return (
     <div>
-      {/* <Heading size="lg" mb={4}>
-        <BarraProgresiva/>
-      </Heading> */}
       {showAlert && (
         <Alert status='error' mb={4}>
           <AlertIcon />
@@ -107,7 +104,7 @@ const MultiStationForm = () => {
           <>
             <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
             <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
-              <FormControl  mb={3}>
+              <FormControl mb={3}>
                 <Input
                   placeholder='Cédula:'
                   type="number"
@@ -183,51 +180,60 @@ const MultiStationForm = () => {
         )}
         {currentStation === 2 && (
           <>
-            <FormControl mb={3}>
-              <FormLabel>Nombre:</FormLabel>
-              <Input
-                type="text"
-                name="Nombre"
-                value={formData[currentStation]?.Nombre}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-            <FormControl mb={3}>
-              <FormLabel>Especialidad:</FormLabel>
-              <Input
-                type="text"
-                name="Especialidad"
-                value={formData[currentStation]?.Especialidad}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-            <FormControl mb={3}>
-              <FormLabel>Email:</FormLabel>
-              <Input
-                type="email"
-                name="email"
-                value={formData[currentStation]?.email}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-            <FormControl mb={3}>
-              <FormLabel>Teléfono:</FormLabel>
-              <Input
-                type="text"
-                name="Telefono"
-                value={formData[currentStation]?.Telefono}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-            <FormControl mb={3}>
-              <FormLabel>Fecha:</FormLabel>
-              <Input
-                type="date"
-                name="Fecha"
-                value={formData[currentStation]?.Fecha}
-                onChange={handleInputChange}
-              />
-            </FormControl>
+            <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
+            <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+              <FormControl mb={3}>
+                <Input
+                  placeholder='Nombres:'
+                  type="text"
+                  name="Nombre"
+                  value={formData[currentStation]?.Nombre}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+              <FormControl mb={3}>
+                <Input
+                  placeholder='Apellidos:'
+                  type="text"
+                  name="Apellido"
+                  value={formData[currentStation]?.Apellido}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+            <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+              <FormControl mb={3}>
+                <Input
+                  placeholder='Especialidad '
+                  type="text"
+                  name="Especialidad"
+                  value={formData[currentStation]?.Especialidad}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+            <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información de Contacto</Text>
+            <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+              <FormControl mb={3}>
+                <Input
+                  placeholder='Email:'
+                  type="email"
+                  name="email"
+                  value={formData[currentStation]?.email}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+              <FormControl mb={3}>
+                <Input
+                  placeholder='Telefono de Contacto:'
+                  type="text"
+                  name="Telefono"
+                  value={formData[currentStation]?.Telefono}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
           </>
         )}
         {currentStation === 3 && (

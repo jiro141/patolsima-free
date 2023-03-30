@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { Progress, Input, Button, Box, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel
+} from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import FormStation from './Components/MultiStationForm ';
 import FormConfirmationPopup from './Components/FormConfirmationPopup';
-import BarraProgresiva from './Components/BarraProgresiva';
 import "./Components/FormConfirmationPopup.css"
 
 const MultiStationForm = () => {
@@ -47,18 +54,6 @@ const MultiStationForm = () => {
     }
   };
 
-  const nombreEstacion = () => {
-    switch (currentStation) {
-      case 1:
-        return "Cliente";
-      case 2:
-        return "Medico";
-      case 3:
-        return "Muestra";
-      default:
-        return "";
-    }
-  };
 
   const handleStationDataChange = (stationName, field, value) => {
     setFormData(prevFormData => ({
@@ -69,6 +64,8 @@ const MultiStationForm = () => {
       }
     }));
   };
+
+
 
   const handleConfirmationPopupConfirm = () => {
     // Aquí podrías enviar los datos a través de una API o guardarlos en una base de datos
@@ -103,23 +100,62 @@ const MultiStationForm = () => {
     setShowConfirmationPopup(false);
     setCurrentStation(3);
   };
+
+  //tabs para los nombres
+
+  const MotionTab = motion(Tab);
+
+  const CustomTab = ({ title, isActive }) => {
+    return (
+      <MotionTab
+        margin="0 5px 0 5px"
+        border="none"
+        bg={isActive ? "#9BC5D3" : "#9BC5D3"}
+        color={isActive ? "#FFFF" : "transpared"}
+        borderRadius={isActive ? "40px" : "40%"}
+        padding={isActive ? "20px 200px" : "15px"}
+        fontSize={isActive ? "20px" : "0px"}
+        width="50px"
+        height="50px"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 1 }}
+      >
+        {title}
+      </MotionTab>
+    );
+  };
   return (
     <>
-      <BarraProgresiva currentStation={currentStation} />
-      <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'140px 30px 100px 30px'} className="multistation-form">
-        {currentStation === 1 && (
-          <FormStation stationName="Cliente" formData={formData.Cliente} onChange={handleStationDataChange} onNext={handleNextStation} />
-        )}
-        {currentStation === 2 && (
-          <FormStation stationName="Medico" formData={formData.Medico} onChange={handleStationDataChange} onNext={handleNextStation} onPrevious={handlePreviousStation} />
-        )}
-        {currentStation === 3 && (
-          <FormStation stationName="Muestra" formData={formData.Muestra} onChange={handleStationDataChange} onPrevious={handlePreviousStation} />
-        )}
-        {showConfirmationPopup && (
-          <FormConfirmationPopup formData={formData} onConfirm={handleConfirmationPopupConfirm} onBack={handleConfirmationPopupBack} />
-        )}
-      </Box>
+      <Tabs onChange={index => setCurrentStation(index)}>
+        <TabList border={'none'} margin={'80px 30px 20px 30px'}>
+          <CustomTab  title="Cliente" isActive={currentStation === 1} />
+          <CustomTab title="Médico" isActive={currentStation === 2} />
+          <CustomTab title="Muestra" isActive={currentStation === 3} />
+        </TabList>
+        <TabPanels>
+          {currentStation === 1 && (
+            <TabPanel>
+              <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
+                <FormStation stationName="Cliente" formData={formData.Cliente} onChange={handleStationDataChange} onNext={handleNextStation} />
+              </Box>
+            </TabPanel>
+          )}
+          {currentStation === 2 && (
+            <TabPanel>
+              <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
+                <FormStation stationName="Medico" formData={formData.Medico} onChange={handleStationDataChange} onNext={handleNextStation} />
+              </Box>
+            </TabPanel>
+          )}
+          {currentStation === 3 && (
+            <TabPanel>
+              <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
+                <FormStation stationName="Muestra" formData={formData.Muestra} onChange={handleStationDataChange} onNext={handleNextStation} />
+              </Box>
+            </TabPanel>
+          )}
+        </TabPanels>
+      </Tabs >
     </>
   );
 };

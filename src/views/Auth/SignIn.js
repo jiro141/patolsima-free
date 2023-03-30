@@ -1,4 +1,5 @@
-﻿import React from "react";
+﻿import React from "react"
+import { useState } from "react";
 // Chakra imports
 import {
   Box,
@@ -24,6 +25,33 @@ function SignIn() {
   const titleColor = useColorModeValue("#137797", "#137797");
   const textColor = useColorModeValue("gray.400", "white");
   const switchColor = useColorModeValue("#137797", "while");
+
+  // Componente de inicio de sesión
+  // Estados para guardar el correo y la contraseña ingresados por el usuario
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Función de inicio de sesión
+  const handleLogin = async () => {
+    const response = await fetch('POST /v1/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      window.location.href = '../Dashboard/Dashboard/index.js'; // Cambia la URL a la del dashboard
+    } else {
+      // Maneja el error de acuerdo a tus necesidades
+    }
+  };
   return (
     <Flex position='relative' mb='40px' >
       <Flex
@@ -73,9 +101,12 @@ function SignIn() {
                 borderBottomColor={'#137797'}
                 mb='24px'
                 fontSize='sm'
-                type='text'
+                type='email'
                 // placeholder='Email'
                 size='lg'
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)}
               />
               <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
                 Contraseña
@@ -89,8 +120,9 @@ function SignIn() {
                 mb='36px'
                 fontSize='sm'
                 type='password'
-                // placeholder='Contraseña'
                 size='lg'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <FormControl display='flex' alignItems='center'>
                 <Switch id='remember-login' color={switchColor} me='10px' />
@@ -112,10 +144,13 @@ function SignIn() {
                 color='white'
                 mt='20px'
                 _hover={{
-                  bg: "WhiteAlpha.100"
-                }}>
+                  bg: "#0D5C6F",
+                  color: "white"
+                }}
+                onClick={handleLogin}>
                 Iniciar sesión
               </Button>
+
             </FormControl>
             <Flex
               flexDirection='column'
