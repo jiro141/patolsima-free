@@ -17,10 +17,11 @@ import {
     Button,
     Link
 } from "@chakra-ui/react";
+import MultiStationForm from '..';
 import { SearchIcon } from "@chakra-ui/icons";
 
 
-function Busqueda() {
+function BusquedaCliente() {
     const [pasientes, setPasientes] = useState([]);
     const [tabla, setTabla] = useState([]);
     const [Busqueda, setBusqueda] = useState("");
@@ -32,7 +33,7 @@ function Busqueda() {
                 setPasientes(response.data);
                 setTabla(response.data);
             }).catch(error => {
-                console.log(error);
+                //  console.log(error);
             })
     }
     useEffect(() => {
@@ -56,11 +57,12 @@ function Busqueda() {
 
     const seleccionarRegistro = (registro) => {
         setRegistroSeleccionado(registro);
+        console.log('Registro seleccionado:', registro);
     }
     return (
         <Box>
             {registroSeleccionado ? (
-                <FormularioRegistro registro={registroSeleccionado} />
+                <MultiStationForm pasientes={registroSeleccionado} />
             ) : (
                 <Box>
                     <Box bg="none" py={4} mb={4}>
@@ -108,19 +110,19 @@ function Busqueda() {
                             <Tbody>
                                 {pasientes && pasientes.map((pasientes) => (
                                     <Tr key={pasientes.id}>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(paciente)}>
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
                                             {pasientes.name}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(paciente)}>
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
                                             {pasientes.username}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(paciente)}>
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
                                             {pasientes.address.zipcode}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(paciente)}>
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
                                             {pasientes.phone}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(paciente)}>
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
                                             {pasientes.email}
                                         </Link>
                                     </Tr>
@@ -135,4 +137,4 @@ function Busqueda() {
     );
 };
 
-export default Busqueda;
+export default BusquedaCliente;

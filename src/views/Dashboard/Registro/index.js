@@ -126,11 +126,12 @@ const MultiStationForm = () => {
   };
   return (
     <>
-      <Tabs onChange={index => setCurrentStation(index)}>
-        <TabList border={'none'} margin={'80px 30px 20px 30px'}>
-          <CustomTab  title="Cliente" isActive={currentStation === 1} />
-          <CustomTab title="Médico" isActive={currentStation === 2} />
-          <CustomTab title="Muestra" isActive={currentStation === 3} />
+      <Tabs onChange={handleStationDataChange}>
+        <TabList display={'flex'} justifyContent={'center'} border={'none'} margin={'80px 30px 20px 30px'}>
+          <CustomTab isDisabled={true} title="Cliente" isActive={currentStation ===1} />
+          <CustomTab isDisabled={true} title="Médico" isActive={currentStation === 2} />
+          <CustomTab isDisabled={true} title="Muestra" isActive={currentStation === 3} />
+          <CustomTab isDisabled={true} title="Muestra 2" isActive={currentStation === 4} />
         </TabList>
         <TabPanels>
           {currentStation === 1 && (

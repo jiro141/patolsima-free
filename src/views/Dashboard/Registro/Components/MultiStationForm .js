@@ -17,7 +17,8 @@ import {
   CloseButton,
 } from '@chakra-ui/react';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-import Busqueda from './Busqueda';
+import BusquedaCliente from './BusquedaCliente'
+import BusquedaMedico from './BusquedaMedico';
 const MultiStationForm = () => {
   const [currentStation, setCurrentStation] = useState(1);
   const [formData, setFormData] = useState({
@@ -325,13 +326,13 @@ const MultiStationForm = () => {
                 </Button>
               </ModalHeader>
               <ModalBody>
-                <Busqueda />
+                <BusquedaCliente />
               </ModalBody>
             </ModalContent>
           </Modal>
         )}
 
-        {/* {currentStation === 2 && (
+        {currentStation === 2 && (
           <Modal size={'md'} maxWidth='100%' isOpen={mostrarModal} onClose={toggleModal}>
             <ModalOverlay />
             <ModalContent bg="#ffff">
@@ -341,11 +342,11 @@ const MultiStationForm = () => {
                 </Button>
               </ModalHeader>
               <ModalBody>
-                <OtroComponente />
+                <BusquedaMedico />
               </ModalBody>
             </ModalContent>
           </Modal>
-        )} */}
+        )}
         <Button
           marginLeft={'95%'}
           marginBottom='-13%'

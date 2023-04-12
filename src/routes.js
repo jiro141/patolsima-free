@@ -5,8 +5,8 @@ import RTLPage from "views/Dashboard/RTL";
 import Profile from "views/Dashboard/Profile";
 import SignIn from "views/Auth/SignIn.js";
 import SignUp from "views/Auth/SignUp.js";
-import Registro from "views/Dashboard/Registro"
 import Muestras from "views/Dashboard/Muestras"
+import Prueba from "views/Dashboard/Prueba"
 
 import {
   HomeIcon,
@@ -31,7 +31,7 @@ var dashRoutes = [
     name: "Registro",
     rtlName: "لوحة القيادة",
     icon: <StatsIcon color="inherit" />,
-    component: Registro,
+    component: Prueba,
     layout: "/admin",
   },
   {
