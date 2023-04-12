@@ -159,7 +159,7 @@ function SignIn() {
               maxW='100%'
               mt='0px'>
               <Text color={textColor} fontWeight='medium'>
-                <Link _hover={{ bg: { titleColor } }} as='span' ms='5px' fontWeight='bold'>
+                <Link  _hover={{ bg: { titleColor } }} as='span' ms='5px' fontWeight='bold'>
                   ¿Olvidaste tu contraseña?
                 </Link>
               </Text>

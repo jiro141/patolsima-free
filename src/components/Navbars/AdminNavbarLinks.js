@@ -1,5 +1,7 @@
 // Chakra Icons
 import { BellIcon, SearchIcon } from "@chakra-ui/icons";
+import { BiLogOut } from "react-icons/bi";
+
 // Chakra Imports
 import {
   Button,
@@ -49,15 +51,15 @@ export default function HeaderLinks(props) {
       pe={{ sm: "0px", md: "16px" }}
       w={{ sm: "100%", md: "auto" }}
       alignItems="center"
-      flexDirection="row"
+      flexDirection="start"
     >
       <InputGroup
         cursor="pointer"
-        bg={inputBg}
-        borderRadius="15px"
+        bg={"none"}
+        borderRadius="none"
         w={{
-          sm: "128px",
-          md: "200px",
+          sm: "200px",
+          md: "400px",
         }}
         me={{ sm: "auto", md: "20px" }}
         _focus={{
@@ -89,11 +91,50 @@ export default function HeaderLinks(props) {
           fontSize="xs"
           py="11px"
           color={mainText}
-          placeholder="Type here..."
-          borderRadius="inherit"
+          placeholder="Buscar..."
+          border={"none"}
+          background={"none"}
+          borderRadius={"none"}
+          borderBottom={"solid 1px"}
         />
       </InputGroup>
-      <NavLink to="/auth/signin">
+      <Menu>
+        <MenuButton>
+          <BellIcon color={navbarIcon} w="18px" h="18px" />
+        </MenuButton>
+        <MenuList p="16px 8px">
+          <Flex flexDirection="column">
+            <MenuItem borderRadius="none" mb="10px">
+              <ItemContent
+                time="13 minutes ago"
+                info="from Alicia"
+                boldInfo="New Message"
+                aName="Alicia"
+                aSrc={avatar1}
+              />
+            </MenuItem>
+            <MenuItem borderRadius="none" mb="10px">
+              <ItemContent
+                time="2 days ago"
+                info="by Josh Henry"
+                boldInfo="New Album"
+                aName="Josh Henry"
+                aSrc={avatar2}
+              />
+            </MenuItem>
+            <MenuItem borderRadius="none">
+              <ItemContent
+                time="3 days ago"
+                info="Payment succesfully completed!"
+                boldInfo=""
+                aName="Kara"
+                aSrc={avatar3}
+              />
+            </MenuItem>
+          </Flex>
+        </MenuList>
+      </Menu>
+      <NavLink to="#">
         <Button
           ms="0px"
           px="0px"
@@ -114,9 +155,7 @@ export default function HeaderLinks(props) {
               ""
             )
           }
-        >
-          <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
-        </Button>
+        ></Button>
       </NavLink>
       <SidebarResponsive
         logoText={props.logoText}
@@ -135,42 +174,6 @@ export default function HeaderLinks(props) {
         w="18px"
         h="18px"
       />
-      <Menu>
-        <MenuButton>
-          <BellIcon color={navbarIcon} w="18px" h="18px" />
-        </MenuButton>
-        <MenuList p="16px 8px">
-          <Flex flexDirection="column">
-            <MenuItem borderRadius="8px" mb="10px">
-              <ItemContent
-                time="13 minutes ago"
-                info="from Alicia"
-                boldInfo="New Message"
-                aName="Alicia"
-                aSrc={avatar1}
-              />
-            </MenuItem>
-            <MenuItem borderRadius="8px" mb="10px">
-              <ItemContent
-                time="2 days ago"
-                info="by Josh Henry"
-                boldInfo="New Album"
-                aName="Josh Henry"
-                aSrc={avatar2}
-              />
-            </MenuItem>
-            <MenuItem borderRadius="8px">
-              <ItemContent
-                time="3 days ago"
-                info="Payment succesfully completed!"
-                boldInfo=""
-                aName="Kara"
-                aSrc={avatar3}
-              />
-            </MenuItem>
-          </Flex>
-        </MenuList>
-      </Menu>
     </Flex>
   );
 }

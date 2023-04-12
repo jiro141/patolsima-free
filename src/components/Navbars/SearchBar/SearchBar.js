@@ -30,7 +30,7 @@ export function SearchBar(props) {
         children={
           <IconButton
             bg="inherit"
-            borderRadius="inherit"
+            borderRadius="none"
             _hover="none"
             _active={{
               bg: "inherit",
@@ -47,8 +47,8 @@ export function SearchBar(props) {
       <Input
         fontSize="xs"
         py="11px"
-        placeholder="Type here..."
-        borderRadius="inherit"
+        placeholder="Buscar..."
+        borderRadius="none"
       />
     </InputGroup>
   );

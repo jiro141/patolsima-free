@@ -65,7 +65,7 @@ function SignUp() {
           mt='10px'
           mb='26px'
           w={{ base: "90%", sm: "60%", lg: "40%", xl: "30%" }}>
-          Registrate facil y rapido, en el sistema
+          Recupera tu contraseña o usuario, facil y rapido, en el sistema
         </Text>
       </Flex>
       <Flex alignItems='center' justifyContent='center' mb='60px' mt='20px' >
@@ -162,7 +162,7 @@ function SignUp() {
               size='lg'
             />
             <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
-              Contrase�a
+              Contraseña
             </FormLabel>
             <Input
               fontSize='sm'

@@ -45,7 +45,7 @@ function Registro() {
     return (
         <>
             <Tabs onChange={index => setActiveTab(index)}>
-                <TabList display={'flex'} justifyContent={'center'} border={'none'} margin={'10% 10% 2% 15%'}>
+                <TabList display={'flex'} justifyContent={'center'} border={'none'} >
                     <CustomTab title="Cliente" isActive={activeTab === 0} />
                     <CustomTab title="Médico" isActive={activeTab === 1} />
                     <CustomTab title="Muestra" isActive={activeTab === 2} />
