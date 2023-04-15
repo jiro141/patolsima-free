@@ -14,7 +14,10 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
+  Input,
 } from "@chakra-ui/react";
+import { FaUserCircle } from "react-icons/fa";
+import { Avatar } from "@chakra-ui/react";
 import GitHubButton from "react-github-btn";
 import { Separator } from "components/Separator/Separator";
 import PropTypes from "prop-types";
@@ -41,6 +44,11 @@ export default function Configurator(props) {
   const secondaryButtonBorder = useColorModeValue("gray.700", "white");
   const secondaryButtonColor = useColorModeValue("gray.700", "white");
   const settingsRef = React.useRef();
+
+  //imagen de perfil
+  const ProfileIcon = (props) => {
+    const { src, ...rest } = props;
+  };
   return (
     <>
       <Drawer
@@ -53,51 +61,31 @@ export default function Configurator(props) {
         <DrawerContent>
           <DrawerHeader pt="24px" px="24px">
             <DrawerCloseButton />
-            <Text fontSize="xl" fontWeight="bold" mt="16px">
-              Purity UI Configurator
-            </Text>
-            <Text fontSize="md" mb="16px">
-              See your dashboard options.
-            </Text>
+            <Box
+              margin={"20px auto"}
+              display={"flex"}
+              justifyContent={"center"}
+            >
+              <Avatar
+                size="2xl"
+                bg={"#137797"}
+                {...rest}
+                src={""}
+                icon={<FaUserCircle size="md" color="white" />}
+              />
+            </Box>
             <Separator />
           </DrawerHeader>
           <DrawerBody w="340px" ps="24px" pe="40px">
             <Flex flexDirection="column">
               <Box>
                 <Text fontSize="md" fontWeight="600">
-                  Sidenav Type
+                  Edita tu informacion de usuario
                 </Text>
                 <Text fontSize="sm" mb="16px">
-                  Choose between 2 different sidenav types.
+                  Nombre de usuario
                 </Text>
-                <Flex>
-                  <Button
-                    w="50%"
-                    p="8px 32px"
-                    me="8px"
-                    colorScheme="teal"
-                    borderColor="teal.300"
-                    color="teal.300"
-                    variant="outline"
-                    fontSize="xs"
-                    onClick={props.onTransparent}
-                  >
-                    Transparent
-                  </Button>
-                  <Button
-                    type="submit"
-                    bg="teal.300"
-                    w="50%"
-                    p="8px 32px"
-                    mb={5}
-                    _hover="teal.300"
-                    color="white"
-                    fontSize="xs"
-                    onClick={props.onOpaque}
-                  >
-                    Opaque
-                  </Button>
-                </Flex>
+                <Input type="text" placeholder="Tu nombre completo" />
               </Box>
               <Box
                 display={fixedDisplay}
@@ -133,7 +121,6 @@ export default function Configurator(props) {
                   Toggle {colorMode === "light" ? "Dark" : "Light"}
                 </Button>
               </Flex>
-
               <Separator />
               <Box mt="24px">
                 <Text fontSize="md" fontWeight="600">

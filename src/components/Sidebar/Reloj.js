@@ -4,9 +4,8 @@ export  function Reloj() {
   const h1 = useRef();
   const ti = () => {
     const fechahora = new Date();
-    const hora = fechahora.getHours();
-    const minuto = fechahora.getMinutes();
-    return `${hora}:${minuto}`;
+    const options = { hour: "numeric", minute: "numeric", hour12: true };
+    return fechahora.toLocaleString("en-US", options);
   };
   
   useEffect(() => {
@@ -23,4 +22,4 @@ export  function Reloj() {
     </div>
   );
 }
-export default Reloj
+export default Reloj;

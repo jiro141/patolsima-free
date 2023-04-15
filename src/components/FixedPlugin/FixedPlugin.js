@@ -19,6 +19,7 @@ export default function FixedPlugin(props) {
   return (
     <>
       <Button
+      visibility={'hidden'}
         h="52px"
         w="52px"
         onClick={props.onOpen}

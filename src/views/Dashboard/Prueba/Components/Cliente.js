@@ -128,6 +128,7 @@ const Cliente = () => {
             )}
             <form >
             {/* onSubmit={handleSubmit}> */}
+            
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
                     <FormControl mb={3}>

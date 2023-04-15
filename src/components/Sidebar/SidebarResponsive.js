@@ -16,7 +16,9 @@ import {
   useColorModeValue,
   useDisclosure,
   Image,
+  Grid,
 } from "@chakra-ui/react";
+import { TimeIcon } from "@chakra-ui/icons";
 import IconBox from "components/Icons/IconBox";
 import Logo from "assets/img/logo.png";
 import { Separator } from "components/Separator/Separator";
@@ -195,8 +197,21 @@ function SidebarResponsive(props) {
   }
   var brand = (
     <Box pt={"0"} mb="8px">
-      <Box w="70%" h="5px" mb="120px" ml={"30px"}>
+      <Box w="70%" h="5px" mb="150px" ml={"30px"}>
         <Image src={Logo} alt="Logo palmosima" />
+        <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
+          <Grid templateColumns={"1fr 2fr"}>
+            <TimeIcon boxSize={6} />
+            <Box>
+              <Box w={'100px'} m={"0px 5px"}>
+                <Reloj />
+              </Box>
+              <Box m={'0px -15px'}>
+                <Fecha />
+              </Box>
+            </Box>
+          </Grid>
+        </Box>
       </Box>
       <Link
         href={`#`}
@@ -234,7 +249,7 @@ function SidebarResponsive(props) {
       <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        placement={document.documentElement.dir === "rtl" ? "right" : "left"}
+        placement={"left"}
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
@@ -259,7 +274,7 @@ function SidebarResponsive(props) {
               <Stack direction="column" mb="40px">
                 <Box>{links}</Box>
               </Stack>
-              <Box marginTop={'60px'}>
+              <Box marginTop={"60px"}>
                 <Calendario></Calendario>
               </Box>
             </Box>

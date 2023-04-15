@@ -6,7 +6,7 @@ export function Calendario() {
   const [date, setDate] = useState(new Date());
 
   const formatShortYear = (locale, date) => {
-    return date.getFullYear();
+    return date.getYear();
   }
 
   return (

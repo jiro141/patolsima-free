@@ -125,8 +125,12 @@
     background-color: #e6e6e6;
   }
   
-  @media (max-width: 600px) {
-    .react-calendar__navigation button {
-      visibility: visible;
+  @media (max-width: 800px) {
+    .react-calendar__month-view__weekdays{
+      font-size: 0.7em;
+    }
+    .react-calendar__navigation  {
+      justify-content: center;
+      gap: 0.5px;
     }
   }

@@ -26,7 +26,7 @@ function Registro() {
     const CustomTab = ({ title, isActive }) => {
         return (
             <MotionTab
-                margin="0 5px 0 5px"
+                margin="90px 5px 0 5px"
                 border="none"
                 bg={isActive ? "#9BC5D3" : "#9BC5D3"}
                 color={isActive ? "#FFFF" : "transpared"}

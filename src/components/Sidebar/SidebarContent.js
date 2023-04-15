@@ -2,13 +2,14 @@
 // chakra imports
 import {
   Box,
-  Button, Flex,
+  Button,
+  Flex,
   Link,
   Stack,
   Text,
   useColorModeValue,
   Image,
-  Grid
+  Grid,
 } from "@chakra-ui/react";
 import { TimeIcon } from "@chakra-ui/icons";
 import IconBox from "components/Icons/IconBox";
@@ -18,14 +19,11 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Reloj } from "components/Sidebar/Reloj";
 import { Fecha } from "components/Sidebar/Fecha";
-import { Calendario } from "components/Sidebar/Calendario"
-
+import { Calendario } from "components/Sidebar/Calendario";
 
 // this function creates the links and collapses that appear in the sidebar (left menu)
 
-
 const SidebarContent = ({ logoText, routes }) => {
-
   // to check for active links and opened collapses
   let location = useLocation();
   // this is for the rest of the collapses
@@ -186,14 +184,18 @@ const SidebarContent = ({ logoText, routes }) => {
 
   return (
     <>
-      <Box w="70%" h="5px" m=" 5px 10px 150px 10px" >
-        <Image src={Logo} alt='Logo palmosima' />
+      <Box w="70%" h="5px" m=" 5px 10px 150px 10px">
+        <Image src={Logo} alt="Logo palmosima" />
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
-          <Grid templateColumns={'1fr 2fr'}>
+          <Grid templateColumns={"1fr 2fr"}>
             <TimeIcon boxSize={6} />
             <Box>
-              <Box m={"0px 20px"}><Reloj /></Box>
-              <Fecha />
+              <Box w={'100px'} m={"0px 10px"}>
+                <Reloj />
+              </Box>
+              <Box m={'0 -8px'}>
+                <Fecha />
+              </Box>
             </Box>
           </Grid>
         </Box>
@@ -209,10 +211,8 @@ const SidebarContent = ({ logoText, routes }) => {
           justifyContent="center"
           alignItems="center"
           fontSize="11px"
-
         >
-          <Text fontSize="sm" mt="3px">
-          </Text>
+          <Text fontSize="sm" mt="3px"></Text>
         </Link>
         <Separator></Separator>
       </Box>
@@ -221,7 +221,7 @@ const SidebarContent = ({ logoText, routes }) => {
       </Stack>
       <Calendario />
     </>
-  )
-}
+  );
+};
 
 export default SidebarContent;
