@@ -69,7 +69,7 @@ function SignUp() {
         </Text>
       </Flex>
       <Flex alignItems='center' justifyContent='center' mb='60px' mt='20px' >
-        <Flex 
+        <Flex
           direction='column'
           w='445px'
           background='transparent'
@@ -99,25 +99,6 @@ function SignUp() {
               _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
               <Link href='#'>
                 <Icon
-                  as={FaFacebook}
-                  w='30px'
-                  h='30px'
-                  _hover={{ filter: "brightness(120%)" }}
-                />
-              </Link>
-            </Flex>
-            <Flex
-              justify='center'
-              align='center'
-              w='75px'
-              h='75px'
-              borderRadius='15px'
-              border='1px solid lightgray'
-              cursor='pointer'
-              transition='all .25s ease'
-              _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
-              <Link href='#'>
-                <Icon
                   as={FaGoogle}
                   w='30px'
                   h='30px'
@@ -135,8 +116,8 @@ function SignUp() {
             O
           </Text>
           <FormControl bgImage={textura}
-        bgSize='cover'
-        bgRepeat={'no-repeat'}>
+            bgSize='cover'
+            bgRepeat={'no-repeat'}>
             <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
               Nombre Completo
             </FormLabel>
@@ -162,7 +143,7 @@ function SignUp() {
               size='lg'
             />
             <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
-              Contrase�a
+              Contraseña
             </FormLabel>
             <Input
               fontSize='sm'
@@ -189,7 +170,7 @@ function SignUp() {
               h='45'
               mb='24px'
               bgColor={'#137797'}
-              >
+            >
               Registrar
             </Button>
           </FormControl>
@@ -200,12 +181,12 @@ function SignUp() {
             maxW='100%'
             mt='0px'>
             <Text color={textColor} fontWeight='medium'>
-              �Ya tienes cuenta?
+              ¿Ya tienes cuenta?
               <Link
+                href='SignIn.js'
                 color={titleColor}
                 as='span'
                 ms='5px'
-                href='#'
                 fontWeight='bold'>
                 Ingresa
               </Link>

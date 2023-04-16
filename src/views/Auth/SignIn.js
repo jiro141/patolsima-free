@@ -19,6 +19,7 @@ import {
 import signInImage from "assets/img/login.png";
 import Imagen from "assets/img/Textura.png";
 import logo from "assets/img/logo.png";
+import { authApi } from "api/authApi";
 
 function SignIn() {
   // Chakra color mode
@@ -28,21 +29,19 @@ function SignIn() {
 
   // Componente de inicio de sesión
   // Estados para guardar el correo y la contraseña ingresados por el usuario
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   // Función de inicio de sesión
   const handleLogin = async () => {
-    const response = await fetch('POST /v1/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    });
+    const body1 = {
+      username: username,
+      password: password
+    };
+    const response = await authApi.post("login/", 
+      body1
+    );
+    console.log(response);
 
     const data = await response.json();
 
@@ -101,12 +100,11 @@ function SignIn() {
                 borderBottomColor={'#137797'}
                 mb='24px'
                 fontSize='sm'
-                type='email'
-                // placeholder='Email'
+                type='text'
                 size='lg'
-                value={email}
+                value={username}
                 onChange={(e) =>
-                  setEmail(e.target.value)}
+                  setUsername(e.target.value)}
               />
               <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
                 Contraseña
@@ -159,7 +157,7 @@ function SignIn() {
               maxW='100%'
               mt='0px'>
               <Text color={textColor} fontWeight='medium'>
-                <Link  _hover={{ bg: { titleColor } }} as='span' ms='5px' fontWeight='bold'>
+                <Link _hover={{ bg: { titleColor } }} as='span' ms='5px' fontWeight='bold'>
                   ¿Olvidaste tu contraseña?
                 </Link>
               </Text>

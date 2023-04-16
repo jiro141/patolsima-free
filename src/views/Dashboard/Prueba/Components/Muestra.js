@@ -23,7 +23,8 @@ import {
     Tr,
     Th,
     Tbody,
-    Switch
+    Switch,
+    chakra
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
@@ -131,14 +132,14 @@ const Muestra = () => {
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información General</Text>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
                     <Box>
-                        <Text>Paciente</Text>
+                        <Text fontWeight={'bold'} marginBottom={'10px'}>Paciente</Text>
                         <Text>Molina Contreras Maria Eugenia</Text>
                         <Text>Cédula de Identidad</Text>
                         <Text>26371890</Text>
                     </Box>
                     <Box>
-                        <Text>Médico tratante</Text>
-                        <Text>Carmen Mora</Text>
+                        <Text fontWeight={'bold'} marginBottom={'10px'}>Médico tratante</Text>
+                        <Text marginBottom={'10px'}>Carmen Mora</Text>
                         <FormControl display='flex' alignItems='center'>
                             <Switch id='remember-login' color={'#137797'} me='10px' />
                             <FormLabel
@@ -187,8 +188,8 @@ const Muestra = () => {
                         </FormControl>
                     </Box>
                     <Box>
-                        <Text>Número de estudio</Text>
-                        <Text>cod: nnn-aaaa</Text>
+                        <Text fontWeight={'bold'}>Número de estudio</Text>
+                        <Text> <chakra.span fontWeight={'bold'}>cod:</chakra.span> nnn-aaaa</Text>
                         <FormControl mb={3}>
                             <Input
                                 placeholder='Precio ($):'
@@ -310,7 +311,7 @@ const Muestra = () => {
             <Button
                 type='submit'
                 marginLeft={'95%'}
-                marginBottom='-13%'
+                marginBottom='-10%'
                 width={'40px'}
                 height='40px'
                 borderRadius={'50%'}

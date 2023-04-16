@@ -17,13 +17,13 @@ import {
     CloseButton,
     Link,
     Box,
-    Center,Table,Thead,Tr,Th,Tbody 
+    Center, Table, Thead, Tr, Th, Tbody
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import BusquedaCliente from './BusquedaCliente';
 
-const Cliente = () => {
+const Cliente = ({ oneState, setOneState }) => {
     //definicion de los valores a cargar
     const [cedula, setCedula] = useState('');
     const [nombre, setNombre] = useState('');
@@ -42,6 +42,14 @@ const Cliente = () => {
         email,
         telefono,
     };
+    useEffect(() => {
+        console.log(cedula, nombre, apellido, fecha, procedencia, email, telefono);
+        if (cedula && nombre && apellido && fecha && procedencia && email && telefono) {
+            setOneState(true);
+        } else {
+            setOneState(false);
+        }
+    }, [cedula, nombre, apellido, fecha, procedencia, email, telefono]);
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
     //alerta 
@@ -93,7 +101,7 @@ const Cliente = () => {
         });
         setPasientes(resultadoBusqueda);
     }
-    const [registro,setRegistro]=useState([]);
+    const [registro, setRegistro] = useState([]);
     const seleccionarRegistro = (registro) => {
         setRegistroSeleccionado(registro);
 
@@ -127,8 +135,7 @@ const Cliente = () => {
                 </Alert>
             )}
             <form >
-            {/* onSubmit={handleSubmit}> */}
-            
+                {/* onSubmit={handleSubmit}> */}
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
                     <FormControl mb={3}>
@@ -236,73 +243,73 @@ const Cliente = () => {
                             {/* {registroSeleccionado ? (
                                 <MostrarCliente registroSeleccionado={pasientes} />
                             ) : ( */}
-                                <Box>
-                                    <Box bg="none" py={4} mb={4}>
-                                        <Grid templateColumns={'1fr 2fr'} maxW="container.lg">
-                                            <Text margin={'auto'} fontWeight={'bold'} color='gray.500' fontSize={'24px'}> Buscar Registro</Text>
-                                            <Input
-                                                focusBorderColor="transparent"
-                                                border={'none'}
-                                                borderRadius='none'
-                                                borderBottom="1px solid"
-                                                borderBottomColor={'gray.500'}
-                                                placeholder="Buscar..."
-                                                size="lg"
-                                                value={Busqueda}
-                                                onChange={handleBusquedaChange}
-                                            />
-                                        </Grid>
-                                    </Box>
-                                    <Center>
-                                        <Table variant="simple">
-                                            <Thead>
-                                                <Tr >
-                                                    <Th borderRadius='none'
-                                                        borderBottom="3px solid"
-                                                        borderBottomColor={'gray.500'}
-                                                        textAlign='center' >Nombre</Th>
-                                                    <Th borderRadius='none'
-                                                        borderBottom="3px solid"
-                                                        borderBottomColor={'gray.500'}
-                                                        textAlign='center' >Apellidos</Th>
-                                                    <Th borderRadius='none'
-                                                        borderBottom="3px solid"
-                                                        borderBottomColor={'gray.500'}
-                                                        textAlign='center' >RIF/Cédula</Th>
-                                                    <Th borderRadius='none'
-                                                        borderBottom="3px solid"
-                                                        borderBottomColor={'gray.500'}
-                                                        textAlign='center' >Teléfono</Th>
-                                                    <Th borderRadius='none'
-                                                        borderBottom="3px solid"
-                                                        borderBottomColor={'gray.500'}
-                                                        textAlign='center'>Correo</Th>
-                                                </Tr>
-                                            </Thead>
-                                            <Tbody>
-                                                {pasientes && pasientes.map((pasientes) => (
-                                                    <Tr key={pasientes.id}>
-                                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                            {pasientes.name}
-                                                        </Link>
-                                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                            {pasientes.username}
-                                                        </Link>
-                                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                            {pasientes.address.zipcode}
-                                                        </Link>
-                                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                            {pasientes.phone}
-                                                        </Link>
-                                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                            {pasientes.email}
-                                                        </Link>
-                                                    </Tr>
-                                                ))}
-                                            </Tbody>
-                                        </Table>
-                                    </Center>
+                            <Box>
+                                <Box bg="none" py={4} mb={4}>
+                                    <Grid templateColumns={'1fr 2fr'} maxW="container.lg">
+                                        <Text margin={'auto'} fontWeight={'bold'} color='gray.500' fontSize={'24px'}> Buscar Registro</Text>
+                                        <Input
+                                            focusBorderColor="transparent"
+                                            border={'none'}
+                                            borderRadius='none'
+                                            borderBottom="1px solid"
+                                            borderBottomColor={'gray.500'}
+                                            placeholder="Buscar..."
+                                            size="lg"
+                                            value={Busqueda}
+                                            onChange={handleBusquedaChange}
+                                        />
+                                    </Grid>
                                 </Box>
+                                <Center>
+                                    <Table variant="simple">
+                                        <Thead>
+                                            <Tr >
+                                                <Th borderRadius='none'
+                                                    borderBottom="3px solid"
+                                                    borderBottomColor={'gray.500'}
+                                                    textAlign='center' >Nombre</Th>
+                                                <Th borderRadius='none'
+                                                    borderBottom="3px solid"
+                                                    borderBottomColor={'gray.500'}
+                                                    textAlign='center' >Apellidos</Th>
+                                                <Th borderRadius='none'
+                                                    borderBottom="3px solid"
+                                                    borderBottomColor={'gray.500'}
+                                                    textAlign='center' >RIF/Cédula</Th>
+                                                <Th borderRadius='none'
+                                                    borderBottom="3px solid"
+                                                    borderBottomColor={'gray.500'}
+                                                    textAlign='center' >Teléfono</Th>
+                                                <Th borderRadius='none'
+                                                    borderBottom="3px solid"
+                                                    borderBottomColor={'gray.500'}
+                                                    textAlign='center'>Correo</Th>
+                                            </Tr>
+                                        </Thead>
+                                        <Tbody>
+                                            {pasientes && pasientes.map((pasientes) => (
+                                                <Tr key={pasientes.id}>
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
+                                                        {pasientes.name}
+                                                    </Link>
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
+                                                        {pasientes.username}
+                                                    </Link>
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
+                                                        {pasientes.address.zipcode}
+                                                    </Link>
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
+                                                        {pasientes.phone}
+                                                    </Link>
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
+                                                        {pasientes.email}
+                                                    </Link>
+                                                </Tr>
+                                            ))}
+                                        </Tbody>
+                                    </Table>
+                                </Center>
+                            </Box>
                             {/* )} */}
                         </Box >
                     </ModalBody>
@@ -315,7 +322,8 @@ const Cliente = () => {
                 height='40px'
                 borderRadius={'50%'}
                 bgColor={'#137797'}
-                color='#ffff'>
+                color='#ffff'
+                onClick={mensajeAlerta}>
                 <ChevronRightIcon boxSize="2em" strokeWidth="2" />
             </Button>
         </>
