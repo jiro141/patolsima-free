@@ -243,7 +243,7 @@ function SidebarResponsive(props) {
         w="18px"
         h="18px"
         ref={btnRef}
-        colorScheme="teal"
+        colorscheme="#FFFF"
         onClick={onOpen}
       />
       <Drawer

@@ -1,7 +1,10 @@
 ﻿import React from "react"
 import { useState } from "react";
+import { useHistory,useLocation } from "react-router-dom";
+import AdminLayout from "layouts/Admin.js";
 // Chakra imports
 import {
+  Modal,
   Box,
   Flex,
   Button,
@@ -14,7 +17,14 @@ import {
   Text,
   useColorModeValue,
   useImage,
+  CloseButton,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay
 } from "@chakra-ui/react";
+
 // Assets
 import signInImage from "assets/img/login.png";
 import Imagen from "assets/img/Textura.png";
@@ -31,27 +41,56 @@ function SignIn() {
   // Estados para guardar el correo y la contraseña ingresados por el usuario
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  //Alerta para no seguir 
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const history = useHistory();
+ 
+
+
 
   // Función de inicio de sesión
   const handleLogin = async () => {
-    const body1 = {
+    const body = {
       username: username,
-      password: password
+      password: password,
     };
-    const response = await authApi.post("login/", 
-      body1
-    );
-    console.log(response);
-
-    const data = await response.json();
-
-    if (response.ok) {
-      window.location.href = '../Dashboard/Dashboard/index.js'; // Cambia la URL a la del dashboard
-    } else {
-      // Maneja el error de acuerdo a tus necesidades
+    try {
+      const response = await authApi.post("login/", body);
+      if (response.status === 200) {
+        // Redirigir a la página de inicio de sesión exitosa
+        history.push('layouts/Admin.js');
+       
+      }
+    } catch (error) {
+      setShowErrorModal(true);
     }
   };
-  return (
+
+  
+  return (<>
+
+    <Modal isOpen={showErrorModal} onClose={() => setShowErrorModal(false)}>
+      <ModalOverlay />
+      <ModalContent maxW={{ sm: '65%', lg: '30%' }} bg="white">
+        <ModalHeader>Error de inicio de sesión</ModalHeader>
+        <ModalCloseButton
+          marginTop={'-25px'}
+          color={'white'}
+          w={'40px'}
+          h={'40px'}
+          borderRadius={'50%'}
+          bg={'red.500'}
+          _hover={{
+            bg: 'red.600',
+            cursor: 'pointer'
+          }}
+        />
+        <ModalBody>
+          <p>Los datos suministratos son incorrectos. Por favor, inténtelo de nuevo.</p>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+
     <Flex position='relative' mb='40px' >
       <Flex
         h={{ sm: "initial", md: "75vh", lg: "85vh" }}
@@ -101,6 +140,7 @@ function SignIn() {
                 mb='24px'
                 fontSize='sm'
                 type='text'
+                id="username"
                 size='lg'
                 value={username}
                 onChange={(e) =>
@@ -118,6 +158,7 @@ function SignIn() {
                 mb='36px'
                 fontSize='sm'
                 type='password'
+                id="password"
                 size='lg'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -195,6 +236,7 @@ function SignIn() {
         </Box>
       </Flex>
     </Flex>
+  </>
   );
 }
 

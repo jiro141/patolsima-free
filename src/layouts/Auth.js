@@ -10,7 +10,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import theme from 'theme/theme.js';
-
+import Admin from './Admin'
 export default function Pages(props) {
 	const { ...rest } = props;
 	// ref for the wrapper div
@@ -80,13 +80,13 @@ export default function Pages(props) {
 		<ChakraProvider theme={theme} resetCss={false} w='100%'>
 			<Box ref={navRef} w='100%'>
 				<Portal containerRef={navRef}>
-					<AuthNavbar secondary={getActiveNavbar(routes)} logoText='PURITY UI DASHBOARD' />
+					<AuthNavbar secondary={getActiveNavbar(routes)} />
 				</Portal>
 				<Box w='100%'>
 					<Box ref={wrapper} w='100%'>
 						<Switch>
 							{getRoutes(routes)}
-							<Redirect from='/auth' to='/auth/login-page' />
+							<Redirect from='/' to='/admin/dashboard' component={Admin} />
 						</Switch>
 					</Box>
 				</Box>
