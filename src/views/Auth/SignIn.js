@@ -1,6 +1,6 @@
 ﻿import React from "react"
 import { useState } from "react";
-import { useHistory,useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import AdminLayout from "layouts/Admin.js";
 // Chakra imports
 import {
@@ -44,7 +44,7 @@ function SignIn() {
   //Alerta para no seguir 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const history = useHistory();
- 
+
 
 
 
@@ -57,31 +57,33 @@ function SignIn() {
     try {
       const response = await authApi.post("login/", body);
       if (response.status === 200) {
-        // Redirigir a la página de inicio de sesión exitosa
+        document.cookie=`token=${response.data.access}`
+        console.log(response);
+        // Redirigir al dashboard
         history.push('layouts/Admin.js');
-       
+      
       }
     } catch (error) {
       setShowErrorModal(true);
     }
   };
 
-  
+
   return (<>
 
     <Modal isOpen={showErrorModal} onClose={() => setShowErrorModal(false)}>
       <ModalOverlay />
       <ModalContent maxW={{ sm: '65%', lg: '30%' }} bg="white">
-        <ModalHeader>Error de inicio de sesión</ModalHeader>
+        <ModalHeader textAlign={'center'} marginBottom={'-15px'} marginTop={'15px'}>Error de inicio de sesión</ModalHeader>
         <ModalCloseButton
           marginTop={'-25px'}
           color={'white'}
           w={'40px'}
           h={'40px'}
           borderRadius={'50%'}
-          bg={'red.500'}
+          bg={'#137797'}
           _hover={{
-            bg: 'red.600',
+            bg: '#137797',
             cursor: 'pointer'
           }}
         />
