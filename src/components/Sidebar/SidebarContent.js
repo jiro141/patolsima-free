@@ -35,14 +35,14 @@ const SidebarContent = ({ logoText, routes }) => {
   };
   const createLinks = (routes) => {
     // Chakra Color Mode
-    const activeBg = useColorModeValue("white", "gray.700");
-    const inactiveBg = useColorModeValue("white", "gray.700");
+    const activeBg = useColorModeValue("#89bbcc", "gray.700");
+    const inactiveBg = useColorModeValue("transparet");
     const activeColor = useColorModeValue("gray.700", "white");
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
-    const colorIcon = useColorModeValue("#137797");
+    const colorIcon = useColorModeValue("gray.400");
 
     return routes.map((prop, key) => {
-      if (prop.redirect) {
+      if (prop.hide) {
         return null;
       }
       if (prop.category) {
@@ -108,7 +108,7 @@ const SidebarContent = ({ logoText, routes }) => {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg={colorIcon}
+                    bg={'none'}
                     color="white"
                     h="30px"
                     w="30px"

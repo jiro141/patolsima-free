@@ -49,7 +49,7 @@ function SidebarResponsive(props) {
     const colorIcon = useColorModeValue("#137797");
 
     return routes.map((prop, key) => {
-      if (prop.redirect) {
+      if (prop.hide) {
         return null;
       }
       if (prop.category) {
