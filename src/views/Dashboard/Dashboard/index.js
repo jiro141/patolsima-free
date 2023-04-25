@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 // assets
-import fondo from "assets/img/Textura2.png";
+import fondo from "assets/svg/Formato con fondo.svg";
 import React from "react";
 
 
@@ -17,8 +17,8 @@ export default function Dashboard() {
 
   return (
     <Flex >
-    <Box m={'100px 70px 50px 70px'} >
-    <Image h={'600px'} w='100%' src={fondo} alt='Logo palmosima' />
+    <Box m={{lg:'10px 20px 10px 0px',md:"20px",sm:"0px"}} >
+    <Image h={{lg:'800px',md:"900px",sm:"800px"}} w='100%' src={fondo} alt='Logo palmosima' />
     </Box>
     </Flex>
   );
