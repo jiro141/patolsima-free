@@ -159,9 +159,8 @@ const Cliente = ({ oneState, setOneState }) => {
                 </Alert>
             )}
             <form >
-                {/* onSubmit={handleSubmit}> */}
-                <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información Personal</Text>
+                <Grid  templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Cédula:'
@@ -179,7 +178,7 @@ const Cliente = ({ oneState, setOneState }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Nombres:'
@@ -199,7 +198,7 @@ const Cliente = ({ oneState, setOneState }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Fecha de Nacimiento (DD/MM/AAAA): '
@@ -219,8 +218,8 @@ const Cliente = ({ oneState, setOneState }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información de Contacto</Text>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información de Contacto</Text>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Email:'
@@ -271,9 +270,6 @@ const Cliente = ({ oneState, setOneState }) => {
                     </ModalHeader>
                     <ModalBody>
                         <Box>
-                            {/* {registroSeleccionado ? (
-                                <MostrarCliente registroSeleccionado={pasientes} />
-                            ) : ( */}
                             <Box>
                                 <Box bg="none" py={4} mb={4}>
                                     <Grid templateColumns={'1fr 2fr'} maxW="container.lg">
@@ -341,14 +337,13 @@ const Cliente = ({ oneState, setOneState }) => {
                                     </Table>
                                 </Center>
                             </Box>
-                            {/* )} */}
                         </Box >
                     </ModalBody>
                 </ModalContent>
             </Modal>
             <Button
                 marginLeft={'95%'}
-                marginBottom='-13%'
+                marginBottom='-8%'
                 width={'40px'}
                 height='40px'
                 borderRadius={'50%'}

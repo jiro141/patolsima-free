@@ -42,11 +42,11 @@ function SidebarResponsive(props) {
 
   const createLinks = (routes) => {
     // Chakra Color Mode
-    const activeBg = useColorModeValue("white", "gray.700");
-    const inactiveBg = useColorModeValue("white", "gray.700");
+    const activeBg = useColorModeValue("#89bbcc", "gray.700");
+    const inactiveBg = useColorModeValue("transparet");
     const activeColor = useColorModeValue("gray.700", "white");
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
-    const colorIcon = useColorModeValue("#137797");
+    const colorIcon = useColorModeValue("gray.400");
 
     return routes.map((prop, key) => {
       if (prop.hide) {
@@ -57,6 +57,7 @@ function SidebarResponsive(props) {
         st[prop["state"]] = !state[prop.state];
         return (
           <div key={prop.name}>
+             <Separator></Separator>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -75,6 +76,7 @@ function SidebarResponsive(props) {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
+            <Separator></Separator>
           </div>
         );
       }
@@ -114,7 +116,6 @@ function SidebarResponsive(props) {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg={colorIcon}
                     color="white"
                     h="30px"
                     w="30px"
@@ -224,7 +225,10 @@ function SidebarResponsive(props) {
         alignItems="center"
         fontSize="11px"
       ></Link>
-      <Separator></Separator>
+      <Box margin={'50px 0 20px 0'}>
+        <Separator></Separator>
+        <Text marginTop={'10px'} marginLeft={'13px'} fontWeight={'bold'}>Administración</Text>
+      </Box>
     </Box>
   );
 
@@ -239,7 +243,7 @@ function SidebarResponsive(props) {
       alignItems="center"
     >
       <HamburgerIcon
-        color={hamburgerColor}
+        color={"#FFFF"}
         w="18px"
         h="18px"
         ref={btnRef}

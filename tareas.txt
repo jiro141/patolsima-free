@@ -1,0 +1,8 @@
+bajar el margen en  registro administracion
+caja de color blanco 
+acomodar los botones
+cambiar el boton de flecha por guardar
+cambiar color de las letras activadas en los botones (azul del model)
+arreglar las cartas de informe y registro de muestra 
+agregar fondo igual que en registro de administracion
+ck editor

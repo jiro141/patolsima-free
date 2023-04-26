@@ -50,6 +50,7 @@ const SidebarContent = ({ logoText, routes }) => {
         st[prop["state"]] = !state[prop.state];
         return (
           <div key={prop.name}>
+            <Separator></Separator>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -68,6 +69,9 @@ const SidebarContent = ({ logoText, routes }) => {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
+            <Box margin={'0px 0 20px 0'}>
+              <Separator></Separator>
+            </Box>
           </div>
         );
       }
@@ -214,7 +218,10 @@ const SidebarContent = ({ logoText, routes }) => {
         >
           <Text fontSize="sm" mt="3px"></Text>
         </Link>
-        <Separator></Separator>
+        <Box margin={'50px 0 20px 0'}>
+          <Separator></Separator>
+          <Text marginTop={'10px'} marginLeft={'13px'} fontWeight={'bold'}>Administración</Text>
+        </Box>
       </Box>
       <Stack direction="column" mb="40px">
         <Box>{links}</Box>

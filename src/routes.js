@@ -5,6 +5,7 @@ import SignUp from "views/Auth/SignUp.js";
 import Muestras from "views/Dashboard/Muestras"
 import Prueba from "views/Dashboard/Prueba"
 import Facturacion from "views/Dashboard/Facturacion"
+import  Informe  from "views/Dashboard/Informe";
 import { BsReceiptCutoff, BsFillClipboardHeartFill } from "react-icons/bs";
 
 import {
@@ -48,8 +49,8 @@ var dashRoutes = [
         name: "Informe",
         icon: <BsFillClipboardHeartFill color="inherit" />,
         secondaryNavbar: true,
-        component: SignUp,
-        layout: "/auth",
+        component: Informe,
+        layout: "/admin",
       },
       
       

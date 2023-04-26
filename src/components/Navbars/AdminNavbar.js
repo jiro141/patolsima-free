@@ -33,7 +33,7 @@ export default function AdminNavbar(props) {
   let navbarShadow = "none";
   let navbarBg = "none";
   let navbarBorder = "transparent";
-  let secondaryMargin = "0px";
+  let secondaryMargin = "-10px";
   let paddingX = "15px";
   if (props.fixed === true)
     if (scrolled === true) {
@@ -43,13 +43,13 @@ export default function AdminNavbar(props) {
         "none"
       );
       navbarBg = useColorModeValue(
-        "linear-gradient(112.83deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.8) 110.84%)",
-        "linear-gradient(112.83deg, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0) 110.84%)"
+        "linear-gradient(112.83deg, rgba(255, 255, 255) 0%, rgba(255, 255, 255))",
+        "linear-gradient(112.83deg, rgba(255, 255, 255), rgba(255, 255, 255))"
       );
-      navbarBorder = useColorModeValue("#FFFFFF", "rgba(255, 255, 255, 0.31)");
+      navbarBorder = useColorModeValue("#FFFFFF", "rgba(255, 255, 255)");
       navbarFilter = useColorModeValue(
         "none",
-        "drop-shadow(0px 7px 23px rgba(0, 0, 0, 0.05))"
+        "drop-shadow(0px 7px 23px rgba(0, 0, 0))"
       );
     }
   if (props.secondary) {
