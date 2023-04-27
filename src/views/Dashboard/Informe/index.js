@@ -202,7 +202,7 @@ const Dashboard = () => {
               >
                 Prioridad Media
               </Heading>
-              <Grid gap={"15px"} templateColumns={"repeat(5,1fr)"}>
+              <Grid gap={"25px"} templateColumns={"repeat(5,1fr)"}>
                 {renderStudies(mediumPriorityStudies, mediumPriorityColor)}
               </Grid>
             </Box>
@@ -217,7 +217,7 @@ const Dashboard = () => {
               >
                 Prioridad Baja
               </Heading>
-              <Grid gap={"15px"} templateColumns={"repeat(5,1fr)"}>
+              <Grid gap={"25px"} templateColumns={"repeat(5,1fr)"}>
                 {renderStudies(lowPriorityStudies, lowPriorityColor)}
               </Grid>
             </Box>

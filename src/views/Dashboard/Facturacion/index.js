@@ -148,49 +148,58 @@ const Dashboard = () => {
   };
 
   return (
-    <Box marginTop={'100px'}>
-      <Heading
-        size="md"
-      >
-        Sin confirmar
-      </Heading>
-      <Box
-        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-        padding={"25px"}
-        borderRadius="20px"
-        m={"30px 30px 50px 30px"}
-      >
-        <Box>
-          <Grid gap={"20px"} templateColumns={"repeat(5,1fr)"}>
-            {renderStudies(sinProcesarStudies)}
+    <Box
+      margin={'60px 0px 0px 0px'}
+      backgroundColor={'gray.100'}
+      borderRadius={'20px'}
+      padding={'5px 0px 20px 0px'}>
+      <Box marginTop={'30px'} >
+        <Heading
+          margin={'20px'}
+          size="md"
+        >
+          Sin confirmar
+        </Heading>
+        <Box
+          backgroundColor={'#FFFF'}
+          boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+          padding={"25px"}
+          borderRadius="20px"
+          m={"30px 30px 50px 30px"}
+        >
+          <Box>
+            <Grid gap={"20px"} templateColumns={"repeat(5,1fr)"}>
+              {renderStudies(sinProcesarStudies)}
+            </Grid>
+          </Box>
+        </Box>
+        <Heading
+          margin={'20px'}
+          size="md"
+        >
+          Pendientes de pago
+        </Heading>
+        <Box
+          backgroundColor={'#FFFF'}
+          boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+          padding={"25px"}
+          borderRadius="20px"
+          m={"30px 30px 100px 30px"}
+        >
+          <Grid gap={"15px"} templateColumns={"repeat(5,1fr)"}>
+            {renderStudies(pendientesStudies)}
           </Grid>
         </Box>
+        <Button
+          padding={'10px 60px'}
+          marginTop='20px'
+          bgColor={'#137797'}
+          color='#ffff'
+        // onClick={toggleModal}
+        >
+          Ver más</Button>
       </Box>
-      <Heading
-        size="md"
-      >
-        Pendientes de pago
-      </Heading>
-      <Box
-        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-        padding={"25px"}
-        borderRadius="20px"
-        m={"30px 30px 100px 30px"}
-      >
-        <Grid gap={"15px"} templateColumns={"repeat(5,1fr)"}>
-          {renderStudies(pendientesStudies)}
-        </Grid>
-      </Box>
-      <Button
-                padding={'10px 60px'}
-                marginTop='20px'
-                bgColor={'#137797'}
-                color='#ffff'
-                // onClick={toggleModal}
-                >
-                Ver más</Button>
     </Box>
-
   );
 };
 
