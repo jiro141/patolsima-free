@@ -2,8 +2,8 @@
 import Dashboard from "views/Dashboard/Dashboard";
 import SignIn from "views/Auth/SignIn.js";
 import SignUp from "views/Auth/SignUp.js";
-import Muestras from "views/Dashboard/Muestras"
-import Prueba from "views/Dashboard/Prueba"
+import RegistroPatologo from "views/Dashboard/RegistroPatologo"
+import RegistroAdministradcion from "views/Dashboard/RegistroAdministracion"
 import Facturacion from "views/Dashboard/Facturacion"
 import  Informe  from "views/Dashboard/Informe";
 import { BsReceiptCutoff, BsFillClipboardPlusFill } from "react-icons/bs";
@@ -18,17 +18,17 @@ import {
 
 var dashRoutes = [
   {
-    path: "/RegistroAdministradcion",
+    path: "/RegistroAdministracion",
     name: "Registro",
     icon: <HomeIcon color="inherit" />,
-    component: Prueba,
+    component: RegistroAdministradcion,
     layout: "/admin",
   },
   {
-    path: "/MuestrasPatologo",
+    path: "/RegistroPatologo",
     name: "Registro",
     icon: <HomeIcon color="inherit" />,
-    component: Muestras,
+    component: RegistroPatologo,
     layout: "/admin",
   },
   {
@@ -66,6 +66,12 @@ var dashRoutes = [
     path: "/dashboard",
     component: Dashboard,
     layout: "/admin",
+    hide: true
+  },
+  {
+    path: "/signup",
+    component: SignUp,
+    layout: "/auth",
     hide: true
   }
 ];

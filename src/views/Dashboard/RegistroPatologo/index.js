@@ -166,11 +166,11 @@ const Dashboard = () => {
       borderRadius={'20px'}
       padding={'5px 0px 20px 0px'}>
       <Box
-      backgroundColor={"#FFFF"}
+        backgroundColor={"#FFFF"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
         padding={"40px"}
         borderRadius="20px"
-        m={"30px 30px 100px 30px"}
+        m={"30px 30px 10px 30px"}
       >
         <SimpleGrid columns={1} spacing={4}>
           <SimpleGrid columns={1}>

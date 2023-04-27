@@ -25,7 +25,7 @@ function Registro() {
         console.log(title, isDisabled);
         return (
             <MotionTab
-                margin="40px 5px 0 5px"
+                margin="30px 5px 0 5px"
                 border="none"
                 bg={isActive ? "#9BC5D3" : "#9BC5D3"}
                 color={isActive ? "#FFFF" : "transpared"}
@@ -44,14 +44,15 @@ function Registro() {
     };
     return (
         <Box
-            margin={'60px 0px 0px 0px'}
+            margin={{lg:'60px 0px 0px 0px',sm:'60px 0px 60px 0px'}}
+            padding={{lg:'0 10px', md:'10px',sm:'0px 20px 900px 20px'}}
             backgroundColor={'gray.100'}
             borderRadius={'20px'}
             backgroundSize="cover"
             backgroundPosition="center"
             height={{ lg: '800px', md: "900px", sm: "800px" }}>
             <Box
-                margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px -55px' }}
+                margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px -48px' }}
                 width={{ lg: '90%', md: '100%', sm: '130%' }}>
                 <Tabs onChange={index => setActiveTab(index)}>
                     <TabList display={'flex'} justifyContent={'center'} border={'none'} >
