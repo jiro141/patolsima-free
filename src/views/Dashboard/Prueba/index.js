@@ -25,7 +25,7 @@ function Registro() {
         console.log(title, isDisabled);
         return (
             <MotionTab
-                margin="90px 5px 0 5px"
+                margin="40px 5px 0 5px"
                 border="none"
                 bg={isActive ? "#9BC5D3" : "#9BC5D3"}
                 color={isActive ? "#FFFF" : "transpared"}
@@ -44,14 +44,14 @@ function Registro() {
     };
     return (
         <Box
-        margin={'60px 0px 0px 0px'}
+            margin={'60px 0px 0px 0px'}
             backgroundColor={'gray.100'}
-            borderRadius={'16px'}
+            borderRadius={'20px'}
             backgroundSize="cover"
             backgroundPosition="center"
             height={{ lg: '800px', md: "900px", sm: "800px" }}>
             <Box
-                margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px -55px'}}
+                margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px -55px' }}
                 width={{ lg: '90%', md: '100%', sm: '130%' }}>
                 <Tabs onChange={index => setActiveTab(index)}>
                     <TabList display={'flex'} justifyContent={'center'} border={'none'} >
@@ -62,17 +62,17 @@ function Registro() {
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
+                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
                                 <Cliente oneState={oneState} setOneState={setOneState} />
                             </Box>
                         </TabPanel>
                         <TabPanel>
-                            <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
+                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
                                 <Medico />
                             </Box>
                         </TabPanel>
                         <TabPanel>
-                            <Box boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
+                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'10px 30px 100px 30px'} className="multistation-form">
                                 <Muestra />
                             </Box>
                         </TabPanel>

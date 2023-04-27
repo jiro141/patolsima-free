@@ -6,7 +6,7 @@ import Muestras from "views/Dashboard/Muestras"
 import Prueba from "views/Dashboard/Prueba"
 import Facturacion from "views/Dashboard/Facturacion"
 import  Informe  from "views/Dashboard/Informe";
-import { BsReceiptCutoff, BsFillClipboardHeartFill } from "react-icons/bs";
+import { BsReceiptCutoff, BsFillClipboardPlusFill } from "react-icons/bs";
 
 import {
   HomeIcon,
@@ -47,7 +47,7 @@ var dashRoutes = [
       {
         path: "/Informe",
         name: "Informe",
-        icon: <BsFillClipboardHeartFill color="inherit" />,
+        icon: <BsFillClipboardPlusFill color="inherit" />,
         secondaryNavbar: true,
         component: Informe,
         layout: "/admin",

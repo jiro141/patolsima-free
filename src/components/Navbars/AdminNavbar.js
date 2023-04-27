@@ -46,7 +46,7 @@ export default function AdminNavbar(props) {
         "linear-gradient(112.83deg, rgba(255, 255, 255) 0%, rgba(255, 255, 255))",
         "linear-gradient(112.83deg, rgba(255, 255, 255), rgba(255, 255, 255))"
       );
-      navbarBorder = useColorModeValue("#FFFFFF", "rgba(255, 255, 255)");
+      navbarBorder = useColorModeValue("#0000", "rgba(255, 255, 255)");
       navbarFilter = useColorModeValue(
         "none",
         "drop-shadow(0px 7px 23px rgba(0, 0, 0))"
@@ -57,7 +57,7 @@ export default function AdminNavbar(props) {
     navbarPosition = "absolute";
     mainText = "white";
     secondaryText = "white";
-    secondaryMargin = "22px";
+    secondaryMargin = "-10px";
     paddingX = "30px";
   }
   const changeNavbar = () => {

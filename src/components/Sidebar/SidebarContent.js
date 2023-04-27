@@ -37,7 +37,7 @@ const SidebarContent = ({ logoText, routes }) => {
     // Chakra Color Mode
     const activeBg = useColorModeValue("#89bbcc", "gray.700");
     const inactiveBg = useColorModeValue("transparet");
-    const activeColor = useColorModeValue("gray.700", "white");
+    const activeColor = useColorModeValue("#2B6CB0", "white");
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
     const colorIcon = useColorModeValue("gray.400");
 
@@ -52,7 +52,7 @@ const SidebarContent = ({ logoText, routes }) => {
           <div key={prop.name}>
             <Separator></Separator>
             <Text
-              color={activeColor}
+              color={"#000"}
               fontWeight="bold"
               mb={{
                 xl: "12px",

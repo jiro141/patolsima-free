@@ -13,7 +13,7 @@ export function SearchBar(props) {
   // Chakra Color Mode
   const mainTeal = useColorModeValue("teal.300", "teal.300");
   const searchIconColor = useColorModeValue("gray.700", "gray.200");
-  const inputBg = useColorModeValue("white", "gray.800");
+  const inputBg = useColorModeValue("gray.800");
   return (
     <InputGroup
       bg={inputBg}
@@ -35,7 +35,7 @@ export function SearchBar(props) {
             _active={{
               bg: "inherit",
               transform: "none",
-              borderColor: "transparent",
+              borderColor: "gray.800",
             }}
             _focus={{
               boxShadow: "none",

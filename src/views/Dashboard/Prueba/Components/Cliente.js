@@ -342,15 +342,13 @@ const Cliente = ({ oneState, setOneState }) => {
                 </ModalContent>
             </Modal>
             <Button
-                marginLeft={'95%'}
+                marginLeft={'90%'}
                 marginBottom='-8%'
-                width={'40px'}
-                height='40px'
-                borderRadius={'50%'}
+                borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'
                 onClick={mensajeAlerta}>
-                <ChevronRightIcon boxSize="2em" strokeWidth="2" />
+                Guardar
             </Button>
         </>
     );
