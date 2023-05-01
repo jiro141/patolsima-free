@@ -2,29 +2,26 @@ import React, { useState, useEffect } from "react";
 // import { useEffect } from "react";
 import {
   Box,
-  SimpleGrid,
   Text,
   useColorModeValue,
   Badge,
   Heading,
   Grid,
-  GridItem,
   Link,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Button,
   Flex,
+  CloseButton,
+  useBreakpointValue
 } from "@chakra-ui/react";
-import { BsReceipt } from "react-icons/bs";
 import { Icon } from "@chakra-ui/react";
-import DatosMuestra from "./DatosMuestra";
+import { BsReceipt } from "react-icons/bs";
 import { authApi } from "api/authApi";
-
+import ModalFacturacion from "./components/ModalFacturacion";
 
 const Dashboard = () => {
   const colorA = '#137797';
@@ -81,11 +78,19 @@ const Dashboard = () => {
       monto: 25452
     }
   ];
+  //modal 
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+  //tamaños de modal
+  const size = useBreakpointValue({ base: "sm", lg: "5xl",md:'2xl'});
 
   const renderStudies = (studies) => {
     return studies.map((study) => (
       <Flex flexDirection={"row 7"}>
-        <Link>
+        <Link
+          onClick={toggleModal}>
           <Box
             margin={"5px auto"}
             boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
@@ -148,58 +153,88 @@ const Dashboard = () => {
   };
 
   return (
-    <Box
-      margin={'60px 0px 0px 0px'}
-      backgroundColor={'gray.100'}
-      borderRadius={'20px'}
-      padding={'5px 0px 20px 0px'}>
-      <Box marginTop={'30px'} >
-        <Heading
-          margin={'20px'}
-          size="md"
-        >
-          Sin confirmar
-        </Heading>
-        <Box
-          backgroundColor={'#FFFF'}
-          boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-          padding={"25px"}
-          borderRadius="20px"
-          m={"30px 30px 50px 30px"}
-        >
-          <Box>
-            <Grid gap={"20px"} templateColumns={"repeat(5,1fr)"}>
-              {renderStudies(sinProcesarStudies)}
-            </Grid>
+    <>
+      <Box
+        margin={'60px 0px 0px 0px'}
+        backgroundColor={'gray.100'}
+        borderRadius={'20px'}
+        padding={'5px 0px 20px 0px'}>
+        <Box marginTop={'30px'} >
+          <Heading
+            margin={'20px'}
+            size="md"
+          >
+            Sin confirmar
+          </Heading>
+          <Box
+            backgroundColor={'#FFFF'}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            padding={"25px"}
+            borderRadius="20px"
+            m={"30px 30px 50px 30px"}
+          >
+            <Box margin={{ lg: "0px", md: "0px", sm: "30px" }}>
+              <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
+                {renderStudies(sinProcesarStudies)}
+              </Grid>
+            </Box>
           </Box>
+          <Heading
+            margin={'20px'}
+            size="md"
+          >
+            Pendientes de pago
+          </Heading>
+          <Box
+            backgroundColor={'#FFFF'}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            padding={"25px"}
+            borderRadius="20px"
+            m={"30px 30px 100px 30px"}
+          >
+            <Box margin={{ lg: "0px", md: "0px", sm: "30px" }}>
+              <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
+                {renderStudies(pendientesStudies)}
+              </Grid>
+            </Box>
+          </Box>
+          <Button
+            padding={'10px 60px'}
+            marginTop='20px'
+            bgColor={'#137797'}
+            color='#ffff'
+          // onClick={toggleModal}
+          >
+            Ver más</Button>
         </Box>
-        <Heading
-          margin={'20px'}
-          size="md"
-        >
-          Pendientes de pago
-        </Heading>
-        <Box
-          backgroundColor={'#FFFF'}
-          boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-          padding={"25px"}
-          borderRadius="20px"
-          m={"30px 30px 100px 30px"}
-        >
-          <Grid gap={"15px"} templateColumns={"repeat(5,1fr)"}>
-            {renderStudies(pendientesStudies)}
-          </Grid>
-        </Box>
-        <Button
-          padding={'10px 60px'}
-          marginTop='20px'
-          bgColor={'#137797'}
-          color='#ffff'
-        // onClick={toggleModal}
-        >
-          Ver más</Button>
       </Box>
-    </Box>
+      <Modal
+        size={size}
+        maxWidth='100%'
+        isOpen={showModal}
+        onClose={toggleModal}>
+        <ModalOverlay />
+        <ModalContent bg="#ffff">
+          <ModalHeader>
+            <Button
+              borderRadius={'50%'}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={'95%'}
+              marginTop={'-60px'}
+              bgColor={'#137797'}
+              color='#ffff'
+              onClick={toggleModal}>
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody>
+            <ModalFacturacion />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

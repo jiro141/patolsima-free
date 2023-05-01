@@ -7,7 +7,6 @@ import {
   Badge,
   Heading,
   Grid,
-  GridItem,
   Link,
   Modal,
   ModalOverlay,
@@ -18,10 +17,6 @@ import {
   CloseButton,
   Button,
   Flex,
-  Tr,
-  Table,
-  Thead,
-  Th
 } from "@chakra-ui/react";
 import { FaFlask } from "react-icons/fa";
 import { Icon } from "@chakra-ui/react";
