@@ -173,7 +173,7 @@ const Dashboard = () => {
             borderRadius="20px"
             m={"30px 30px 50px 30px"}
           >
-            <Box margin={{ lg: "0px", md: "0px", sm: "30px" }}>
+            <Box margin={{ lg: "0px", md: "0px", sm: "9%" }}>
               <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
                 {renderStudies(sinProcesarStudies)}
               </Grid>

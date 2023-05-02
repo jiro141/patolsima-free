@@ -5,6 +5,7 @@ import {
     Grid,
     Select,
     Input,
+    Button
 } from "@chakra-ui/react";
 
 
@@ -90,6 +91,14 @@ const ModalRegistro = () => {
                     name="notas"
                 />
             </Grid>
+            <Button
+                marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
+                marginLeft={{ lg: '88%', md: '70%', sm: '77%' }}
+                borderRadius={'20px'}
+                bgColor={'#137797'}
+                color='#ffff'>
+                Procesar
+            </Button>
         </Box>
     );
 }

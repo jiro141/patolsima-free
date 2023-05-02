@@ -85,19 +85,19 @@ const ModalFacturacion = () => {
                     <Box>
                         <Box margin={'10px'}>
                             <Text fontWeight={'bold'}>Paciente</Text>
-                            <Text marginTop={'5px'}>Javiera de Castellanos</Text>
+                            <Text marginTop={'5px'}>Jose felipe colmenares colenares</Text>
                             <Text marginTop={'5px'}>Javiera de Castellanos</Text>
                         </Box>
                     </Box>
                     <Box>
-                        <Box margin={'10px'}>
+                        <Box margin={' 10px 5px 10px 30px'}>
                             <Text fontWeight={'bold'}>Tipo de estudio</Text>
                             <Text marginTop={'5px'}>Biopsia</Text>
                             <Text marginTop={'5px'}>Citología especial</Text>
                         </Box>
                     </Box>
                     <Box>
-                        <Box margin={'10px'}>
+                        <Box margin={' 10px 5px 10px 30px'}>
                             <Text fontWeight={'bold'}>Monto($)</Text>
                             <Text marginTop={'5px'}>30$</Text>
                             <Text marginTop={'5px'}>30$</Text>
@@ -163,7 +163,7 @@ const ModalFacturacion = () => {
                     borderRadius={'20px'}
                     bgColor={'#137797'}
                     color='#ffff'>
-                    Procesar
+                    Confirmar
                 </Button>
             </Box>
             <Modal
@@ -179,7 +179,7 @@ const ModalFacturacion = () => {
                             colorScheme="blue"
                             width="40px"
                             height="40px"
-                            marginLeft={'95%'}
+                            marginLeft={'92%'}
                             marginTop={'-60px'}
                             bgColor={'#137797'}
                             color='#ffff'
