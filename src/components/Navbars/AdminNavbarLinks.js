@@ -24,11 +24,13 @@ import avatar2 from "assets/img/avatars/avatar2.png";
 import avatar3 from "assets/img/avatars/avatar3.png";
 // Custom Icons
 import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
+import { BsListUl, BsGrid3X3GapFill } from "react-icons/bs";
 // Custom Components
 import { ItemContent } from "components/Menu/ItemContent";
 import SidebarResponsive from "components/Sidebar/SidebarResponsive";
 import PropTypes from "prop-types";
 import React from "react";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import { NavLink } from "react-router-dom";
 import routes from "routes.js";
 
@@ -100,49 +102,56 @@ export default function HeaderLinks(props) {
         />
       </InputGroup>
       <Box display={"flex"} justifyContent={"space-evenly"}>
-        <Box
-          backgroundColor={"#137797"}
-          padding={"5px 8px"}
-          borderRadius={"12px"}
-          m={"auto 30px"}
-        >
-          <Menu>
-            <MenuButton>
-              <BellIcon color={"#FFFF"} w="18px" h="18px" />
-            </MenuButton>
-            <MenuList p="16px 8px">
-              <Flex flexDirection="column">
-                <MenuItem borderRadius="none" mb="10px">
-                  <ItemContent
-                    time="13 minutes ago"
-                    info="from Alicia"
-                    boldInfo="New Message"
-                    aName="Alicia"
-                    aSrc={avatar1}
-                  />
-                </MenuItem>
-                <MenuItem borderRadius="none" mb="10px">
-                  <ItemContent
-                    time="2 days ago"
-                    info="by Josh Henry"
-                    boldInfo="New Album"
-                    aName="Josh Henry"
-                    aSrc={avatar2}
-                  />
-                </MenuItem>
-                <MenuItem borderRadius="none">
-                  <ItemContent
-                    time="3 days ago"
-                    info="Payment succesfully completed!"
-                    boldInfo=""
-                    aName="Kara"
-                    aSrc={avatar3}
-                  />
-                </MenuItem>
-              </Flex>
-            </MenuList>
-          </Menu>
-        </Box>
+        {location.pathname === "/RegistroPatologo" ? (
+          <>
+            <Button background={'none'}><BsListUl size="30px"  color="#137797"/></Button>
+            <Button background={'none'}><BsGrid3X3GapFill size="25px" color="#137797"/></Button>
+          </>
+        ) : (
+          <Box
+            backgroundColor={"#137797"}
+            padding={"5px 8px"}
+            borderRadius={"12px"}
+            m={"auto 30px"}
+          >
+            <Menu>
+              <MenuButton>
+                <BellIcon color={"#FFFF"} w="18px" h="18px" />
+              </MenuButton>
+              <MenuList p="16px 8px">
+                <Flex flexDirection="column">
+                  <MenuItem borderRadius="none" mb="10px">
+                    <ItemContent
+                      time="13 minutes ago"
+                      info="from Alicia"
+                      boldInfo="New Message"
+                      aName="Alicia"
+                      aSrc={avatar1}
+                    />
+                  </MenuItem>
+                  <MenuItem borderRadius="none" mb="10px">
+                    <ItemContent
+                      time="2 days ago"
+                      info="by Josh Henry"
+                      boldInfo="New Album"
+                      aName="Josh Henry"
+                      aSrc={avatar2}
+                    />
+                  </MenuItem>
+                  <MenuItem borderRadius="none">
+                    <ItemContent
+                      time="3 days ago"
+                      info="Payment succesfully completed!"
+                      boldInfo=""
+                      aName="Kara"
+                      aSrc={avatar3}
+                    />
+                  </MenuItem>
+                </Flex>
+              </MenuList>
+            </Menu>
+          </Box>
+        )}
         <Box
           backgroundColor={"#137797"}
           padding={"-1px 8px"}
@@ -178,7 +187,6 @@ export default function HeaderLinks(props) {
             secondary={props.secondary}
             color={"#FFFF"}
             routes={routes}
-            // logo={logo}
             {...rest}
           />
           <SettingsIcon

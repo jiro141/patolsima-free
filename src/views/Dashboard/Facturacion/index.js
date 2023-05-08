@@ -92,7 +92,7 @@ const Dashboard = () => {
         <Link
           onClick={toggleModal}>
           <Box
-            margin={"5px auto"}
+            margin={"5px auto 5px auto"}
             boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
             borderRadius={"16px"}
             key={study.id}
@@ -173,7 +173,7 @@ const Dashboard = () => {
             borderRadius="20px"
             m={"30px 30px 50px 30px"}
           >
-            <Box margin={{ lg: "0px", md: "0px", sm: "9%" }}>
+            <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
               <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
                 {renderStudies(sinProcesarStudies)}
               </Grid>
@@ -192,7 +192,7 @@ const Dashboard = () => {
             borderRadius="20px"
             m={"30px 30px 100px 30px"}
           >
-            <Box margin={{ lg: "0px", md: "0px", sm: "30px" }}>
+            <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
               <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
                 {renderStudies(pendientesStudies)}
               </Grid>
@@ -203,7 +203,7 @@ const Dashboard = () => {
             marginTop='20px'
             bgColor={'#137797'}
             color='#ffff'
-          // onClick={toggleModal}
+          // onClick={toggleModal}  
           >
             Ver más</Button>
         </Box>

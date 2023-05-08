@@ -342,8 +342,8 @@ const Cliente = ({ oneState, setOneState }) => {
                 </ModalContent>
             </Modal>
             <Button
-                marginLeft={'90%'}
-                marginBottom='-8%'
+                marginLeft={{lg:'90%',md:'80%',sm:'70%'}}
+                marginBottom={{lg:'-8%',md:'-15%',sm:'-30%'}}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'

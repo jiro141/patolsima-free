@@ -3,8 +3,6 @@ import {
     Box,
     Text,
     Grid,
-    Select,
-    Input,
     Button,
     Modal,
     ModalOverlay,

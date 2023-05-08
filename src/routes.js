@@ -6,6 +6,7 @@ import RegistroPatologo from "views/Dashboard/RegistroPatologo"
 import RegistroAdministradcion from "views/Dashboard/RegistroAdministracion"
 import Facturacion from "views/Dashboard/Facturacion"
 import  Informe  from "views/Dashboard/Informe";
+import ModoLista from "views/Dashboard/RegistroPatologo/ModoLista";
 import { BsReceiptCutoff, BsFillClipboardPlusFill } from "react-icons/bs";
 
 import {

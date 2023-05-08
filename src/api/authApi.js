@@ -1,10 +1,11 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 
 export const authApi = axios.create(
     {
-        withCredentials: true,
+        // withCredentials: true,
         baseURL: REACT_APP_BACKEND_URL
     }
 );
@@ -23,7 +24,10 @@ const defaultErrorHandler = (error) => {
 };
 
 const makeRequest = (method, path, params, onSuccess, onError) => {
-    const token = null; // Aqui obtiene el token para hacer el request
+    let token = Cookies.get('access');
+    // if (condition) {
+        
+    // } // Aqui obtiene el token para hacer el request
     let requestObj = {
         method: method,
     }

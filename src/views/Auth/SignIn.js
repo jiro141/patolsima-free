@@ -30,6 +30,7 @@ import signInImage from "assets/img/login.png";
 import Imagen from "assets/img/Textura.png";
 import logo from "assets/img/logo.png";
 import { authApi } from "api/authApi";
+import { useAuthContext } from "hooks/useAuthContext";
 
 function SignIn() {
   // Chakra color mode
@@ -44,6 +45,7 @@ function SignIn() {
   //Alerta para no seguir 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const history = useHistory();
+  const context = useAuthContext();
 
 
 
@@ -57,7 +59,7 @@ function SignIn() {
     try {
       const response = await authApi.post("login/", body);
       if (response.status === 200) {
-        document.cookie=`token=${response.data.access}`
+        context.getTokens(response.data.access)
         console.log(response);
         // Redirigir al dashboard
         history.push('layouts/Admin.js');

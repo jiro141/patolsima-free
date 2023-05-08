@@ -24,7 +24,8 @@ import {
     Th,
     Tbody,
     Switch,
-    chakra
+    chakra,
+    Textarea
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
@@ -114,7 +115,6 @@ const Muestra = () => {
 
     return (
         <>
-            {/* como se muestra la alerta en pantalla */}
             {alerta && (
                 <Alert status='error' mb={4}>
                     <AlertIcon />
@@ -128,7 +128,6 @@ const Muestra = () => {
                 </Alert>
             )}
             <form >
-                {/* onSubmit={handleSubmit}> */}
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información General</Text>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
                     <Box>
@@ -140,26 +139,7 @@ const Muestra = () => {
                     <Box>
                         <Text fontWeight={'bold'} marginBottom={'10px'}>Médico tratante</Text>
                         <Text marginBottom={'10px'}>Carmen Mora</Text>
-                        <FormControl display='flex' alignItems='center'>
-                            <Switch id='remember-login' color={'#137797'} me='10px' />
-                            <FormLabel
-                                htmlFor='remember-login'
-                                mb='0'
-                                ms='1'
-                                fontWeight='normal'>
-                                Envio digital
-                            </FormLabel>
-                        </FormControl>
-                        <FormControl display='flex' alignItems='center'>
-                            <Switch id='remember-login' color={'#137798'} me='10px' />
-                            <FormLabel
-                                htmlFor='remember-login'
-                                mb='0'
-                                ms='1'
-                                fontWeight='normal'>
-                                Urgente
-                            </FormLabel>
-                        </FormControl>
+
                     </Box>
                 </Grid>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
@@ -187,28 +167,64 @@ const Muestra = () => {
                             />
                         </FormControl>
                     </Box>
-                    <Box>
-                        <Text fontWeight={'bold'}>Número de estudio</Text>
-                        <Text> <chakra.span fontWeight={'bold'}>cod:</chakra.span> nnn-aaaa</Text>
-                        <FormControl mb={3}>
-                            <Input
-                                placeholder='Precio ($):'
-                                type="text"
-                                name="precio"
-                                value={precio}
-
-                            />
+                    <Box margin={'5px'}>
+                        <FormControl display='flex' alignItems='center'>
+                            <Switch id='remember-login' color={'#137797'} me='10px' />
+                            <FormLabel
+                                htmlFor='remember-login'
+                                mb='0'
+                                ms='1'
+                                fontWeight='normal'>
+                                Envio digital
+                            </FormLabel>
                         </FormControl>
+                        <FormControl display='flex' alignItems='center'>
+                            <Switch id='remember-login' color={'#137798'} me='10px' />
+                            <FormLabel
+                                htmlFor='remember-login'
+                                mb='0'
+                                ms='1'
+                                fontWeight='normal'>
+                                Urgente
+                            </FormLabel>
+                        </FormControl>
+                        <Box marginBottom={'10px'}>
+                            <FormControl mb={3}>
+                                <Input
+                                    placeholder='Precio ($):'
+                                    type="text"
+                                    name="precio"
+                                    value={precio}
+
+                                />
+                            </FormControl>
+                        </Box>
                     </Box>
+                </Grid>
+                <Grid>
+                    <Input
+                        placeholder='Tipo de muestra'
+                        type="text"
+                        name="tmuestra"
+                        value={tmuestra}
+
+                    />
+                    <Textarea
+                        marginTop={'10px'}
+                        size="lg"
+                        borderRadius="md"
+                        placeholder="Notas" />
                 </Grid>
             </form>
             <Button
                 padding={'10px 60px'}
-                marginTop='20px'
+                marginBottom='-16%'
+                marginLeft={'32%'}
                 bgColor={'#137797'}
                 color='#ffff'
+                borderRadius={'20px'}
                 onClick={toggleModal}>
-                Ver más</Button>
+                Agregar otra muestra</Button>
             <Modal
                 size={'4xl'}
                 maxWidth='100%'
@@ -309,15 +325,13 @@ const Muestra = () => {
                 </ModalContent>
             </Modal>
             <Button
-                type='submit'
-                marginLeft={'95%'}
-                marginBottom='-10%'
-                width={'40px'}
-                height='40px'
-                borderRadius={'50%'}
+                marginLeft={{ lg: '90%', md: '80%', sm: '70%' }}
+                marginBottom={{ lg: '-10%', md: '-15%', sm: '-30%' }}
+                borderRadius={'20px'}
                 bgColor={'#137797'}
-                color='#ffff'>
-                <ChevronRightIcon boxSize="2em" strokeWidth="2" />
+                color='#ffff'
+                onClick={mensajeAlerta}>
+                Guardar
             </Button>
         </>
     );

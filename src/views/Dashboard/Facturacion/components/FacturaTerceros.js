@@ -13,7 +13,7 @@ const FacturaTerceros = () => {
     return (
         <Box>
             <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
-            <Grid gap={'20px'} margin={'10px'} templateColumns={{lg:'repeat(2,1fr)',sm:'repeat(1,1fr)'}}>
+            <Grid gap={'20px'} margin={'10px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
                 <Input
                     placeholder='CI/RIF'
                     type="text"
@@ -27,7 +27,7 @@ const FacturaTerceros = () => {
                     name="nombre"
                 />
             </Grid>
-            <Grid margin={'10px'} gap={'20px'} templateColumns={{lg:'repeat(2,1fr)',sm:'repeat(1,1fr)'}}>
+            <Grid margin={'10px'} gap={'20px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
                 <Input
                     placeholder='Télefono de contacto'
                     type="text"
@@ -40,13 +40,13 @@ const FacturaTerceros = () => {
                 />
             </Grid>
             <Button
-                    marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
-                    marginLeft={{ lg: '82%', md: '70%', sm: '77%' }}
-                    borderRadius={'20px'}
-                    bgColor={'#137797'}
-                    color='#ffff'>
-                    Aceptar
-                </Button>
+                marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
+                marginLeft={{ lg: '82%', md: '70%', sm: '77%' }}
+                borderRadius={'20px'}
+                bgColor={'#137797'}
+                color='#ffff'>
+                Aceptar
+            </Button>
         </Box>
     );
 }

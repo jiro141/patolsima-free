@@ -171,7 +171,7 @@ const Dashboard = () => {
                 >
                   Prioridad Alta
                 </Heading>
-                <Grid gap={"25px"} templateColumns={"repeat(5,1fr)"}>
+                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
                   {renderStudies(highPriorityStudies, highPriorityColor)}
                 </Grid>
               </Box>
@@ -186,7 +186,7 @@ const Dashboard = () => {
                 >
                   Prioridad Media
                 </Heading>
-                <Grid gap={"25px"} templateColumns={"repeat(5,1fr)"}>
+                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
                   {renderStudies(mediumPriorityStudies, mediumPriorityColor)}
                 </Grid>
               </Box>
@@ -201,7 +201,7 @@ const Dashboard = () => {
                 >
                   Prioridad Baja
                 </Heading>
-                <Grid gap={"25px"} templateColumns={"repeat(5,1fr)"}>
+                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
                   {renderStudies(lowPriorityStudies, lowPriorityColor)}
                 </Grid>
               </Box>

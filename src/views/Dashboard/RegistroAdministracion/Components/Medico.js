@@ -157,7 +157,7 @@ const Medico = () => {
             <form >
                 {/* onSubmit={handleSubmit}> */}
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Nombres:'
@@ -177,7 +177,7 @@ const Medico = () => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Especialidad '
@@ -189,7 +189,7 @@ const Medico = () => {
                     </FormControl>
                 </Grid>
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información de Contacto</Text>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Email:'
@@ -261,10 +261,10 @@ const Medico = () => {
                                         />
                                     </Grid>
                                 </Box>
-                                <Center>
+                                <Center >
                                     <Table variant="simple">
                                         <Thead>
-                                            <Tr >
+                                            <Tr>
                                                 <Th borderRadius='none'
                                                     borderBottom="3px solid"
                                                     borderBottomColor={'gray.500'}
@@ -317,15 +317,13 @@ const Medico = () => {
                 </ModalContent>
             </Modal>
             <Button
-                type='submit'
-                marginLeft={'95%'}
-                marginBottom='-13%'
-                width={'40px'}
-                height='40px'
-                borderRadius={'50%'}
+                marginLeft={{lg:'90%',md:'80%',sm:'70%'}}
+                marginBottom={{lg:'-10%',md:'-15%',sm:'-30%'}}
+                borderRadius={'20px'}
                 bgColor={'#137797'}
-                color='#ffff'>
-                <ChevronRightIcon boxSize="2em" strokeWidth="2" />
+                color='#ffff'
+                onClick={mensajeAlerta}>
+                Guardar
             </Button>
         </>
     );
