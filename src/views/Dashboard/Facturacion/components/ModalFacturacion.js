@@ -13,6 +13,7 @@ import {
     useBreakpointValue
 } from "@chakra-ui/react";
 import FacturaTerceros from "./FacturaTerceros";
+import Confirmacion from "./Confirmacion";
 
 
 const ModalFacturacion = () => {
@@ -20,6 +21,10 @@ const ModalFacturacion = () => {
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => {
         setShowModal(!showModal);
+    };
+    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+    const toggleModalConfirmacion = () => {
+        setShowModalConfirmacion(!showModalConfirmacion);
     };
     //tamaños de modal
     const size = useBreakpointValue({ sm: "sm", lg: "xl", md: 'xs' });
@@ -160,7 +165,8 @@ const ModalFacturacion = () => {
                     marginLeft={{ lg: '90%', md: '85%', sm: '75%' }}
                     borderRadius={'20px'}
                     bgColor={'#137797'}
-                    color='#ffff'>
+                    color='#ffff'
+                    onClick={toggleModalConfirmacion}>
                     Confirmar
                 </Button>
             </Box>
@@ -170,7 +176,7 @@ const ModalFacturacion = () => {
                 isOpen={showModal}
                 onClose={toggleModal}>
                 <ModalOverlay />
-                <ModalContent bg="#ffff">
+                <ModalContent  bg="#ffff" borderRadius={"20px"}>
                     <ModalHeader>
                         <Button
                             borderRadius={'50%'}
@@ -187,6 +193,32 @@ const ModalFacturacion = () => {
                     </ModalHeader>
                     <ModalBody>
                         <FacturaTerceros />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+            <Modal
+                size={"sm"}
+                maxWidth='100%'
+                isOpen={showModalConfirmacion}
+                onClose={toggleModalConfirmacion}>
+                <ModalOverlay />
+                <ModalContent marginTop={"300px"} bg="#ffff" borderRadius={"20px"}>
+                    <ModalHeader>
+                        <Button
+                            borderRadius={'50%'}
+                            colorScheme="blue"
+                            width="40px"
+                            height="40px"
+                            marginLeft={'92%'}
+                            marginTop={'-60px'}
+                            bgColor={'#137797'}
+                            color='#ffff'
+                            onClick={toggleModalConfirmacion}>
+                            <CloseButton />
+                        </Button>
+                    </ModalHeader>
+                    <ModalBody>
+                        <Confirmacion />
                     </ModalBody>
                 </ModalContent>
             </Modal>

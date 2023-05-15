@@ -29,35 +29,35 @@ import {
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import BusquedaCliente from './BusquedaCliente';
-import { authApi } from 'api/authApi';
+import { authApi, makeRequest } from 'api/authApi';
 
 const Cliente = ({ oneState, setOneState }) => {
     //definicion de los valores a cargar
     const [cedula, setCedula] = useState('');
-    const [nombre, setNombre] = useState('');
+    const [nombres, setNombres] = useState('');
     const [apellido, setApellido] = useState('');
     const [fecha_nacimiento, setFecha_nacimiento] = useState('');
-    const [procedencia, setProcedencia] = useState('');
+    const [direccion, setDireccion] = useState('');
     const [email, setEmail] = useState('');
     const [telefono, setTelefono] = useState('');
     //carga de los datos del formulario
     const formData = {
         cedula,
-        nombre,
+        nombres,
         apellido,
         fecha_nacimiento,
-        procedencia,
+        direccion,
         email,
         telefono,
     };
     useEffect(() => {
-        console.log(cedula, nombre, apellido, fecha_nacimiento, procedencia, email, telefono);
-        if (cedula && nombre && apellido && fecha_nacimiento && procedencia && email && telefono) {
+        // console.log(cedula, nombre, apellido, fecha_nacimiento, procedencia, email, telefono);
+        if (cedula && nombres && apellido && fecha_nacimiento && direccion && email && telefono) {
             setOneState(true);
         } else {
             setOneState(false);
         }
-    }, [cedula, nombre, apellido, fecha_nacimiento, procedencia, email, telefono]);
+    }, [cedula, nombres, apellido, fecha_nacimiento, direccion, email, telefono]);
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
     //alerta 
@@ -79,29 +79,28 @@ const Cliente = ({ oneState, setOneState }) => {
     const [Busqueda, setBusqueda] = useState("");
     const [registroSeleccionado, setRegistroSeleccionado] = useState(
         {
-            ci: "",
-            nombres: "",
-            apellidos: "",
-            email: "",
-            telefono_celular: ""
+            // ci: "",
+            // nombres: "",
+            // apellidos: "",
+            // email: "",
+            // telefono_celular: "",
+            // direccion:"",
+            // fecha_nacimiento:""
         }
     );
     //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
     const peticionGet = async () => {
         const token = decodeURIComponent(document.cookie).split(";")[1].slice(7);
         await authApi.get("/v1/core/pacientes/", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
         })
             .then(response => {
                 setPacientes(response.data.results);
-                setTabla(response.data).results;
+                setTabla(response.data.results);
             }).catch(error => {
-                //  console.log(error);
+                console.log(error);
             })
     };
-    //para activar el evento que filtra a los datos que se encuentran la lista
+
     useEffect(() => {
         peticionGet();
     }, []);
@@ -109,6 +108,7 @@ const Cliente = ({ oneState, setOneState }) => {
         setBusqueda(event.target.value);
         filtrar(event.target.value)
     };
+    //para activar el evento que filtra a los datos que se encuentran la lista
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
     const filtrar = (terminoBusqueda) => {
@@ -123,24 +123,21 @@ const Cliente = ({ oneState, setOneState }) => {
         setPacientes(resultadoBusqueda);
     }
     const [registro, setRegistro] = useState([]);
-    const seleccionarRegistro = (registro) => {
-        setRegistroSeleccionado({
-            ...registro
-        });
-
-        // console.log('Registro seleccionado:', registro);
-
-        // setCedula(registro.cedula);
-        // setNombre(registro.nombre);
-        // setApellido(registro.apellido);
-        // setFecha(registro.fecha);
-        // setProcedencia(registro.procedencia);
-        // setEmail(registro.email);
-        // setTelefono(registro.telefono);
-
-        toggleModal();
+    const seleccionarRegistro = async (registro) => {
+        try {
+            const response = await makeRequest('GET', `v1/core/pacientes/:id/`, { pathParams: { id: registro.id } })
+            if (response) {
+                console.log(response);
+                setRegistroSeleccionado({
+                    ...response.data
+                });
+                toggleModal();
+            }
+        }catch(error){
+            console.log(error);
+        }
     }
-    console.log(registroSeleccionado);
+
 
 
     return (
@@ -160,7 +157,7 @@ const Cliente = ({ oneState, setOneState }) => {
             )}
             <form >
                 <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información Personal</Text>
-                <Grid  templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
+                <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Cédula:'
@@ -172,20 +169,20 @@ const Cliente = ({ oneState, setOneState }) => {
                     </FormControl>
                     <FormControl mb={3}>
                         <Select defaultValue="Genero">
-                            <option  hidden colorScheme="gray.400">Genero:</option>
+                            <option hidden colorScheme="gray.400">Genero:</option>
                             <option value="masculino">Masculino</option>
                             <option value="femenino">Femenino</option>
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
+                <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Nombres:'
                             type="text"
                             name="nombre"
-                            value={registroSeleccionado?.nombres}
-                            onChange={e => setNombre(e.target.value)}
+                            value={registroSeleccionado ? registroSeleccionado?.nombres : ''}
+                            onChange={e => setNombres(e.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>
@@ -198,28 +195,28 @@ const Cliente = ({ oneState, setOneState }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
+                <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Fecha de Nacimiento (DD/MM/AAAA): '
                             type="Text"
                             name="fecha_nacimiento"
-                            value={registroSeleccionado?.fecha_nacimiento}
+                            value={registroSeleccionado ? registroSeleccionado?.fecha_nacimiento : fecha_nacimiento}
                             onChange={(event) => setFecha(event.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>
                         <Input
-                            placeholder='Procedencia '
+                            placeholder='Procedencia'
                             type="text"
-                            name="Procedencia"
-                            value={procedencia}
-                            onChange={(event) => setProcedencia(event.target.value)}
+                            name="direccion"
+                            value={registroSeleccionado?.direccion}
+                            onChange={(event) => setDireccion(event.target.value)}
                         />
                     </FormControl>
                 </Grid>
                 <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información de Contacto</Text>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
+                <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Email:'
@@ -342,8 +339,8 @@ const Cliente = ({ oneState, setOneState }) => {
                 </ModalContent>
             </Modal>
             <Button
-                marginLeft={{lg:'90%',md:'80%',sm:'70%'}}
-                marginBottom={{lg:'-8%',md:'-15%',sm:'-30%'}}
+                marginLeft={{ lg: '90%', md: '80%', sm: '70%' }}
+                marginBottom={{ lg: '-8%', md: '-15%', sm: '-30%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'

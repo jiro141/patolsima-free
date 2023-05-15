@@ -19,9 +19,10 @@ import {
   useBreakpointValue
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
-import { BsReceipt } from "react-icons/bs";
+import { BsFillFileEarmarkRichtextFill } from "react-icons/bs";
 import { authApi } from "api/authApi";
-import ModalFacturacion from "./components/ModalFacturacion";
+import ModalInforme from "./components/ModalInforma";
+
 
 const Dashboard = () => {
   const colorA = '#137797';
@@ -104,22 +105,25 @@ const Dashboard = () => {
               backgroundColor={colorA}
             >
               <Badge
-                textAlign={"center"}
-                background={"none"}
-                padding={"5px 20px 0px 20px"}
-                w={'180px'}
-                height={'34px'}
+               textAlign={"center"}
+               background={"none"}
+               color={"#FFFF"}
+               padding={"10px"}
+               fontSize={"18px"}
+               w={'200px'}
               >
+                {study.nestudio}
                 <Icon
                   border={"solid"}
-                  borderColor={colorA}
-                  marginTop={"-15%"}
-                  marginLeft={"78%"}
-                  height={"50px"}
-                  width={"50px"}
+                  // borderColor={priorityColor}
+                  marginTop={"-30px"}
+                  marginLeft={"22%"}
+                  marginBottom={'-18px'}
+                  height={"55px"}
+                  width={"55px"}
                   padding={"5px"}
                   borderRadius={"50%"}
-                  as={BsReceipt}
+                  as={BsFillFileEarmarkRichtextFill}
                   backgroundColor={"#FFFF"}
                   color={colorA}
                 />
@@ -164,7 +168,7 @@ const Dashboard = () => {
             margin={'20px'}
             size="md"
           >
-            Sin confirmar
+            Informes terminados
           </Heading>
           <Box
             backgroundColor={'#FFFF'}
@@ -183,7 +187,7 @@ const Dashboard = () => {
             margin={'20px'}
             size="md"
           >
-            Pendientes de pago
+            Informes en proceso
           </Heading>
           <Box
             backgroundColor={'#FFFF'}
@@ -214,7 +218,7 @@ const Dashboard = () => {
         isOpen={showModal}
         onClose={toggleModal}>
         <ModalOverlay />
-        <ModalContent borderRadius={"20px"} bg="#ffff">
+        <ModalContent bg="#ffff">
           <ModalHeader>
             <Button
               borderRadius={'50%'}
@@ -230,7 +234,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion />
+            <ModalInforme />
           </ModalBody>
         </ModalContent>
       </Modal>

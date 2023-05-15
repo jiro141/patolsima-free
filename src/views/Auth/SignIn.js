@@ -59,11 +59,10 @@ function SignIn() {
     try {
       const response = await authApi.post("login/", body);
       if (response.status === 200) {
-        context.getTokens(response.data.access)
-        console.log(response);
+        context.getTokens(response.data)
+        console.log(response, "respuesta");
         // Redirigir al dashboard
         history.push('layouts/Admin.js');
-      
       }
     } catch (error) {
       setShowErrorModal(true);

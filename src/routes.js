@@ -5,8 +5,9 @@ import SignUp from "views/Auth/SignUp.js";
 import RegistroPatologo from "views/Dashboard/RegistroPatologo"
 import RegistroAdministradcion from "views/Dashboard/RegistroAdministracion"
 import Facturacion from "views/Dashboard/Facturacion"
-import  Informe  from "views/Dashboard/Informe";
-import ModoLista from "views/Dashboard/RegistroPatologo/ModoLista";
+import Informe from "views/Dashboard/InformePatologo";
+import InformeAdministracion from "views/Dashboard/InformeAdministracion"
+import RegistroPatologoLista from "views/Dashboard/RegistroPatologo/ModoLista";
 import { BsReceiptCutoff, BsFillClipboardPlusFill } from "react-icons/bs";
 
 import {
@@ -26,10 +27,11 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
-    path: "/RegistroPatologo",
-    name: "Registro",
-    icon: <HomeIcon color="inherit" />,
-    component: RegistroPatologo,
+    path: "/InformeAdministracion",
+    name: "Informe",
+    icon: <BsFillClipboardPlusFill color="inherit" />,
+    secondaryNavbar: true,
+    component: InformeAdministracion,
     layout: "/admin",
   },
   {
@@ -39,12 +41,19 @@ var dashRoutes = [
     component: Facturacion,
     layout: "/admin",
   },
-  
+
   {
     name: "Patólogia",
     category: "account",
     state: "pageCollapse",
     views: [
+      {
+        path: "/RegistroPatologo",
+        name: "Registro",
+        icon: <HomeIcon color="inherit" />,
+        component: RegistroPatologoLista,
+        layout: "/admin",
+      },
       {
         path: "/Informe",
         name: "Informe",
@@ -53,8 +62,6 @@ var dashRoutes = [
         component: Informe,
         layout: "/admin",
       },
-      
-      
     ],
   },
   {
@@ -73,6 +80,12 @@ var dashRoutes = [
     path: "/signup",
     component: SignUp,
     layout: "/auth",
+    hide: true
+  },
+  {
+    path: "/RegistroPatologo",
+    component: RegistroPatologoLista,
+    layout: "/admin",
     hide: true
   }
 ];

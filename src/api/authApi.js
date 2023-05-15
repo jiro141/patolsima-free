@@ -2,11 +2,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-
+// axios.defaults.withCredentials = true;
+axios.defaults.headers.common = {'Authorization': `Bearer ${Cookies.get('access')}`}
+console.log(Cookies.get('access'));
 export const authApi = axios.create(
     {
-        // withCredentials: true,
-        baseURL: REACT_APP_BACKEND_URL
+        baseURL: REACT_APP_BACKEND_URL,
     }
 );
 
@@ -23,22 +24,21 @@ const defaultErrorHandler = (error) => {
     console.error(error);
 };
 
-const makeRequest = (method, path, params, onSuccess, onError) => {
-    let token = Cookies.get('access');
+
+export const makeRequest  = async (method, path, params, onSuccess, onError) => {
+    // console.log(method, path, params);
     // if (condition) {
         
-    // } // Aqui obtiene el token para hacer el request
+    // } // Aqui obtiene el token para hacer el reques
     let requestObj = {
-        method: method,
+        method: method
     }
     
     if(method === 'POST' || method === 'PUT'){
-        requestObj.config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
+        requestObj.config.headers['Content-Type']='application/json'
     }
+
+    
 
     if(params != undefined){
         Object.entries(params.pathParams || {}).forEach(
@@ -50,21 +50,22 @@ const makeRequest = (method, path, params, onSuccess, onError) => {
             const encodeQueryParams = p => Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
             path = (path + '?' + encodeQueryParams(params.queryParams));
         }
-        requestObj.path = path;
+        requestObj.url = path;
         if(params.payload != undefined){
             requestObj.data = params.payload
         }
     }
-
-    authApi.request(requestObj).then(
-        response => {
-            onSuccess(response.data);
+    
+    // console.log(requestObj);
+   
+        try{
+            const response = await authApi.request(requestObj)
+            if (response) {
+                return response  
+            }
+        }catch(error){
+            console.log(error);
         }
-    ).catch(
-        error => {
-            (onError || defaultErrorHandler)(error);
-        }
-    );
 };
 
 

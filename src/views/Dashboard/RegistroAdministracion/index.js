@@ -22,7 +22,6 @@ function Registro() {
     const [oneState, setOneState] = useState(false);
 
     const CustomTab = ({ title, isActive, isDisabled = false }) => {
-        console.log(title, isDisabled);
         return (
             <MotionTab
                 margin="30px 5px 0 5px"

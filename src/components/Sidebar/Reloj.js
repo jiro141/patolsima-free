@@ -12,10 +12,8 @@ export  function Reloj() {
     const cl = setInterval(() => {
       h1.current.innerHTML = `${ti()}`;
     }, 1000);
-    console.log("asd");
     return () => clearInterval(cl);
   }, []);
-  console.log("asdsss");
   return (
     <div>
       <h1 ref={h1}>{ti()}</h1>

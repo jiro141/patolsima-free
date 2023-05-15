@@ -37,6 +37,8 @@ import routes from "routes.js";
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
 
+  const location = useLocation();
+
   // Chakra Color Mode
   let mainTeal = useColorModeValue("teal.300", "teal.300");
   let inputBg = useColorModeValue("#FFFF");
@@ -44,17 +46,21 @@ export default function HeaderLinks(props) {
   let navbarIcon = useColorModeValue("#FFFF");
   let searchIcon = useColorModeValue("gray.700", "gray.200");
 
+
   if (secondary) {
     navbarIcon = "#FFFF";
     mainText = "#FFFF";
   }
   const settingsRef = React.useRef();
+  const activeLisMode = (routeName) => {
+    return location.pathname === routeName ? "active" : "";
+  };
   return (
     <Flex
-      pe={{ sm: "0px", md: "16px" }}
+      pe={{ sm: "0px", md: "0px" }}
       w={{ sm: "100%", md: "auto" }}
       margin={{ sm: "0 10px", md: "auto" }}
-      justifyContent={"space-between"}
+      justifyContent="space-around"
     >
       <InputGroup
         cursor="pointer"
@@ -101,57 +107,61 @@ export default function HeaderLinks(props) {
           borderBottom={"solid 1px"}
         />
       </InputGroup>
+
       <Box display={"flex"} justifyContent={"space-evenly"}>
-        {location.pathname === "/RegistroPatologo" ? (
+
+        {location.pathname !== "/admin/RegistroAdministracion" ?
           <>
-            <Button background={'none'}><BsListUl size="30px"  color="#137797"/></Button>
-            <Button background={'none'}><BsGrid3X3GapFill size="25px" color="#137797"/></Button>
+            <Box marginRight={'300px'}>
+              <Button background={'none'} ><BsListUl size="30px" color="#137797" /></Button>
+              <Button background={'none'} ><BsGrid3X3GapFill size="25px" color="#137797" /></Button>
+            </Box>
           </>
-        ) : (
-          <Box
-            backgroundColor={"#137797"}
-            padding={"5px 8px"}
-            borderRadius={"12px"}
-            m={"auto 30px"}
-          >
-            <Menu>
-              <MenuButton>
-                <BellIcon color={"#FFFF"} w="18px" h="18px" />
-              </MenuButton>
-              <MenuList p="16px 8px">
-                <Flex flexDirection="column">
-                  <MenuItem borderRadius="none" mb="10px">
-                    <ItemContent
-                      time="13 minutes ago"
-                      info="from Alicia"
-                      boldInfo="New Message"
-                      aName="Alicia"
-                      aSrc={avatar1}
-                    />
-                  </MenuItem>
-                  <MenuItem borderRadius="none" mb="10px">
-                    <ItemContent
-                      time="2 days ago"
-                      info="by Josh Henry"
-                      boldInfo="New Album"
-                      aName="Josh Henry"
-                      aSrc={avatar2}
-                    />
-                  </MenuItem>
-                  <MenuItem borderRadius="none">
-                    <ItemContent
-                      time="3 days ago"
-                      info="Payment succesfully completed!"
-                      boldInfo=""
-                      aName="Kara"
-                      aSrc={avatar3}
-                    />
-                  </MenuItem>
-                </Flex>
-              </MenuList>
-            </Menu>
-          </Box>
-        )}
+          : (<></>)}
+            <Box
+              backgroundColor={"#137797"}
+              padding={"5px 8px"}
+              borderRadius={"12px"}
+              m={"auto 30px"}
+            >
+              <Menu>
+                <MenuButton>
+                  <BellIcon color={"#FFFF"} w="18px" h="18px" />
+                </MenuButton>
+                <MenuList p="16px 8px">
+                  <Flex flexDirection="column">
+                    <MenuItem borderRadius="none" mb="10px">
+                      <ItemContent
+                        time="13 minutes ago"
+                        info="from Alicia"
+                        boldInfo="New Message"
+                        aName="Alicia"
+                        aSrc={avatar1}
+                      />
+                    </MenuItem>
+                    <MenuItem borderRadius="none" mb="10px">
+                      <ItemContent
+                        time="2 days ago"
+                        info="by Josh Henry"
+                        boldInfo="New Album"
+                        aName="Josh Henry"
+                        aSrc={avatar2}
+                      />
+                    </MenuItem>
+                    <MenuItem borderRadius="none">
+                      <ItemContent
+                        time="3 days ago"
+                        info="Payment succesfully completed!"
+                        boldInfo=""
+                        aName="Kara"
+                        aSrc={avatar3}
+                      />
+                    </MenuItem>
+                  </Flex>
+                </MenuList>
+              </Menu>
+            </Box>
+          
         <Box
           backgroundColor={"#137797"}
           padding={"-1px 8px"}

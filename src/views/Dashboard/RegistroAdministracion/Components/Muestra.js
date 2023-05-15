@@ -188,7 +188,7 @@ const Muestra = () => {
                                 Urgente
                             </FormLabel>
                         </FormControl>
-                        <Box marginBottom={'10px'}>
+                        {/* <Box marginBottom={'10px'}>
                             <FormControl mb={3}>
                                 <Input
                                     placeholder='Precio ($):'
@@ -198,7 +198,7 @@ const Muestra = () => {
 
                                 />
                             </FormControl>
-                        </Box>
+                        </Box> */}
                     </Box>
                 </Grid>
                 <Grid>
