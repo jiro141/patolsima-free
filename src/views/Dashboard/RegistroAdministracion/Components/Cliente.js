@@ -40,6 +40,7 @@ const Cliente = ({ oneState, setOneState }) => {
     const [direccion, setDireccion] = useState('');
     const [email, setEmail] = useState('');
     const [telefono, setTelefono] = useState('');
+    const [sexo, setSexo] = useState('');
     //carga de los datos del formulario
     const formData = {
         cedula,
@@ -49,15 +50,16 @@ const Cliente = ({ oneState, setOneState }) => {
         direccion,
         email,
         telefono,
+        sexo
     };
     useEffect(() => {
         // console.log(cedula, nombre, apellido, fecha_nacimiento, procedencia, email, telefono);
-        if (cedula && nombres && apellido && fecha_nacimiento && direccion && email && telefono) {
+        if (cedula && nombres && apellido && fecha_nacimiento && direccion && email && telefono && sexo) {
             setOneState(true);
         } else {
             setOneState(false);
         }
-    }, [cedula, nombres, apellido, fecha_nacimiento, direccion, email, telefono]);
+    }, [cedula, nombres, apellido, fecha_nacimiento, direccion, email, telefono, sexo]);
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
     //alerta 
@@ -168,10 +170,10 @@ const Cliente = ({ oneState, setOneState }) => {
                         />
                     </FormControl>
                     <FormControl mb={3}>
-                        <Select defaultValue="Genero">
+                        <Select onChange={e => setSexo(e.target.value)} defaultValue="sexo">
                             <option hidden colorScheme="gray.400">Genero:</option>
-                            <option value="masculino">Masculino</option>
-                            <option value="femenino">Femenino</option>
+                            <option value={registroSeleccionado?.sexo}>Masculino</option>
+                            <option value={registroSeleccionado?.sexo}>Femenino</option>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -202,7 +204,7 @@ const Cliente = ({ oneState, setOneState }) => {
                             type="Text"
                             name="fecha_nacimiento"
                             value={registroSeleccionado ? registroSeleccionado?.fecha_nacimiento : fecha_nacimiento}
-                            onChange={(event) => setFecha(event.target.value)}
+                            onChange={(event) => setFecha_nacimiento(event.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>

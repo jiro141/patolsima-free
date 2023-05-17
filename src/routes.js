@@ -27,6 +27,13 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
+    path: "/Facturacion",
+    name: "Facturación",
+    icon: <BsReceiptCutoff color="inherit" />,
+    component: Facturacion,
+    layout: "/admin",
+  },
+  {
     path: "/InformeAdministracion",
     name: "Informe",
     icon: <BsFillClipboardPlusFill color="inherit" />,
@@ -34,14 +41,6 @@ var dashRoutes = [
     component: InformeAdministracion,
     layout: "/admin",
   },
-  {
-    path: "/Facturacion",
-    name: "Facturación",
-    icon: <BsReceiptCutoff color="inherit" />,
-    component: Facturacion,
-    layout: "/admin",
-  },
-
   {
     name: "Patólogia",
     category: "account",

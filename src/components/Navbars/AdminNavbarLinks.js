@@ -60,7 +60,8 @@ export default function HeaderLinks(props) {
       pe={{ sm: "0px", md: "0px" }}
       w={{ sm: "100%", md: "auto" }}
       margin={{ sm: "0 10px", md: "auto" }}
-      justifyContent="space-around"
+      justifyContent="space-between"
+    // gap={"5px"}
     >
       <InputGroup
         cursor="pointer"
@@ -107,69 +108,72 @@ export default function HeaderLinks(props) {
           borderBottom={"solid 1px"}
         />
       </InputGroup>
+      {location.pathname !== "/admin/RegistroAdministracion" ? (
+        <Box display={{ base: "none", md: "block" }}>
+          <Button background="none">
+            <BsListUl size="30px" color="#137797" />
+          </Button>
+          <Button background="none">
+            <BsGrid3X3GapFill size="25px" color="#137797" />
+          </Button>
+        </Box>
+      ) : null}
 
-      <Box display={"flex"} justifyContent={"space-evenly"}>
 
-        {location.pathname !== "/admin/RegistroAdministracion" ?
-          <>
-            <Box marginRight={'300px'}>
-              <Button background={'none'} ><BsListUl size="30px" color="#137797" /></Button>
-              <Button background={'none'} ><BsGrid3X3GapFill size="25px" color="#137797" /></Button>
-            </Box>
-          </>
-          : (<></>)}
-            <Box
-              backgroundColor={"#137797"}
-              padding={"5px 8px"}
-              borderRadius={"12px"}
-              m={"auto 30px"}
-            >
-              <Menu>
-                <MenuButton>
-                  <BellIcon color={"#FFFF"} w="18px" h="18px" />
-                </MenuButton>
-                <MenuList p="16px 8px">
-                  <Flex flexDirection="column">
-                    <MenuItem borderRadius="none" mb="10px">
-                      <ItemContent
-                        time="13 minutes ago"
-                        info="from Alicia"
-                        boldInfo="New Message"
-                        aName="Alicia"
-                        aSrc={avatar1}
-                      />
-                    </MenuItem>
-                    <MenuItem borderRadius="none" mb="10px">
-                      <ItemContent
-                        time="2 days ago"
-                        info="by Josh Henry"
-                        boldInfo="New Album"
-                        aName="Josh Henry"
-                        aSrc={avatar2}
-                      />
-                    </MenuItem>
-                    <MenuItem borderRadius="none">
-                      <ItemContent
-                        time="3 days ago"
-                        info="Payment succesfully completed!"
-                        boldInfo=""
-                        aName="Kara"
-                        aSrc={avatar3}
-                      />
-                    </MenuItem>
-                  </Flex>
-                </MenuList>
-              </Menu>
-            </Box>
-          
+      <Box display={"flex"} justifyContent="">
         <Box
           backgroundColor={"#137797"}
-          padding={"-1px 8px"}
+          padding={"5px 8px"}
           borderRadius={"12px"}
-          display={"flex"}
-          justifyContent={"center"}
+          m={"auto 30px"}
         >
-          <NavLink to="#">
+          <Menu>
+            <MenuButton>
+              <BellIcon color={"#FFFF"} w="18px" h="18px" />
+            </MenuButton>
+            <MenuList p="16px 8px">
+              <Flex flexDirection="column">
+                <MenuItem borderRadius="none" mb="10px">
+                  <ItemContent
+                    time="13 minutes ago"
+                    info="from Alicia"
+                    boldInfo="New Message"
+                    aName="Alicia"
+                    aSrc={avatar1}
+                  />
+                </MenuItem>
+                <MenuItem borderRadius="none" mb="10px">
+                  <ItemContent
+                    time="2 days ago"
+                    info="by Josh Henry"
+                    boldInfo="New Album"
+                    aName="Josh Henry"
+                    aSrc={avatar2}
+                  />
+                </MenuItem>
+                <MenuItem borderRadius="none">
+                  <ItemContent
+                    time="3 days ago"
+                    info="Payment succesfully completed!"
+                    boldInfo=""
+                    aName="Kara"
+                    aSrc={avatar3}
+                  />
+                </MenuItem>
+              </Flex>
+            </MenuList>
+          </Menu>
+        </Box>
+
+        <Box
+          backgroundColor={"#137797"}
+          padding={"1px 5px"}
+          borderRadius={"13px"}
+          display={"flex"}
+          // gap={"20px"}
+          justifyContent={"space-around"}
+        >
+          {/* <NavLink to="#">
             <Button
               ms="0px"
               px="0px"
@@ -191,7 +195,7 @@ export default function HeaderLinks(props) {
                 )
               }
             ></Button>
-          </NavLink>
+          </NavLink> */}
           <SidebarResponsive
             logoText={props.logoText}
             secondary={props.secondary}
@@ -199,7 +203,7 @@ export default function HeaderLinks(props) {
             routes={routes}
             {...rest}
           />
-          <SettingsIcon
+          {/* <SettingsIcon
             cursor="pointer"
             // m={"auto 5px auto 10px"}
             m={{
@@ -211,13 +215,15 @@ export default function HeaderLinks(props) {
             color={"#FFFF"}
             w="18px"
             h="18px"
-          />
-          <Box m={'auto 10px'} >
-            <BiLogOut
-              size={"20px"}
-              strokeWidth={1}
-              style={{ color: "#FFFFFF" }}
-            />
+          /> */}
+          <Box >
+            <Button _hover={{ bg: "none" }} borderRadius={"13px"} background={'none'} padding={'0px'}>
+              <BiLogOut
+                size={"20px"}
+                // strokeWidth={1}
+                style={{ color: "#FFFFFF" }}
+              />
+            </Button>
           </Box>
         </Box>
       </Box>

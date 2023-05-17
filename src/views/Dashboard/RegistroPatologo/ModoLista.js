@@ -87,90 +87,100 @@ const Dashboard = () => {
 
   return (
     <>
-      <Table marginTop={'60px'}>
-        <Thead>
-          <Tr>
-            <Th># Muestra</Th>
-            <Th>Nombre y Apellido</Th>
-            <Th>RIF/CI</Th>
-            <Th>Fecha de recepción</Th>
-            <Th>Tipo de estudio</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr borderBottom={'solid 3px'} borderColor={highPriorityColor}>
-            <Heading
-              size="md"
-              mt={4}
-            >
-              Prioridad Alta
-            </Heading>
-          </Tr>
-          {highPriorityStudies.map((study) => (
-            <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-              <Td>
-                <Link onClick={toggleModal}> {study.nestudio}</Link>
-              </Td>
-              <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
-              <Td>
-                <Link onClick={toggleModal}>{study.ci}</Link>
-              </Td>
-              <Td>
-                <Link onClick={toggleModal}>{study.fecha}</Link>
-              </Td>
-              <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
-            </Tr>
-          ))}
-          <Tr borderBottom={'solid 3px'} borderColor={mediumPriorityColor}>
-            <Heading
-              size="md"
-              mt={4}
-            >
-              Prioridad Media
-            </Heading>
-          </Tr>
-          {mediumPriorityStudies.map((study) => (
+      <Box margin={{lg:'60px 0px 0px 0px',sm:'60px 0px 60px 0px'}}
+            padding={{lg:' 10px', md:'10px',sm:'0px 20px 900px 20px'}}
+            backgroundColor={'gray.100'}
+            borderRadius={'20px'}
+            backgroundSize="cover"
+            backgroundPosition="center"
+            height={{ lg: '800px', md: "900px", sm: "800px" }}>
+        <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'40px'} borderRadius='20px' m={'15px 30px 100px 30px'}>
+          <Table >
+            <Thead>
+              <Tr>
+                <Th># Muestra</Th>
+                <Th>Nombre y Apellido</Th>
+                <Th>RIF/CI</Th>
+                <Th>Fecha de recepción</Th>
+                <Th>Tipo de estudio</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              <Tr borderBottom={'solid 3px'} borderColor={highPriorityColor}>
+                <Heading
+                  size="md"
+                  mt={4}
+                >
+                  Prioridad Alta
+                </Heading>
+              </Tr>
+              {highPriorityStudies.map((study) => (
+                <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
+                  <Td>
+                    <Link onClick={toggleModal}> {study.nestudio}</Link>
+                  </Td>
+                  <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
+                  <Td>
+                    <Link onClick={toggleModal}>{study.ci}</Link>
+                  </Td>
+                  <Td>
+                    <Link onClick={toggleModal}>{study.fecha}</Link>
+                  </Td>
+                  <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
+                </Tr>
+              ))}
+              <Tr borderBottom={'solid 3px'} borderColor={mediumPriorityColor}>
+                <Heading
+                  size="md"
+                  mt={4}
+                >
+                  Prioridad Media
+                </Heading>
+              </Tr>
+              {mediumPriorityStudies.map((study) => (
 
-            <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-              <Td>
-                <Link onClick={toggleModal}> {study.nestudio}</Link>
-              </Td>
-              <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
-              <Td>
-                <Link onClick={toggleModal}>{study.ci}</Link>
-              </Td>
-              <Td>
-                <Link onClick={toggleModal}>{study.fecha}</Link>
-              </Td>
-              <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
-            </Tr>
-          ))}
-          <Tr borderBottom={'solid 3px'} borderColor={lowPriorityColor}>
-            <Heading
-              size="md"
-              mt={4}
-            >
-              Prioridad Baja
-            </Heading>
-          </Tr>
-          {lowPriorityStudies.map((study) => (
+                <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
+                  <Td>
+                    <Link onClick={toggleModal}> {study.nestudio}</Link>
+                  </Td>
+                  <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
+                  <Td>
+                    <Link onClick={toggleModal}>{study.ci}</Link>
+                  </Td>
+                  <Td>
+                    <Link onClick={toggleModal}>{study.fecha}</Link>
+                  </Td>
+                  <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
+                </Tr>
+              ))}
+              <Tr borderBottom={'solid 3px'} borderColor={lowPriorityColor}>
+                <Heading
+                  size="md"
+                  mt={4}
+                >
+                  Prioridad Baja
+                </Heading>
+              </Tr>
+              {lowPriorityStudies.map((study) => (
 
-            <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-              <Td>
-                <Link onClick={toggleModal}> {study.nestudio}</Link>
-              </Td>
-              <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
-              <Td>
-                <Link onClick={toggleModal}>{study.ci}</Link>
-              </Td>
-              <Td>
-                <Link onClick={toggleModal}>{study.fecha}</Link>
-              </Td>
-              <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+                <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
+                  <Td>
+                    <Link onClick={toggleModal}> {study.nestudio}</Link>
+                  </Td>
+                  <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
+                  <Td>
+                    <Link onClick={toggleModal}>{study.ci}</Link>
+                  </Td>
+                  <Td>
+                    <Link onClick={toggleModal}>{study.fecha}</Link>
+                  </Td>
+                  <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
+      </Box>
       <Modal
         size={'4xl'}
         maxWidth='100%'
