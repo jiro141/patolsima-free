@@ -85,7 +85,7 @@ export default function AdminNavbar(props) {
       alignItems={{ xl: "center" }}
       borderRadius="none"
       display="flex"
-      minH="75px"
+      minH="60px"
       justifyContent={{ xl: "center" }}
       lineHeight="25.6px"
       mx="auto"

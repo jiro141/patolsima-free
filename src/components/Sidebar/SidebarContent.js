@@ -119,9 +119,7 @@ const SidebarContent = ({ logoText, routes }) => {
                   </IconBox>
                 )}
                 <Text color={activeColor} my="auto" fontSize="sm">
-                  {document.documentElement.dir === "rtl"
-                    ? prop.rtlName
-                    : prop.name}
+                  { prop.name}
                 </Text>
               </Flex>
             </Button>
@@ -184,7 +182,7 @@ const SidebarContent = ({ logoText, routes }) => {
   return (
     <Box maxW={'200px'}>
       <Box w="70%" h="5px" m=" 5px 10px 150px 10px">
-        <Image src={Logo} alt="Logo palmosima" />
+        <Link href="/admin/Home"><Image src={Logo} alt="Logo palmosima" /></Link>
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
           <Grid templateColumns={"1fr 2fr"}>
             <TimeIcon boxSize={6} />
@@ -200,22 +198,9 @@ const SidebarContent = ({ logoText, routes }) => {
         </Box>
       </Box>
       <Box pt={"10px"} mb="5px">
-        <Link
-          href={`#`}
-          target="_blank"
-          display="flex"
-          lineHeight="100%"
-          mb="30px"
-          fontWeight="bold"
-          justifyContent="center"
-          alignItems="center"
-          fontSize="11px"
-        >
-          <Text fontSize="sm" mt="3px"></Text>
-        </Link>
         <Box margin={'50px 0 20px 0'}>
           <Separator></Separator>
-          <Text marginTop={'10px'} marginLeft={'13px'} fontWeight={'bold'}>Administración</Text>
+          <Text marginTop={'10px'} marginLeft={'13px'} >Administración</Text>
         </Box>
       </Box>
       <Stack direction="column" mb="40px">

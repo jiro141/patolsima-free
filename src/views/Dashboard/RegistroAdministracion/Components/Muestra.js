@@ -112,6 +112,14 @@ const Muestra = () => {
         toggleModal();
     }
 
+    //agregar los inputs de mas muestras 
+    const [inputs, setInputs] = useState([]);
+
+    const addInputs = () => {
+        if (inputs.length < 6) {
+            setInputs([...inputs, {}]);
+        }
+    };
 
     return (
         <>
@@ -188,17 +196,6 @@ const Muestra = () => {
                                 Urgente
                             </FormLabel>
                         </FormControl>
-                        {/* <Box marginBottom={'10px'}>
-                            <FormControl mb={3}>
-                                <Input
-                                    placeholder='Precio ($):'
-                                    type="text"
-                                    name="precio"
-                                    value={precio}
-
-                                />
-                            </FormControl>
-                        </Box> */}
                     </Box>
                 </Grid>
                 <Grid>
@@ -215,6 +212,34 @@ const Muestra = () => {
                         borderRadius="md"
                         placeholder="Notas" />
                 </Grid>
+                {inputs.map((input, index) => (
+                    <div key={index}>
+                        <Grid  marginTop='10px'>
+                            <Input
+                                placeholder='Tipo de muestra'
+                                type="text"
+                                name="tmuestra"
+                                value={input.tmuestra}
+                                onChange={e => {
+                                    const updatedInputs = [...inputs];
+                                    updatedInputs[index].tmuestra = e.target.value;
+                                    setInputs(updatedInputs);
+                                }}
+                            />
+                            <Textarea
+                                marginTop={'10px'}
+                                size="lg"
+                                borderRadius="md"
+                                placeholder="Notas"
+                                onChange={e => {
+                                    const updatedInputs = [...inputs];
+                                    updatedInputs[index].notes = e.target.value;
+                                    setInputs(updatedInputs);
+                                }}
+                            />
+                        </Grid>
+                    </div>
+                ))}
             </form>
             <Button
                 padding={'10px 60px'}
@@ -223,7 +248,7 @@ const Muestra = () => {
                 bgColor={'#137797'}
                 color='#ffff'
                 borderRadius={'20px'}
-                onClick={toggleModal}>
+                onClick={addInputs}>
                 Agregar otra muestra</Button>
             <Modal
                 size={'4xl'}

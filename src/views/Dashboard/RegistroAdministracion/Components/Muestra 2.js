@@ -17,26 +17,36 @@ import {
     CloseButton,
     Link,
     Box,
-    Center, Table, Thead, Tr, Th, Tbody
+    Center,
+    Table,
+    Thead,
+    Tr,
+    Th,
+    Tbody,
+    Switch,
+    chakra,
+    Textarea
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import BusquedaCliente from './BusquedaCliente';
 
-const Medico = () => {
+const Muestra2 = () => {
     //definicion de los valores a cargar
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [especialidad, setEspecialidad] = useState('');
-    const [email, setEmail] = useState('');
-    const [telefono, setTelefono] = useState('');
+    const [estudiot, setEstudiot] = useState('');
+    const [estudioa, setEstudioa] = useState('');
+    const [precio, setPrecio] = useState('');
+    const [tmuestra, setTmuestra] = useState('');
+    const [notas, setNotas] = useState('');
+    const [archivo, setAchivo] = useState('');
     //carga de los datos del formulario
     const formData = {
-        nombre,
-        apellido,
-        especialidad,
-        email,
-        telefono,
+        estudiot,
+        estudioa,
+        precio,
+        tmuestra,
+        notas,
+        archivo
     };
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
@@ -92,9 +102,7 @@ const Medico = () => {
     const [registro, setRegistro] = useState([]);
     const seleccionarRegistro = (registro) => {
         setRegistroSeleccionado(registro);
-
         console.log('Registro seleccionado:', registro);
-
         setNombre(registro.nombre);
         setApellido(registro.apellido);
         setEspecialidad(registro.especialidad);
@@ -103,45 +111,18 @@ const Medico = () => {
 
         toggleModal();
     }
-    // const [handleChange, setHandleChange] = useState('');
-    // const seleccionarRegistro = (registro) => {
-    //     setRegistroSeleccionado(registro);
 
-    //     console.log('Registro seleccionado:', registro);
+    //agregar los inputs de mas muestras 
+    const [inputs, setInputs] = useState([]);
 
-    //     const Form = ({ initialData }) => {
-    //         const [data, setData] = useState(initialData ?? {})
-
-    //         const handleChange = (e) => {
-    //             setData({ ...registro, [e.target.name]: e.target.value })
-    //         }
-
-    //         const handleSubmit = (e) => {
-    //             e.preventDefault()
-    //             console.log(registro)
-    //         }
-    //     }
-
-    //carga de datos de la lista 
-    // const [handleSubmit, serHandleSubmit] = useState(null);
-    // const [data, seData] = useState('');
-
-    // const Form = ({ initialData }) => {
-    //     const [data, setData] = useState(initialData ?? {})
-
-    //     const handleChange = (e) => {
-    //         setData({ ...data, [e.target.name]: e.target.value })
-    //     }
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault()
-
-    // }
-    // }
+    const addInputs = () => {
+        if (inputs.length < 6) {
+            setInputs([...inputs, {}]);
+        }
+    };
 
     return (
         <>
-            {/* como se muestra la alerta en pantalla */}
             {alerta && (
                 <Alert status='error' mb={4}>
                     <AlertIcon />
@@ -155,76 +136,127 @@ const Medico = () => {
                 </Alert>
             )}
             <form >
-                {/* onSubmit={handleSubmit}> */}
-                <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Nombres:'
-                            type="text"
-                            name="Nombre"
-                            value={nombre}
+                <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información General</Text>
+                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                    <Box>
+                        <Text fontWeight={'bold'} marginBottom={'10px'}>Paciente</Text>
+                        <Text>Molina Contreras Maria Eugenia</Text>
+                        <Text>Cédula de Identidad</Text>
+                        <Text>26371890</Text>
+                    </Box>
+                    <Box>
+                        <Text fontWeight={'bold'} marginBottom={'10px'}>Médico tratante</Text>
+                        <Text marginBottom={'10px'}>Carmen Mora</Text>
 
-                        />
-                    </FormControl>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Apellidos:'
-                            type="text"
-                            name="Apellido"
-                            value={apellido}
-
-                        />
-                    </FormControl>
+                    </Box>
                 </Grid>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Especialidad '
-                            type="text"
-                            name="Especialidad"
-                            value={especialidad}
+                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
 
-                        />
-                    </FormControl>
                 </Grid>
-                <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información de Contacto</Text>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Email:'
-                            type="email"
-                            name="email"
-                            value={email}
+                <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Datos de Estudio</Text>
+                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                    <Box>
+                        <FormControl mb={3}>
+                            <Input
+                                placeholder='Tipo de estudio: '
+                                type="text"
+                                name="estudiot"
+                                value={estudiot}
 
-                        />
-                    </FormControl>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Telefono de Contacto:'
-                            type="text"
-                            name="Telefono"
-                            value={telefono}
+                            />
+                        </FormControl>
+                        <FormControl mb={3}>
+                            <Input
+                                placeholder='Estudio Asociado:'
+                                type="text"
+                                name="estudioa"
+                                value={estudioa}
 
-                        />
-                    </FormControl>
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box margin={'5px'}>
+                        <FormControl display='flex' alignItems='center'>
+                            <Switch id='remember-login' color={'#137797'} me='10px' />
+                            <FormLabel
+                                htmlFor='remember-login'
+                                mb='0'
+                                ms='1'
+                                fontWeight='normal'>
+                                Envio digital
+                            </FormLabel>
+                        </FormControl>
+                        <FormControl display='flex' alignItems='center'>
+                            <Switch id='remember-login' color={'#137798'} me='10px' />
+                            <FormLabel
+                                htmlFor='remember-login'
+                                mb='0'
+                                ms='1'
+                                fontWeight='normal'>
+                                Urgente
+                            </FormLabel>
+                        </FormControl>
+                    </Box>
                 </Grid>
+                <Grid>
+                    <Input
+                        placeholder='Tipo de muestra'
+                        type="text"
+                        name="tmuestra"
+                        value={tmuestra}
+
+                    />
+                    <Textarea
+                        marginTop={'10px'}
+                        size="lg"
+                        borderRadius="md"
+                        placeholder="Notas" />
+                </Grid>
+                {inputs.map((input, index) => (
+                    <div key={index}>
+                        <Grid  marginTop='10px'>
+                            <Input
+                                placeholder='Tipo de muestra'
+                                type="text"
+                                name="tmuestra"
+                                value={input.tmuestra}
+                                onChange={e => {
+                                    const updatedInputs = [...inputs];
+                                    updatedInputs[index].tmuestra = e.target.value;
+                                    setInputs(updatedInputs);
+                                }}
+                            />
+                            <Textarea
+                                marginTop={'10px'}
+                                size="lg"
+                                borderRadius="md"
+                                placeholder="Notas"
+                                onChange={e => {
+                                    const updatedInputs = [...inputs];
+                                    updatedInputs[index].notes = e.target.value;
+                                    setInputs(updatedInputs);
+                                }}
+                            />
+                        </Grid>
+                    </div>
+                ))}
             </form>
             <Button
-                borderRadius={'20px'}
                 padding={'10px 60px'}
-                marginTop='20px'
-                bgColor={'#89bbcc'}
+                marginBottom='-16%'
+                marginLeft={'32%'}
+                bgColor={'#137797'}
                 color='#ffff'
-                onClick={toggleModal}>
-                Ver más</Button>
+                borderRadius={'20px'}
+                onClick={addInputs}>
+                Agregar otra muestra</Button>
             <Modal
                 size={'4xl'}
                 maxWidth='100%'
                 isOpen={mostrarModal}
                 onClose={toggleModal}>
                 <ModalOverlay />
-                <ModalContent borderRadius={'20px'} bg="#ffff">
+                <ModalContent bg="#ffff">
                     <ModalHeader>
                         <Button
                             borderRadius={'50%'}
@@ -240,7 +272,7 @@ const Medico = () => {
                             />
                         </Button>
                     </ModalHeader>
-                    <ModalBody marginTop={'-5%'}>
+                    <ModalBody>
                         <Box>
                             {/* {registroSeleccionado ? (
                                 <MostrarCliente registroSeleccionado={pasientes} />
@@ -262,10 +294,10 @@ const Medico = () => {
                                         />
                                     </Grid>
                                 </Box>
-                                <Center >
+                                <Center>
                                     <Table variant="simple">
                                         <Thead>
-                                            <Tr>
+                                            <Tr >
                                                 <Th borderRadius='none'
                                                     borderBottom="3px solid"
                                                     borderBottomColor={'gray.500'}
@@ -318,8 +350,8 @@ const Medico = () => {
                 </ModalContent>
             </Modal>
             <Button
-                marginLeft={{lg:'90%',md:'80%',sm:'70%'}}
-                marginBottom={{lg:'-10%',md:'-15%',sm:'-30%'}}
+                marginLeft={{ lg: '90%', md: '80%', sm: '70%' }}
+                marginBottom={{ lg: '-10%', md: '-15%', sm: '-30%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'
@@ -331,4 +363,4 @@ const Medico = () => {
 
 }
 
-export default Medico;
+export default Muestra2;

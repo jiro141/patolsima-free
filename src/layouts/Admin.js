@@ -97,7 +97,7 @@ export default function Dashboard(props) {
 				<MainPanel
 					w={{
 						base: '100%',
-						xl: 'calc(100% - 275px)'
+						xl: 'calc(100% - 220px)'
 					}}>
 					<Portal>
 						<AdminNavbar
@@ -113,7 +113,7 @@ export default function Dashboard(props) {
 							<PanelContainer>
 								<Switch>
 									{getRoutes(routes)}
-									<Redirect from='/admin' to='/admin/dashboard' />
+									<Redirect from='/admin' to='/admin/Home' />
 								</Switch>
 							</PanelContainer>
 						</PanelContent>

@@ -70,7 +70,7 @@ var dashRoutes = [
     hide: true
   },
   {
-    path: "/dashboard",
+    path: "/Home",
     component: Dashboard,
     layout: "/admin",
     hide: true
@@ -81,11 +81,5 @@ var dashRoutes = [
     layout: "/auth",
     hide: true
   },
-  {
-    path: "/RegistroPatologo",
-    component: RegistroPatologoLista,
-    layout: "/admin",
-    hide: true
-  }
 ];
 export default dashRoutes;

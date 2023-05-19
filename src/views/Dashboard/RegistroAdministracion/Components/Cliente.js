@@ -135,7 +135,7 @@ const Cliente = ({ oneState, setOneState }) => {
                 });
                 toggleModal();
             }
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -239,9 +239,10 @@ const Cliente = ({ oneState, setOneState }) => {
                 </Grid>
             </form>
             <Button
+                borderRadius={'20px'}
                 padding={'10px 60px'}
                 marginTop='20px'
-                bgColor={'#137797'}
+                bgColor={'#89bbcc'}
                 color='#ffff'
                 onClick={toggleModal}>
                 Ver más</Button>
@@ -251,7 +252,7 @@ const Cliente = ({ oneState, setOneState }) => {
                 isOpen={mostrarModal}
                 onClose={toggleModal}>
                 <ModalOverlay />
-                <ModalContent bg="#ffff">
+                <ModalContent margin={''} minH={'500px'} borderRadius={'20px'} bg="#ffff">
                     <ModalHeader>
                         <Button
                             borderRadius={'50%'}
@@ -266,8 +267,8 @@ const Cliente = ({ oneState, setOneState }) => {
                             <CloseButton
                             />
                         </Button>
-                    </ModalHeader>
-                    <ModalBody>
+                    </ModalHeader >
+                    <ModalBody marginTop={'-5%'} >
                         <Box>
                             <Box>
                                 <Box bg="none" py={4} mb={4}>

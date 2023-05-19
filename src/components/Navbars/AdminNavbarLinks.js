@@ -69,52 +69,101 @@ export default function HeaderLinks(props) {
       justifyContent="space-between"
     // gap={"5px"}
     >
-      <InputGroup
-        cursor="pointer"
-        bg={"none"}
-        borderRadius="none"
-        w={{
-          sm: "200px",
-          md: "400px",
-        }}
-        me={{ sm: "auto", md: "20px" }}
-        _focus={{
-          borderColor: { mainTeal },
-        }}
-        _active={{
-          borderColor: { mainTeal },
-        }}
-      >
-        <InputLeftElement
-          children={
-            <IconButton
-              bg="inherit"
-              borderRadius="inherit"
-              _hover="none"
-              _active={{
-                bg: "inherit",
-                transform: "none",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                boxShadow: "none",
-              }}
-              icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
-            ></IconButton>
-          }
-        />
-        <Input
-          fontSize="xs"
-          py="11px"
-          color={mainText}
-          placeholder="Buscar..."
-          border={"none"}
-          background={"none"}
-          borderRadius={"none"}
-          borderBottom={"solid 1px"}
-        />
-      </InputGroup>
-      {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/dashboard" ? (
+      {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
+         <InputGroup
+         cursor="pointer"
+         bg={"none"}
+         borderRadius="none"
+         w={{
+           sm: "200px",
+           md: "400px",
+         }}
+         me={{ sm: "auto", md: "20px" }}
+         _focus={{
+           borderColor: { mainTeal },
+         }}
+         _active={{
+           borderColor: { mainTeal },
+         }}
+       >
+         <InputLeftElement
+           children={
+             <IconButton
+               bg="inherit"
+               borderRadius="inherit"
+               _hover="none"
+               _active={{
+                 bg: "inherit",
+                 transform: "none",
+                 borderColor: "transparent",
+               }}
+               _focus={{
+                 boxShadow: "none",
+               }}
+               icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
+             ></IconButton>
+           }
+         />
+         <Input
+           fontSize="xs"
+           py="11px"
+           color={mainText}
+           placeholder="Buscar..."
+           border={"none"}
+           background={"none"}
+           borderRadius={"none"}
+           borderBottom={"solid 1px"}
+         />
+       </InputGroup>
+       ):
+       <InputGroup
+       visibility={'hidden'}
+       cursor="pointer"
+       bg={"none"}
+       borderRadius="none"
+       w={{
+         sm: "200px",
+         md: "400px",
+       }}
+       me={{ sm: "auto", md: "20px" }}
+       _focus={{
+         borderColor: { mainTeal },
+       }}
+       _active={{
+         borderColor: { mainTeal },
+       }}
+     >
+       <InputLeftElement
+         children={
+           <IconButton
+             bg="inherit"
+             borderRadius="inherit"
+             _hover="none"
+             _active={{
+               bg: "inherit",
+               transform: "none",
+               borderColor: "transparent",
+             }}
+             _focus={{
+               boxShadow: "none",
+             }}
+             icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
+           ></IconButton>
+         }
+       />
+       <Input
+         fontSize="xs"
+         py="11px"
+         color={mainText}
+         placeholder="Buscar..."
+         border={"none"}
+         background={"none"}
+         borderRadius={"none"}
+         borderBottom={"solid 1px"}
+       />
+     </InputGroup>}
+     
+      {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
         <Box display={{ base: "none", md: "block" }}>
           <Button onClick={() => cambiarModo('lista')} background="none">
             <BsListUl size="30px" color="#137797" />
@@ -128,14 +177,14 @@ export default function HeaderLinks(props) {
 
       <Box display={"flex"} justifyContent="">
         <Box
-          backgroundColor={"#137797"}
-          padding={"5px 8px"}
-          borderRadius={"12px"}
+          backgroundColor={"#89bbcc"}
+          padding={"5% 8%"}
+          borderRadius={"15px"}
           m={"auto 30px"}
         >
           <Menu>
             <MenuButton>
-              <BellIcon color={"#FFFF"} w="18px" h="18px" />
+              <BellIcon color={"#137798"} w="18px" h="18px" />
             </MenuButton>
             <MenuList p="16px 8px">
               <Flex flexDirection="column">
@@ -172,12 +221,11 @@ export default function HeaderLinks(props) {
         </Box>
 
         <Box
-          backgroundColor={"#137797"}
-          padding={"1px 5px"}
-          borderRadius={"13px"}
+          backgroundColor={"#89bbcc"}
+          padding={"2% 5% 2% 5%"}
+          borderRadius={"20px"}
           display={"flex"}
-          // gap={"20px"}
-          justifyContent={"space-around"}
+          justifyContent={"space-between"}
         >
           {/* <NavLink to="#">
             <Button
@@ -209,25 +257,25 @@ export default function HeaderLinks(props) {
             routes={routes}
             {...rest}
           />
-          {/* <SettingsIcon
+          <SettingsIcon
             cursor="pointer"
             // m={"auto 5px auto 10px"}
             m={{
               sm: "auto 5px auto 10px",
-              md: "auto 5px auto -10px",
+              md: "auto 5px auto 10px",
             }}
             ref={settingsRef}
             onClick={props.onOpen}
-            color={"#FFFF"}
+            color={"#137798"}
             w="18px"
             h="18px"
-          /> */}
+          />
           <Box >
             <Button _hover={{ bg: "none" }} borderRadius={"13px"} background={'none'} padding={'0px'}>
               <BiLogOut
                 size={"20px"}
                 // strokeWidth={1}
-                style={{ color: "#FFFFFF" }}
+                style={{ color: "#137798" }}
               />
             </Button>
           </Box>
