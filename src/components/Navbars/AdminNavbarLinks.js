@@ -32,7 +32,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 import routes from "routes.js";
+import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
@@ -46,6 +48,10 @@ export default function HeaderLinks(props) {
   let navbarIcon = useColorModeValue("#FFFF");
   let searchIcon = useColorModeValue("gray.700", "gray.200");
 
+  const { modoVisualizacion, cambiarModoVisualizacion } = useContext(ModoVisualizacionContext);
+  const cambiarModo = (nuevoModo) => {
+    cambiarModoVisualizacion(nuevoModo);
+  };
 
   if (secondary) {
     navbarIcon = "#FFFF";
@@ -108,12 +114,12 @@ export default function HeaderLinks(props) {
           borderBottom={"solid 1px"}
         />
       </InputGroup>
-      {location.pathname !== "/admin/RegistroAdministracion" ? (
+      {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/dashboard" ? (
         <Box display={{ base: "none", md: "block" }}>
-          <Button background="none">
+          <Button onClick={() => cambiarModo('lista')} background="none">
             <BsListUl size="30px" color="#137797" />
           </Button>
-          <Button background="none">
+          <Button onClick={() => cambiarModo('tarjeta')} background="none">
             <BsGrid3X3GapFill size="25px" color="#137797" />
           </Button>
         </Box>

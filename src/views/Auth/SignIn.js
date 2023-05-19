@@ -74,7 +74,7 @@ function SignIn() {
 
     <Modal isOpen={showErrorModal} onClose={() => setShowErrorModal(false)}>
       <ModalOverlay />
-      <ModalContent maxW={{ sm: '65%', lg: '30%' }} bg="white">
+      <ModalContent borderRadius={'20px'} maxW={{ sm: '65%', lg: '30%' }} bg="white">
         <ModalHeader textAlign={'center'} marginBottom={'-15px'} marginTop={'15px'}>Error de inicio de sesión</ModalHeader>
         <ModalCloseButton
           marginTop={'-25px'}

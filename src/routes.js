@@ -50,7 +50,7 @@ var dashRoutes = [
         path: "/RegistroPatologo",
         name: "Registro",
         icon: <HomeIcon color="inherit" />,
-        component: RegistroPatologoLista,
+        component: RegistroPatologo,
         layout: "/admin",
       },
       {

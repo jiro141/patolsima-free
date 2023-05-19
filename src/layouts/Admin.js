@@ -17,11 +17,12 @@ import theme from 'theme/theme.js';
 import MainPanel from '../components/Layout/MainPanel';
 import PanelContainer from '../components/Layout/PanelContainer';
 import PanelContent from '../components/Layout/PanelContent';
+import { ModoVisualizacionProvider } from "components/ModoVisualizacion/ModoVisualizacion";
 export default function Dashboard(props) {
 	const { ...rest } = props;
 	// states and functions
-	const [ sidebarVariant, setSidebarVariant ] = useState('transparent');
-	const [ fixed, setFixed ] = useState(false);
+	const [sidebarVariant, setSidebarVariant] = useState('transparent');
+	const [fixed, setFixed] = useState(false);
 	// functions for changing the states from components
 	const getRoute = () => {
 		return window.location.pathname !== '/admin/full-screen-maps';
@@ -85,38 +86,41 @@ export default function Dashboard(props) {
 	document.documentElement.dir = 'ltr';
 	// Chakra Color Mode
 	return (
-		<ChakraProvider theme={theme} resetCss={false}>
-			<Sidebar
-				routes={routes}
-				display='none'
-				sidebarVariant={sidebarVariant}
-				{...rest}
-			/>
-			<MainPanel
-				w={{
-					base: '100%',
-					xl: 'calc(100% - 275px)'
-				}}>
-				<Portal>
-					<AdminNavbar
-						onOpen={onOpen}
-						brandText={getActiveRoute(routes)}
-						secondary={getActiveNavbar(routes)}
-						fixed={fixed}
-						{...rest}
-					/>
-				</Portal>
-				{getRoute() ? (
-					<PanelContent>
-						<PanelContainer>
-							<Switch>
-								{getRoutes(routes)}
-								<Redirect from='/admin' to='/admin/dashboard' />
-							</Switch>
-						</PanelContainer>
-					</PanelContent>
-				) : null}
-			</MainPanel>
-		</ChakraProvider>
+		<ModoVisualizacionProvider>
+			<ChakraProvider theme={theme} resetCss={false}>
+				<Sidebar
+					routes={routes}
+					display='none'
+					sidebarVariant={sidebarVariant}
+					{...rest}
+				/>
+				<MainPanel
+					w={{
+						base: '100%',
+						xl: 'calc(100% - 275px)'
+					}}>
+					<Portal>
+						<AdminNavbar
+							onOpen={onOpen}
+							brandText={getActiveRoute(routes)}
+							secondary={getActiveNavbar(routes)}
+							fixed={fixed}
+							{...rest}
+						/>
+					</Portal>
+					{getRoute() ? (
+						<PanelContent>
+							<PanelContainer>
+								<Switch>
+									{getRoutes(routes)}
+									<Redirect from='/admin' to='/admin/dashboard' />
+								</Switch>
+							</PanelContainer>
+						</PanelContent>
+					) : null}
+				</MainPanel>
+			</ChakraProvider>
+		</ModoVisualizacionProvider>
+
 	);
 }

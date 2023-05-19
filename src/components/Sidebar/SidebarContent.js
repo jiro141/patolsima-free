@@ -53,20 +53,17 @@ const SidebarContent = ({ logoText, routes }) => {
             <Separator></Separator>
             <Text
               color={"#000"}
-              fontWeight="bold"
               mb={{
-                xl: "12px",
+                xl: "5px",
               }}
               mx="auto"
               ps={{
                 sm: "10px",
                 xl: "16px",
               }}
-              py="12px"
+              py="8px"
             >
-              {document.documentElement.dir === "rtl"
-                ? prop.rtlName
-                : prop.name}
+              {prop.name}
             </Text>
             {createLinks(prop.views)}
             <Box margin={'0px 0 20px 0'}>
@@ -85,7 +82,7 @@ const SidebarContent = ({ logoText, routes }) => {
               alignItems="center"
               bg={activeBg}
               mb={{
-                xl: "12px",
+                xl: "5px",
               }}
               mx={{
                 xl: "auto",
@@ -94,7 +91,7 @@ const SidebarContent = ({ logoText, routes }) => {
                 sm: "10px",
                 xl: "16px",
               }}
-              py="12px"
+              py="8px"
               borderRadius="15px"
               _hover="none"
               w="100%"
@@ -135,12 +132,12 @@ const SidebarContent = ({ logoText, routes }) => {
               alignItems="center"
               bg="transparent"
               mb={{
-                xl: "12px",
+                xl: "5px",
               }}
               mx={{
                 xl: "auto",
               }}
-              py="12px"
+              py="8px"
               ps={{
                 sm: "10px",
                 xl: "16px",
@@ -172,9 +169,7 @@ const SidebarContent = ({ logoText, routes }) => {
                   </IconBox>
                 )}
                 <Text color={inactiveColor} my="auto" fontSize="sm">
-                  {document.documentElement.dir === "rtl"
-                    ? prop.rtlName
-                    : prop.name}
+                  {prop.name}
                 </Text>
               </Flex>
             </Button>
@@ -187,7 +182,7 @@ const SidebarContent = ({ logoText, routes }) => {
   const links = <>{createLinks(routes)}</>;
 
   return (
-    <>
+    <Box maxW={'200px'}>
       <Box w="70%" h="5px" m=" 5px 10px 150px 10px">
         <Image src={Logo} alt="Logo palmosima" />
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
@@ -227,7 +222,7 @@ const SidebarContent = ({ logoText, routes }) => {
         <Box>{links}</Box>
       </Stack>
       <Calendario />
-    </>
+    </Box>
   );
 };
 
