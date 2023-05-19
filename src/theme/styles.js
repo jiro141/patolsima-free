@@ -9,11 +9,11 @@ export const globalStyles = {
 	styles: {
 		global: (props) => ({
 			body: {
-				bg: mode('gray.50', 'gray.800')(props),
-				fontFamily: "'Roboto', sans-serif"
+				bg: mode('#FFFF')(props),
+				fontFamily: "'Montserrat', sans-serif"
 			},
 			html: {
-				fontFamily: "'Roboto', sans-serif"
+				fontFamily: "'Montserrat', sans-serif"
 			}
 		})
 	}
