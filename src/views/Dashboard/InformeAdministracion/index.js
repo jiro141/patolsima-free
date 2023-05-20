@@ -198,116 +198,149 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-      <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
-        padding={{ lg: '0 10px', md: '10px', sm: '0px 0 10% 0' }}
-        backgroundColor={'gray.100'}
-        borderRadius={'20px'}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        height={'auto'} >
-        <Box padding={'2%'} >
-          <Heading
-            size="md"
-          >
-            Informes terminados
-          </Heading>
-          <Box
-            backgroundColor={'#FFFF'}
-            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            padding={"25px"}
-            borderRadius="20px"
-            m={"20px 30px 30px 30px"}
-            minH={'300px'} maxH={'300px'}
-          >
-            <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
-              <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                {renderStudies(sinProcesarStudies)}
-              </Grid>
+        <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+          padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
+          backgroundColor={'gray.100'}
+          borderRadius={'20px'}
+          backgroundSize="cover"
+          backgroundPosition="center"
+          height={'auto'} >
+          <Box padding={'2%'} >
+            <Heading
+              size="md"
+            >
+              Informes terminados
+            </Heading>
+            <Box
+              width={'100%'}
+              backgroundColor={'#FFFF'}
+              boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+              padding={"25px"}
+              borderRadius="20px"
+              m={"20px 30px 30px 30px"}
+              minH={'300px'} maxH={'300px'}
+              overflowY="scroll"
+              overflowX="hidden"
+              css={{
+                '&::-webkit-scrollbar': {
+                  width: '12px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: 'none',
+                  maxHeight:'50%'
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#137797',
+                  borderRadius: '6px',
+                },
+              }}
+            >
+              <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
+                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
+                  {renderStudies(sinProcesarStudies)}
+                </Grid>
+              </Box>
             </Box>
-          </Box>
-          <Heading
-            size="md"
-          >
-            Informes en proceso
-          </Heading>
-          <Box
-            backgroundColor={'#FFFF'}
-            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            padding={"25px"}
-            borderRadius="20px"
-            m={"30px 30px 20px 30px"}
-            minH={'300px'} maxH={'300px'}
-          >
-            <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
-              <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                {renderStudies(pendientesStudies)}
-              </Grid>
+            <Heading
+              size="md"
+            >
+              Informes en proceso
+            </Heading>
+            <Box
+              width={'100%'}
+              backgroundColor={'#FFFF'}
+              boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+              padding={"25px"}
+              borderRadius="20px"
+              m={"20px 30px 30px 30px"}
+              minH={'300px'} maxH={'300px'}
+              overflowY="scroll"
+              overflowX="hidden"
+              css={{
+                '&::-webkit-scrollbar': {
+                  width: '10px',
+                  height: "200px"
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: 'none',
+                  height: '50px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#137797',
+                  borderRadius: '4px',
+                },
+              }}
+            >
+              <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
+                <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
+                  {renderStudies(pendientesStudies)}
+                </Grid>
+              </Box>
             </Box>
+            <Button
+              borderRadius={'20px'}
+              padding={'10px 30px'}
+              bgColor={'#137797'}
+              color='#ffff'
+              onClick={toggleModalList}
+            >
+              Ver más</Button>
           </Box>
-          <Button
-            borderRadius={'20px'}
-            padding={'10px 30px'}
-            bgColor={'#137797'}
-            color='#ffff'
-            onClick={toggleModalList}
-          >
-            Ver más</Button>
         </Box>
-      </Box>
-      <Modal
-        size={size}
-        maxWidth='100%'
-        isOpen={showModal}
-        onClose={toggleModal}>
-        <ModalOverlay />
-        <ModalContent borderRadius={'20px'} bg="#ffff">
-          <ModalHeader>
-            <Button
-              borderRadius={'50%'}
-              colorScheme="blue"
-              width="40px"
-              height="40px"
-              marginLeft={'95%'}
-              marginTop={'-60px'}
-              bgColor={'#137797'}
-              color='#ffff'
-              onClick={toggleModal}>
-              <CloseButton />
-            </Button>
-          </ModalHeader>
-          <ModalBody>
-            <ModalInforme />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      <Modal
-        size={sizeView}
-        maxWidth='100%'
-        isOpen={showModalList}
-        onClose={toggleModalList}>
-        <ModalOverlay />
-        <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
-          <ModalHeader>
-            <Button
-              borderRadius={'50%'}
-              colorScheme="blue"
-              width="40px"
-              height="40px"
-              marginLeft={'95%'}
-              marginTop={'-60px'}
-              bgColor={'#137797'}
-              color='#ffff'
-              onClick={toggleModalList}>
-              <CloseButton />
-            </Button>
-          </ModalHeader>
-          <ModalBody marginTop={'-5%'}>
-            <ListaInformes />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
-     ):(<ModoLista/> )
+        <Modal
+          size={size}
+          maxWidth='100%'
+          isOpen={showModal}
+          onClose={toggleModal}>
+          <ModalOverlay />
+          <ModalContent borderRadius={'20px'} bg="#ffff">
+            <ModalHeader>
+              <Button
+                borderRadius={'50%'}
+                colorScheme="blue"
+                width="40px"
+                height="40px"
+                marginLeft={'95%'}
+                marginTop={'-60px'}
+                bgColor={'#137797'}
+                color='#ffff'
+                onClick={toggleModal}>
+                <CloseButton />
+              </Button>
+            </ModalHeader>
+            <ModalBody>
+              <ModalInforme />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+        <Modal
+          size={sizeView}
+          maxWidth='100%'
+          isOpen={showModalList}
+          onClose={toggleModalList}>
+          <ModalOverlay />
+          <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
+            <ModalHeader>
+              <Button
+                borderRadius={'50%'}
+                colorScheme="blue"
+                width="40px"
+                height="40px"
+                marginLeft={'95%'}
+                marginTop={'-60px'}
+                bgColor={'#137797'}
+                color='#ffff'
+                onClick={toggleModalList}>
+                <CloseButton />
+              </Button>
+            </ModalHeader>
+            <ModalBody marginTop={'-5%'}>
+              <ListaInformes />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </>
+    ) : (<ModoLista />)
   );
 };
 
