@@ -35,6 +35,7 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import routes from "routes.js";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import { useState } from "react";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
@@ -69,7 +70,7 @@ export default function HeaderLinks(props) {
       justifyContent="space-between"
     // gap={"5px"}
     >
-      {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
+      {location.pathname !== "/admin/RegistroAdministracion"  ? (
          <InputGroup
          cursor="pointer"
          bg={"none"}
@@ -164,11 +165,11 @@ export default function HeaderLinks(props) {
      </InputGroup>}
      
       {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
-        <Box display={{ base: "none", md: "block" }}>
-          <Button onClick={() => cambiarModo('lista')} background="none">
+        <Box marginLeft={'-30%'} display={{ base: "none", md: "block" }}>
+          <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion!=='tarjeta'? "#89bbcc": 'none'}>
             <BsListUl size="30px" color="#137797" />
           </Button>
-          <Button onClick={() => cambiarModo('tarjeta')} background="none">
+          <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion==='tarjeta'? "#89bbcc": 'none'}>
             <BsGrid3X3GapFill size="25px" color="#137797" />
           </Button>
         </Box>

@@ -40,7 +40,7 @@ const FacturaTerceros = () => {
                 />
             </Grid>
             <Button
-                marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
+                marginBottom={{ lg: '-6%', md: '-8%', sm: '-10%' }}
                 marginLeft={{ lg: '82%', md: '70%', sm: '77%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}

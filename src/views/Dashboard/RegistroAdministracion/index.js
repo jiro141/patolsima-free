@@ -5,14 +5,15 @@ import {
     TabList,
     TabPanels,
     Tab,
-    TabPanel
+    TabPanel,
+    Image
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Cliente from './Components/Cliente';
 import Medico from './Components/Medico';
 import Muestra from './Components/Muestra';
 import Muestra2 from './Components/Muestra 2';
-
+import fondo from "assets/svg/Formato con fondo.svg";
 
 function Registro() {
     //activar o desactivar el tab
@@ -59,32 +60,35 @@ function Registro() {
                 whileTap={{ scale: 1 }}
                 isDisabled={isDisabled}
             >
-                {isActive ? title : (activeTab==2?"+":null)}
+                {isActive ? title : (activeTab == 2 ? "+" : null)}
             </MotionTab>
         );
     };
     return (
         <Box
-            margin={{lg:'50px 0px 0px 0px',sm:'60px 0px 10% 0px'}}
-            padding={{lg:'0 10px', md:'10px',sm:'0px 0 10% 0'}}
-            backgroundColor={'gray.100'}
-            borderRadius={'20px'}
+            margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+            padding={{ lg: '0 10px', md: '10px', sm: '0px 0 10% 0' }}
+            backgroundColor="gray.100"
+            borderRadius="20px"
             backgroundSize="cover"
             backgroundPosition="center"
-            height={'auto'}>
+            backgroundImage={`url(${fondo})`}
+            height="auto">
+            {/* <Box position="relative" zIndex={1}><Image h={{ lg: '39em', md: "39em", sm: "35em" }} w='90em' src={fondo} alt='Logo palmosima' /></Box> */}
             <Box
+                zIndex={2}
                 margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px 0px' }}
                 width={{ lg: '90%', md: '100%', sm: '100%' }}>
                 <Tabs onChange={index => setActiveTab(index)}>
                     <TabList display={'flex'} justifyContent={'center'} border={'none'} >
                         <CustomTab title="Cliente" isActive={activeTab === 0} />
-                        <CustomTab title="Médico" isActive={activeTab === 1}  />
-                        <CustomTab title="Estudio" isActive={activeTab === 2}  />
+                        <CustomTab title="Médico" isActive={activeTab === 1} />
+                        <CustomTab title="Estudio" isActive={activeTab === 2} />
                         <CustomStudy2 title="Estudio2" activeTab={activeTab} isActive={activeTab === 3} />
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={{lg:'1% 13% 5% 13%',sm:'2%'}} >
+                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
                                 <Cliente oneState={oneState} setOneState={setOneState} />
                             </Box>
                         </TabPanel>
@@ -100,7 +104,7 @@ function Registro() {
                         </TabPanel>
                         <TabPanel>
                             <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                <Muestra2/>
+                                <Muestra2 />
                             </Box>
                         </TabPanel>
                     </TabPanels>

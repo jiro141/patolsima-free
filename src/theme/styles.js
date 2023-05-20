@@ -14,6 +14,9 @@ export const globalStyles = {
 			},
 			html: {
 				fontFamily: "'Montserrat', sans-serif"
+			},
+			heading:{
+				fontFamily: "'Montserrat', sans-serif"
 			}
 		})
 	}

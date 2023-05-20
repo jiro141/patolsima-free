@@ -224,7 +224,7 @@ const Medico = () => {
                 isOpen={mostrarModal}
                 onClose={toggleModal}>
                 <ModalOverlay />
-                <ModalContent borderRadius={'20px'} bg="#ffff">
+                <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
                     <ModalHeader>
                         <Button
                             borderRadius={'50%'}
@@ -277,7 +277,7 @@ const Medico = () => {
                                                 <Th borderRadius='none'
                                                     borderBottom="3px solid"
                                                     borderBottomColor={'gray.500'}
-                                                    textAlign='center' >RIF/Cédula</Th>
+                                                    textAlign='center' >Especialidad</Th>
                                                 <Th borderRadius='none'
                                                     borderBottom="3px solid"
                                                     borderBottomColor={'gray.500'}
@@ -318,8 +318,8 @@ const Medico = () => {
                 </ModalContent>
             </Modal>
             <Button
-                marginLeft={{lg:'90%',md:'80%',sm:'70%'}}
-                marginBottom={{lg:'-10%',md:'-15%',sm:'-30%'}}
+                marginLeft={{ lg: '38em', md: '80%', sm: '70%' }}
+                marginBottom={{ lg: '-4.5em', md: '-15%', sm: '-30%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'

@@ -170,7 +170,7 @@ const Cliente = ({ oneState, setOneState }) => {
                         />
                     </FormControl>
                     <FormControl mb={3}>
-                        <Select onChange={e => setSexo(e.target.value)} defaultValue="sexo">
+                        <Select color="gray.400" onChange={e => setSexo(e.target.value)} defaultValue="sexo">
                             <option hidden colorScheme="gray.400">Genero:</option>
                             <option value={registroSeleccionado?.sexo}>Masculino</option>
                             <option value={registroSeleccionado?.sexo}>Femenino</option>
@@ -252,7 +252,7 @@ const Cliente = ({ oneState, setOneState }) => {
                 isOpen={mostrarModal}
                 onClose={toggleModal}>
                 <ModalOverlay />
-                <ModalContent margin={''} minH={'500px'} borderRadius={'20px'} bg="#ffff">
+                <ModalContent  minH={'500px'} borderRadius={'20px'} bg="#ffff">
                     <ModalHeader>
                         <Button
                             borderRadius={'50%'}
@@ -342,8 +342,8 @@ const Cliente = ({ oneState, setOneState }) => {
                 </ModalContent>
             </Modal>
             <Button
-                marginLeft={{ lg: '90%', md: '80%', sm: '70%' }}
-                marginBottom={{ lg: '-8%', md: '-15%', sm: '-30%' }}
+                marginLeft={{ lg: '38em', md: '80%', sm: '70%' }}
+                marginBottom={{ lg: '-4.5em', md: '-15%', sm: '-30%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'
