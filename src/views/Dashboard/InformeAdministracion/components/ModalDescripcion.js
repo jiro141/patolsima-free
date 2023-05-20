@@ -17,18 +17,19 @@ const ModalDescripcion = () => {
             <Box marginTop={'-50px'}>
                 <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>Descripción</Text>
                 <Box height={'sm'}>
-                    <CKEditor
-                        height={'5000px'}
-                        editor={BalloonBlockEditor}
-                        data=""
-                        onReady={(editor) => {
-                            console.log("CKEditor5 React Component is ready to use!", editor);
-                        }}
-                        onChange={(event, editor) => {
-                            const data = editor.getData();
-                            console.log({ event, editor, data });
-                        }}
-                    />
+                    <Box minH={'400px'} maxH={'400px'}>
+                        <CKEditor
+                            editor={BalloonBlockEditor}
+                            data=""
+                            onReady={(editor) => {
+                                console.log("CKEditor5 React Component is ready to use!", editor);
+                            }}
+                            onChange={(event, editor) => {
+                                const data = editor.getData();
+                                console.log({ event, editor, data });
+                            }}
+                        />
+                    </Box>
                 </Box>
                 <Button
                     marginBottom={{ lg: '-8%', md: '-8%', sm: '-10%' }}

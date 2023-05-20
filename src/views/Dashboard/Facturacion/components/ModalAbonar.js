@@ -39,16 +39,17 @@ const ModalAbonar = () => {
                 <Box>
                     <Text textAlign={'left'}>Monto a abonar:</Text>
                 </Box>
-                <Grid margin={'10px 0 10px 0'} gap={'10px'} templateColumns={"1fr 1fr"}>
+                <Grid margin={'10px 0 10px 0'} gap={'5px'} templateColumns={"1fr 1fr"}>
                     <Input marginTop={'-5px'} maxH={'60%'}></Input>
-                    <Select height={'100%'} width="100%" borderRadius="20px" fontSize="14px" backgroundColor="#137798" color="whiteAlpha.900">
+                    <Select marginTop={'-8px'} height={'90%'}  width="100%" borderRadius="20px" fontSize="16px" backgroundColor="#137798" color="whiteAlpha.900">
                         <option>Dólar</option>
-                        <option>Bolívares</option>
+                        <option>Bs</option>
                     </Select>
                 </Grid>
             </Grid>
             <Box textAlign={'center'} w={'100%'}>
                 <Button
+                    marginBottom={'10px'}
                     padding={'0px 25px'}
                     borderRadius={'20px'}
                     bgColor={'#137797'}

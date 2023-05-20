@@ -57,7 +57,7 @@ const ModalFacturacion = () => {
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
-                            <Text fontSize={'16px'}>Fecha de recepción</Text>
+                            <Text fontSize={'16px'}>Fecha</Text>
                             <Text fontSize={'14px'} >15/03/2023</Text>
                         </Box>
                     </Box>

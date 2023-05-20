@@ -74,42 +74,47 @@ function Registro() {
             backgroundPosition="center"
             backgroundImage={`url(${fondo})`}
             height="auto">
-            {/* <Box position="relative" zIndex={1}><Image h={{ lg: '39em', md: "39em", sm: "35em" }} w='90em' src={fondo} alt='Logo palmosima' /></Box> */}
             <Box
-                zIndex={2}
-                margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px 0px' }}
-                width={{ lg: '90%', md: '100%', sm: '100%' }}>
-                <Tabs onChange={index => setActiveTab(index)}>
-                    <TabList display={'flex'} justifyContent={'center'} border={'none'} >
-                        <CustomTab title="Cliente" isActive={activeTab === 0} />
-                        <CustomTab title="Médico" isActive={activeTab === 1} />
-                        <CustomTab title="Estudio" isActive={activeTab === 2} />
-                        <CustomStudy2 title="Estudio2" activeTab={activeTab} isActive={activeTab === 3} />
-                    </TabList>
-                    <TabPanels>
-                        <TabPanel>
-                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
-                                <Cliente oneState={oneState} setOneState={setOneState} />
-                            </Box>
-                        </TabPanel>
-                        <TabPanel>
-                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                <Medico />
-                            </Box>
-                        </TabPanel>
-                        <TabPanel>
-                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                <Muestra />
-                            </Box>
-                        </TabPanel>
-                        <TabPanel>
-                            <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                <Muestra2 />
-                            </Box>
-                        </TabPanel>
-                    </TabPanels>
-                </Tabs >
-            </Box >
+                backgroundSize="cover"
+                backgroundPosition="center"
+                backgroundImage={"url(assets/svg/Formato con fondo.svg)"}
+                height="auto">
+                <Box
+                    margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px 0px' }}
+                    width={{ lg: '90%', md: '100%', sm: '100%' }}>
+                    <Tabs onChange={index => setActiveTab(index)}>
+                        <TabList display={'flex'} justifyContent={'center'} border={'none'} >
+                            <CustomTab title="Cliente" isActive={activeTab === 0} />
+                            <CustomTab title="Médico" isActive={activeTab === 1} />
+                            <CustomTab title="Estudio" isActive={activeTab === 2} />
+                            <CustomStudy2 title="Estudio2" activeTab={activeTab} isActive={activeTab === 3} />
+                        </TabList>
+                        <TabPanels>
+                            <TabPanel>
+                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
+                                    <Cliente oneState={oneState} setOneState={setOneState} />
+                                </Box>
+                            </TabPanel>
+                            <TabPanel>
+                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
+                                    <Medico />
+                                </Box>
+                            </TabPanel>
+                            <TabPanel>
+                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
+                                    <Muestra />
+                                </Box>
+                            </TabPanel>
+                            <TabPanel>
+                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
+                                    <Muestra2 />
+                                </Box>
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs >
+                </Box >
+            </Box>
+            {/* <Box position="absolute" marginTop={'-50%'} zIndex={'1'}><Image zIndex={1} h={{ lg: '39em', md: "39em", sm: "35em" }} w='90em' src={fondo} alt='Logo palmosima' /></Box> */}
         </Box>
     );
 }

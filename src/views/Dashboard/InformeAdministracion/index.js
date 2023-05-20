@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // import { useEffect } from "react";
 import {
   Box,
@@ -22,9 +22,13 @@ import { Icon } from "@chakra-ui/react";
 import { BsFillFileEarmarkRichtextFill } from "react-icons/bs";
 import { authApi } from "api/authApi";
 import ModalInforme from "./components/ModalInforma";
+import ListaInformes from "./components/ListaInformes";
+import ModoLista from "./ModoLista"
+import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 
 
 const Dashboard = () => {
+  const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const colorA = '#137797';
 
   const sinProcesarStudies = [
@@ -34,23 +38,55 @@ const Dashboard = () => {
       fecha: "15/10/2023",
       paciente: "Pedro Perez",
       ci: "2558764",
-      monto: 25452
+      estudio: "Citologia"
     },
     {
       id: 2,
       nestudio: "E:010-2023",
       fecha: "15/10/2023",
-      paciente: "Juancito Perez",
+      paciente: "Pedro Perez",
       ci: "2558764",
-      monto: 25452
+      estudio: "Citologia"
     },
     {
       id: 3,
       nestudio: "E:010-2023",
       fecha: "15/10/2023",
-      paciente: "Pedrito Perez",
+      paciente: "Pedro Perez",
       ci: "2558764",
-      monto: 25452
+      estudio: "Citologia"
+    },
+    {
+      id: 7,
+      nestudio: "E:010-2023",
+      fecha: "15/10/2023",
+      paciente: "Pedro Perez",
+      ci: "2558764",
+      estudio: "Citologia"
+    },
+    {
+      id: 8,
+      nestudio: "E:010-2023",
+      fecha: "15/10/2023",
+      paciente: "Pedro Perez",
+      ci: "2558764",
+      estudio: "Citologia"
+    },
+    {
+      id: 9,
+      nestudio: "E:010-2023",
+      fecha: "15/10/2023",
+      paciente: "Pedro Perez",
+      ci: "2558764",
+      estudio: "Citologia"
+    },
+    {
+      id: 10,
+      nestudio: "E:010-2023",
+      fecha: "15/10/2023",
+      paciente: "Pedro Perez",
+      ci: "2558764",
+      estudio: "Citologia"
     }
   ];
   const pendientesStudies = [
@@ -58,25 +94,25 @@ const Dashboard = () => {
       id: 4,
       nestudio: "E:010-2023",
       fecha: "15/10/2023",
-      paciente: "miguel Perez",
+      paciente: "Pedro Perez",
       ci: "2558764",
-      monto: 25452
+      estudio: "Citologia"
     },
     {
       id: 5,
       nestudio: "E:010-2023",
       fecha: "15/10/2023",
-      paciente: "carlos Perez",
+      paciente: "Pedro Perez",
       ci: "2558764",
-      monto: 25452
+      estudio: "Citologia"
     },
     {
       id: 6,
       nestudio: "E:010-2023",
       fecha: "15/10/2023",
-      paciente: "Pedrito Perez",
+      paciente: "Pedro Perez",
       ci: "2558764",
-      monto: 25452
+      estudio: "Citologia"
     }
   ];
   //modal 
@@ -84,16 +120,20 @@ const Dashboard = () => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+  const [showModalList, setShowModalList] = useState(false);
+  const toggleModalList = () => {
+    setShowModalList(!showModalList);
+  };
   //tamaños de modal
-  const size = useBreakpointValue({ base: "sm", lg: "5xl",md:'2xl'});
-
+  const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+  const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const renderStudies = (studies) => {
     return studies.map((study) => (
-      <Flex flexDirection={"row 7"}>
+      <Box>
         <Link
           onClick={toggleModal}>
           <Box
-            margin={"5px auto 5px auto"}
+            margin={"5px 0px "}
             boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
             borderRadius={"16px"}
             key={study.id}
@@ -105,19 +145,18 @@ const Dashboard = () => {
               backgroundColor={colorA}
             >
               <Badge
-               textAlign={"center"}
-               background={"none"}
-               color={"#FFFF"}
-               padding={"10px"}
-               fontSize={"18px"}
-               w={'200px'}
+                textAlign={"center"}
+                background={"none"}
+                color={"#FFFF"}
+                padding={"10px"}
+                fontSize={"17px"}
+                w={'200px'}
               >
                 {study.nestudio}
                 <Icon
                   border={"solid"}
-                  // borderColor={priorityColor}
-                  marginTop={"-30px"}
-                  marginLeft={"22%"}
+                  marginTop={"-25px"}
+                  marginLeft={"26%"}
                   marginBottom={'-18px'}
                   height={"55px"}
                   width={"55px"}
@@ -129,8 +168,8 @@ const Dashboard = () => {
                 />
               </Badge>
             </Box>
-            <Box p={"20px 10px"}>
-              <Heading size="sm">Fecha</Heading>
+            <Box p={"10px"}>
+              <Heading size="sm">Fecha de ingreso</Heading>
               <Text
                 textAlign={"right"}
                 ml={2}
@@ -138,34 +177,36 @@ const Dashboard = () => {
               >
                 {study.fecha}
               </Text>
-              <Heading size="sm">Paciente</Heading>
+              <Heading size="sm">Estudio</Heading>
               <Text
                 textAlign={"right"}
                 color={useColorModeValue("gray.600", "gray.400")}
               >
-                {study.paciente}
+                {study.estudio}
               </Text>
+              <Heading size="sm">Paciente</Heading>
+              <Text textAlign={"right"}>{study.paciente}</Text>
               <Heading size="sm">RIF/CI</Heading>
               <Text textAlign={"right"}>{study.ci}</Text>
-              <Heading size="sm">Monto Total</Heading>
-              <Text textAlign={"right"}>{study.monto}</Text>
             </Box>
           </Box>
         </Link>
-      </Flex>
+      </Box>
     ));
   };
 
   return (
-    <>
-      <Box
-        margin={'60px 0px 0px 0px'}
+    modoVisualizacion === 'tarjeta' ? (
+      <>
+      <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+        padding={{ lg: '0 10px', md: '10px', sm: '0px 0 10% 0' }}
         backgroundColor={'gray.100'}
         borderRadius={'20px'}
-        padding={'5px 0px 20px 0px'}>
-        <Box marginTop={'30px'} >
+        backgroundSize="cover"
+        backgroundPosition="center"
+        height={'auto'} >
+        <Box padding={'2%'} >
           <Heading
-            margin={'20px'}
             size="md"
           >
             Informes terminados
@@ -175,7 +216,8 @@ const Dashboard = () => {
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
             padding={"25px"}
             borderRadius="20px"
-            m={"30px 30px 50px 30px"}
+            m={"20px 30px 30px 30px"}
+            minH={'300px'} maxH={'300px'}
           >
             <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
               <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
@@ -184,7 +226,6 @@ const Dashboard = () => {
             </Box>
           </Box>
           <Heading
-            margin={'20px'}
             size="md"
           >
             Informes en proceso
@@ -194,7 +235,8 @@ const Dashboard = () => {
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
             padding={"25px"}
             borderRadius="20px"
-            m={"30px 30px 100px 30px"}
+            m={"30px 30px 20px 30px"}
+            minH={'300px'} maxH={'300px'}
           >
             <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
               <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
@@ -203,11 +245,11 @@ const Dashboard = () => {
             </Box>
           </Box>
           <Button
-            padding={'10px 60px'}
-            marginTop='20px'
+            borderRadius={'20px'}
+            padding={'10px 30px'}
             bgColor={'#137797'}
             color='#ffff'
-          // onClick={toggleModal}  
+            onClick={toggleModalList}
           >
             Ver más</Button>
         </Box>
@@ -218,7 +260,7 @@ const Dashboard = () => {
         isOpen={showModal}
         onClose={toggleModal}>
         <ModalOverlay />
-        <ModalContent bg="#ffff">
+        <ModalContent borderRadius={'20px'} bg="#ffff">
           <ModalHeader>
             <Button
               borderRadius={'50%'}
@@ -238,7 +280,34 @@ const Dashboard = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+      <Modal
+        size={sizeView}
+        maxWidth='100%'
+        isOpen={showModalList}
+        onClose={toggleModalList}>
+        <ModalOverlay />
+        <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
+          <ModalHeader>
+            <Button
+              borderRadius={'50%'}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={'95%'}
+              marginTop={'-60px'}
+              bgColor={'#137797'}
+              color='#ffff'
+              onClick={toggleModalList}>
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody marginTop={'-5%'}>
+            <ListaInformes />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
+     ):(<ModoLista/> )
   );
 };
 

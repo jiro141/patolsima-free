@@ -188,6 +188,7 @@ const Dashboard = () => {
               padding={"25px"}
               borderRadius="20px"
               m={"20px 30px 30px 30px"}
+              minH={'300px'} maxH={'300px'}
             >
               <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
                 <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
@@ -207,6 +208,7 @@ const Dashboard = () => {
               padding={"25px"}
               borderRadius="20px"
               m={"30px 30px 20px 30px"}
+              minH={'300px'} maxH={'300px'}
             >
               <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
                 <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
