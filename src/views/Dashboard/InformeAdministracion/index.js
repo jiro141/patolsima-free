@@ -227,7 +227,7 @@ const Dashboard = () => {
                 },
                 '&::-webkit-scrollbar-track': {
                   background: 'none',
-                  maxHeight:'50%'
+                  maxHeight: '50%'
                 },
                 '&::-webkit-scrollbar-thumb': {
                   background: '#137797',
@@ -253,21 +253,30 @@ const Dashboard = () => {
               padding={"25px"}
               borderRadius="20px"
               m={"20px 30px 30px 30px"}
-              minH={'300px'} maxH={'300px'}
-              overflowY="scroll"
+              minH={'300px'}
+              maxH={'300px'}
+              overflowY="auto"
               overflowX="hidden"
               css={{
                 '&::-webkit-scrollbar': {
                   width: '10px',
-                  height: "200px"
+                  height: "10px"
                 },
                 '&::-webkit-scrollbar-track': {
                   background: 'none',
-                  height: '50px',
+                  maxHeight: '50px',
                 },
                 '&::-webkit-scrollbar-thumb': {
                   background: '#137797',
                   borderRadius: '4px',
+                  maxHeight:'80%'
+                },
+                // Agrega estilos más específicos para anular estilos anteriores si es necesario
+                '&::-webkit-scrollbar-thumb:hover': {
+                  background: '#137797',
+                },
+                '&::-webkit-scrollbar-thumb:active': {
+                  background: '#137797',
                 },
               }}
             >

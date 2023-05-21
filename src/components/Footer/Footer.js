@@ -34,7 +34,7 @@ export default function Footer(props) {
         <Link
           // color={linkTeal}
           color="#137797"
-          href="#"
+          href="https://detipcompany.com/"
           target="_blank"
         >
           {"Agencia Detip,"}

@@ -43,7 +43,7 @@ export default function HeaderLinks(props) {
   const location = useLocation();
 
   // Chakra Color Mode
-  let mainTeal = useColorModeValue("teal.300", "teal.300");
+  let mainTeal = useColorModeValue("gray.700", "gray.700");
   let inputBg = useColorModeValue("#FFFF");
   let mainText = useColorModeValue("gray.700", "gray.200");
   let navbarIcon = useColorModeValue("#FFFF");
@@ -73,7 +73,7 @@ export default function HeaderLinks(props) {
       {location.pathname !== "/admin/RegistroAdministracion"  ? (
          <InputGroup
          cursor="pointer"
-         bg={"none"}
+         bg="none"
          borderRadius="none"
          w={{
            sm: "200px",
@@ -96,13 +96,13 @@ export default function HeaderLinks(props) {
                _active={{
                  bg: "inherit",
                  transform: "none",
-                 borderColor: "transparent",
+                 borderColor: "gray.700",
                }}
                _focus={{
                  boxShadow: "none",
                }}
                icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
-             ></IconButton>
+             />
            }
          />
          <Input
@@ -110,12 +110,15 @@ export default function HeaderLinks(props) {
            py="11px"
            color={mainText}
            placeholder="Buscar..."
-           border={"none"}
-           background={"none"}
-           borderRadius={"none"}
-           borderBottom={"solid 1px"}
+           border="none"
+           bg="none"
+           borderRadius="none"
+           css={{
+            borderBottom: "1px solid ",
+            borderColor:"gray"  
+          }}
          />
-       </InputGroup>
+       </InputGroup>       
        ):
        <InputGroup
        visibility={'hidden'}

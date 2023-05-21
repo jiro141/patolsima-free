@@ -19,12 +19,6 @@ export function SearchBar(props) {
       bg={inputBg}
       borderRadius="15px"
       w="200px"
-      _focus={{
-        borderColor: { mainTeal },
-      }}
-      _active={{
-        borderColor: { mainTeal },
-      }}
     >
       <InputLeftElement
         children={
