@@ -161,7 +161,7 @@ const ModalDescripcion = () => {
             <Box marginTop={'-50px'}>
                 <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>Descripción</Text>
                 <Box height={'sm'}>
-                    <Box minH={'400px'} maxH={'400px'}>
+                    <Box minH={'400px'} maxH={'200px'}  overflowY="scroll">
                         <CKEditor
                             editor={ClassicEditor}
                             config={editorConfig}

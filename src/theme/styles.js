@@ -10,10 +10,13 @@ export const globalStyles = {
 		global: (props) => ({
 			body: {
 				bg: mode('#FFFF')(props),
-				fontFamily: "'Montserrat', sans-serif"
+				fontFamily: "'Montserrat', sans-serif",
+				
 			},
 			html: {
-				fontFamily: "'Montserrat', sans-serif"
+				fontFamily: "'Montserrat', sans-serif",
+				overflow: "hidden"
+
 			},
 			heading:{
 				fontFamily: "'Montserrat', sans-serif"

@@ -15,7 +15,7 @@ export default function Footer(props) {
         base: "center",
         xl: "start",
       }}
-      justifyContent="space-between"
+      justifyContent="center"
       padding={'1px'}
       marginBottom={'-60px'}
     >
@@ -39,51 +39,8 @@ export default function Footer(props) {
         >
           {"Agencia Detip,"}
         </Link>
-        {" entra al mundo digital"}
+        {" entra al mundo digital."}
       </Text>
-      <List display="flex">
-        <ListItem
-          me={{
-            base: "15px",
-            md: "44px",
-          }}
-        >
-          <Link color="gray.400" href="#">
-            {"Desarrollo Web"}
-          </Link>
-        </ListItem>
-        <ListItem
-          me={{
-            base: "20px",
-            md: "44px",
-          }}
-        >
-          <Link color="gray.400" href="#">
-            {"Diseño Gráfrico"}
-          </Link>
-        </ListItem>
-        <ListItem
-          me={{
-            base: "20px",
-            md: "44px",
-          }}
-        >
-          <Link
-            color="gray.400"
-            href="#"
-          >
-            {"Marketing Digital"}
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link
-            color="gray.400"
-            href="#"
-          >
-            {"Emprendimiento"}
-          </Link>
-        </ListItem>
-      </List>
     </Flex>
   );
 }

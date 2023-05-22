@@ -41,28 +41,28 @@ var dashRoutes = [
     component: InformeAdministracion,
     layout: "/admin",
   },
-  // {
-  //   name: "Patólogia",
-  //   category: "account",
-  //   state: "pageCollapse",
-  //   views: [
-  //     {
-  //       path: "/RegistroPatologo",
-  //       name: "Registro",
-  //       icon: <HomeIcon color="inherit" />,
-  //       component: RegistroPatologo,
-  //       layout: "/admin",
-  //     },
-  //     {
-  //       path: "/Informe",
-  //       name: "Informe",
-  //       icon: <BsFillClipboardPlusFill color="inherit" />,
-  //       secondaryNavbar: true,
-  //       component: Informe,
-  //       layout: "/admin",
-  //     },
-  //   ],
-  // },
+  {
+    name: "Patólogia",
+    category: "account",
+    state: "pageCollapse",
+    views: [
+      {
+        path: "/RegistroPatologo",
+        name: "Registro",
+        icon: <HomeIcon color="inherit" />,
+        component: RegistroPatologo,
+        layout: "/admin",
+      },
+      {
+        path: "/Informe",
+        name: "Informe",
+        icon: <BsFillClipboardPlusFill color="inherit" />,
+        secondaryNavbar: true,
+        component: Informe,
+        layout: "/admin",
+      },
+    ],
+  },
   {
     path: "/signin",
     component: SignIn,

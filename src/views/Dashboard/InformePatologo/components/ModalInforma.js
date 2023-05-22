@@ -32,31 +32,31 @@ const ModalInforme = () => {
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Paciente</Text>
+                                <Text fontSize={'17px'} >Paciente</Text>
                                 <Text >Amelia Amigo Jordan</Text>
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Fecha</Text>
+                                <Text fontSize={'17px'}>Fecha</Text>
                                 <Text >15/03/1986</Text>
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Cedula de Identidad</Text>
+                                <Text fontSize={'17px'}>Cedula de Identidad</Text>
                                 <Text >26651254</Text>
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Medico Tratante</Text>
+                                <Text fontSize={'17px'}>Medico Tratante</Text>
                                 <Text >Jose Salmeron</Text>
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Telefono</Text>
+                                <Text fontSize={'17px'}>Telefono</Text>
                                 <Text color={'gray.600'}>26651254</Text>
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Telefono</Text>
+                                <Text fontSize={'17px'}>Telefono</Text>
                                 <Text >26565462</Text>
                             </Box>
                         </Box>
@@ -65,41 +65,45 @@ const ModalInforme = () => {
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Numero de muestra</Text>
-                                <Text>Amelia Amigo Jordan</Text>
+                                <Text fontSize={'17px'}>Numero de estudio</Text>
+                                <Text>B:aa-nnn</Text>
                             </Box>
-                            <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Tipo de muestra</Text>
-                                <Text>15//03/1986</Text>
-                            </Box>
-                        </Box>
-                        <Box>
-                            <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>tipo de estudio</Text>
-                                <Text>26651254</Text>
-                            </Box>
-                            <Box margin={'10px'}>
-                                <Text >Tipo de muestra 2</Text>
-                                <Text>Jose Salmeron</Text>
+                            <Box margin={'10px'} >
+                                <Text fontSize={'17px'}>Tipo de muestra</Text>
+                                <Text>Estomago</Text>
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontWeight={'bold'}>Tipo de muestra 3</Text>
-                                <Text>26565462</Text>
+                                <Text fontSize={'17px'}>tipo de estudio</Text>
+                                <Text>Biopsia</Text>
+                            </Box>
+                            <Box margin={'10px'}>
+                                <Text fontSize={'17px'}>Tipo de muestra 2</Text>
+                                <Text>Estomago parte alta</Text>
+                            </Box>
+                        </Box>
+                        <Box>
+                            <Box margin={'10px'}>
+                                <Text fontSize={'17px'}>Patologo</Text>
+                                <Text>Simon Peraza</Text>
+                            </Box>
+                            <Box margin={'10px'}>
+                                <Text fontSize={'17px'}>Tipo de muestra 3</Text>
+                                <Text>Estomago parte baja</Text>
                             </Box>
                         </Box>
                     </Grid>
-                    <Grid margin={'30px 10px 20px 10px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
-                        <Select defaultValue="Informes anteriores">
+                    <Grid margin={'60px 10px 20px 10px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
+                        <Select color="gray.400" defaultValue="Informes anteriores">
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
-                            <option value="masculino">Masculino</option>
-                            <option value="femenino">Femenino</option>
+                            <option value=""></option>
+                            <option value=""></option>
                         </Select>
-                        <Select defaultValue="Anexos">
+                        <Select color="gray.400" defaultValue="Anexos">
                             <option hidden colorScheme="gray.400">Anexos</option>
-                            <option value="masculino">Masculino</option>
-                            <option value="femenino">Femenino</option>
+                            <option value=""></option>
+                            <option value=""></option>
                         </Select>
                         <Input
                             placeholder='Notas'
@@ -108,65 +112,74 @@ const ModalInforme = () => {
                         />
                     </Grid>
                 </Box>
-                <Box justifyItems={'center'} marginTop={'-40px'} borderLeft={'solid #2481A0'} height={'90%'}>
-                    <Button
-                        margin={'10px'}
-                        marginBottom={'30px'}
-                        border={'solid'}
-                        color={'gray.400'}
-                        borderColor={'gray.400'}
-                        w={'80%'}
-                        background={'none'}
-                        borderRadius={'10px'}>Registro de cambios</Button>
-                    <Button
-                        margin={'10px'}
-                        border={'solid'}
-                        color={'#137798'}
-                        borderColor={'#137798'}
-                        w={'80%'}
-                        background={'none'}
-                        borderRadius={'20px'}
-                        onClick={toggleModal}>Descripción microscópica</Button>
-                    <Button
-                        margin={'10px'}
-                        border={'solid'}
-                        color={'#137798'}
-                        borderColor={'#137798'}
-                        w={'80%'}
-                        background={'none'}
-                        borderRadius={'20px'}>Descripción microscópica</Button>
-                    <Button
-                        margin={'10px'}
-                        border={'solid'}
-                        color={'#137798'}
-                        borderColor={'#137798'}
-                        w={'80%'}
-                        background={'none'}
-                        borderRadius={'20px'}>Diagnóstico</Button>
-                    <Button
-                        margin={'10px'}
-                        border={'solid'}
-                        color={'#137798'}
-                        borderColor={'#137798'}
-                        w={'80%'}
-                        background={'none'}
-                        borderRadius={'20px'}>Notas</Button>
-                    <Button
-                        margin={'10px'}
-                        border={'solid'}
-                        color={'#137798'}
-                        borderColor={'#137798'}
-                        w={'80%'}
-                        background={'none'}
-                        borderRadius={'20px'}>Anexos</Button>
-                    <Button
-                        margin={'10px'}
-                        border={'solid'}
-                        color={'#137798'}
-                        borderColor={'#137798'}
-                        w={'80%'}
-                        background={'none'}
-                        borderRadius={'20px'}>Biblografía</Button>
+                <Box marginTop={'-50%'}  height={'100%'}>
+                    <Box height='80%' marginTop={'60%'} borderLeft={'solid #89bbcc'}>
+                        <Button
+                            margin={'10px'}
+                            marginBottom={'30px'}
+                            marginTop={'-20%'}
+                            border={'solid 2px'}
+                            color={'gray.400'}
+                            borderColor={'gray.400'}
+                            w={'80%'}
+                            background={'none'}
+                            borderRadius={'10px'}
+                            onClick={toggleModal}>Registro de cambios</Button>
+                        <Button
+                            margin={'10px'}
+                            border={'solid 2px'}
+                            color={'#137798'}
+                            borderColor={'#137798'}
+                            w={'80%'}
+                            background={'none'}
+                            borderRadius={'20px'}
+                            onClick={toggleModal}>Descripción microscópica</Button>
+                        <Button
+                            margin={'10px'}
+                            border={'solid 2px'}
+                            color={'#137798'}
+                            borderColor={'#137798'}
+                            w={'80%'}
+                            background={'none'}
+                            borderRadius={'20px'}
+                            onClick={toggleModal}>Descripción microscópica</Button>
+                        <Button
+                            margin={'10px'}
+                            border={'solid 2px'}
+                            color={'#137798'}
+                            borderColor={'#137798'}
+                            w={'80%'}
+                            background={'none'}
+                            borderRadius={'20px'}
+                            onClick={toggleModal}>Diagnóstico</Button>
+                        <Button
+                            margin={'10px'}
+                            border={'solid 2px'}
+                            color={'#137798'}
+                            borderColor={'#137798'}
+                            w={'80%'}
+                            background={'none'}
+                            borderRadius={'20px'}
+                            onClick={toggleModal}>Notas</Button>
+                        <Button
+                            margin={'10px'}
+                            border={'solid 2px'}
+                            color={'#137798'}
+                            borderColor={'#137798'}
+                            w={'80%'}
+                            background={'none'}
+                            borderRadius={'20px'}
+                            onClick={toggleModal}>Anexos</Button>
+                        <Button
+                            margin={'10px'}
+                            border={'solid 2px'}
+                            color={'#137798'}
+                            borderColor={'#137798'}
+                            w={'80%'}
+                            background={'none'}
+                            borderRadius={'20px'}
+                            onClick={toggleModal}>Biblografía</Button>
+                    </Box>
                 </Box>
             </Grid>
             <Button
@@ -183,7 +196,7 @@ const ModalInforme = () => {
                 isOpen={showModal}
                 onClose={toggleModal}>
                 <ModalOverlay />
-                <ModalContent bg="#ffff">
+                <ModalContent borderRadius={'20px'} bg="#ffff">
                     <ModalHeader>
                         <Button
                             borderRadius={'50%'}

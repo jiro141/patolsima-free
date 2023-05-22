@@ -32,14 +32,14 @@ const Dashboard = () => {
   const sinConfirmar = [
     {
       fecha: "15/03/2023",
-      cliente:"josesito jose",
+      cliente: "josesito jose",
       ci: "536510320",
       montoD: "20",
       montoB: "486.2",
     },
     {
       fecha: "15/03/2023",
-      cliente:"josesito jose",
+      cliente: "josesito jose",
       ci: "536510320",
       montoD: "20",
       montoB: "486.2",
@@ -49,14 +49,14 @@ const Dashboard = () => {
   const pendientes = [
     {
       fecha: "15/03/2023",
-      cliente:"josesito jose",
+      cliente: "josesito jose",
       ci: "536510320",
       montoD: "20",
       montoB: "486.2",
     },
     {
       fecha: "15/03/2023",
-      cliente:"josesito jose",
+      cliente: "josesito jose",
       ci: "536510320",
       montoD: "20",
       montoB: "486.2",
@@ -76,13 +76,17 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
-        padding={{ lg: '0 10px', md: '10px', sm: '0px 0 10% 0' }}
+      <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+        padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
         backgroundColor={'gray.100'}
-        borderRadius={'20px'}
+        borderTopLeftRadius={'20px'}
         backgroundSize="cover"
         backgroundPosition="center"
-        height={'auto'}>
+        overflowY="scroll"
+        overflowX="hidden"
+        maxH={'40em'}
+        scrollPadding={'1px'}
+      >
 
         <Box padding={'2%'}>
           <Heading
@@ -90,8 +94,16 @@ const Dashboard = () => {
           >
             Sin confirmar
           </Heading>
-          <Box minH={'300px'} backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" p={'25px'}
-            borderRadius='20px' m={'20px 30px 30px 30px'}>
+          <Box
+            width={'100%'}
+            m={"20px 30px 30px 10px"}
+            backgroundColor={'#FFFF'}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            padding={"25px"}
+            borderRadius="20px"
+            minH={'300px'} maxH={'300px'}
+            overflowY="scroll"
+            overflowX="hidden">
             <Table >
               <Thead>
                 <Tr>
@@ -127,8 +139,17 @@ const Dashboard = () => {
           >
             Pendientes de pago
           </Heading>
-          <Box minH={'300px'} backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'25px'} borderRadius='20px'
-            m={'20px 30px 30px 30px'}>
+          <Box
+            width={'100%'}
+            m={"20px 30px 30px 10px"}
+            backgroundColor={'#FFFF'}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            padding={"25px"}
+            borderRadius="20px"
+            minH={'300px'} maxH={'300px'}
+            overflowY="scroll"
+            overflowX="hidden"
+          >
             <Table >
               <Thead>
                 <Tr>

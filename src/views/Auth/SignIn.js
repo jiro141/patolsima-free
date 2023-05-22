@@ -58,14 +58,14 @@ function SignIn() {
     };
     try {
       const response = await authApi.post("login/", body);
-      // if (response.status === 200) {
+      if (response.status === 200) {
         context.getTokens(response.data)
         console.log(response, "respuesta");
         // Redirigir al dashboard
         history.push('layouts/Admin.js');
-      // }
+      }
     } catch (error) {
-      history.push('layouts/Admin.js');
+      console.log(error);
     }
   };
 
@@ -194,7 +194,7 @@ function SignIn() {
               </Button>
 
             </FormControl>
-            <Flex
+            {/* <Flex
               flexDirection='column'
               justifyContent='space-between'
               alignItems='center'
@@ -210,7 +210,7 @@ function SignIn() {
                   Crear nueva cuenta
                 </Link>
               </Text>
-            </Flex>
+            </Flex> */}
           </Flex>
         </Flex>
         <Box

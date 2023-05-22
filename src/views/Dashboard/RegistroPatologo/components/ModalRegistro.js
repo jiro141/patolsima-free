@@ -16,31 +16,31 @@ const ModalRegistro = () => {
             <Grid templateColumns={"repeat(3,1fr)"}>
                 <Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Paciente</Text>
+                        <Text fontSize={'17px'}>Paciente</Text>
                         <Text >Amelia Amigo Jordan</Text>
                     </Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Fecha</Text>
+                        <Text fontSize={'17px'}>Fecha</Text>
                         <Text >15/03/1986</Text>
                     </Box>
                 </Box>
                 <Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Cedula de Identidad</Text>
+                        <Text fontSize={'17px'}>Cedula de Identidad</Text>
                         <Text >26651254</Text>
                     </Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Medico Tratante</Text>
+                        <Text fontSize={'17px'}>Medico Tratante</Text>
                         <Text >Jose Salmeron</Text>
                     </Box>
                 </Box>
                 <Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Telefono</Text>
+                        <Text fontSize={'17px'}>Telefono</Text>
                         <Text color={'gray.600'}>26651254</Text>
                     </Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Telefono</Text>
+                        <Text fontSize={'17px'}>Telefono</Text>
                         <Text >26565462</Text>
                     </Box>
                 </Box>
@@ -49,39 +49,43 @@ const ModalRegistro = () => {
             <Grid templateColumns={"repeat(3,1fr)"}>
                 <Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Numero de muestra</Text>
+                        <Text >Numero de muestra</Text>
                         <Text>Amelia Amigo Jordan</Text>
                     </Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Tipo de muestra</Text>
+                        <Text >Tipo de muestra</Text>
                         <Text>15//03/1986</Text>
                     </Box>
                 </Box>
                 <Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>tipo de estudio</Text>
+                        <Text >tipo de estudio</Text>
                         <Text>26651254</Text>
                     </Box>
                     <Box margin={'10px'}>
-                        <Text >Tipo de muestra 2</Text>
+                        <Text fontSize={'17px'}>Tipo de muestra 2</Text>
                         <Text>Jose Salmeron</Text>
                     </Box>
                 </Box>
                 <Box>
                     <Box margin={'10px'}>
-                        <Text fontWeight={'bold'}>Tipo de muestra 3</Text>
+                    <Text textColor={'transparent'} >Tipo de muestra 3</Text>
+                        <Text textColor={'transparent'}>26565462</Text>
+                    </Box>
+                    <Box margin={'10px'}>
+                        <Text >Tipo de muestra 3</Text>
                         <Text>26565462</Text>
                     </Box>
                 </Box>
             </Grid>
             <Grid margin={'30px 10px 20px 10px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
-                <Select defaultValue="Informes anteriores">
-                    <option hidden colorScheme="gray.400">Informes anteriores</option>
+                <Select color="gray.400" defaultValue="Informes anteriores">
+                    <option hidden >Informes anteriores</option>
                     <option value="masculino">Masculino</option>
                     <option value="femenino">Femenino</option>
                 </Select>
-                <Select defaultValue="Anexos">
-                    <option hidden colorScheme="gray.400">Anexos</option>
+                <Select color="gray.400" defaultValue="Anexos">
+                    <option hidden >Anexos</option>
                     <option value="masculino">Masculino</option>
                     <option value="femenino">Femenino</option>
                 </Select>
@@ -92,8 +96,8 @@ const ModalRegistro = () => {
                 />
             </Grid>
             <Button
-                marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
-                marginLeft={{ lg: '88%', md: '70%', sm: '77%' }}
+                marginBottom={{ lg: '-35px', md: '-8%', sm: '-10%' }}
+                marginLeft={{ lg: '620px', md: '70%', sm: '77%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'>

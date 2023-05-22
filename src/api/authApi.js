@@ -11,7 +11,7 @@ export const authApi = axios.create(
     }
 );
 
-const apiURLs = {
+export const apiURLs = {
     pacientes: {
         getPacientes: {path: 'v1/core/pacientes/', method: 'GET'},
         getPacienteDetail: {path: 'v1/core/pacientes/:id/', method: 'GET'},
@@ -20,12 +20,13 @@ const apiURLs = {
         borrarPaciente: {path: 'v1/core/pacientes/:id/', method: 'DELETE'},
     }
 };
+
 const defaultErrorHandler = (error) => {
     console.error(error);
 };
 
 
-export const makeRequest  = async (method, path, params, onSuccess, onError) => {
+export const makeRequest  = async (method, path, params, data) => {
     // console.log(method, path, params);
     // if (condition) {
         
@@ -36,6 +37,7 @@ export const makeRequest  = async (method, path, params, onSuccess, onError) => 
     
     if(method === 'POST' || method === 'PUT'){
         requestObj.config.headers['Content-Type']='application/json'
+        requestObj.config.data = data
     }
 
     

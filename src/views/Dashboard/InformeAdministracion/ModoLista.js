@@ -79,13 +79,16 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
-        padding={{ lg: '0 10px', md: '10px', sm: '0px 0 10% 0' }}
+      <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+        padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
         backgroundColor={'gray.100'}
         borderRadius={'20px'}
         backgroundSize="cover"
         backgroundPosition="center"
-        height={'auto'}>
+        overflowY="scroll"
+        overflowX="hidden"
+        maxH={'40em'}
+      >
 
         <Box padding={'2%'}>
           <Heading
@@ -93,8 +96,17 @@ const Dashboard = () => {
           >
             Informes terminados
           </Heading>
-          <Box minH={'300px'} maxH={'300px'} backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" p={'25px'}
-            borderRadius='20px' m={'20px 30px 30px 30px'}>
+          <Box
+            width={'100%'}
+            m={"20px 30px 30px 10px"}
+            backgroundColor={'#FFFF'}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            padding={"25px"}
+            borderRadius="20px"
+            minH={'300px'} maxH={'300px'}
+            overflowY="scroll"
+            overflowX="hidden"
+          >
             <Table >
               <Thead>
                 <Tr>
@@ -130,8 +142,17 @@ const Dashboard = () => {
           >
             Informes en proceso
           </Heading>
-          <Box minH={'300px'} maxH={'300px'} backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'25px'} borderRadius='20px'
-            m={'20px 30px 30px 30px'}>
+          <Box
+            width={'100%'}
+            m={"20px 30px 30px 10px"}
+            backgroundColor={'#FFFF'}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            padding={"25px"}
+            borderRadius="20px"
+            minH={'300px'} maxH={'300px'}
+            overflowY="scroll"
+            overflowX="hidden"
+          >
             <Table >
               <Thead>
                 <Tr>
@@ -172,7 +193,7 @@ const Dashboard = () => {
         </Box>
       </Box>
       <Modal
-        size={size}
+        size={'4xl'}
         maxWidth='100%'
         isOpen={showModal}
         onClose={toggleModal}>

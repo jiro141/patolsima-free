@@ -13,7 +13,7 @@ import Cliente from './Components/Cliente';
 import Medico from './Components/Medico';
 import Muestra from './Components/Muestra';
 import Muestra2 from './Components/Muestra 2';
-import fondo from "assets/svg/Formato con fondo.svg";
+import Imagen from 'assets/img/Fondo molecular.png'
 
 function Registro() {
     //activar o desactivar el tab
@@ -67,24 +67,28 @@ function Registro() {
     return (
         <Box
             margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
-            padding={{ lg: '0 10px', md: '10px', sm: '0px 0 10% 0' }}
-            backgroundColor="gray.100"
-            borderRadius="20px"
+            padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
+            backgroundColor={'gray.100'}
+            backgroundImage={Imagen}
+            borderTopLeftRadius={'20px'}
             backgroundSize="cover"
             backgroundPosition="center"
-            backgroundImage={`url(${fondo})`}
-            height="auto">
+            overflowY="scroll"
+            overflowX="hidden"
+            maxH={'42em'}
+            scrollPadding={'1px'}
+            
+        >
             <Box
                 backgroundSize="cover"
                 backgroundPosition="center"
-                backgroundImage={"url(assets/svg/Formato con fondo.svg)"}
                 height="auto">
                 <Box
                     margin={{ lg: '10px 0px 0 50px', md: '0px', sm: '0px 0px 0px 0px' }}
                     width={{ lg: '90%', md: '100%', sm: '100%' }}>
                     <Tabs onChange={index => setActiveTab(index)}>
                         <TabList display={'flex'} justifyContent={'center'} border={'none'} >
-                            <CustomTab title="Cliente" isActive={activeTab === 0} />
+                            <CustomTab title="Paciente" isActive={activeTab === 0} />
                             <CustomTab title="Médico" isActive={activeTab === 1} />
                             <CustomTab title="Estudio" isActive={activeTab === 2} />
                             <CustomStudy2 title="Estudio2" activeTab={activeTab} isActive={activeTab === 3} />

@@ -170,12 +170,15 @@ const Dashboard = () => {
     modoVisualizacion === 'tarjeta' ? (
       <>
         <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
-          padding={{ lg: '0 10px', md: '10px', sm: '0px 0 10% 0' }}
+          padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
           backgroundColor={'gray.100'}
-          borderRadius={'20px'}
+          borderTopLeftRadius={'20px'}
           backgroundSize="cover"
           backgroundPosition="center"
-          height={'auto'} >
+          overflowY="scroll"
+          overflowX="hidden"
+          maxH={'40em'}
+        >
           <Box padding={'2%'} >
             <Heading
               size="md"
@@ -183,12 +186,15 @@ const Dashboard = () => {
               Sin confirmar
             </Heading>
             <Box
+              width={'100%'}
+              m={"20px 30px 30px 10px"}
               backgroundColor={'#FFFF'}
               boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
               padding={"25px"}
               borderRadius="20px"
-              m={"20px 30px 30px 30px"}
               minH={'300px'} maxH={'300px'}
+              overflowY="scroll"
+              overflowX="hidden"
             >
               <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
                 <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
@@ -203,12 +209,15 @@ const Dashboard = () => {
               Pendientes de pago
             </Heading>
             <Box
+              width={'100%'}
+              m={"20px 30px 30px 10px"}
               backgroundColor={'#FFFF'}
               boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
               padding={"25px"}
               borderRadius="20px"
-              m={"30px 30px 20px 30px"}
               minH={'300px'} maxH={'300px'}
+              overflowY="scroll"
+              overflowX="hidden"
             >
               <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
                 <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>

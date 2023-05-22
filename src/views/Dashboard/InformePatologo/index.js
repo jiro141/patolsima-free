@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import { React, useState, useContext } from "react";
 import {
   Box,
   SimpleGrid,
@@ -24,11 +24,15 @@ import { BsFillFileEarmarkTextFill } from "react-icons/bs";
 import { Icon } from "@chakra-ui/react";
 // import DatosMuestra from "./DatosMuestra";
 import ModalInforme from "./components/ModalInforma";
+import ModoLista from "./ModoLista"
+import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import ListaInformes from "./components/ListaInformes";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
+  const { modoVisualizacion } = useContext(ModoVisualizacionContext);
 
   const highPriorityStudies = [
     {
@@ -84,16 +88,21 @@ const Dashboard = () => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+  const [showModalList, setShowModalList] = useState(false);
+  const toggleModalList = () => {
+    setShowModalList(!showModalList);
+  };
   //tamaños de modal
-  const size = useBreakpointValue({ base: "sm", lg: "5xl",md:'2xl'});
+  const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+  const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
 
   const renderStudies = (studies, priorityColor) => {
-   
+
 
     return studies.map((study) => (
       <Flex flexDirection={"row 7"}>
         <Link
-        onClick={toggleModal}>
+          onClick={toggleModal}>
           <Box
             margin={"5px auto"}
             boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
@@ -111,7 +120,7 @@ const Dashboard = () => {
                 background={"none"}
                 color={"#FFFF"}
                 padding={"10px"}
-                fontSize={"18px"}
+                fontSize={"17px"}
                 w={'200px'}
               >
                 {study.nestudio}
@@ -119,7 +128,7 @@ const Dashboard = () => {
                   border={"solid"}
                   borderColor={priorityColor}
                   marginTop={"-30px"}
-                  marginLeft={"22%"}
+                  marginLeft={"46px"}
                   marginBottom={'-18px'}
                   height={"55px"}
                   width={"55px"}
@@ -131,28 +140,27 @@ const Dashboard = () => {
                 />
               </Badge>
             </Box>
-            <Box p={"20px 10px"}>
-              <Heading marginBottom={"5px"} size="sm">Fecha de ingreso</Heading>
+            <Box maxH={'192px'} minW={'180px'} p={"10px "}>
+              <Heading size="sm">Fecha de ingreso</Heading>
               <Text
-                marginTop={"5px"}
                 textAlign={"right"}
                 ml={2}
                 color={useColorModeValue("gray.600", "gray.400")}
               >
                 {study.fecha}
               </Text>
-              <Heading marginBottom={"5px"} size="sm">Estudio</Heading>
+              <Heading size="sm">Estudio</Heading>
               <Text
-                marginTop={"5px"}
+
                 textAlign={"right"}
                 color={useColorModeValue("gray.600", "gray.400")}
               >
                 {study.estudio}
               </Text>
-              <Heading size="sm" marginBottom={"5px"} >Paciente</Heading>
-              <Text marginTop={"5px"} textAlign={"right"}>{study.paciente}</Text>
-              <Heading marginBottom={"5px"} size="sm">Patologo</Heading>
-              <Text marginTop={"5px"} textAlign={"right"}>{study.patologo}</Text>
+              <Heading size="sm"  >Paciente</Heading>
+              <Text textAlign={"right"}>{study.paciente}</Text>
+              <Heading size="sm">Patologo</Heading>
+              <Text textAlign={"right"}>{study.patologo}</Text>
             </Box>
           </Box>
         </Link>
@@ -161,97 +169,149 @@ const Dashboard = () => {
   };
 
   return (
-    <>
-      <Box
-        margin={'60px 0px 0px 0px'}
-        backgroundColor={'gray.100'}
-        borderRadius={'20px'}
-        padding={'5px 0px 20px 0px'}
-      >
-        <Text fontSize={'20px'} margin={'20px'}>Informes en proceso</Text>
+    modoVisualizacion === 'tarjeta' ? (
+      <>
         <Box
-          backgroundColor={"#FFFF"}
-          boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-          padding={"30px"}
-          borderRadius="20px"
-          m={"20px 30px 10px 30px"}
+          margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+          padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
+          backgroundColor={'gray.100'}
+          borderRadius={'20px'}
+          backgroundSize="cover"
+          backgroundPosition="center"
+          overflowY="scroll"
+          overflowX="hidden"
+          maxH={'40em'}
         >
-          <SimpleGrid columns={1} spacing={4}>
-            <SimpleGrid columns={1}>
-              <Box>
-                <Heading
-                  borderBottom="solid"
-                  borderColor={highPriorityColor}
-                  size="md"
-                  mb={4}
-                >
-                  Prioridad Alta
-                </Heading>
-                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {renderStudies(highPriorityStudies, highPriorityColor)}
-                </Grid>
-              </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={1}>
-              <Box>
-                <Heading
-                  borderBottom="solid"
-                  borderColor={mediumPriorityColor}
-                  size="md"
-                  mb={4}
-                >
-                  Prioridad Media
-                </Heading>
-                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {renderStudies(mediumPriorityStudies, mediumPriorityColor)}
-                </Grid>
-              </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={1}>
-              <Box>
-                <Heading
-                  borderBottom="solid"
-                  borderColor={lowPriorityColor}
-                  size="md"
-                  mb={4}
-                >
-                  Prioridad Baja
-                </Heading>
-                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {renderStudies(lowPriorityStudies, lowPriorityColor)}
-                </Grid>
-              </Box>
-            </SimpleGrid>
-          </SimpleGrid>
-        </Box>
-      </Box>
-      <Modal
-        size={size}
-        maxWidth='100%'
-        isOpen={showModal}
-        onClose={toggleModal}>
-        <ModalOverlay />
-        <ModalContent bg="#ffff">
-          <ModalHeader>
+          <Box padding={'2%'}>
+            <Heading
+              size="md"
+            >
+              Informes en proceso
+            </Heading>
+            <Box
+              width={'100%'}
+              m={"20px 30px 30px 10px"}
+              backgroundColor={"#FFFF"}
+              boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
+              borderRadius="20px"
+              overflowY="scroll"
+              overflowX="hidden"
+              maxH={'33.5em'}
+            >
+              <SimpleGrid columns={1} spacing={4}>
+                <SimpleGrid columns={1}>
+                  <Box padding={'25px'}>
+                    <Heading
+                      borderBottom="solid"
+                      borderColor={highPriorityColor}
+                      size="md"
+                      mb={4}
+                    >
+                      Prioridad Alta
+                    </Heading>
+                    <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
+                      {renderStudies(highPriorityStudies, highPriorityColor)}
+                    </Grid>
+                  </Box>
+                </SimpleGrid>
+                <SimpleGrid columns={1}>
+                  <Box padding={'25px'}>
+                    <Heading
+                      borderBottom="solid"
+                      borderColor={mediumPriorityColor}
+                      size="md"
+                      mb={4}
+                    >
+                      Prioridad Media
+                    </Heading>
+                    <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
+                      {renderStudies(mediumPriorityStudies, mediumPriorityColor)}
+                    </Grid>
+                  </Box>
+                </SimpleGrid>
+                <SimpleGrid columns={1}>
+                  <Box padding={'25px'}>
+                    <Heading
+                      borderBottom="solid"
+                      borderColor={lowPriorityColor}
+                      size="md"
+                      mb={4}
+                    >
+                      Prioridad Baja
+                    </Heading>
+                    <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
+                      {renderStudies(lowPriorityStudies, lowPriorityColor)}
+                    </Grid>
+                  </Box>
+                </SimpleGrid>
+              </SimpleGrid>
+            </Box>
             <Button
-              borderRadius={'50%'}
-              colorScheme="blue"
-              width="40px"
-              height="40px"
-              marginLeft={'95%'}
-              marginTop={'-60px'}
+              borderRadius={'20px'}
+              padding={'10px 30px'}
               bgColor={'#137797'}
               color='#ffff'
-              onClick={toggleModal}>
-              <CloseButton />
-            </Button>
-          </ModalHeader>
-          <ModalBody>
-            <ModalInforme />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
+              onClick={toggleModalList}
+            >
+              Ver más</Button>
+          </Box>
+        </Box>
+        <Modal
+          size={"4xl"}
+          maxWidth='100%'
+          isOpen={showModal}
+          onClose={toggleModal}>
+          <ModalOverlay />
+          <ModalContent borderRadius={'20px'} bg="#ffff">
+            <ModalHeader>
+              <Button
+                borderRadius={'50%'}
+                colorScheme="blue"
+                width="40px"
+                height="40px"
+                marginLeft={'95%'}
+                marginTop={'-60px'}
+                bgColor={'#137797'}
+                color='#ffff'
+                onClick={toggleModal}>
+                <CloseButton />
+              </Button>
+            </ModalHeader>
+            <ModalBody>
+              <ModalInforme />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+        <Modal
+          size={sizeView}
+          maxWidth='100%'
+          isOpen={showModalList}
+          onClose={toggleModalList}>
+          <ModalOverlay />
+          <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
+            <ModalHeader>
+              <Button
+                borderRadius={'50%'}
+                colorScheme="blue"
+                width="40px"
+                height="40px"
+                marginLeft={'95%'}
+                marginTop={'-60px'}
+                bgColor={'#137797'}
+                color='#ffff'
+                onClick={toggleModalList}>
+                <CloseButton />
+              </Button>
+            </ModalHeader>
+            <ModalBody marginTop={'-5%'}>
+              <ListaInformes />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </>
+    ) : (
+      <ModoLista />
+    )
   );
 };
 

@@ -87,13 +87,13 @@ const Muestra2 = () => {
                 <Text fontSize={'20px'} margin='2% auto 2% auto' color={'gray.600'}>Información General</Text>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
                     <Box>
-                        <Text marginBottom={'1%'}>Paciente</Text>
+                        <Text marginBottom={'1.5%'} fontSize={'17px'}>Paciente</Text>
                         <Text>Molina Contreras Maria Eugenia</Text>
-                        <Text marginY={'1%'}>Cédula de Identidad</Text>
+                        <Text marginY={'1.5%'} fontSize={'17px'}>Cédula de Identidad</Text>
                         <Text>26371890</Text>
                     </Box>
                     <Box>
-                        <Text marginBottom={'1%'}>Médico tratante</Text>
+                        <Text marginBottom={'1.5%'} fontSize={'17px'}>Médico tratante</Text>
                         <Text >Carmen Mora</Text>
 
                     </Box>
@@ -106,8 +106,7 @@ const Muestra2 = () => {
                         <Text textAlign={'left'} fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Datos de Estudio</Text>
                     </Box>
                     <Box>
-                        <Text textAlign={'left'} fontSize={'20px'} margin='15px auto 0 auto' color={'gray.600'}>Codigo del Estudio </Text>
-                        <Text fontSize={'16px'} >cod: nnn-aa</Text>
+                        <Text textAlign={'left'} fontSize={'18px'} margin='15px auto 0 auto' color={'gray.600'}>Estudio N°: C-nn-yyyy </Text>
                     </Box>
                 </Grid>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
@@ -195,7 +194,7 @@ const Muestra2 = () => {
             <Box w={'100%'} textAlign={'center'}>
                 <Button
                     padding={'10px 60px'}
-                    marginBottom='-16.5%'
+                    marginBottom='-120px'
                     bgColor={'#137798'}
                     color='#ffff'
                     borderRadius={'20px'}
@@ -204,7 +203,7 @@ const Muestra2 = () => {
             </Box>
             <Box w={'100%'} textAlign='end'>
                 <Button
-                    marginBottom={{ lg: '-10%', md: '-15%', sm: '-30%' }}
+                    marginBottom={{ lg: '-80px', md: '-15%', sm: '-30%' }}
                     borderRadius={'20px'}
                     bgColor={'#137798'}
                     color='#ffff'

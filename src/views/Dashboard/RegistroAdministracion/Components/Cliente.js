@@ -29,37 +29,33 @@ import {
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import BusquedaCliente from './BusquedaCliente';
-import { authApi, makeRequest } from 'api/authApi';
+import { authApi, makeRequest, apiURLs } from 'api/authApi';
+// import { apiURLs } from 'api/authApi';
 
 const Cliente = ({ oneState, setOneState }) => {
     //definicion de los valores a cargar
-    const [cedula, setCedula] = useState('');
-    const [nombres, setNombres] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [fecha_nacimiento, setFecha_nacimiento] = useState('');
-    const [direccion, setDireccion] = useState('');
-    const [email, setEmail] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [sexo, setSexo] = useState('');
+
     //carga de los datos del formulario
-    const formData = {
-        cedula,
-        nombres,
-        apellido,
-        fecha_nacimiento,
-        direccion,
-        email,
-        telefono,
-        sexo
-    };
-    useEffect(() => {
-        // console.log(cedula, nombre, apellido, fecha_nacimiento, procedencia, email, telefono);
-        if (cedula && nombres && apellido && fecha_nacimiento && direccion && email && telefono && sexo) {
-            setOneState(true);
-        } else {
-            setOneState(false);
-        }
-    }, [cedula, nombres, apellido, fecha_nacimiento, direccion, email, telefono, sexo]);
+    // const formData = {
+    //     ci,
+    //     nombres,
+    //     apellido,
+    //     fecha_nacimiento,
+    //     direccion,
+    //     email,
+    //     telefono,
+    //     sexo
+    // };
+    // useEffect(() => {
+    //     // console.log(cedula, nombre, apellido, fecha_nacimiento, procedencia, email, telefono);
+    //     if (ci && nombres && apellido && fecha_nacimiento && direccion && email && telefono && sexo) {
+    //         setOneState(true);
+    //     } else {
+    //         setOneState(false);
+    //     }
+    // }, [ci, nombres, apellido, fecha_nacimiento, direccion, email, telefono, sexo]);
+
+
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
     //alerta 
@@ -81,15 +77,23 @@ const Cliente = ({ oneState, setOneState }) => {
     const [Busqueda, setBusqueda] = useState("");
     const [registroSeleccionado, setRegistroSeleccionado] = useState(
         {
-            // ci: "",
-            // nombres: "",
-            // apellidos: "",
-            // email: "",
-            // telefono_celular: "",
-            // direccion:"",
-            // fecha_nacimiento:""
+            ci: "",
+            nombres: "",
+            apellidos: "",
+            email: "",
+            telefono_celular: "",
+            direccion: "",
+            fecha_nacimiento: "",
+            sexo: ""
         }
     );
+
+    const cambiarValoresRegistro = (key, value) => {
+        setRegistroSeleccionado((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
     //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
     const peticionGet = async () => {
         const token = decodeURIComponent(document.cookie).split(";")[1].slice(7);
@@ -102,7 +106,6 @@ const Cliente = ({ oneState, setOneState }) => {
                 console.log(error);
             })
     };
-
     useEffect(() => {
         peticionGet();
     }, []);
@@ -110,6 +113,36 @@ const Cliente = ({ oneState, setOneState }) => {
         setBusqueda(event.target.value);
         filtrar(event.target.value)
     };
+
+    const seleccionarRegistro = async (registro) => {
+        try {
+            const { pacientes: { getPacienteDetail } } = apiURLs
+            const response = await makeRequest(getPacienteDetail.method, getPacienteDetail.path, { pathParams: { id: registro.id } })
+            if (response) {
+                console.log(response);
+                setRegistroSeleccionado({
+                    ...response.data
+                });
+                toggleModal();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // const postPaciente = async() => {
+    //     try{
+    //         const {pacientes:{crearPaciente}}=apiURLs
+    //         const response = await makeRequest(crearPaciente.method, crearPaciente.path)
+    //     }
+    // }
+
+    const onSubmit = () => {
+        console.log(registroSeleccionado);
+    }
+
+
+
     //para activar el evento que filtra a los datos que se encuentran la lista
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
@@ -124,23 +157,6 @@ const Cliente = ({ oneState, setOneState }) => {
         });
         setPacientes(resultadoBusqueda);
     }
-    const [registro, setRegistro] = useState([]);
-    const seleccionarRegistro = async (registro) => {
-        try {
-            const response = await makeRequest('GET', `v1/core/pacientes/:id/`, { pathParams: { id: registro.id } })
-            if (response) {
-                console.log(response);
-                setRegistroSeleccionado({
-                    ...response.data
-                });
-                toggleModal();
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
 
     return (
         <>
@@ -157,7 +173,7 @@ const Cliente = ({ oneState, setOneState }) => {
                     />
                 </Alert>
             )}
-            <form >
+            <form onSubmit={onSubmit} >
                 <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
@@ -166,11 +182,11 @@ const Cliente = ({ oneState, setOneState }) => {
                             type="number"
                             name="cedula"
                             value={registroSeleccionado?.ci}
-                            onChange={e => setCedula(e.target.value)}
+                            onChange={e => cambiarValoresRegistro("ci", e.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>
-                        <Select color="gray.400" onChange={e => setSexo(e.target.value)} defaultValue="sexo">
+                        <Select color="gray.400" onChange={e => cambiarValoresRegistro("sexo", e.target.value)} defaultValue="sexo">
                             <option hidden colorScheme="gray.400">Genero:</option>
                             <option value={registroSeleccionado?.sexo}>Masculino</option>
                             <option value={registroSeleccionado?.sexo}>Femenino</option>
@@ -183,8 +199,8 @@ const Cliente = ({ oneState, setOneState }) => {
                             placeholder='Nombres:'
                             type="text"
                             name="nombre"
-                            value={registroSeleccionado ? registroSeleccionado?.nombres : ''}
-                            onChange={e => setNombres(e.target.value)}
+                            value={registroSeleccionado?.nombres}
+                            onChange={e => cambiarValoresRegistro("nombres", e.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>
@@ -193,7 +209,7 @@ const Cliente = ({ oneState, setOneState }) => {
                             type="text"
                             name="apellido"
                             value={registroSeleccionado?.apellidos}
-                            onChange={e => setApellido(e.target.value)}
+                            onChange={e => cambiarValoresRegistro("apellidos", e.target.value)}
                         />
                     </FormControl>
                 </Grid>
@@ -204,7 +220,7 @@ const Cliente = ({ oneState, setOneState }) => {
                             type="Text"
                             name="fecha_nacimiento"
                             value={registroSeleccionado ? registroSeleccionado?.fecha_nacimiento : fecha_nacimiento}
-                            onChange={(event) => setFecha_nacimiento(event.target.value)}
+                            onChange={e => cambiarValoresRegistro("fecha_nacimiento", e.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>
@@ -213,7 +229,7 @@ const Cliente = ({ oneState, setOneState }) => {
                             type="text"
                             name="direccion"
                             value={registroSeleccionado?.direccion}
-                            onChange={(event) => setDireccion(event.target.value)}
+                            onChange={e => cambiarValoresRegistro("direccion", e.target.value)}
                         />
                     </FormControl>
                 </Grid>
@@ -225,7 +241,7 @@ const Cliente = ({ oneState, setOneState }) => {
                             type="email"
                             name="email"
                             value={registroSeleccionado?.email}
-                            onChange={(event) => setEmail(event.target.value)} />
+                            onChange={e => cambiarValoresRegistro("email", e.target.value)} />
                     </FormControl>
                     <FormControl mb={3}>
                         <Input
@@ -233,10 +249,11 @@ const Cliente = ({ oneState, setOneState }) => {
                             type="text"
                             name="Telefono"
                             value={registroSeleccionado?.telefono_celular}
-                            onChange={(event) => setTelefono(event.target.value)}
+                            onChange={e => cambiarValoresRegistro("telefono_celular", e.target.value)}
                         />
                     </FormControl>
                 </Grid>
+
             </form>
             <Button
                 borderRadius={'20px'}
@@ -252,7 +269,7 @@ const Cliente = ({ oneState, setOneState }) => {
                 isOpen={mostrarModal}
                 onClose={toggleModal}>
                 <ModalOverlay />
-                <ModalContent  minH={'500px'} borderRadius={'20px'} bg="#ffff">
+                <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
                     <ModalHeader>
                         <Button
                             borderRadius={'50%'}
@@ -347,7 +364,7 @@ const Cliente = ({ oneState, setOneState }) => {
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'
-                onClick={mensajeAlerta}>
+                onClick={onSubmit}>
                 Guardar
             </Button>
         </>

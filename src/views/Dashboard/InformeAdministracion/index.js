@@ -168,7 +168,7 @@ const Dashboard = () => {
                 />
               </Badge>
             </Box>
-            <Box p={"10px"}>
+            <Box minH={'180px'} minW={'180px'} p={"10px"}>
               <Heading size="sm">Fecha de ingreso</Heading>
               <Text
                 textAlign={"right"}
@@ -204,7 +204,10 @@ const Dashboard = () => {
           borderRadius={'20px'}
           backgroundSize="cover"
           backgroundPosition="center"
-          height={'auto'} >
+          overflowY="scroll"
+          overflowX="hidden"
+          maxH={'40em'}
+        >
           <Box padding={'2%'} >
             <Heading
               size="md"
@@ -213,27 +216,14 @@ const Dashboard = () => {
             </Heading>
             <Box
               width={'100%'}
+              m={"20px 30px 30px 10px"}
               backgroundColor={'#FFFF'}
               boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
               padding={"25px"}
               borderRadius="20px"
-              m={"20px 30px 30px 30px"}
               minH={'300px'} maxH={'300px'}
               overflowY="scroll"
               overflowX="hidden"
-              css={{
-                '&::-webkit-scrollbar': {
-                  width: '12px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  background: 'none',
-                  maxHeight: '50%'
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  background: '#137797',
-                  borderRadius: '6px',
-                },
-              }}
             >
               <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
                 <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
@@ -248,37 +238,15 @@ const Dashboard = () => {
             </Heading>
             <Box
               width={'100%'}
+              m={"20px 30px 30px 10px"}
               backgroundColor={'#FFFF'}
               boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
               padding={"25px"}
               borderRadius="20px"
-              m={"20px 30px 30px 30px"}
               minH={'300px'}
               maxH={'300px'}
               overflowY="auto"
               overflowX="hidden"
-              css={{
-                '&::-webkit-scrollbar': {
-                  width: '10px',
-                  height: "10px"
-                },
-                '&::-webkit-scrollbar-track': {
-                  background: 'none',
-                  maxHeight: '50px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  background: '#137797',
-                  borderRadius: '4px',
-                  maxHeight:'80%'
-                },
-                // Agrega estilos más específicos para anular estilos anteriores si es necesario
-                '&::-webkit-scrollbar-thumb:hover': {
-                  background: '#137797',
-                },
-                '&::-webkit-scrollbar-thumb:active': {
-                  background: '#137797',
-                },
-              }}
             >
               <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
                 <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
@@ -297,7 +265,7 @@ const Dashboard = () => {
           </Box>
         </Box>
         <Modal
-          size={size}
+          size={'4xl'}
           maxWidth='100%'
           isOpen={showModal}
           onClose={toggleModal}>

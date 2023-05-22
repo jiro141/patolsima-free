@@ -103,41 +103,6 @@ const ListaInformes = () => {
 
         toggleModal();
     }
-    // const [handleChange, setHandleChange] = useState('');
-    // const seleccionarRegistro = (registro) => {
-    //     setRegistroSeleccionado(registro);
-
-    //     console.log('Registro seleccionado:', registro);
-
-    //     const Form = ({ initialData }) => {
-    //         const [data, setData] = useState(initialData ?? {})
-
-    //         const handleChange = (e) => {
-    //             setData({ ...registro, [e.target.name]: e.target.value })
-    //         }
-
-    //         const handleSubmit = (e) => {
-    //             e.preventDefault()
-    //             console.log(registro)
-    //         }
-    //     }
-
-    //carga de datos de la lista 
-    // const [handleSubmit, serHandleSubmit] = useState(null);
-    // const [data, seData] = useState('');
-
-    // const Form = ({ initialData }) => {
-    //     const [data, setData] = useState(initialData ?? {})
-
-    //     const handleChange = (e) => {
-    //         setData({ ...data, [e.target.name]: e.target.value })
-    //     }
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault()
-
-    // }
-    // }
 
     return (
         <>
