@@ -27,35 +27,17 @@ import {
     // SelectOption
 } from '@chakra-ui/react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import BusquedaCliente from './BusquedaCliente';
-import { authApi, makeRequest, apiURLs } from 'api/authApi';
-// import { apiURLs } from 'api/authApi';
+// import { authApi, makeRequest, apiURLs } from 'api/authApi';
+import AuthContext from 'context/authContext/AuthContext';
+import { getPacientesList } from 'api/controllers/pacientes';
+
+
+
 
 const Cliente = ({ oneState, setOneState }) => {
-    //definicion de los valores a cargar
-
-    //carga de los datos del formulario
-    // const formData = {
-    //     ci,
-    //     nombres,
-    //     apellido,
-    //     fecha_nacimiento,
-    //     direccion,
-    //     email,
-    //     telefono,
-    //     sexo
-    // };
-    // useEffect(() => {
-    //     // console.log(cedula, nombre, apellido, fecha_nacimiento, procedencia, email, telefono);
-    //     if (ci && nombres && apellido && fecha_nacimiento && direccion && email && telefono && sexo) {
-    //         setOneState(true);
-    //     } else {
-    //         setOneState(false);
-    //     }
-    // }, [ci, nombres, apellido, fecha_nacimiento, direccion, email, telefono, sexo]);
-
-
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
     //alerta 
@@ -88,23 +70,30 @@ const Cliente = ({ oneState, setOneState }) => {
         }
     );
 
-    const cambiarValoresRegistro = (key, value) => {
-        setRegistroSeleccionado((prevState) => ({
-            ...prevState,
-            [key]: value,
-        }));
-    };
+    // const cambiarValoresRegistro = (key, value) => {
+    //     setRegistroSeleccionado((prevState) => ({
+    //         ...prevState,
+    //         [key]: value,
+    //     }));
+    // };
     //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
+
+
+    // useEffect(() => {
+    //     const accessCookie = Cookies.get('access');
+    //     console.log('acess cookie =>');
+    //     console.log(accessCookie);
+    //     // authContext.refreshToken();
+    //   }, []);
+
     const peticionGet = async () => {
-        const token = decodeURIComponent(document.cookie).split(";")[1].slice(7);
-        await authApi.get("/v1/core/pacientes/", {
-        })
-            .then(response => {
-                setPacientes(response.data.results);
-                setTabla(response.data.results);
-            }).catch(error => {
-                console.log(error);
-            })
+        try{
+           const pacientesList = await getPacientesList()
+           setPacientes(pacientesList);
+           console.log(pacientesList);
+        } catch (error){
+            console.log(error);
+        }
     };
     useEffect(() => {
         peticionGet();
@@ -187,7 +176,7 @@ const Cliente = ({ oneState, setOneState }) => {
                     </FormControl>
                     <FormControl mb={3}>
                         <Select color="gray.400" onChange={e => cambiarValoresRegistro("sexo", e.target.value)} defaultValue="sexo">
-                            <option hidden colorScheme="gray.400">Genero:</option>
+                            <option hidden color="gray.400">Genero:</option>
                             <option value={registroSeleccionado?.sexo}>Masculino</option>
                             <option value={registroSeleccionado?.sexo}>Femenino</option>
                         </Select>

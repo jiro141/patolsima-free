@@ -204,7 +204,9 @@ const SidebarContent = ({ logoText, routes }) => {
         </Box>
       </Box>
       <Stack direction="column" mb="40px">
-        <Box>{links} <Separator></Separator></Box>
+        <Box>{links} 
+        <Separator></Separator>
+        </Box>
       </Stack>
       <Calendario />
     </Box>

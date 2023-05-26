@@ -97,7 +97,6 @@ const Dashboard = () => {
 
   const renderStudies = (studies) => {
     return studies.map((study) => (
-      <Flex flexDirection={"row 7"}>
         <Link
           onClick={toggleModal}>
           <Box
@@ -162,7 +161,6 @@ const Dashboard = () => {
             </Box>
           </Box>
         </Link>
-      </Flex>
     ));
   };
 

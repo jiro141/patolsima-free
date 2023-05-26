@@ -1,8 +1,9 @@
 {
   "files": {
     "main.css": "/static/css/main.de6b3cd6.css",
-    "main.js": "/static/js/main.aae9aa44.js",
+    "main.js": "/static/js/main.ffa596e7.js",
     "static/media/Formato con fondo.svg": "/static/media/Formato con fondo.5aa27357600a8526efb82579b84b8fec.svg",
+    "static/media/Fondo molecular.png": "/static/media/Fondo molecular.99321d2416f8a1bd1fc6.png",
     "static/media/Textura.png": "/static/media/Textura.4b9cbeef9ba601a6f952.png",
     "static/media/logo.png": "/static/media/logo.b101904dde046277ba25.png",
     "static/media/login.png": "/static/media/login.a52bc62404e8afb08993.png",
@@ -35,10 +36,10 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/static/media/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
     "index.html": "/index.html",
     "main.de6b3cd6.css.map": "/static/css/main.de6b3cd6.css.map",
-    "main.aae9aa44.js.map": "/static/js/main.aae9aa44.js.map"
+    "main.ffa596e7.js.map": "/static/js/main.ffa596e7.js.map"
   },
   "entrypoints": [
     "static/css/main.de6b3cd6.css",
-    "static/js/main.aae9aa44.js"
+    "static/js/main.ffa596e7.js"
   ]
 }

@@ -1,6 +1,7 @@
 ﻿import React from "react"
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AdminLayout from "layouts/Admin.js";
 // Chakra imports
 import {
@@ -31,17 +32,44 @@ import Imagen from "assets/img/Textura.png";
 import logo from "assets/img/logo.png";
 import { authApi } from "api/authApi";
 import { useAuthContext } from "hooks/useAuthContext";
+import Axios from "api/authApi";
 
 function SignIn() {
+  // Estados para guardar el correo y la contraseña ingresados por el usuario
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const signIn = async () => {
+    try {
+      const { data } = await Axios.post("/login/", {
+        username: username,
+        password: password,
+      });
+       window.localStorage.setItem('access', data.access);
+       history.push('layouts/Admin.js'); 
+      // console.log(access); 	
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+
+
+
   // Chakra color mode
   const titleColor = useColorModeValue("#137797", "#137797");
   const textColor = useColorModeValue("gray.400", "white");
   const switchColor = useColorModeValue("#137797", "while");
 
   // Componente de inicio de sesión
-  // Estados para guardar el correo y la contraseña ingresados por el usuario
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+
+
+
+
+
+
   //Alerta para no seguir 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const history = useHistory();
@@ -50,24 +78,27 @@ function SignIn() {
 
 
 
+
   // Función de inicio de sesión
-  const handleLogin = async () => {
-    const body = {
-      username: username,
-      password: password,
-    };
-    try {
-      const response = await authApi.post("login/", body);
-      if (response.status === 200) {
-        context.getTokens(response.data)
-        console.log(response, "respuesta");
-        // Redirigir al dashboard
-        history.push('layouts/Admin.js');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleLogin = async () => {
+  //   const body = {
+  //     username: username,
+  //     password: password,
+  //   };
+  //   try {
+  //     // const response = await authApi.post("login/", body);
+  //     if (response.status === 200) {
+  //       context.getTokens(response.data)
+  //       // console.log(response.data.access, "respuesta");
+  //       // Redirigir al dashboard
+  //       history.push('layouts/Admin.js'); 
+  //     }
+  //   } catch (error) {
+  //     setShowErrorModal(true);
+  //   }
+  // };
+
+
 
 
   return (<>
@@ -189,7 +220,7 @@ function SignIn() {
                   bg: "#0D5C6F",
                   color: "white"
                 }}
-                onClick={handleLogin}>
+                onClick={() => signIn()}>
                 Iniciar sesión
               </Button>
 

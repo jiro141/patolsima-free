@@ -5,8 +5,8 @@ import Footer from 'components/Footer/Footer.js';
 // Layout components
 import AdminNavbar from 'components/Navbars/AdminNavbar.js';
 import Sidebar from 'components/Sidebar';
-import React, { useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import routes from 'routes.js';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -82,6 +82,26 @@ export default function Dashboard(props) {
 			}
 		});
 	};
+
+	//evitar darle atras 
+	const history = useHistory();
+
+	useEffect(() => {
+	  const handlePopstate = (event) => {
+		history.go(1); // Vuelve a avanzar una página para mantener al usuario en la página de inicio
+		window.history.pushState(null, document.title, window.location.href); // Reemplaza la entrada actual del historial
+	  };
+  
+	  window.addEventListener("popstate", handlePopstate);
+  
+	  return () => {
+		window.removeEventListener("popstate", handlePopstate);
+	  };
+	}, [history]);
+
+
+
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	document.documentElement.dir = 'ltr';
 	// Chakra Color Mode
