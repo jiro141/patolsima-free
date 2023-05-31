@@ -69,7 +69,7 @@ function Registro() {
             margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
             padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
             backgroundColor={'gray.100'}
-            backgroundImage={Imagen}
+            // backgroundImage={Imagen}
             borderTopLeftRadius={'20px'}
             backgroundSize="cover"
             backgroundPosition="center"

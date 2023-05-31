@@ -50,6 +50,7 @@ function SignIn() {
       // console.log(access); 	
     } catch (error) {
       console.log(error);
+      setShowErrorModal(true);
     }
   }
 

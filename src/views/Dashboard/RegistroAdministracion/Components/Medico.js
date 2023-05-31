@@ -19,25 +19,19 @@ import {
     Box,
     Center, Table, Thead, Tr, Th, Tbody
 } from '@chakra-ui/react';
-import axios from 'axios';
-import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-import BusquedaCliente from './BusquedaCliente';
+
+import { getMedicosList } from 'api/controllers/medicos';
+import Axios from 'api/authApi';
 
 const Medico = () => {
     //definicion de los valores a cargar
+    const [medicos, setMedicos] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
     const [especialidad, setEspecialidad] = useState('');
     const [email, setEmail] = useState('');
     const [telefono, setTelefono] = useState('');
-    //carga de los datos del formulario
-    const formData = {
-        nombre,
-        apellido,
-        especialidad,
-        email,
-        telefono,
-    };
+
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
     //alerta 
@@ -57,18 +51,27 @@ const Medico = () => {
     const [pasientes, setPasientes] = useState([]);
     const [tabla, setTabla] = useState([]);
     const [Busqueda, setBusqueda] = useState("");
-    const [registroSeleccionado, setRegistroSeleccionado] = useState(null);
+    const [registroSeleccionado, setRegistroSeleccionado] = useState(
+        {
+            ci: "",
+            nombres: "",
+            apellidos: "",
+            email: "",
+            telefono_celular: "",
+            especialidad: ""
+        }
+    );
     //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
     const peticionGet = async () => {
-        await axios.get("https://jsonplaceholder.typicode.com/users")
-            .then(response => {
-                setPasientes(response.data);
-                setTabla(response.data);
-            }).catch(error => {
-                //  console.log(error);
-            })
+        try {
+            const medicosList = await getMedicosList()
+            setMedicos(medicosList)
+            setTabla(medicosList)
+            //    console.log(pacientesList);
+        } catch (error) {
+            console.log(error);
+        }
     };
-    //para activar el evento que filtra a los datos que se encuentran la lista
     useEffect(() => {
         peticionGet();
     }, []);
@@ -79,92 +82,43 @@ const Medico = () => {
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
     const filtrar = (terminoBusqueda) => {
-        var resultadoBusqueda = tabla.filter((elemento) => {
-            if (elemento.name.toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento.username.toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento.address.zipcode.includes(terminoBusqueda)
+        let resultadoBusqueda = tabla.filter((elemento) => {
+            if (elemento.nombres.toLowerCase().includes(terminoBusqueda.toLowerCase())
+                ||
+                elemento.apellidos.toLowerCase().includes(terminoBusqueda.toLowerCase())
+                ||
+                elemento.especialidad.toLowerCase().includes(terminoBusqueda.toLowerCase())
             ) {
                 return elemento;
             }
         });
-        setPasientes(resultadoBusqueda);
+        setMedicos(resultadoBusqueda);
     }
-    const [registro, setRegistro] = useState([]);
-    const seleccionarRegistro = (registro) => {
-        setRegistroSeleccionado(registro);
-
-        console.log('Registro seleccionado:', registro);
-
-        setNombre(registro.nombre);
-        setApellido(registro.apellido);
-        setEspecialidad(registro.especialidad);
-        setEmail(registro.email);
-        setTelefono(registro.telefono);
-
-        toggleModal();
+    const seleccionarRegistro = async (medico) => {
+        const token = localStorage.getItem("access");
+        Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+        try {
+            const response = await Axios.get(`/v1/core/medicos/${medico.id}/`);
+            const registro = response.data; // Obtener solo la propiedad 'data'
+            setRegistroSeleccionado(registro);
+            toggleModal(true)
+        } catch (error) {
+            console.log(error);
+        }
     }
-    // const [handleChange, setHandleChange] = useState('');
-    // const seleccionarRegistro = (registro) => {
-    //     setRegistroSeleccionado(registro);
-
-    //     console.log('Registro seleccionado:', registro);
-
-    //     const Form = ({ initialData }) => {
-    //         const [data, setData] = useState(initialData ?? {})
-
-    //         const handleChange = (e) => {
-    //             setData({ ...registro, [e.target.name]: e.target.value })
-    //         }
-
-    //         const handleSubmit = (e) => {
-    //             e.preventDefault()
-    //             console.log(registro)
-    //         }
-    //     }
-
-    //carga de datos de la lista 
-    // const [handleSubmit, serHandleSubmit] = useState(null);
-    // const [data, seData] = useState('');
-
-    // const Form = ({ initialData }) => {
-    //     const [data, setData] = useState(initialData ?? {})
-
-    //     const handleChange = (e) => {
-    //         setData({ ...data, [e.target.name]: e.target.value })
-    //     }
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault()
-
-    // }
-    // }
 
     return (
         <>
-            {/* como se muestra la alerta en pantalla */}
-            {alerta && (
-                <Alert status='error' mb={4}>
-                    <AlertIcon />
-                    Por favor, llene todos los campos antes de continuar.
-                    <CloseButton
-                        position="absolute"
-                        right="8px"
-                        top="8px"
-                        onClick={() => mensajeAlerta(false)}
-                    />
-                </Alert>
-            )}
             <form >
-                {/* onSubmit={handleSubmit}> */}
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
+                <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Nombres:'
                             type="text"
                             name="Nombre"
-                            value={nombre}
-
+                            value={registroSeleccionado?.nombres}
+                            onChange={e => cambiarValoresRegistro("nombres", e.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>
@@ -172,31 +126,31 @@ const Medico = () => {
                             placeholder='Apellidos:'
                             type="text"
                             name="Apellido"
-                            value={apellido}
-
+                            value={registroSeleccionado?.apellidos}
+                            onChange={e => cambiarValoresRegistro("apellidos", e.target.value)}
                         />
                     </FormControl>
                 </Grid>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
+                <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Especialidad '
                             type="text"
                             name="Especialidad"
-                            value={especialidad}
-
+                            value={registroSeleccionado?.especialidad}
+                            onChange={e => cambiarValoresRegistro("especialidad", e.target.value)}
                         />
                     </FormControl>
                 </Grid>
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información de Contacto</Text>
-                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap={{lg:'20px',sm:'5px'}}>
+                <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
                         <Input
                             placeholder='Email:'
                             type="email"
                             name="email"
-                            value={email}
-
+                            value={registroSeleccionado?.email}
+                            onChange={e => cambiarValoresRegistro("email", e.target.value)}
                         />
                     </FormControl>
                     <FormControl mb={3}>
@@ -204,8 +158,8 @@ const Medico = () => {
                             placeholder='Telefono de Contacto:'
                             type="text"
                             name="Telefono"
-                            value={telefono}
-
+                            value={registroSeleccionado?.telefono_celular}
+                            onChange={e => cambiarValoresRegistro("telefono_celular", e.target.value)}
                         />
                     </FormControl>
                 </Grid>
@@ -289,22 +243,22 @@ const Medico = () => {
                                             </Tr>
                                         </Thead>
                                         <Tbody>
-                                            {pasientes && pasientes.map((pasientes) => (
-                                                <Tr key={pasientes.id}>
-                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                        {pasientes.name}
+                                            {medicos && medicos.map((medico) => (
+                                                <Tr key={medico.id}>
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(medico)}>
+                                                        {medico.nombres}
                                                     </Link>
-                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                        {pasientes.username}
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(medico)}>
+                                                        {medico.apellidos}
                                                     </Link>
-                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                        {pasientes.address.zipcode}
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(medico)}>
+                                                        {medico.especialidad}
                                                     </Link>
-                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                        {pasientes.phone}
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(medico)}>
+                                                        {medico.telefono_celular}
                                                     </Link>
-                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                                        {pasientes.email}
+                                                    <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(medico)}>
+                                                        {medico.email}
                                                     </Link>
                                                 </Tr>
                                             ))}

@@ -25,11 +25,25 @@ import ModalFacturacion from "./components/ModalFacturacion";
 import ListaFacturas from "./components/ListaFacturas";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
+import { getFacturasList } from "api/controllers/facturas";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const colorA = '#137797';
 
+  const[facturas,setFacturas]= useState('');
+  const peticionGet = async () => {
+    try {
+      const facturasList = await getFacturasList()
+      setFacturas(facturasList)
+      //    console.log(pacientesList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    peticionGet();
+  }, []);
   const sinProcesarStudies = [
     {
       id: 1,
@@ -97,70 +111,70 @@ const Dashboard = () => {
 
   const renderStudies = (studies) => {
     return studies.map((study) => (
-        <Link
-          onClick={toggleModal}>
+      <Link
+        onClick={toggleModal}>
+        <Box
+          margin={"5px auto 5px auto"}
+          boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
+          borderRadius={"16px"}
+          key={study.id}
+          padding={"0"}
+        >
           <Box
-            margin={"5px auto 5px auto"}
-            boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-            borderRadius={"16px"}
-            key={study.id}
-            padding={"0"}
+            borderTopLeftRadius={"16px"}
+            borderTopRightRadius={"16px"}
+            backgroundColor={colorA}
+            padding={'10px'}
+            paddingBottom={'0px'}
+            minH={'15px'}
           >
-            <Box
-              borderTopLeftRadius={"16px"}
-              borderTopRightRadius={"16px"}
-              backgroundColor={colorA}
-              padding={'10px'}
-              paddingBottom={'0px'}
-              minH={'15px'}
+            <Badge
+              textAlign={"center"}
+              background={"none"}
+              padding={"5px 20px 0px 20px"}
+              w={'180px'}
+              height={'35px'}
             >
-              <Badge
-                textAlign={"center"}
-                background={"none"}
-                padding={"5px 20px 0px 20px"}
-                w={'180px'}
-                height={'35px'}
-              >
-                <Icon
-                  border={"solid"}
-                  borderColor={colorA}
-                  marginTop={"-15%"}
-                  marginLeft={"86%"}
-                  height={"50px"}
-                  width={"50px"}
-                  padding={"5px"}
-                  borderRadius={"50%"}
-                  as={BsReceipt}
-                  backgroundColor={"#FFFF"}
-                  color={colorA}
-                />
-              </Badge>
-            </Box>
-            <Box p={"10px"}>
-              <Heading fontSize={'16px'}>Fecha</Heading>
-              <Text
-                textAlign={"right"}
-                ml={2}
-                fontSize={'16px'}
-                color={useColorModeValue("gray.600", "gray.400")}
-              >
-                {study.fecha}
-              </Text>
-              <Heading fontSize={'16px'}>Paciente</Heading>
-              <Text
-                fontSize={'16px'}
-                textAlign={"right"}
-                color={useColorModeValue("gray.600", "gray.400")}
-              >
-                {study.paciente}
-              </Text>
-              <Heading fontSize={'16px'}>RIF/CI</Heading>
-              <Text fontSize={'16px'} textAlign={"right"}>{study.ci}</Text>
-              <Heading fontSize={'16px'}>Monto Total</Heading>
-              <Text fontSize={'16px'} textAlign={"right"}>{study.monto} ($)</Text>
-            </Box>
+              <Icon
+                border={"solid"}
+                borderColor={colorA}
+                marginTop={"-15%"}
+                marginLeft={"86%"}
+                height={"50px"}
+                width={"50px"}
+                padding={"5px"}
+                borderRadius={"50%"}
+                as={BsReceipt}
+                backgroundColor={"#FFFF"}
+                color={colorA}
+              />
+            </Badge>
           </Box>
-        </Link>
+          <Box p={"10px"}>
+            <Heading fontSize={'16px'}>Fecha</Heading>
+            <Text
+              textAlign={"right"}
+              ml={2}
+              fontSize={'16px'}
+              color={useColorModeValue("gray.600", "gray.400")}
+            >
+              {study.fecha}
+            </Text>
+            <Heading fontSize={'16px'}>Paciente</Heading>
+            <Text
+              fontSize={'16px'}
+              textAlign={"right"}
+              color={useColorModeValue("gray.600", "gray.400")}
+            >
+              {study.paciente}
+            </Text>
+            <Heading fontSize={'16px'}>RIF/CI</Heading>
+            <Text fontSize={'16px'} textAlign={"right"}>{study.ci}</Text>
+            <Heading fontSize={'16px'}>Monto Total</Heading>
+            <Text fontSize={'16px'} textAlign={"right"}>{study.monto} ($)</Text>
+          </Box>
+        </Box>
+      </Link>
     ));
   };
 
