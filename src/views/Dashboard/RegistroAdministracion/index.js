@@ -9,11 +9,12 @@ import {
     Image
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import Cliente from './Components/Cliente';
-import Medico from './Components/Medico';
 import Muestra from './Components/Muestra';
 import Muestra2 from './Components/Muestra 2';
-import Imagen from 'assets/img/Fondo molecular.png'
+import ClienteCardPostInitial from 'components/widgets/ClienteCardPostInitial';
+import ClienteCardPut from 'components/widgets/ClienteCardPut';
+import MedicoCardPostInitial from 'components/widgets/MedicoCardPostInitial';
+import MedicoCardPut from 'components/widgets/MedicoCardPut';
 
 function Registro() {
     //activar o desactivar el tab
@@ -21,7 +22,33 @@ function Registro() {
     //tabs para los nombres
     const MotionTab = motion(Tab);
     //alerta
-    const [oneState, setOneState] = useState(false);
+    const [oneState, setOneState] = useState('post');
+    const [twoState, setTwoState] = useState('post');
+    //estado para el boton pase de loading... 
+    const [isLoading, setIsloading] = useState(false);
+    // Este es el estado que va a guardar los datos seleccionados del cliente (ojo hay que hacer uno distinto para paciente)
+    // lo pasa por parametro a los dos dos componentes clienteCardPostInitial (setRegistroSeleccionadoCliente) y pasa (registroSeleccionadoCliente) al clienteCardPut 
+    const [registroSeleccionadoCliente, setRegistroSeleccionadoCliente] = useState(
+        {
+            ci: "",
+            nombres: "",
+            apellidos: "",
+            email: "",
+            telefono_celular: "",
+            direccion: "",
+            fecha_nacimiento: "",
+            sexo: ""
+        }
+    );
+    const [resgistroSeleccionadoMedico, setRegistroSeleccionadoMedico] = useState(
+        {
+            nombres: "",
+            apellidos: "",
+            especialidad: "",
+            email: "",
+            telefono_celular: "",
+        }
+    );
 
     const CustomTab = ({ title, isActive, isDisabled = false }) => {
         return (
@@ -29,7 +56,7 @@ function Registro() {
                 margin="30px 5px 0 5px"
                 border="none"
                 bg={isActive ? "#9BC5D3" : "#9BC5D3"}
-                color={isActive ? "#FFFF" : "transpared"}
+                color={isActive ? "#2b6cb0" : "transpared"}
                 borderRadius={isActive ? "40px" : "45%"}
                 padding={isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "15px" }}
                 fontSize={isActive ? "20px" : "0px"}
@@ -64,6 +91,7 @@ function Registro() {
             </MotionTab>
         );
     };
+    
     return (
         <Box
             margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
@@ -77,7 +105,7 @@ function Registro() {
             overflowX="hidden"
             maxH={'42em'}
             scrollPadding={'1px'}
-            
+
         >
             <Box
                 backgroundSize="cover"
@@ -94,31 +122,42 @@ function Registro() {
                             <CustomStudy2 title="Estudio2" activeTab={activeTab} isActive={activeTab === 3} />
                         </TabList>
                         <TabPanels>
-                            <TabPanel>
-                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
-                                    <Cliente oneState={oneState} setOneState={setOneState} />
-                                </Box>
-                            </TabPanel>
-                            <TabPanel>
-                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                    <Medico />
-                                </Box>
-                            </TabPanel>
-                            <TabPanel>
-                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                    <Muestra />
-                                </Box>
-                            </TabPanel>
-                            <TabPanel>
-                                <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                    <Muestra2 />
-                                </Box>
-                            </TabPanel>
+                            {/* {activeTab === 0 && ( */}
+                                <TabPanel>
+                                    {oneState === 'post' && activeTab === 0 ?
+                                        <ClienteCardPostInitial  registro={registroSeleccionadoCliente} setRegistro={setRegistroSeleccionadoCliente} oneState={oneState} setOneState={setOneState} />
+                                        :
+                                        <ClienteCardPut  registro={registroSeleccionadoCliente} setRegistro={setRegistroSeleccionadoCliente} oneState={oneState} setOneState={setOneState} />
+                                    }
+                                </TabPanel>
+                            {/* )} */}
+                            {/* {activeTab === 1 && ( */}
+                                <TabPanel>
+                                    {twoState === 'post' && activeTab === 1 ?
+                                        <MedicoCardPostInitial  registro={resgistroSeleccionadoMedico} setRegistro={setRegistroSeleccionadoMedico} twoState={twoState} setTwoState={setTwoState} />
+                                        :
+                                        <MedicoCardPut  registro={resgistroSeleccionadoMedico} setRegistro={setRegistroSeleccionadoMedico} twoState={twoState} setTwoState={setTwoState} />}
+
+                                </TabPanel>
+                            {/* )} */}
+                            {/* {activeTab === 2 && ( */}
+                                <TabPanel>
+                                    <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
+                                        <Muestra  />
+                                    </Box>
+                                </TabPanel>
+                            {/* )} */}
+                            {/* {activeTab === 3 && ( */}
+                                <TabPanel>
+                                    <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
+                                        <Muestra2  />
+                                    </Box>
+                                </TabPanel>
+                            {/* )} */}
                         </TabPanels>
                     </Tabs >
                 </Box >
             </Box>
-            {/* <Box position="absolute" marginTop={'-50%'} zIndex={'1'}><Image zIndex={1} h={{ lg: '39em', md: "39em", sm: "35em" }} w='90em' src={fondo} alt='Logo palmosima' /></Box> */}
         </Box>
     );
 }

@@ -1,12 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import {
-    Alert,
-    AlertIcon,
     Button,
     FormControl,
-    FormLabel,
     Input,
-    Heading,
     Text,
     Grid,
     Modal,
@@ -32,83 +28,57 @@ import { getPacientesList, getPacientesDetail } from 'api/controllers/pacientes'
 import { postPacientes } from 'api/controllers/pacientes';
 import { deletePaciente } from 'api/controllers/pacientes';
 import { BsFillTrashFill } from "react-icons/bs";
-import Confirmacion from './Confirmacion';
+import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Confirmacion';
+import { putPacientes } from 'api/controllers/pacientes';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const ClienteCardPut = ({ oneState, setOneState, registro, setRegistro }) => {
 
-
-
-const Cliente = ({ oneState, setOneState }) => {
-
-     //estado de data inicial 
-    //  const [data, setData] = useState({});
-    const formik = useFormik({
-        initialValues: {
-            nombres: '',
-            apellidos: '',
-            ci: '',
-            telefono_celular: "",
-            direccion: "",
-            fecha_nacimiento: "",
-            sexo: "",
-            email: ""
-        },
-        validationSchema: Yup.object(
-            {
-                nombres: Yup.string().required('Los nombres son obligatorios'),
-                apellidos: Yup.string().required('Los apellidos son obligatorios'),
-                ci: Yup.string().required('La cedula es obligatoria'),
-                telefono_celular: Yup.string().required('el telefono es obligatorio'),
-                direccion: Yup.string().required('La direccion es obligatoria'),
-                fecha_nacimiento: Yup.string().required('La fecha de nacimiento es obligatoria'),
-                sexo: Yup.string().required('el sexo es obligatorio'),
-                email: Yup.string().email('direccion de correo no valida').required('el correo es obligatorio')
-            }
-        ),
-        validateOnChange: false,
-        onSubmit: async (formData, { resetForm }) => { // se agregar resetForm para limpar los campos del formulario 
-            try {
-                const pacientePost = await postPacientes(formData);
-                // const setFormValues = (values) => {
-                //     setData((prevValues) => ({
-                //       ...prevValues,
-                //       ...values,
-                //     }));
-                //   };
-               // resetForm();
-                // setPacientes([...pacientes, pacientePost]); // para no refrezcar la pag, se setea el estado
-            }
-            catch (error) {
-                console.log(error);
-            }
-            return;
-        },
-    });
-
-    const isError = formik.errors
-
-    //para la tabla flotante, modal es la terminologia para ventana flotante 
-    const [mostrarModal, setMostrarModal] = useState(false);
-    const toggleModal = () => {
-        setMostrarModal(!mostrarModal);
-    };
-    //consultar los datos de la api, mostrarlos en la lista 
+    //creacion de estados 
     const [pacientes, setPacientes] = useState([]);
     const [pacientesEstatico, setPacientesEstatico] = useState([]);
     const [Busqueda, setBusqueda] = useState("");
-   
-    
-    const [registroSeleccionado, setRegistroSeleccionado] = useState(
-        {
-            ci: "",
-            nombres: "",
-            apellidos: "",
-            email: "",
-            telefono_celular: "",
-            direccion: "",
-            fecha_nacimiento: "",
-            sexo: ""
+    const [mostrarModal, setMostrarModal] = useState(false);
+    const [pacienteName, setPacienteName] = useState('');
+    const [pacienteID, setPacienteID] = useState('');
+    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+    //estado para el boton pase de loading... 
+    const [isLoading, setIsloading] = useState(false);
+
+    //funcion para enviar valores put (falta arreglar 2/6/2023)
+    const onSubmit = async (paciente) => {
+        setIsloading(true);
+        try {
+            const pacientePut = await putPacientes(pacienteID, registro)
+            if (pacientePut) {
+                toast.success('¡El paciente fue guardado correctamente!', {
+                    autoClose: 1500,
+                    onClose: () => {
+                        setIsloading(false);
+                    }
+                });
+            } else {
+                toast.error('¡Hubo un error al guardar el paciente!', {
+                    autoClose: 1500,
+                    onClose: () => {
+                        setIsloading(false);
+                    }
+                });
+            }
         }
-    );
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    //para la tabla flotante, modal es la terminologia para ventana flotante 
+    const toggleModal = () => {
+        setMostrarModal(!mostrarModal);
+    };
+
+
+    //consultar los datos de la api, mostrarlos en la lista 
     const peticionGet = async () => {
         try {
             const pacientesList = await getPacientesList()
@@ -127,17 +97,16 @@ const Cliente = ({ oneState, setOneState }) => {
         filtrar(event.target.value);
     };
 
-    const [pacienteName, setPacienteName] = useState('');
-    const [pacienteID,setPacienteID]=useState('');
-    
-    
     // dentro de estafuncion cambio el estado a put 
     const seleccionarRegistro = async (paciente) => {
+        setPacienteID(paciente.id)
         try {
             const pacienteDetail = await getPacientesDetail(paciente.id)
-            setRegistroSeleccionado(pacienteDetail);
+            console.log(pacienteDetail);
+            setRegistro(pacienteDetail);
             toggleModal(true);
             setOneState('put')
+            console.log(registro);
         } catch (error) {
             console.log(error);
         }
@@ -145,23 +114,22 @@ const Cliente = ({ oneState, setOneState }) => {
 
 
     //modal confirmacion eliminacion 
-    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
     const toggleModalConfirmacion = (paciente) => {
         setShowModalConfirmacion(!showModalConfirmacion);
         setPacienteName(`${paciente.nombres} ${paciente.apellidos}`);
         setPacienteID(paciente.id)
 
     };
+    //eliminar paciente viene desde los controladores de paciente
     const eliminarPaciente = async (pacienteID) => {
         try {
             const pacienteDelete = await deletePaciente(pacienteID);
             setPacientes(pacientes.filter(p => p.id !== pacienteID));
-             // Eliminar el paciente del estado local
+            // Eliminar el paciente del estado local
         } catch (error) {
             console.log(error);
         }
     }
-    
     //para activar el evento que filtra a los datos que se encuentran la lista
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
@@ -178,133 +146,103 @@ const Cliente = ({ oneState, setOneState }) => {
         });
         setPacientes(resultadoBusqueda);
     }
-
+    //esta funcion cambia los valores que tienen los inputs
+    const cambiarValoresRegistro = (key, value) => {
+        setRegistro((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
     return (
-        <>
-            <form onSubmit={formik.handleSubmit}>
+        <Box
+            backgroundColor={"#FFFF"}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
+            padding={'30px'}
+            borderRadius='20px'
+            m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
+            <form onSubmit={onSubmit}>
                 <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
-                    <FormControl isInvalid={formik.errors.ci} mb={3}>
+                    <FormControl mb={3}>
                         <Input
                             isRequired
                             placeholder='Cédula:'
                             type="number"
                             name="cedula"
-                            value={formik.values.ci}
-                            onChange={e => formik.setFieldValue('ci', e.target.value)}
+                            value={registro?.ci}
+                            onChange={e => cambiarValoresRegistro("ci", e.target.value)}
                         />
-                        {!isError ? (
-                            <></>
-                        ) : (
-                            <FormErrorMessage>{formik.errors.ci}</FormErrorMessage>
-                        )}
                     </FormControl>
-                    <FormControl isInvalid={formik.errors.sexo} mb={3}>
+                    <FormControl mb={3}>
                         <Select
                             color="gray.400"
-                            onChange={e => formik.setFieldValue('sexo', e.target.value)}
                             defaultValue="sexo"
-                            value={formik.values.sexo}
-                            error={formik.errors.sexo}
+                            value={registro?.sexo}
+                            onChange={e => cambiarValoresRegistro("sexo", e.target.value)}
                         >
                             <option hidden color="gray.400">Género:</option>
                             <option value="MASCULINO">Masculino</option>
                             <option value="FEMENINO">Femenino</option>
                         </Select>
-                        {!isError ? (
-                            <></>
-                        ) : (
-                            <FormErrorMessage>{formik.errors.sexo}</FormErrorMessage>
-                        )}
                     </FormControl>
                 </Grid>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
-                    <FormControl isInvalid={formik.errors.nombres} mb={3}>
+                    <FormControl mb={3}>
                         <Input
                             placeholder='Nombres:'
                             type="text"
-                            name="nombre"
-                            value={formik.values.nombres}
-                            onChange={e => formik.setFieldValue('nombres', e.target.value)}
+                            name="nombres"
+                            value={registro?.nombres}
+                            onChange={e => cambiarValoresRegistro("nombres", e.target.value)}
                         />
-                        {!isError ? (
-                            <></>
-                        ) : (
-                            <FormErrorMessage>{formik.errors.nombres}</FormErrorMessage>
-                        )}
                     </FormControl>
-                    <FormControl isInvalid={formik.errors.apellidos} mb={3}>
+                    <FormControl mb={3}>
                         <Input
                             placeholder='Apellidos:'
                             type="text"
-                            name="apellido"
-                            value={formik.values.apellidos}
-                            onChange={e => formik.setFieldValue('apellidos', e.target.value)} />
-                        {!isError ? (
-                            <></>
-                        ) : (
-                            <FormErrorMessage>{formik.errors.apellidos}</FormErrorMessage>
-                        )}
+                            name="apellidos"
+                            value={registro?.apellidos}
+                            onChange={e => cambiarValoresRegistro("apellidos", e.target.value)} />
                     </FormControl>
                 </Grid>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
-                    <FormControl isInvalid={formik.errors.fecha_nacimiento} mb={3}>
+                    <FormControl mb={3}>
                         <Input
                             placeholder='Fecha de Nacimiento (AAAA-MM-DD): '
                             type="Text"
                             name="fecha_nacimiento"
-                            value={formik.values.fecha_nacimiento}
-                            onChange={e => formik.setFieldValue('fecha_nacimiento', e.target.value)}
+                            value={registro?.fecha_nacimiento}
+                            onChange={e => cambiarValoresRegistro("fecha_nacimiento", e.target.value)}
                         />
-                        {!isError ? (
-                            <></>
-                        ) : (
-                            <FormErrorMessage>{formik.errors.fecha_nacimiento}</FormErrorMessage>
-                        )}
                     </FormControl>
-                    <FormControl isInvalid={formik.errors.direccion} mb={3}>
+                    <FormControl mb={3}>
                         <Input
                             placeholder='Procedencia'
                             type="text"
                             name="direccion"
-                            value={formik.values.direccion}
-                            onChange={e => formik.setFieldValue('direccion', e.target.value)}
+                            value={registro?.direccion}
+                            onChange={e => cambiarValoresRegistro("direccion", e.target.value)}
                         />
-                        {!isError ? (
-                            <></>
-                        ) : (
-                            <FormErrorMessage>{formik.errors.direccion}</FormErrorMessage>
-                        )}
                     </FormControl>
                 </Grid>
                 <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información de Contacto</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
-                    <FormControl isInvalid={formik.errors.email} mb={3}>
+                    <FormControl mb={3}>
                         <Input
                             placeholder='Email:'
                             type="email"
                             name="email"
-                            value={formik.values.email}
-                            onChange={e => formik.setFieldValue('email', e.target.value)} />
+                            value={registro?.email}
+                            onChange={e => cambiarValoresRegistro("email", e.target.value)} />
                     </FormControl>
-                    {!isError ? (
-                        <></>
-                    ) : (
-                        <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-                    )}
-                    <FormControl isInvalid={formik.errors.telefono_celular} mb={3}>
+                    <FormControl mb={3}>
                         <Input
                             placeholder='Telefono de Contacto:'
                             type="text"
                             name="Telefono"
-                            value={formik.values.telefono_celular}
-                            onChange={e => formik.setFieldValue('telefono_celular', e.target.value)}
+                            value={registro?.telefono_celular}
+                            onChange={e => cambiarValoresRegistro("telefono_celular", e.target.value)}
                         />
-                        {!isError ? (
-                            <></>
-                        ) : (
-                            <FormErrorMessage>{formik.errors.telefono_celular}</FormErrorMessage>
-                        )}
                     </FormControl>
                 </Grid>
 
@@ -451,11 +389,17 @@ const Cliente = ({ oneState, setOneState }) => {
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'
-                onClick={formik.handleSubmit}>
+                onClick={onSubmit}
+                isLoading={isLoading}
+                loadingText="Guardando..."
+            >
                 Guardar
             </Button>
-        </>
+        </Box>
     );
 }
 
-export default Cliente;
+export default ClienteCardPut;
+// aqui debe pasarle por parametros el estado inicial (post)
+//ejemplo = setOneState('post')
+// este es el componente inicial de clientes (post)

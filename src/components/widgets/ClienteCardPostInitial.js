@@ -1,12 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import {
-    Alert,
-    AlertIcon,
     Button,
     FormControl,
-    FormLabel,
     Input,
-    Heading,
     Text,
     Grid,
     Modal,
@@ -32,15 +28,32 @@ import { getPacientesList, getPacientesDetail } from 'api/controllers/pacientes'
 import { postPacientes } from 'api/controllers/pacientes';
 import { deletePaciente } from 'api/controllers/pacientes';
 import { BsFillTrashFill } from "react-icons/bs";
-import Confirmacion from './Confirmacion';
+import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Confirmacion';
+import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const ClienteCardPostInitial = ({ oneState, setOneState, registro, setRegistro,siguiente, isLoading, setIsloading }) => {
+    const { setFormValues, pacienteID, setPacienteID } = useContext(ModoVisualizacionContext);
+    //manejo de estados
 
+    //modal listado de pacientes
+    const [mostrarModal, setMostrarModal] = useState(false);
+    //render de pacientes
+    const [pacientes, setPacientes] = useState([]);
+    //para buscar los pacientes en la lista
+    const [pacientesEstatico, setPacientesEstatico] = useState([]);
+    //el estado de busqueda de la lista
+    const [Busqueda, setBusqueda] = useState("");
+    //guardo los nombres para mostrar en la confirmacion
+    const [pacienteName, setPacienteName] = useState('');
+    //modal confirmacion eliminacion 
+    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+    //guardar el id del paciente a eliminar
+    const [pacienteIdDelete, setPacienteIdDelete] = useState('');
+    
 
-
-const Cliente = ({ oneState, setOneState }) => {
-
-     //estado de data inicial 
-    //  const [data, setData] = useState({});
+    //Formik junto con yup sirve para validar la entrada en los inputs, ademas hace una manera mas sencilla de manejar los metodos post y put
     const formik = useFormik({
         initialValues: {
             nombres: '',
@@ -66,102 +79,95 @@ const Cliente = ({ oneState, setOneState }) => {
         ),
         validateOnChange: false,
         onSubmit: async (formData, { resetForm }) => { // se agregar resetForm para limpar los campos del formulario 
+            // setIsloading(true);// cuando carga un paciente pasa a true
             try {
                 const pacientePost = await postPacientes(formData);
-                // const setFormValues = (values) => {
-                //     setData((prevValues) => ({
-                //       ...prevValues,
-                //       ...values,
-                //     }));
-                //   };
-               // resetForm();
-                // setPacientes([...pacientes, pacientePost]); // para no refrezcar la pag, se setea el estado
+                setFormValues(formData);
+                setPacienteID(pacientePost);
+                console.log(pacientePost);
+                if (pacientePost) {
+                    toast.success('¡El paciente fue guardado correctamente!', {
+                        autoClose: 1500,
+                        onClose: () => {
+                            // setIsloading(false);
+                        }
+                    });
+                } else {
+                    toast.error('¡Hubo un error al guardar el paciente!', {
+                        autoClose: 1500,
+                        onClose: () => {
+                            // setIsloading(false);
+                        }
+                    });
+                }
             }
             catch (error) {
                 console.log(error);
+
             }
             return;
         },
     });
-
     const isError = formik.errors
 
     //para la tabla flotante, modal es la terminologia para ventana flotante 
-    const [mostrarModal, setMostrarModal] = useState(false);
     const toggleModal = () => {
         setMostrarModal(!mostrarModal);
     };
-    //consultar los datos de la api, mostrarlos en la lista 
-    const [pacientes, setPacientes] = useState([]);
-    const [pacientesEstatico, setPacientesEstatico] = useState([]);
-    const [Busqueda, setBusqueda] = useState("");
-   
-    
-    const [registroSeleccionado, setRegistroSeleccionado] = useState(
-        {
-            ci: "",
-            nombres: "",
-            apellidos: "",
-            email: "",
-            telefono_celular: "",
-            direccion: "",
-            fecha_nacimiento: "",
-            sexo: ""
-        }
-    );
+
+    // hacer la peticion para que se muestre la lista de pacientes en el modal
     const peticionGet = async () => {
         try {
+            //aqui hago la peticion a los controladores
             const pacientesList = await getPacientesList()
+            //seteo el estado con la nueva carga de pacientes
             setPacientes(pacientesList)
+            //lo guardo para tambien filtrarlo en la lista
             setPacientesEstatico(pacientesList);
         } catch (error) {
             console.log(error);
         }
     };
+    //pd: no entiendo este useEffect pero si lo quito no funciona asi que se queda 
     useEffect(() => {
         peticionGet();
     }, []);
+    //cambia el estado de la busqueda para aplicar la el filtro en la funcion 
     const handleBusquedaChange = (event) => {
         console.log(event);
         setBusqueda(event.target.value);
         filtrar(event.target.value);
     };
 
-    const [pacienteName, setPacienteName] = useState('');
-    const [pacienteID,setPacienteID]=useState('');
-    
-    
     // dentro de estafuncion cambio el estado a put 
     const seleccionarRegistro = async (paciente) => {
         try {
             const pacienteDetail = await getPacientesDetail(paciente.id)
-            setRegistroSeleccionado(pacienteDetail);
+            setRegistro(pacienteDetail);
             toggleModal(true);
             setOneState('put')
         } catch (error) {
             console.log(error);
         }
     }
-
-
-    //modal confirmacion eliminacion 
-    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+    //abri el modal de confimacion 
     const toggleModalConfirmacion = (paciente) => {
         setShowModalConfirmacion(!showModalConfirmacion);
         setPacienteName(`${paciente.nombres} ${paciente.apellidos}`);
-        setPacienteID(paciente.id)
+        setPacienteIdDelete(paciente.id)
 
     };
+    //metodo delete cargo el ID, para enviarlo al controlador y alla lo reciba  
     const eliminarPaciente = async (pacienteID) => {
         try {
             const pacienteDelete = await deletePaciente(pacienteID);
             setPacientes(pacientes.filter(p => p.id !== pacienteID));
-             // Eliminar el paciente del estado local
+            // Eliminar el paciente del estado local
         } catch (error) {
             console.log(error);
         }
     }
-    
+
     //para activar el evento que filtra a los datos que se encuentran la lista
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
@@ -178,9 +184,13 @@ const Cliente = ({ oneState, setOneState }) => {
         });
         setPacientes(resultadoBusqueda);
     }
-
     return (
-        <>
+        <Box
+            backgroundColor={"#FFFF"}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
+            padding={'30px'}
+            borderRadius='20px'
+            m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
             <form onSubmit={formik.handleSubmit}>
                 <Text fontSize={'20px'} margin='15px 30px 30px 30px' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
@@ -207,7 +217,7 @@ const Cliente = ({ oneState, setOneState }) => {
                             value={formik.values.sexo}
                             error={formik.errors.sexo}
                         >
-                            <option hidden color="gray.400">Género:</option>
+                            <option hidden >Género:</option>
                             <option value="MASCULINO">Masculino</option>
                             <option value="FEMENINO">Femenino</option>
                         </Select>
@@ -440,7 +450,7 @@ const Cliente = ({ oneState, setOneState }) => {
                 <ModalOverlay />
                 <ModalContent marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
                     <ModalBody>
-                        <Confirmacion id={pacienteID} close={toggleModalConfirmacion} nombres={pacienteName} eliminar={eliminarPaciente} />
+                        <Confirmacion id={pacienteIdDelete} close={toggleModalConfirmacion} nombres={pacienteName} eliminar={eliminarPaciente} />
                     </ModalBody>
                 </ModalContent>
             </Modal>
@@ -451,11 +461,17 @@ const Cliente = ({ oneState, setOneState }) => {
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'
-                onClick={formik.handleSubmit}>
+                onClick={formik.handleSubmit}                  
+                isLoading={isLoading}
+                loadingText="Guardando..."
+            >
                 Guardar
             </Button>
-        </>
+        </Box >
     );
 }
 
-export default Cliente;
+export default ClienteCardPostInitial;
+// aqui debe pasarle por parametros el estado inicial (post)
+//ejemplo = setOneState('post')
+// este es el componente inicial de clientes (post)

@@ -21,6 +21,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
+import { getFacturasList } from 'api/controllers/facturas';
 // import BusquedaCliente from './BusquedaCliente';
 
 const ListaFacturas = () => {
@@ -54,24 +55,23 @@ const ListaFacturas = () => {
         setMostrarModal(!mostrarModal);
     };
     //consultar los datos de la api, mostrarlos en la lista 
-    const [pasientes, setPasientes] = useState([]);
+    const [facturas, setFacturas] = useState([]);
     const [tabla, setTabla] = useState([]);
     const [Busqueda, setBusqueda] = useState("");
     const [registroSeleccionado, setRegistroSeleccionado] = useState(null);
     //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
     const peticionGet = async () => {
-        await axios.get("https://jsonplaceholder.typicode.com/users")
-            .then(response => {
-                setPasientes(response.data);
-                setTabla(response.data);
-            }).catch(error => {
-                //  console.log(error);
-            })
-    };
-    //para activar el evento que filtra a los datos que se encuentran la lista
-    useEffect(() => {
+        try {
+          const facturasList = await getFacturasList()
+          setFacturas(facturasList)
+          setTabla(facturasList);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      useEffect(() => {
         peticionGet();
-    }, []);
+      }, []);
     const handleBusquedaChange = (event) => {
         setBusqueda(event.target.value);
         filtrar(event.target.value)
@@ -79,15 +79,15 @@ const ListaFacturas = () => {
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
     const filtrar = (terminoBusqueda) => {
-        var resultadoBusqueda = tabla.filter((elemento) => {
-            if (elemento.name.toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento.username.toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento.address.zipcode.includes(terminoBusqueda)
+        let resultadoBusqueda = tabla.filter((elemento) => {
+            if (elemento.cliente.razon_social.toLowerCase().includes(terminoBusqueda.toLowerCase())
+                ||
+                elemento.cliente.ci_rif.toString().includes(terminoBusqueda)
             ) {
                 return elemento;
             }
         });
-        setPasientes(resultadoBusqueda);
+        setFacturas(resultadoBusqueda);
     }
     const [registro, setRegistro] = useState([]);
     const seleccionarRegistro = (registro) => {
@@ -103,48 +103,11 @@ const ListaFacturas = () => {
 
         toggleModal();
     }
-    // const [handleChange, setHandleChange] = useState('');
-    // const seleccionarRegistro = (registro) => {
-    //     setRegistroSeleccionado(registro);
-
-    //     console.log('Registro seleccionado:', registro);
-
-    //     const Form = ({ initialData }) => {
-    //         const [data, setData] = useState(initialData ?? {})
-
-    //         const handleChange = (e) => {
-    //             setData({ ...registro, [e.target.name]: e.target.value })
-    //         }
-
-    //         const handleSubmit = (e) => {
-    //             e.preventDefault()
-    //             console.log(registro)
-    //         }
-    //     }
-
-    //carga de datos de la lista 
-    // const [handleSubmit, serHandleSubmit] = useState(null);
-    // const [data, seData] = useState('');
-
-    // const Form = ({ initialData }) => {
-    //     const [data, setData] = useState(initialData ?? {})
-
-    //     const handleChange = (e) => {
-    //         setData({ ...data, [e.target.name]: e.target.value })
-    //     }
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault()
-
-    // }
-    // }
+   
 
     return (
         <>
             <Box>
-                {/* {registroSeleccionado ? (
-                                <MostrarCliente registroSeleccionado={pasientes} />
-                            ) : ( */}
                 <Box>
                     <Box bg="none" py={4} mb={4}>
                         <Grid templateColumns={'1fr 2fr'} maxW="container.lg">
@@ -197,28 +160,28 @@ const ListaFacturas = () => {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {pasientes && pasientes.map((pasientes) => (
-                                    <Tr key={pasientes.id}>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.id}
+                                {facturas && facturas.map((facturas) => (
+                                    <Tr key={facturas.id}>
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(facturas)}>
+                                            {facturas.id}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.address.zipcode}
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(facturas)}>
+                                            {/* {facturas.address.zipcode} */}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.address.zipcode}
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(facturas)}>
+                                            {/* {facturas.address.zipcode} */}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.name}
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(facturas)}>
+                                            {facturas.cliente.razon_social}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.username}
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(facturas)}>
+                                            {facturas.cliente.ci_rif}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.address.geo.lat}
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(facturas)}>
+                                            {/* {facturas.address.geo.lat} */}
                                         </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.address.geo.lng}
+                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(facturas)}>
+                                            {/* {facturas.address.geo.lng} */}
                                         </Link>
                                     </Tr>
                                 ))}
@@ -226,7 +189,6 @@ const ListaFacturas = () => {
                         </Table>
                     </Center>
                 </Box>
-                {/* )} */}
             </Box >
         </>
     );

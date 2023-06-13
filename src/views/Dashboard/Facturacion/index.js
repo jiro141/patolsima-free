@@ -26,17 +26,33 @@ import ListaFacturas from "./components/ListaFacturas";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
 import { getFacturasList } from "api/controllers/facturas";
+import { getCambio } from "api/controllers/tazaDia";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const colorA = '#137797';
 
-  const[facturas,setFacturas]= useState('');
+  const [facturas, setFacturas] = useState([]);
+  const [cambioDelDia, setCambioDelDia] = useState('');
+
+  const cambioDia = async () => {
+    try {
+      const cambio = await getCambio()
+      setCambioDelDia(cambio)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    cambioDia();
+  }, []);
+
+
   const peticionGet = async () => {
     try {
       const facturasList = await getFacturasList()
       setFacturas(facturasList)
-      //    console.log(pacientesList);
+      console.log(facturasList);
     } catch (error) {
       console.log(error);
     }
@@ -44,58 +60,41 @@ const Dashboard = () => {
   useEffect(() => {
     peticionGet();
   }, []);
-  const sinProcesarStudies = [
-    {
-      id: 1,
-      nestudio: "E:010-2023",
+  const facturasClasificadas = facturas.reduce((clasificacion, factura) => {
+    if (factura.confirmada) {
+      clasificacion.confirmadas.push(factura);
+    } else if (factura.pagada) {
+      clasificacion.pagadas.push(factura);
+    } else {
+      clasificacion.pendientes.push(factura);
+    }
+    return clasificacion;
+  }, { confirmadas: [], pagadas: [], pendientes: [] });
+
+
+  const sinProcesarStudies = facturasClasificadas.pendientes.map((listaFacturas, i) => {
+
+    return {
+      id: listaFacturas.id,
+      nestudio: listaFacturas.cliente,
       fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
+      paciente: listaFacturas.cliente.razon_social,
+      ci: listaFacturas.cliente.ci_rif,
       monto: 25452
-    },
-    {
-      id: 2,
-      nestudio: "E:010-2023",
+    };
+  });
+
+  const pendientesStudies = facturasClasificadas.confirmadas.map((listaFacturas) => {
+    return {
+      id: listaFacturas.id,
+      nestudio: listaFacturas.cliente,
       fecha: "15/10/2023",
-      paciente: "Juancito Perez",
-      ci: "2558764",
-      monto: 25452
-    },
-    {
-      id: 3,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedrito Perez",
-      ci: "2558764",
+      paciente: listaFacturas.cliente.razon_social,
+      ci: listaFacturas.cliente.ci_rif,
       monto: 25452
     }
-  ];
-  const pendientesStudies = [
-    {
-      id: 4,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "miguel Perez",
-      ci: "2558764",
-      monto: 25452
-    },
-    {
-      id: 5,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "carlos Perez",
-      ci: "2558764",
-      monto: 25452
-    },
-    {
-      id: 6,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedrito Perez",
-      ci: "2558764",
-      monto: 25452
-    }
-  ];
+  });
+
   //modal 
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => {
@@ -191,7 +190,28 @@ const Dashboard = () => {
           overflowX="hidden"
           maxH={'40em'}
         >
-          <Box padding={'2%'} >
+          <Box
+            width={'100%'}
+            margin={'10px 0px 0px 25px'}
+            display="flex" justifyContent="flex-end"
+          >
+            <Box
+              width={'15%'}
+            >
+              <Text
+                borderTopLeftRadius={'20px'}
+                borderBottomLeftRadius={'20px'}
+                textAlign={'center'}
+                padding="10px"
+                backgroundColor="#137797"
+                color="#FFF"
+                fontSize={'14px'}
+              >
+                Dolar BCV: {cambioDelDia}
+              </Text>
+            </Box>
+          </Box>
+          <Box marginTop={'-15px'} padding={'2%'} >
             <Heading
               size="md"
             >

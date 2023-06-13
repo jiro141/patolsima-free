@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     Button,
     FormControl,
@@ -21,8 +21,11 @@ import { getMedicosDetail } from 'api/controllers/medicos';
 import { useFormik, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
 import { postMedicos } from 'api/controllers/medicos';
+import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Confirmacion';
+import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
 
-const Medico = () => {
+const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro }) => {
+    const { setFormValues } = useContext(ModoVisualizacionContext);
     const formik = useFormik({
         initialValues: {
             nombres: '',
@@ -34,7 +37,23 @@ const Medico = () => {
         onSubmit: async (formData, { resetForm }) => { // se agregar resetForm para limpar los campos del formulario 
             try {
                 const guardarMedico = await postMedicos(formData);
-                resetForm();
+                // resetForm();
+                if (guardarMedico) {
+                    toast.success('¡El medico fue guardado correctamente!', {
+                        autoClose: 1500,
+                        onClose: () => {
+                            setIsloading(false);
+                        }
+                    });
+                } else {
+                    toast.error('¡Hubo un error al guardar el medico!', {
+                        autoClose: 1500,
+                        onClose: () => {
+                            setIsloading(false);
+                        }
+                    });
+                }
+                setFormValues(formData, 'medico');
             }
             catch (error) {
                 console.log(error);
@@ -53,16 +72,6 @@ const Medico = () => {
     //consultar los datos de la api, mostrarlos en la lista 
     const [tabla, setTabla] = useState([]);
     const [Busqueda, setBusqueda] = useState("");
-    const [registroSeleccionado, setRegistroSeleccionado] = useState(
-        {
-            ci: "",
-            nombres: "",
-            apellidos: "",
-            email: "",
-            telefono_celular: "",
-            especialidad: ""
-        }
-    );
     //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
     const peticionGet = async () => {
         try {
@@ -82,26 +91,31 @@ const Medico = () => {
         filtrar(event.target.value)
     };
 
-    const [medicoName,setMedicoName]=useState('');
-    const [medicoID,setMedicoID]=useState('');
+    const [medicoName, setMedicoName] = useState('');
+    const [medicoID, setMedicoID] = useState('');
+    const [especialidad, setEspecialidad] = useState('');
     //modal confirmacion eliminacion 
     const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+
+
     const toggleModalConfirmacion = (medico) => {
         setShowModalConfirmacion(!showModalConfirmacion);
         setMedicoName(`${medico.nombres} ${medico.apellidos}`);
         setMedicoID(medico.id)
+        setEspecialidad(medico.especialidad);
 
     };
-    const eliminarPaciente = async (pacienteID) => {
+
+    const eliminarMedico = async (medicoID) => {
         try {
             const medicoDelete = await deletePaciente(medicoID);
             setPacientes(medicos.filter(p => p.id !== medicoID));
-             // Eliminar el paciente del estado local
+            // Eliminar el paciente del estado local
         } catch (error) {
             console.log(error);
         }
     }
-    
+
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
     const filtrar = (terminoBusqueda) => {
@@ -120,15 +134,16 @@ const Medico = () => {
     const seleccionarRegistro = async (medico) => {
         try {
             const medicosDetail = await getMedicosDetail(medico.id)
-            setRegistroSeleccionado(medicosDetail);
+            setRegistro(medicosDetail);
             toggleModal(true);
+            setTwoState('put')
         } catch (error) {
             console.log(error);
         }
     }
 
     return (
-        <>
+        <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
             <form >
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
@@ -287,7 +302,7 @@ const Medico = () => {
                                                         <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(medico)}>
                                                             {medico.email}
                                                         </Link>
-                                                        <Link paddingX={'10px'} as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" >
+                                                        <Link paddingX={'10px'} as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => toggleModalConfirmacion(medico)} >
                                                             <BsFillTrashFill color='#137797' />
                                                         </Link>
                                                     </Tr>
@@ -312,9 +327,21 @@ const Medico = () => {
             >
                 Guardar
             </Button>
-        </>
+            <Modal
+                size={"xs"}
+                maxWidth='100%'
+                isOpen={showModalConfirmacion}
+                onClose={toggleModalConfirmacion}>
+                <ModalOverlay />
+                <ModalContent marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
+                    <ModalBody>
+                        <Confirmacion nombres={medicoName} id={medicoID} close={toggleModalConfirmacion} eliminar={eliminarMedico} especialidad={especialidad} />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+        </Box>
     );
 
 }
 
-export default Medico;
+export default MedicoCardPostInitial;

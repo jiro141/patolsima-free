@@ -1,6 +1,7 @@
 //listar pacientes metodo get
 import Axios from "api/authApi";
 
+
 export const getPacientesList = async (endpoint) => {
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
@@ -20,7 +21,6 @@ export const getPacientesDetail = async (id) => {
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/core/pacientes/${id}`)
-        console.log(response.data.results);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -29,18 +29,32 @@ export const getPacientesDetail = async (id) => {
 
 //guardar pacietes metodo post
 export const postPacientes = async (formData) => {
+    
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
-        const response = await Axios.post(`/v1/core/pacientes/`,formData)
-       console.log(response);
+        const response = await Axios.post(`/v1/core/pacientes/`, formData)
+        // console.log(response.data.id);
+        return response.data.id;
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+//guardar pacietes metodo put
+export const putPacientes = async (id,registro) => {
+    const token = localStorage.getItem("access");
+    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    try {
+        const response = await Axios.put(`/v1/core/pacientes/${id}/`,registro) // para el put tambien tengo que enviar un body
+        console.log(response);
     } catch (error) {
         console.log(error);
     }
 }
 
 //eliminar pacientes metodo delete 
-export const deletePaciente = async(id)=>{
+export const deletePaciente = async (id) => {
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {

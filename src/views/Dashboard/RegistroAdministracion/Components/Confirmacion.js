@@ -9,13 +9,13 @@ import {
 
 
 
-const Confirmacion = ({ nombres, eliminar, close, id }) => {
+const Confirmacion = ({ nombres, eliminar, close, id,especialidad }) => {
     console.log(id);
     //tamaños de modal
     // console.log(nombres);
     return (
         <Box marginTop={"20px"}>
-            <Text textAlign={'center'}>{`¿Desea eliminar a ${nombres} ?`}</Text>
+            <Text textAlign={'center'}>{`¿Desea eliminar a ${nombres}${especialidad ? ` (${especialidad})` : ''}?`}</Text>
             <Grid gap={"10px"} templateColumns={"repeat(2,1fr)"}>
                 <Button
                     marginX={'10px'}

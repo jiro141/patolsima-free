@@ -18,6 +18,8 @@ import MainPanel from '../components/Layout/MainPanel';
 import PanelContainer from '../components/Layout/PanelContainer';
 import PanelContent from '../components/Layout/PanelContent';
 import { ModoVisualizacionProvider } from "components/ModoVisualizacion/ModoVisualizacion";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Dashboard(props) {
 	const { ...rest } = props;
 	// states and functions
@@ -139,6 +141,7 @@ export default function Dashboard(props) {
 						</PanelContent>
 					) : null}
 				</MainPanel>
+				<ToastContainer/>
 			</ChakraProvider>
 		</ModoVisualizacionProvider>
 
