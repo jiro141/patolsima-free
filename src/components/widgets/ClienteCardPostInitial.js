@@ -120,6 +120,7 @@ const ClienteCardPostInitial = ({ oneState, setOneState, registro, setRegistro,s
         try {
             //aqui hago la peticion a los controladores
             const pacientesList = await getPacientesList()
+            // console.log(pacientesList);
             //seteo el estado con la nueva carga de pacientes
             setPacientes(pacientesList)
             //lo guardo para tambien filtrarlo en la lista
@@ -134,7 +135,7 @@ const ClienteCardPostInitial = ({ oneState, setOneState, registro, setRegistro,s
     }, []);
     //cambia el estado de la busqueda para aplicar la el filtro en la funcion 
     const handleBusquedaChange = (event) => {
-        console.log(event);
+        // console.log(event);
         setBusqueda(event.target.value);
         filtrar(event.target.value);
     };

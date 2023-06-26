@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import {
   Box,
   SimpleGrid,
@@ -23,155 +23,154 @@ import { Icon } from "@chakra-ui/react";
 import ModalRegistro from "./components/ModalRegistro";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
+import { getStudiesList } from "api/controllers/estudios";
+import { getStudiesDetail } from "api/controllers/estudios";
 
 const Dashboard = () => {
+  const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+  const [showModal, setShowModal] = useState(false);
+  const [studies, setStudies] = useState();
+  const [study, setStudy] = useState();
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
 
-  const highPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-  ];
+  // Iterar sobre los datos y clasificar según la prioridad
+  // Clasificar estudios según prioridad
+  const highPriorityStudies = [];
+  const mediumPriorityStudies = [];
+  const lowPriorityStudies = [];
 
-  const mediumPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "ematologia",
-      paciente: "Javiera de castellanos",
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-  ];
+  if (studies) {
+    studies.forEach((study) => {
+      const priority = study.prioridad;
+      const isConfirmed = study.confirmado;
 
-  const lowPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-    },
-  ];
+      if (isConfirmed) {
+        if (priority === "ALTA") {
+          highPriorityStudies.push(study);
+        } else if (priority === "MEDIA") {
+          mediumPriorityStudies.push(study);
+        } else if (priority === "BAJA") {
+          lowPriorityStudies.push(study);
+        }
+      }
+    });
+  }
+  console.log(lowPriorityColor);
+
   // modales para las vistas flotantes
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
+
+  const toggleModal = (study) => {
     setShowModal(!showModal);
+    setStudy(study);
   };
-  const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+
+  const peticionGet = async () => {
+    try {
+      const estudiosList = await getStudiesList()
+      setStudies(estudiosList)
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    peticionGet();
+  }, []);
 
   const renderStudies = (studies, priorityColor) => {
+    const renderDate = (createdAt) => {
+      const date = createdAt ? new Date(createdAt) : null;
+      if (date) {
+        const formattedDate = date.toLocaleDateString();
+        return formattedDate;
+      }
+      return '';
+    };
+  
     return studies.map((study) => (
-      <Flex flexDirection={"row 7"}>
-        <Link
-          onClick={toggleModal}>
+      <Flex flexDirection="row 7" key={study.id}>
+        <Link onClick={() => toggleModal(study)}>
           <Box
-            margin={"5px 0px "}
-            boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-            borderRadius={"16px"}
-            padding={"0"}
-            key={study.nestudio}
+            margin="5px 0px"
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            borderRadius="16px"
+            padding="0"
+            maxW="200px"
+            maxH="250px"
+            key={study.id}
           >
             <Box
-              borderTopLeftRadius={"16px"}
-              borderTopRightRadius={"16px"}
+              borderTopLeftRadius="16px"
+              borderTopRightRadius="16px"
               backgroundColor={priorityColor}
+              display="flex"
+              justifyContent="space-between"
             >
               <Badge
-                textAlign={"center"}
-                background={"none"}
-                color={"#FFFF"}
-                padding={"10px"}
-                fontSize={"17px"}
-                w={'200px'}
+                textAlign="left"
+                background="none"
+                color="#FFFF"
+                padding="10px"
+                fontSize="17px"
+                w="150px"
               >
-                {study.nestudio}
+                {studies ? (
+                  <>{study.codigo}</>
+                ) : (
+                  <Text>Loading...</Text>
+                )}
                 <Icon
-                  border={"solid"}
+                  border="solid"
                   borderColor={priorityColor}
-                  marginTop={"-30px"}
-                  marginLeft={"46px"}
-                  marginBottom={'-18px'}
-                  height={"55px"}
-                  width={"55px"}
-                  padding={"5px"}
-                  borderRadius={"50%"}
+                  marginTop="-9em"
+                  marginLeft={study.codigo.length <= 10 ? '2.7em' : '1.9em'}
+                  marginBottom="-18px"
+                  height="55px"
+                  width="55px"
+                  padding="5px"
+                  borderRadius="50%"
                   as={FaFlask}
-                  backgroundColor={"#FFFF"}
+                  backgroundColor="#FFFF"
                   color={priorityColor}
                 />
               </Badge>
             </Box>
-            <Box
-              minH={'192px'} minW={'180px'} p={"10px "}>
+            <Box minH="192px" minW="180px" p="10px">
               <Heading size="sm">Fecha de ingreso</Heading>
               <Text
-                textAlign={"right"}
+                textAlign="right"
                 ml={2}
-                color={useColorModeValue("gray.600", "gray.400")}
+                color={useColorModeValue('gray.600', 'gray.400')}
               >
-                {study.fecha}
+                {renderDate(study.created_at)}
               </Text>
               <Heading size="sm">Estudio</Heading>
               <Text
-                textAlign={"right"}
-                color={useColorModeValue("gray.600", "gray.400")}
+                textAlign="right"
+                color={useColorModeValue('gray.600', 'gray.400')}
               >
-                {study.estudio}
+                {studies ? (
+                  <Text style={{ fontSize: '100%' }}>{study.tipo}</Text>
+                ) : (
+                  <Text fontSize="14px">Loading...</Text>
+                )}
               </Text>
               <Heading size="sm">Paciente</Heading>
-              <Text textAlign={"right"}>{study.paciente}</Text>
+              {studies ? (
+                <Text fontSize="14px">
+                  {study.paciente.nombres} {study.paciente.apellidos}
+                </Text>
+              ) : (
+                <Text fontSize="14px">Loading...</Text>
+              )}
             </Box>
           </Box>
         </Link>
       </Flex>
     ));
   };
-
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
@@ -183,7 +182,7 @@ const Dashboard = () => {
           backgroundSize="cover"
           backgroundPosition="center"
           height={'auto'}
-          >
+        >
           <Box padding={'2%'}>
             <Heading
               size="md"
@@ -199,7 +198,7 @@ const Dashboard = () => {
               overflowY="scroll"
               overflowX="hidden"
               maxH={'34em'}
-             
+
             >
               <SimpleGrid columns={1} spacing={4}>
                 <SimpleGrid columns={1}>
@@ -275,7 +274,7 @@ const Dashboard = () => {
               </Button>
             </ModalHeader>
             <ModalBody>
-              <ModalRegistro />
+              <ModalRegistro study={study} close={toggleModal} />
             </ModalBody>
           </ModalContent>
         </Modal>

@@ -32,7 +32,7 @@ import { getFacturasList } from "api/controllers/facturas";
 const Dashboard = () => {
   const [cambioDelDia, setCambioDelDia] = useState('');
   const [facturas, setFacturas] = useState([]);
-
+  const [study, setStudy] = useState([]);
   const cambioDia = async () => {
     try {
       const cambio = await getCambio()
@@ -52,6 +52,7 @@ const Dashboard = () => {
       console.log(error);
     }
   };
+  console.log(facturas);
   useEffect(() => {
     peticionGet();
   }, []);
@@ -65,31 +66,39 @@ const Dashboard = () => {
     }
     return clasificacion;
   }, { confirmadas: [], pagadas: [], pendientes: [] });
+  
 
   const sinConfirmar = facturasClasificadas.pendientes.map((listaFacturas) => {
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
       id: listaFacturas.id,
       nestudio: listaFacturas.cliente,
-      fecha: "15/10/2023",
+      fecha: fecha,
       paciente: listaFacturas.cliente.razon_social,
       ci: listaFacturas.cliente.ci_rif,
-      monto: 25452
+      montoBs: listaFacturas.total_bs,
+      montoUsd:listaFacturas.total_usd
     }
   });
 
   const pendientes = facturasClasificadas.confirmadas.map((listaFacturas) => {
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
       id: listaFacturas.id,
       nestudio: listaFacturas.cliente,
-      fecha: "15/10/2023",
+      fecha: fecha,
       paciente: listaFacturas.cliente.razon_social,
       ci: listaFacturas.cliente.ci_rif,
-      monto: 25452
+      montoBs: listaFacturas.total_bs,
+      montoUsd:listaFacturas.total_usd
     }
   });
   const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
+  const toggleModal = (study) => {
     setShowModal(!showModal);
+    setStudy(study);
   };
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
@@ -162,18 +171,18 @@ const Dashboard = () => {
                 </Thead>
                 <Tbody>
                   {sinConfirmar.map((study) => (
-                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
+                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
                       <Td>
-                        <Link onClick={toggleModal}> {study.fecha}</Link>
+                        <Link onClick={() => toggleModal(study)}> {study.fecha}</Link>
                       </Td>
-                      <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
+                      <Td><Link onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
                       <Td>
-                        <Link onClick={toggleModal}>{study.ci}</Link>
+                        <Link onClick={() => toggleModal(study)}>{study.ci}</Link>
                       </Td>
                       <Td>
-                        <Link onClick={toggleModal}>{study.montoD} $ </Link>
+                        <Link onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
                       </Td>
-                      <Td><Link onClick={toggleModal}>{study.montoB} Bs </Link></Td>
+                      <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
                     </Tr>
                   ))}
                 </Tbody>
@@ -211,16 +220,16 @@ const Dashboard = () => {
                 {pendientes.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
                     <Td>
-                      <Link onClick={toggleModal}> {study.fecha}</Link>
+                      <Link onClick={() => toggleModal(study)}> {study.fecha}</Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
+                    <Td><Link onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
+                      <Link onClick={() => toggleModal(study)}>{study.ci}</Link>
                     </Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.montoD} $ </Link>
+                      <Link onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.montoB} Bs </Link></Td>
+                    <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -258,7 +267,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion />
+            <ModalFacturacion study={study} />
           </ModalBody>
         </ModalContent>
       </Modal>

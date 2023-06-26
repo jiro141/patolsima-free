@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
     Box,
     Text,
@@ -13,13 +13,85 @@ import {
     useBreakpointValue,
     Input
 } from "@chakra-ui/react";
+import { BsFillPencilFill, BsFillFileCheckFill } from "react-icons/bs";
 import FacturaTerceros from "./FacturaTerceros";
 import Confirmacion from "./Confirmacion";
 import ModalAbonar from "./ModalAbonar";
+import { getFacturasDetail } from "api/controllers/facturas";
+import { studiesDetail } from "api/controllers/estudios";
+import { postConfirmar } from "api/controllers/facturas";
+import { putMonto } from "api/controllers/facturas";
 
 
 
-const ModalFacturacion = () => {
+const ModalFacturacion = ({ study }) => {
+    const [facturasDetail, setFacturasDetail] = useState()
+    const [studyDetail, setStudyDetail] = useState();
+    const [itemOrden, setItemOrden] = useState();
+    const [editing, setEditing] = useState(false);
+    const [pagoId,setPagoId]=useState();
+    const [data, setData] = useState(
+        {
+            monto_usd: "",
+        }
+    );
+    console.log(facturasDetail);
+    const datosModal = async () => {
+        try {
+            const facturasDetail = await getFacturasDetail(study.id);
+            setFacturasDetail(facturasDetail);
+            setItemOrden(facturasDetail?.items_orden[0]?.estudio)
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        datosModal();
+    }, []);
+
+    const datosStudie = async () => {
+        try {
+            const study = await studiesDetail(itemOrden);
+            setStudyDetail(study);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        datosStudie();
+    }, [itemOrden]);
+
+    const confirmar = async () => {
+        try {
+            const confirmarFactura = await postConfirmar(facturasDetail.id)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const aggMonto = async () => {
+        try {
+            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    //esta funcion cambia los valores que tienen los inputs
+    const cambiarValoresRegistro = (key, value) => {
+        setData((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
+
+    const handleEditClick = () => {
+        setEditing(true);
+    };
+    const handlePagoIdChange = (pagoId) => {
+        setPagoId(handlePagoIdChange);
+    };
+
     //modal
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => {
@@ -35,6 +107,8 @@ const ModalFacturacion = () => {
     };
     //tamaños de modal
     const size = useBreakpointValue({ sm: "sm", lg: "xl", md: 'xs' });
+    const fechaHora = facturasDetail?.cliente?.created_at;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return (
         <>
             <Box marginTop={'-50px'}>
@@ -45,32 +119,52 @@ const ModalFacturacion = () => {
                 <Grid templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                     <Box>
                         <Box margin={'5px'}>
-                            <Text  fontSize={'16px'} >Cliente</Text>
-                            <Text  fontSize={'14px'}>Amelia Amigo Jordan</Text>
+                            <Text fontSize={'16px'} >Cliente</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{facturasDetail.cliente.razon_social}</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
                             <Text fontSize={'16px'} >RIF/CI</Text>
-                            <Text  fontSize={'14px'}>26651254</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{facturasDetail.cliente.ci_rif}</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
                             <Text fontSize={'16px'}>Fecha</Text>
-                            <Text fontSize={'14px'} >15/03/2023</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{fecha}</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
                             <Text fontSize={'16px'} >Télefono</Text>
-                            <Text  fontSize={'14px'}>042563684</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{facturasDetail.cliente.telefono_celular}</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
-                            <Text  fontSize={'16px'} >Dirección</Text>
-                            <Text fontSize={'14px'} >Capacho</Text>
+                            <Text fontSize={'16px'} >Dirección</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{facturasDetail.cliente.direccion}</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                 </Grid>
@@ -80,7 +174,7 @@ const ModalFacturacion = () => {
                     borderRadius={'20px'}
                     bgColor={'#137797'}
                     color='#ffff'
-                    onClick={toggleModal}>
+                    onClick={() => toggleModal(study)}>
                     Factura para un tercero
                 </Button>
                 <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>
@@ -88,38 +182,85 @@ const ModalFacturacion = () => {
                     <Box>
                         <Box margin={'5px'} >
                             <Text fontSize={'16px'} ># Estudio</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>B:023-2023</Text>
-                            <Text  fontSize={'14px'}marginTop={'5px'}>CE:013-2023</Text>
+                            {studyDetail ? (
+                                <Text fontSize={'14px'}>{studyDetail.codigo}</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box >
-                        <Box  margin={'5px'}  >
+                        <Box margin={'5px'}  >
                             <Text fontSize={'16px'} >Paciente</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>Jose felipe colmenares colenares</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>Javiera de Castellanos</Text>
+                            {studyDetail ? (
+                                <Text fontSize={'14px'}>{studyDetail.paciente.nombres} {studyDetail.paciente.apellidos}</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={' 5px '}>
                             <Text fontSize={'16px'} >Tipo de estudio</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>Biopsia</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>Citología especial</Text>
+                            {studyDetail ? (
+                                <Text fontSize={'14px'}>{studyDetail.tipo} </Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={' 5px'}>
-                            <Text  fontSize={'16px'} >Monto($)</Text>
-                            <Input margin={'1%'} maxW={'80%'} maxH={'70%'} placeholder='Monto ($):'
-                            type="text"></Input>
-                            <Input margin={'1%'}  maxW={'80%'} maxH={'70%'} placeholder='Monto ($):'
-                            type="text"></Input>
+                            <Text fontSize={'16px'} >Monto($)</Text>
+                            {facturasDetail ? (
+                                facturasDetail.balance.total_usd !== 0 ? (
+                                    <Text fontSize={'14px'}>{facturasDetail.balance.total_usd} $</Text>
+                                ) : (
+                                    <>
+                                        {editing ? (
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <Input h={'60%'} type="number"
+                                                    style={{ marginRight: '8px' }}
+                                                    value={data?.monto_usd}
+                                                    onChange={e => cambiarValoresRegistro("monto_usd", e.target.value)} />
+                                                <Button
+                                                    borderRadius={'10px'}
+                                                    colorScheme="blue"
+                                                    bgColor={'#137797'}
+                                                    color='#ffff'
+                                                    size="sm"
+                                                    onClick={aggMonto}
+                                                >
+                                                    <BsFillFileCheckFill size={25} />
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <Button
+                                                borderRadius={'10px'}
+                                                colorScheme="blue"
+                                                bgColor={'#137797'}
+                                                color='#ffff'
+                                                size="sm"
+                                                onClick={handleEditClick}
+                                            >
+                                                <BsFillPencilFill size={16} />
+                                            </Button>
+                                        )}
+                                    </>
+                                )
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
                             <Text fontSize={'16px'} >Monto(Bs)</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>722,10 Bs</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>722,10 Bs</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{facturasDetail.balance.total_bs} Bs</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                 </Grid>
@@ -134,22 +275,42 @@ const ModalFacturacion = () => {
                     <Box>
                         <Box margin={'10px'}>
                             <Text margin={'5px'} fontSize={'20px'}>Pendiente</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>60$</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>1.444,2 Bs</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance.por_pagar_usd} $</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>)}
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance.por_pagar_bs} Bs</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>)}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'10px'}>
                             <Text margin={'5px'} fontSize={'20px'}>Abonado</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>0$</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>00,00 Bs</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance.pagado_usd} $</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>)}
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance.pagado_bs} Bs</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>)}
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'10px'}>
                             <Text margin={'5px'} fontSize={'20px'}>Total</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>60$</Text>
-                            <Text fontSize={'14px'} marginTop={'5px'}>1.44,20 Bs</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{facturasDetail.balance.total_usd} $</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>{facturasDetail.balance.total_bs} Bs</Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
                     </Box>
                 </Grid>
@@ -176,7 +337,10 @@ const ModalFacturacion = () => {
                     borderRadius={'20px'}
                     bgColor={'#137797'}
                     color='#ffff'
-                    onClick={toggleModalConfirmacion}>
+                    onClick={() => {
+                        toggleModalConfirmacion();
+                        confirmar();
+                    }}>
                     Confirmar
                 </Button>
             </Box>
@@ -202,7 +366,7 @@ const ModalFacturacion = () => {
                         </Button>
                     </ModalHeader>
                     <ModalBody>
-                        <FacturaTerceros />
+                        <FacturaTerceros study={study} />
                     </ModalBody>
                 </ModalContent>
             </Modal>
@@ -214,7 +378,7 @@ const ModalFacturacion = () => {
                 <ModalOverlay />
                 <ModalContent marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
                     <ModalBody>
-                        <Confirmacion />
+                        <Confirmacion pago={pagoId} facturasDetail={facturasDetail} toggleModalConfirmacion={toggleModalConfirmacion} confirmar={confirmar} />
                     </ModalBody>
                 </ModalContent>
             </Modal>
@@ -240,7 +404,7 @@ const ModalFacturacion = () => {
                         </Button>
                     </ModalHeader>
                     <ModalBody>
-                        <ModalAbonar />
+                        <ModalAbonar close={toggleModalAbonar} onPagoIdChange={handlePagoIdChange} facturasDetail={facturasDetail} />
                     </ModalBody>
                 </ModalContent>
             </Modal>

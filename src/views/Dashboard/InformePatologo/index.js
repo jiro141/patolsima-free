@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import {
   Box,
   SimpleGrid,
@@ -27,88 +27,80 @@ import ModalInforme from "./components/ModalInforma";
 import ModoLista from "./ModoLista"
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ListaInformes from "./components/ListaInformes";
+import { getListInforme } from "api/controllers/informes";
+import { getStudiesList } from "api/controllers/estudios";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
+  const [informes, setInformes] = useState();
+  const [informesDetail, setInformeDetail] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [showModalList, setShowModalList] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
 
-  const highPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      patologo: "Simon Peraza"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      patologo: "Simon Peraza"
-    },
-  ];
+  const highPriorityStudies = [];
+  const mediumPriorityStudies = [];
+  const lowPriorityStudies = [];
+  if (informes) {
+    informes.forEach((informe) => {
+      const priority = informe.estudio_prioridad;
+      if (priority === "ALTA") {
+        highPriorityStudies.push(informe);
+      } else if (priority === "MEDIA") {
+        mediumPriorityStudies.push(informe);
+      } else if (priority === "BAJA") {
+        lowPriorityStudies.push(informe);
+      }
+    });
+  }
 
-  const mediumPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "ematologia",
-      paciente: "Javiera de castellanos",
-      patologo: "Simon Peraza"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      patologo: "Simon Peraza"
-    },
-  ];
-
-  const lowPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      patologo: "Simon Peraza"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      patologo: "Simon Peraza"
-    },
-  ];
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
+  const toggleModal = (informe) => {
     setShowModal(!showModal);
+    setInformeDetail(informe.estudio_id)
   };
-  const [showModalList, setShowModalList] = useState(false);
+
   const toggleModalList = () => {
     setShowModalList(!showModalList);
   };
+  const peticionGet = async () => {
+    try {
+      const informesList = await getListInforme()
+      setInformes(informesList);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    peticionGet();
+  }, []);
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
 
-  const renderStudies = (studies, priorityColor) => {
-
-
-    return studies.map((study) => (
+  const renderStudies = (informes, priorityColor) => {
+    const renderDate = (createdAt) => {
+      const date = createdAt ? new Date(createdAt) : null;
+      if (date) {
+        const formattedDate = date.toLocaleDateString();
+        return formattedDate;
+      }
+      return '';
+    };
+    return informes.map((informe) => (
       <Flex flexDirection={"row 7"}>
         <Link
-          onClick={toggleModal}>
+          onClick={() => toggleModal(informe)}>
           <Box
             margin={"5px auto"}
             boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
             borderRadius={"16px"}
             padding={"0"}
-            key={study.nestudio}
+            maxW="200px"
+            maxH="250px"
+            key={informe.estudio_id}
           >
             <Box
               borderTopLeftRadius={"16px"}
@@ -123,12 +115,12 @@ const Dashboard = () => {
                 fontSize={"17px"}
                 w={'200px'}
               >
-                {study.nestudio}
+                {informe.estudio_codigo}
                 <Icon
                   border={"solid"}
                   borderColor={priorityColor}
                   marginTop={"-30px"}
-                  marginLeft={"46px"}
+                  marginLeft={informe.estudio_codigo.length <= 10 ? '2.7em' : '1.9em'}
                   marginBottom={'-18px'}
                   height={"55px"}
                   width={"55px"}
@@ -147,7 +139,7 @@ const Dashboard = () => {
                 ml={2}
                 color={useColorModeValue("gray.600", "gray.400")}
               >
-                {study.fecha}
+                {renderDate(informe.created_at)}
               </Text>
               <Heading size="sm">Estudio</Heading>
               <Text
@@ -155,12 +147,12 @@ const Dashboard = () => {
                 textAlign={"right"}
                 color={useColorModeValue("gray.600", "gray.400")}
               >
-                {study.estudio}
+                {informe.estudio_tipo}
               </Text>
               <Heading size="sm"  >Paciente</Heading>
-              <Text textAlign={"right"}>{study.paciente}</Text>
+              {/* <Text textAlign={"right"}>{study.paciente}</Text> */}
               <Heading size="sm">Patologo</Heading>
-              <Text textAlign={"right"}>{study.patologo}</Text>
+              <Text textAlign={"right"}>{informe.estudio_patologo_name}</Text>
             </Box>
           </Box>
         </Link>
@@ -278,7 +270,7 @@ const Dashboard = () => {
               </Button>
             </ModalHeader>
             <ModalBody>
-              <ModalInforme />
+              <ModalInforme id={informesDetail} />
             </ModalBody>
           </ModalContent>
         </Modal>

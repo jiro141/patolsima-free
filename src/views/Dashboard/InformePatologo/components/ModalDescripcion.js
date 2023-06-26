@@ -9,24 +9,47 @@ import {
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import BalloonBlockEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-
-const ModalDescripcion = () => {
+const ModalDescripcion = ({ titulo }) => {
+    
+    const editorConfiguration = {
+        toolbar: {
+            items: [
+                'exportPDF', 'exportWord', '|',
+                'findAndReplace', 'selectAll', '|',
+                'heading', '|',
+                'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                'bulletedList', 'numberedList', 'todoList', '|',
+                'outdent', 'indent', '|',
+                'undo', 'redo',
+                // '-',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                'alignment', '|',
+                'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                'textPartLanguage', '|',
+                // 'sourceEditing', // break point
+                'uploadImage', 'blockQuote', 'codeBlock',
+                // '|', 'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+    };
     return (
         <>
             <Box marginTop={'-50px'}>
-                <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>Descripción</Text>
-                <Box height={'sm'} maxH={'200px'}  overflowY="scroll">
+                <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>{titulo}</Text>
+                <Box height={'sm'} maxH={'200px'} overflowY="scroll">
                     <CKEditor
-                        height={'5000px'}
-                        editor={BalloonBlockEditor}
+                        height={'500px'}
+                        editor={ClassicEditor}
                         data=""
+                        config={editorConfiguration}
                         onReady={(editor) => {
-                            console.log("CKEditor5 React Component is ready to use!", editor);
                         }}
                         onChange={(event, editor) => {
                             const data = editor.getData();
-                            console.log({ event, editor, data });
                         }}
                     />
                 </Box>

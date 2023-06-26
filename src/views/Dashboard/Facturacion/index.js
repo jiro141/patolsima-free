@@ -27,11 +27,12 @@ import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualiza
 import ModoLista from "./ModoLista";
 import { getFacturasList } from "api/controllers/facturas";
 import { getCambio } from "api/controllers/tazaDia";
+import { getFacturasDetail } from "api/controllers/facturas";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const colorA = '#137797';
-
+  const [study, setStudy] = useState([]);
   const [facturas, setFacturas] = useState([]);
   const [cambioDelDia, setCambioDelDia] = useState('');
 
@@ -52,7 +53,7 @@ const Dashboard = () => {
     try {
       const facturasList = await getFacturasList()
       setFacturas(facturasList)
-      console.log(facturasList);
+      // console.log(facturasList);
     } catch (error) {
       console.log(error);
     }
@@ -71,35 +72,40 @@ const Dashboard = () => {
     return clasificacion;
   }, { confirmadas: [], pagadas: [], pendientes: [] });
 
-
   const sinProcesarStudies = facturasClasificadas.pendientes.map((listaFacturas, i) => {
-
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
       id: listaFacturas.id,
       nestudio: listaFacturas.cliente,
-      fecha: "15/10/2023",
+      fecha: fecha,
       paciente: listaFacturas.cliente.razon_social,
       ci: listaFacturas.cliente.ci_rif,
-      monto: 25452
+      monto: listaFacturas.total_usd
     };
   });
 
   const pendientesStudies = facturasClasificadas.confirmadas.map((listaFacturas) => {
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
       id: listaFacturas.id,
       nestudio: listaFacturas.cliente,
-      fecha: "15/10/2023",
+      fecha: fecha,
       paciente: listaFacturas.cliente.razon_social,
       ci: listaFacturas.cliente.ci_rif,
-      monto: 25452
+      monto: listaFacturas.total_usd
     }
   });
 
   //modal 
+  // console.log(facturas.reduce);
   const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
+  const toggleModal = (study) => {
     setShowModal(!showModal);
+    setStudy(study);
   };
+
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
     setShowModalList(!showModalList);
@@ -111,7 +117,9 @@ const Dashboard = () => {
   const renderStudies = (studies) => {
     return studies.map((study) => (
       <Link
-        onClick={toggleModal}>
+        onClick={() => {
+          toggleModal(study);
+        }}>
         <Box
           margin={"5px auto 5px auto"}
           boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
@@ -173,7 +181,7 @@ const Dashboard = () => {
             <Text fontSize={'16px'} textAlign={"right"}>{study.monto} ($)</Text>
           </Box>
         </Box>
-      </Link>
+      </Link >
     ));
   };
 
@@ -284,12 +292,12 @@ const Dashboard = () => {
                 marginTop={'-60px'}
                 bgColor={'#137797'}
                 color='#ffff'
-                onClick={toggleModal}>
+                onClick={() => toggleModal(study)}>
                 <CloseButton />
               </Button>
             </ModalHeader>
             <ModalBody>
-              <ModalFacturacion />
+              <ModalFacturacion study={study}  />
             </ModalBody>
           </ModalContent>
         </Modal>
