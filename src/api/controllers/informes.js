@@ -24,3 +24,17 @@ export const getListInforme= async () => {
         console.log(error);
     }
 }
+//informe update  
+export const updateInforme= async (id,formData) => {
+    const token = localStorage.getItem("access");
+    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    // console.log(formData);
+    try {
+        const response = await Axios.put(`/v1/core/informes/${id}/`,formData);
+        
+        console.log(response.data);
+        // return response;
+    } catch (error) {
+        console.log(error);
+    }
+}

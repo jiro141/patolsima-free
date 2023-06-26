@@ -292,7 +292,7 @@ const ModalInforme = ({ id }) => {
                         </Button>
                     </ModalHeader>
                     <ModalBody>
-                        <ModalDescripcion titulo={titulo} />
+                        <ModalDescripcion idStudy={id} titulo={titulo} />
                     </ModalBody>
                 </ModalContent>
             </Modal>
