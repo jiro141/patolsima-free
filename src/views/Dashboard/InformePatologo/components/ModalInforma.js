@@ -147,8 +147,8 @@ const ModalInforme = ({ id }) => {
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
                             {studiesDetail ? (
                                 studiesDetail.muestras.map((muestra, index) => (
-                                    <option key={index} value={muestra}>
-                                        {muestra}
+                                    <option key={index} value={muestra.tipo_de_muestra}>
+                                        {muestra.tipo_de_muestra}
                                     </option>
                                 ))
                             ) : (
