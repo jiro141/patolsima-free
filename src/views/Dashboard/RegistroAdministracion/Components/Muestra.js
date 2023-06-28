@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     Alert,
     AlertIcon,
@@ -29,10 +29,14 @@ import {
     Select
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-import BusquedaCliente from './BusquedaCliente';
+import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
+import { useFormik, validateYupSchema } from 'formik';
+import * as Yup from 'yup';
+import { postStudies } from 'api/controllers/estudios';
+
 
 const Muestra = () => {
+    const { dataPaciente, dataMedico,pacienteID } = useContext(ModoVisualizacionContext);
     //definicion de los valores a cargar
     const [estudiot, setEstudiot] = useState('');
     const [estudioa, setEstudioa] = useState('');
@@ -40,24 +44,32 @@ const Muestra = () => {
     const [tmuestra, setTmuestra] = useState('');
     const [notas, setNotas] = useState('');
     const [archivo, setAchivo] = useState('');
+    console.log(pacienteID);
     //carga de los datos del formulario
-    const formData = {
-        estudiot,
-        estudioa,
-        precio,
-        tmuestra,
-        notas,
-        archivo
-    };
-    //Alerta para no seguir 
-    const [alerta, setAlerta] = useState(false);
-    //alerta 
-    const mensajeAlerta = () => {
-        if (Object.values(formData).every((value) => value == '')) {
-            setAlerta(true);
-            setTimeout(() => { setAlerta(false); }, 3000);
-        }
-    };
+    const formik = useFormik({
+    
+        initialValues: {
+            tipo: 'CITOLOGIA_GINECOLOGICA',
+            urgente: false,
+            envio_digital: false,
+            paciente_id: pacienteID,
+            medico_tratante_id: 5,
+            patolog_id: '',
+            notas: 'vsdfdfd'
+        },
+        validateOnChange: false,
+        onSubmit: async (formData, { resetForm }) => { 
+            console.log(formData);
+            try {
+                const estudioPost = await postStudies(formData);
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return;
+
+        },
+    });
 
 
     //agregar los inputs de mas muestras 
@@ -71,35 +83,22 @@ const Muestra = () => {
 
     return (
         <>
-            {alerta && (
-                <Alert status='error' mb={4}>
-                    <AlertIcon />
-                    Por favor, llene todos los campos antes de continuar.
-                    <CloseButton
-                        position="absolute"
-                        right="8px"
-                        top="8px"
-                        onClick={() => mensajeAlerta(false)}
-                    />
-                </Alert>
-            )}
             <form >
                 <Text fontSize={'20px'} margin='2% auto 2% auto' color={'gray.600'}>Información General</Text>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
                     <Box>
                         <Text marginBottom={'1.5%'} fontSize={'17px'}>Paciente</Text>
-                        <Text>Molina Contreras Maria Eugenia</Text>
+                        <Text>{dataPaciente.nombres} {dataPaciente.apellidos}</Text>
                         <Text marginY={'1.5%'} fontSize={'17px'}>Cédula de Identidad</Text>
-                        <Text>26371890</Text>
+                        <Text>{dataPaciente.ci}</Text>
                     </Box>
                     <Box>
                         <Text marginBottom={'1.5%'} fontSize={'17px'}>Médico tratante</Text>
-                        <Text >Carmen Mora</Text>
+                        <Text >{dataMedico.nombres} {dataMedico.apellidos}</Text>
 
                     </Box>
                 </Grid>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
-
                 </Grid>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px' >
                     <Box>
@@ -110,10 +109,12 @@ const Muestra = () => {
                     </Box>
                 </Grid>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
-                    <Select  color="gray.400" defaultValue="sexo">
+                    <Select color="gray.400" defaultValue="sexo">
                         <option hidden >Tipo de Estudio:</option>
-                        <option></option>
-                        <option></option>
+                        <option value='BIOPSIA'>Biopsia</option>
+                        <option value='CITOLOGIA_GINECOLOGICA'>Citologia Ginecologica</option>
+                        <option value='CITOLOGIA_ESPECIAL'>Citologia Especial</option>
+                        <option value='INMUNOSTOQUIMICA'>Inmunohistoquimica</option>
                     </Select>
                     <FormControl mb={3}>
                         <Input
@@ -121,46 +122,55 @@ const Muestra = () => {
                             type="text"
                             name="estudioa"
                             value={estudioa}
-
                         />
                     </FormControl>
                 </Grid>
                 <Grid templateColumns={'repeat(2,1fr)'} gap='20px' marginY={'2%'}>
                     <FormControl display='flex' alignItems='center'>
-                        <Switch id='remember-login' color={'#137797'} me='10px' />
-                        <FormLabel
-                            htmlFor='remember-login'
-                            mb='0'
-                            ms='1'
-                            fontWeight='normal'>
+                        <Switch
+                            id='envio_digital'
+                            color={'#137797'}
+                            me='10px'
+                            name='envio_digital'
+                            checked={formik.values.envio_digital}
+                            onChange={e => formik.setFieldValue('envio_digital', e.target.checked)}
+                        />
+                        <FormLabel htmlFor='envio_digital' mb='0' ms='1' fontWeight='normal'>
                             Envio digital
                         </FormLabel>
                     </FormControl>
                     <FormControl display='flex' alignItems='center'>
-                        <Switch id='remember-login' color={'#137798'} me='10px' />
-                        <FormLabel
-                            htmlFor='remember-login'
-                            mb='0'
-                            ms='1'
-                            fontWeight='normal'>
+                        <Switch
+                            id='urgente'
+                            color={'#137797'}
+                            me='10px'
+                            name='urgente'
+                            checked={formik.values.urgente}
+                            onChange={e => formik.setFieldValue('urgente', e.target.checked)}
+                        />
+                        <FormLabel htmlFor='urgente' mb='0' ms='1' fontWeight='normal'>
                             Urgente
                         </FormLabel>
                     </FormControl>
+
                 </Grid>
 
                 <Grid>
                     <Input
                         placeholder='Tipo de muestra'
                         type="text"
-                        name="tmuestra"
+                        name="tipo"
                         value={tmuestra}
-
+                        onChange={e => formik.setFieldValue('tipo', e.target.value)}
                     />
                     <Textarea
                         marginTop={'10px'}
                         size="lg"
+                        name='notas'
                         borderRadius="md"
-                        placeholder="Notas" />
+                        placeholder="notas"
+                        value={formik.values.notas}
+                        onChange={e => formik.setFieldValue('notas', e.target.value)} />
                 </Grid>
                 {inputs.map((input, index) => (
                     <div key={index}>
@@ -207,7 +217,8 @@ const Muestra = () => {
                     borderRadius={'20px'}
                     bgColor={'#137798'}
                     color='#ffff'
-                    onClick={mensajeAlerta}>
+                    onClick={formik.handleSubmit}
+                >
                     Guardar
                 </Button>
             </Box>

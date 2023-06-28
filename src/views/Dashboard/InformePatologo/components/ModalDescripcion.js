@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import {
     Box,
     Text,
@@ -8,25 +8,77 @@ import {
     Button
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import BalloonBlockEditor from '@ckeditor/ckeditor5-build-classic';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { updateInforme } from "api/controllers/informes";
+import CKEditorConfig from "api/ckeditor/ckeditorconfig";
 
+const ModalDescripcion = ({ titulo, idStudy }) => {
+    const [editorData, setEditorData] = useState('');
+    let field_name;
+    const initialValues = {
+        estudio: idStudy,
+    };
+    console.log(initialValues);
+    // console.log(initialValues);
+    switch (titulo) {
+        case 'Descripción macroscópica':
+            field_name = 'descripcion_macroscopica';
+            break;
+        case 'Descripción microscópica':
+            field_name = 'descripcion_microscopica';
+            break;
+        case 'Diagnóstico':
+            field_name = 'diagnostico';
+            break;
+        case 'Notas':
+            field_name = 'notas';
+            break;
+        case 'Bibliografía':
+            field_name = 'bibliografia';
+            break;
+        default:
+            break;
+    }
 
-const ModalDescripcion = () => {
+    const validationSchema = Yup.object({
+        // descripcion_macroscopica: Yup.string().required('La descripción macroscópica es requerida'),
+        // Agrega otras validaciones para los demás campos si es necesario
+    });
+    
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit: async (formData) => {
+            formData[field_name] = editorData;
+            console.log('form data formik pipi');
+            console.log(formData);
+            try {
+                const enviarInforme = await updateInforme(idStudy, formData);
+                // Lógica adicional después de enviar el informe
+            } catch (error) {
+                console.log(error);
+            }
+        },
+    });
+
     return (
         <>
             <Box marginTop={'-50px'}>
-                <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>Descripción</Text>
-                <Box height={'sm'} maxH={'200px'}  overflowY="scroll">
+                <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>{titulo}</Text>
+                <Box height={'sm'} maxH={'200px'} overflowY="scroll">
                     <CKEditor
-                        height={'5000px'}
-                        editor={BalloonBlockEditor}
-                        data=""
+                        height={'500px'}
+                        editor={Editor}
+                        data={editorData}
+                        config={CKEditorConfig}
                         onReady={(editor) => {
-                            console.log("CKEditor5 React Component is ready to use!", editor);
+                            // Lógica adicional cuando el editor está listo
                         }}
                         onChange={(event, editor) => {
                             const data = editor.getData();
-                            console.log({ event, editor, data });
+                            setEditorData(data);
                         }}
                     />
                 </Box>
@@ -43,11 +95,13 @@ const ModalDescripcion = () => {
                     marginLeft={{ lg: '88%', md: '70%', sm: '77%' }}
                     borderRadius={'20px'}
                     bgColor={'#137797'}
-                    color='#ffff'>
+                    color='#ffff'
+                    onClick={formik.handleSubmit}>
                     Guardar
                 </Button>
             </Box>
         </>
     );
 }
+
 export default ModalDescripcion;

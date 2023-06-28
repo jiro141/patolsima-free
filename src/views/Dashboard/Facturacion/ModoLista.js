@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   Badge,
   Heading,
@@ -25,46 +25,80 @@ import { FaFlask } from "react-icons/fa";
 import { Icon } from "@chakra-ui/react";
 import ModalFacturacion from "./components/ModalFacturacion";
 import ListaFacturas from "./components/ListaFacturas";
+import { getCambio } from "api/controllers/tazaDia";
+import { getFacturasList } from "api/controllers/facturas";
 
 
 const Dashboard = () => {
+  const [cambioDelDia, setCambioDelDia] = useState('');
+  const [facturas, setFacturas] = useState([]);
+  const [study, setStudy] = useState([]);
+  const cambioDia = async () => {
+    try {
+      const cambio = await getCambio()
+      setCambioDelDia(cambio)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    cambioDia();
+  }, []);
+  const peticionGet = async () => {
+    try {
+      const facturasList = await getFacturasList()
+      setFacturas(facturasList)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(facturas);
+  useEffect(() => {
+    peticionGet();
+  }, []);
+  const facturasClasificadas = facturas.reduce((clasificacion, factura) => {
+    if (factura.confirmada) {
+      clasificacion.confirmadas.push(factura);
+    } else if (factura.pagada) {
+      clasificacion.pagadas.push(factura);
+    } else {
+      clasificacion.pendientes.push(factura);
+    }
+    return clasificacion;
+  }, { confirmadas: [], pagadas: [], pendientes: [] });
+  
 
-  const sinConfirmar = [
-    {
-      fecha: "15/03/2023",
-      cliente: "josesito jose",
-      ci: "536510320",
-      montoD: "20",
-      montoB: "486.2",
-    },
-    {
-      fecha: "15/03/2023",
-      cliente: "josesito jose",
-      ci: "536510320",
-      montoD: "20",
-      montoB: "486.2",
-    },
-  ];
+  const sinConfirmar = facturasClasificadas.pendientes.map((listaFacturas) => {
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+    return {
+      id: listaFacturas.id,
+      nestudio: listaFacturas.cliente,
+      fecha: fecha,
+      paciente: listaFacturas.cliente.razon_social,
+      ci: listaFacturas.cliente.ci_rif,
+      montoBs: listaFacturas.total_bs,
+      montoUsd:listaFacturas.total_usd
+    }
+  });
 
-  const pendientes = [
-    {
-      fecha: "15/03/2023",
-      cliente: "josesito jose",
-      ci: "536510320",
-      montoD: "20",
-      montoB: "486.2",
-    },
-    {
-      fecha: "15/03/2023",
-      cliente: "josesito jose",
-      ci: "536510320",
-      montoD: "20",
-      montoB: "486.2",
-    },
-  ];
+  const pendientes = facturasClasificadas.confirmadas.map((listaFacturas) => {
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+    return {
+      id: listaFacturas.id,
+      nestudio: listaFacturas.cliente,
+      fecha: fecha,
+      paciente: listaFacturas.cliente.razon_social,
+      ci: listaFacturas.cliente.ci_rif,
+      montoBs: listaFacturas.total_bs,
+      montoUsd:listaFacturas.total_usd
+    }
+  });
   const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
+  const toggleModal = (study) => {
     setShowModal(!showModal);
+    setStudy(study);
   };
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
@@ -87,8 +121,28 @@ const Dashboard = () => {
         maxH={'40em'}
         scrollPadding={'1px'}
       >
-
-        <Box padding={'2%'}>
+        <Box
+          width={'100%'}
+          margin={'10px 0px 0px 25px'}
+          display="flex" justifyContent="flex-end"
+        >
+          <Box
+            width={'15%'}
+          >
+            <Text
+              borderTopLeftRadius={'20px'}
+              borderBottomLeftRadius={'20px'}
+              textAlign={'center'}
+              padding="10px"
+              backgroundColor="#137797"
+              color="#FFF"
+              fontSize={'14px'}
+            >
+              Dolar BCV: {cambioDelDia}
+            </Text>
+          </Box>
+        </Box>
+        <Box marginTop={'-15px'} padding={'2%'}>
           <Heading
             size="md"
           >
@@ -104,34 +158,36 @@ const Dashboard = () => {
             minH={'300px'} maxH={'300px'}
             overflowY="scroll"
             overflowX="hidden">
-            <Table >
-              <Thead>
-                <Tr>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Fecha</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Cliente</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>RIF/CI</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto ($)</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto (Bs)</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {sinConfirmar.map((study) => (
-                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-                    <Td>
-                      <Link onClick={toggleModal}> {study.fecha}</Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.cliente}</Link></Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
-                    </Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.montoD} $ </Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.montoB} Bs </Link></Td>
+            <Box>
+              <Table >
+                <Thead>
+                  <Tr>
+                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Fecha</Th>
+                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Cliente</Th>
+                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>RIF/CI</Th>
+                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto ($)</Th>
+                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto (Bs)</Th>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
+                </Thead>
+                <Tbody>
+                  {sinConfirmar.map((study) => (
+                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                      <Td>
+                        <Link onClick={() => toggleModal(study)}> {study.fecha}</Link>
+                      </Td>
+                      <Td><Link onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
+                      <Td>
+                        <Link onClick={() => toggleModal(study)}>{study.ci}</Link>
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
+                      </Td>
+                      <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
           <Heading
             margin={'20px 0 20px 0 '}
@@ -164,16 +220,16 @@ const Dashboard = () => {
                 {pendientes.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
                     <Td>
-                      <Link onClick={toggleModal}> {study.fecha}</Link>
+                      <Link onClick={() => toggleModal(study)}> {study.fecha}</Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.cliente}</Link></Td>
+                    <Td><Link onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
+                      <Link onClick={() => toggleModal(study)}>{study.ci}</Link>
                     </Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.montoD} $ </Link>
+                      <Link onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.montoB} Bs </Link></Td>
+                    <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -211,7 +267,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion />
+            <ModalFacturacion study={study} />
           </ModalBody>
         </ModalContent>
       </Modal>

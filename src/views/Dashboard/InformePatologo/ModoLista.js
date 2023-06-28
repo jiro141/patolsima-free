@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   Badge,
   Heading,
@@ -26,104 +26,41 @@ import { Icon } from "@chakra-ui/react";
 import DatosMuestra from "./DatosMuestra";
 import ModalInforme from "./components/ModalInforma";
 import ListaInformes from "./components/ListaInformes";
+import { getListInforme } from "api/controllers/informes";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
+  const [informes, setInformes] = useState();
+  const highPriorityStudies = [];
+  const mediumPriorityStudies = [];
+  const lowPriorityStudies = [];
+  if (informes) {
+    informes.forEach((informe) => {
+      const priority = informe.estudio_prioridad;
+        if (priority === "ALTA") {
+          highPriorityStudies.push(informe);
+        } else if (priority === "MEDIA") {
+          mediumPriorityStudies.push(informe);
+        } else if (priority === "BAJA") {
+          lowPriorityStudies.push(informe);
+        }
+    });
+  }
 
-  const highPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "536510320"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "15154512"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "536510320"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "15154512"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "536510320"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "15154512"
-    },
-  ];
+  const peticionGet = async () => {
+    try {
+      const informesList = await getListInforme()
+      setInformes(informesList);
 
-  const mediumPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "ematologia",
-      paciente: "Javiera de castellanos",
-      ci: "51451551551"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "ematologia",
-      paciente: "Javiera de castellanos",
-      ci: "51451551551"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "ematologia",
-      paciente: "Javiera de castellanos",
-      ci: "51451551551"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "4548156152"
-    },
-  ];
-
-  const lowPriorityStudies = [
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "615054154"
-    },
-    {
-      nestudio: "B:010-2023",
-      fecha: "15/03/2023",
-      estudio: "Biopcia",
-      paciente: "Javiera de castellanos",
-      ci: "2515651515"
-    },
-  ];
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    peticionGet();
+  }, []);
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -166,7 +103,6 @@ const Dashboard = () => {
             maxH={'34em'}
             
             >
-
             <Table >
               <Thead>
                 <Tr>
@@ -186,21 +122,29 @@ const Dashboard = () => {
                     Prioridad Alta
                   </Heading>
                 </Tr>
-                {highPriorityStudies.map((study) => (
-                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-                    <Td>
-                      <Link onClick={toggleModal}> {study.nestudio}</Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
-                    </Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.fecha}</Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
-                  </Tr>
-                ))}
+                {highPriorityStudies.map((informe) => {
+                  const fechaHora = informe.created_at;
+                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+                  return (
+                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={informe.id}>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_codigo}</Link>
+                      </Td>
+                      <Td>
+                        {/* <Link onClick={() => toggleModal(study)}>{informe.paciente.nombres} {informe.paciente.apellidos}</Link> */}
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_paciente_ci}</Link>
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{fecha}</Link>
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_tipo}</Link>
+                      </Td>
+                    </Tr>
+                  );
+                })}
                 <Tr borderBottom={'solid 3px'} borderColor={mediumPriorityColor}>
                   <Heading
                     size="md"
@@ -209,22 +153,29 @@ const Dashboard = () => {
                     Prioridad Media
                   </Heading>
                 </Tr>
-                {mediumPriorityStudies.map((study) => (
-
-                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-                    <Td>
-                      <Link onClick={toggleModal}> {study.nestudio}</Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
-                    </Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.fecha}</Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
-                  </Tr>
-                ))}
+                {mediumPriorityStudies.map((informe) => {
+                  const fechaHora = informe.created_at;
+                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+                  return (
+                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={informe.id}>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_codigo}</Link>
+                      </Td>
+                      <Td>
+                        {/* <Link onClick={() => toggleModal(study)}>{informe.paciente.nombres} {informe.paciente.apellidos}</Link> */}
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_paciente_ci}</Link>
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{fecha}</Link>
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_tipo}</Link>
+                      </Td>
+                    </Tr>
+                  );
+                })}
                 <Tr borderBottom={'solid 3px'} borderColor={lowPriorityColor}>
                   <Heading
                     size="md"
@@ -233,22 +184,29 @@ const Dashboard = () => {
                     Prioridad Baja
                   </Heading>
                 </Tr>
-                {lowPriorityStudies.map((study) => (
-
-                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-                    <Td>
-                      <Link onClick={toggleModal}> {study.nestudio}</Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.paciente}</Link></Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
-                    </Td>
-                    <Td>
-                      <Link onClick={toggleModal}>{study.fecha}</Link>
-                    </Td>
-                    <Td><Link onClick={toggleModal}>{study.estudio}</Link></Td>
-                  </Tr>
-                ))}
+                {lowPriorityStudies.map((informe) => {
+                  const fechaHora = informe.created_at;
+                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+                  return (
+                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={informe.id}>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_codigo}</Link>
+                      </Td>
+                      <Td>
+                        {/* <Link onClick={() => toggleModal(study)}>{informe.paciente.nombres} {informe.paciente.apellidos}</Link> */}
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_paciente_ci}</Link>
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{fecha}</Link>
+                      </Td>
+                      <Td>
+                        <Link onClick={() => toggleModal()}>{informe.estudio_tipo}</Link>
+                      </Td>
+                    </Tr>
+                  );
+                })}
               </Tbody>
             </Table>
           </Box>

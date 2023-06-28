@@ -25,68 +25,87 @@ import ModalFacturacion from "./components/ModalFacturacion";
 import ListaFacturas from "./components/ListaFacturas";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
+import { getFacturasList } from "api/controllers/facturas";
+import { getCambio } from "api/controllers/tazaDia";
+import { getFacturasDetail } from "api/controllers/facturas";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const colorA = '#137797';
+  const [study, setStudy] = useState([]);
+  const [facturas, setFacturas] = useState([]);
+  const [cambioDelDia, setCambioDelDia] = useState('');
 
-  const sinProcesarStudies = [
-    {
-      id: 1,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      monto: 25452
-    },
-    {
-      id: 2,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Juancito Perez",
-      ci: "2558764",
-      monto: 25452
-    },
-    {
-      id: 3,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedrito Perez",
-      ci: "2558764",
-      monto: 25452
+  const cambioDia = async () => {
+    try {
+      const cambio = await getCambio()
+      setCambioDelDia(cambio)
+    } catch (error) {
+      console.log(error);
     }
-  ];
-  const pendientesStudies = [
-    {
-      id: 4,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "miguel Perez",
-      ci: "2558764",
-      monto: 25452
-    },
-    {
-      id: 5,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "carlos Perez",
-      ci: "2558764",
-      monto: 25452
-    },
-    {
-      id: 6,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedrito Perez",
-      ci: "2558764",
-      monto: 25452
+  }
+  useEffect(() => {
+    cambioDia();
+  }, []);
+
+
+  const peticionGet = async () => {
+    try {
+      const facturasList = await getFacturasList()
+      setFacturas(facturasList)
+      // console.log(facturasList);
+    } catch (error) {
+      console.log(error);
     }
-  ];
-  //modal 
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
-    setShowModal(!showModal);
   };
+  useEffect(() => {
+    peticionGet();
+  }, []);
+  const facturasClasificadas = facturas.reduce((clasificacion, factura) => {
+    if (factura.confirmada) {
+      clasificacion.confirmadas.push(factura);
+    } else if (factura.pagada) {
+      clasificacion.pagadas.push(factura);
+    } else {
+      clasificacion.pendientes.push(factura);
+    }
+    return clasificacion;
+  }, { confirmadas: [], pagadas: [], pendientes: [] });
+
+  const sinProcesarStudies = facturasClasificadas.pendientes.map((listaFacturas, i) => {
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+    return {
+      id: listaFacturas.id,
+      nestudio: listaFacturas.cliente,
+      fecha: fecha,
+      paciente: listaFacturas.cliente.razon_social,
+      ci: listaFacturas.cliente.ci_rif,
+      monto: listaFacturas.total_usd
+    };
+  });
+
+  const pendientesStudies = facturasClasificadas.confirmadas.map((listaFacturas) => {
+    const fechaHora = listaFacturas.fecha_recepcion;
+    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+    return {
+      id: listaFacturas.id,
+      nestudio: listaFacturas.cliente,
+      fecha: fecha,
+      paciente: listaFacturas.cliente.razon_social,
+      ci: listaFacturas.cliente.ci_rif,
+      monto: listaFacturas.total_usd
+    }
+  });
+
+  //modal 
+  // console.log(facturas.reduce);
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = (study) => {
+    setShowModal(!showModal);
+    setStudy(study);
+  };
+
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
     setShowModalList(!showModalList);
@@ -97,72 +116,72 @@ const Dashboard = () => {
 
   const renderStudies = (studies) => {
     return studies.map((study) => (
-      <Flex flexDirection={"row 7"}>
-        <Link
-          onClick={toggleModal}>
+      <Link
+        onClick={() => {
+          toggleModal(study);
+        }}>
+        <Box
+          margin={"5px auto 5px auto"}
+          boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
+          borderRadius={"16px"}
+          key={study.id}
+          padding={"0"}
+        >
           <Box
-            margin={"5px auto 5px auto"}
-            boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-            borderRadius={"16px"}
-            key={study.id}
-            padding={"0"}
+            borderTopLeftRadius={"16px"}
+            borderTopRightRadius={"16px"}
+            backgroundColor={colorA}
+            padding={'10px'}
+            paddingBottom={'0px'}
+            minH={'15px'}
           >
-            <Box
-              borderTopLeftRadius={"16px"}
-              borderTopRightRadius={"16px"}
-              backgroundColor={colorA}
-              padding={'10px'}
-              paddingBottom={'0px'}
-              minH={'15px'}
+            <Badge
+              textAlign={"center"}
+              background={"none"}
+              padding={"5px 20px 0px 20px"}
+              w={'180px'}
+              height={'35px'}
             >
-              <Badge
-                textAlign={"center"}
-                background={"none"}
-                padding={"5px 20px 0px 20px"}
-                w={'180px'}
-                height={'35px'}
-              >
-                <Icon
-                  border={"solid"}
-                  borderColor={colorA}
-                  marginTop={"-15%"}
-                  marginLeft={"86%"}
-                  height={"50px"}
-                  width={"50px"}
-                  padding={"5px"}
-                  borderRadius={"50%"}
-                  as={BsReceipt}
-                  backgroundColor={"#FFFF"}
-                  color={colorA}
-                />
-              </Badge>
-            </Box>
-            <Box p={"10px"}>
-              <Heading fontSize={'16px'}>Fecha</Heading>
-              <Text
-                textAlign={"right"}
-                ml={2}
-                fontSize={'16px'}
-                color={useColorModeValue("gray.600", "gray.400")}
-              >
-                {study.fecha}
-              </Text>
-              <Heading fontSize={'16px'}>Paciente</Heading>
-              <Text
-                fontSize={'16px'}
-                textAlign={"right"}
-                color={useColorModeValue("gray.600", "gray.400")}
-              >
-                {study.paciente}
-              </Text>
-              <Heading fontSize={'16px'}>RIF/CI</Heading>
-              <Text fontSize={'16px'} textAlign={"right"}>{study.ci}</Text>
-              <Heading fontSize={'16px'}>Monto Total</Heading>
-              <Text fontSize={'16px'} textAlign={"right"}>{study.monto} ($)</Text>
-            </Box>
+              <Icon
+                border={"solid"}
+                borderColor={colorA}
+                marginTop={"-15%"}
+                marginLeft={"86%"}
+                height={"50px"}
+                width={"50px"}
+                padding={"5px"}
+                borderRadius={"50%"}
+                as={BsReceipt}
+                backgroundColor={"#FFFF"}
+                color={colorA}
+              />
+            </Badge>
           </Box>
-        </Link>
-      </Flex>
+          <Box p={"10px"}>
+            <Heading fontSize={'16px'}>Fecha</Heading>
+            <Text
+              textAlign={"right"}
+              ml={2}
+              fontSize={'16px'}
+              color={useColorModeValue("gray.600", "gray.400")}
+            >
+              {study.fecha}
+            </Text>
+            <Heading fontSize={'16px'}>Paciente</Heading>
+            <Text
+              fontSize={'16px'}
+              textAlign={"right"}
+              color={useColorModeValue("gray.600", "gray.400")}
+            >
+              {study.paciente}
+            </Text>
+            <Heading fontSize={'16px'}>RIF/CI</Heading>
+            <Text fontSize={'16px'} textAlign={"right"}>{study.ci}</Text>
+            <Heading fontSize={'16px'}>Monto Total</Heading>
+            <Text fontSize={'16px'} textAlign={"right"}>{study.monto} ($)</Text>
+          </Box>
+        </Box>
+      </Link >
     ));
   };
 
@@ -179,7 +198,28 @@ const Dashboard = () => {
           overflowX="hidden"
           maxH={'40em'}
         >
-          <Box padding={'2%'} >
+          <Box
+            width={'100%'}
+            margin={'10px 0px 0px 25px'}
+            display="flex" justifyContent="flex-end"
+          >
+            <Box
+              width={'15%'}
+            >
+              <Text
+                borderTopLeftRadius={'20px'}
+                borderBottomLeftRadius={'20px'}
+                textAlign={'center'}
+                padding="10px"
+                backgroundColor="#137797"
+                color="#FFF"
+                fontSize={'14px'}
+              >
+                Dolar BCV: {cambioDelDia}
+              </Text>
+            </Box>
+          </Box>
+          <Box marginTop={'-15px'} padding={'2%'} >
             <Heading
               size="md"
             >
@@ -252,12 +292,12 @@ const Dashboard = () => {
                 marginTop={'-60px'}
                 bgColor={'#137797'}
                 color='#ffff'
-                onClick={toggleModal}>
+                onClick={() => toggleModal(study)}>
                 <CloseButton />
               </Button>
             </ModalHeader>
             <ModalBody>
-              <ModalFacturacion />
+              <ModalFacturacion study={study}  />
             </ModalBody>
           </ModalContent>
         </Modal>

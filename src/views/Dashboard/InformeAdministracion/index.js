@@ -36,7 +36,7 @@ const Dashboard = () => {
       id: 1,
       nestudio: "E:010-2023",
       fecha: "15/10/2023",
-      paciente: "Pedro Perez",
+      paciente: "Juan Pedro Perez Colmenares",
       ci: "2558764",
       estudio: "Citologia"
     },
@@ -44,7 +44,7 @@ const Dashboard = () => {
       id: 2,
       nestudio: "E:010-2023",
       fecha: "15/10/2023",
-      paciente: "Pedro Perez",
+      paciente: "Juan Pedro del carmen Perez Colmenares",
       ci: "2558764",
       estudio: "Citologia"
     },
@@ -133,13 +133,17 @@ const Dashboard = () => {
         <Link
           onClick={toggleModal}>
           <Box
-            margin={"5px 0px "}
+            w={'200px'}
+            h={'248px'}
+            margin={"5px auto 5px auto"}
             boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
             borderRadius={"16px"}
             key={study.id}
             padding={"0"}
           >
             <Box
+              w={'200px'}
+              h={'45px'}
               borderTopLeftRadius={"16px"}
               borderTopRightRadius={"16px"}
               backgroundColor={colorA}
@@ -154,9 +158,10 @@ const Dashboard = () => {
               >
                 {study.nestudio}
                 <Icon
+                  position={'relative'}
                   border={"solid"}
                   marginTop={"-25px"}
-                  marginLeft={"26%"}
+                  marginLeft={"25%"}
                   marginBottom={'-18px'}
                   height={"55px"}
                   width={"55px"}
@@ -168,7 +173,7 @@ const Dashboard = () => {
                 />
               </Badge>
             </Box>
-            <Box minH={'180px'} minW={'180px'} p={"10px"}>
+            <Box w={'200px'} h={'193px'} p={"10px"} >
               <Heading size="sm">Fecha de ingreso</Heading>
               <Text
                 textAlign={"right"}

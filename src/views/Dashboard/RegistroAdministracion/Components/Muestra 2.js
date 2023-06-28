@@ -30,7 +30,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-import BusquedaCliente from './BusquedaCliente';
+
 
 const Muestra2 = () => {
     //definicion de los valores a cargar

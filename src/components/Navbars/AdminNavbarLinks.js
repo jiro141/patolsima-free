@@ -31,17 +31,100 @@ import SidebarResponsive from "components/Sidebar/SidebarResponsive";
 import PropTypes from "prop-types";
 import React from "react";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+//cookies
+import Cookies from "js-cookie";
+import axios from "axios";
 import { useContext } from "react";
 import routes from "routes.js";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import { useState } from "react";
+import { authApi } from "api/authApi";
+import AuthContext from "context/authContext/AuthContext";
+import { useEffect } from "react";
+import { handleTokenRefresh } from "api/controllers/token";
+
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
 
-  const location = useLocation();
+  const history = useHistory();
+  const authContext = useContext(AuthContext);
 
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('access') // Elimina  de acceso
+    history.push("../Auth/SignIn");
+  };
+
+   async function handleTokenRefresh() {
+    // Verificar si hay un token de acceso almacenado en el LocalStorage
+    const access_token = localStorage.getItem("access");
+  //   console.log(access_token);
+  
+    if (access_token) {
+      // Obtener la fecha de expiración del token de acceso almacenada en el LocalStorage
+      const expirationTime = localStorage.getItem("accessExpiration");
+  
+      if (expirationTime && Date.now() < Number(expirationTime)) {
+        // El token de acceso todavía es válido, no es necesario hacer nada
+      //   console.log("Token de acceso válido");
+      } else {
+        // El token de acceso ha expirado, intentar obtener un nuevo token de refresco
+      //   console.log("Token de acceso expirado");
+  
+        const refresh_token = localStorage.getItem("refresh");
+  
+        if (refresh_token) {
+          try {
+            // Enviar una solicitud al endpoint '/token/refresh' para obtener un nuevo token de acceso
+            const response = await axios.post("/token/refresh", {
+              refresh_token,
+            });
+            console.log(response);
+  
+            const new_access_token = response.data.access_token;
+            const new_refresh_token = response.data.refresh_token;
+  
+            // Guardar el nuevo token de acceso y el nuevo token de refresco en el LocalStorage
+            localStorage.setItem("access", new_access_token);
+            localStorage.setItem("refresh", new_refresh_token);
+  
+            // Calcular y guardar la nueva fecha de expiración del token de acceso en el LocalStorage
+            const new_access_expiration =
+              Date.now() + 2 * 60 * 60 * 1000; // Tiempo actual + 2 horas
+            localStorage.setItem(
+              "accessExpiration",
+              new_access_expiration.toString()
+            );
+  
+            console.log("Nuevo token de acceso obtenido");
+          } catch (error) {
+            console.error(
+              "Error al obtener un nuevo token de acceso:",
+              error
+            );
+          }
+        } else {
+          // console.error(
+          //   "No se encontró el token de refresco en el LocalStorage"
+          // );
+        }
+      }
+    } else {
+      console.error("No se encontró el token de acceso en el LocalStorage");
+    }
+  }
+  useEffect(() => {
+    handleTokenRefresh()
+    return () => {
+    };
+  }, []);
+
+
+
+  //location para mostrar botones cuando deban mostrarse 
+  const location = useLocation();
   // Chakra Color Mode
   let mainTeal = useColorModeValue("gray.700", "gray.700");
   let inputBg = useColorModeValue("#FFFF");
@@ -49,6 +132,8 @@ export default function HeaderLinks(props) {
   let navbarIcon = useColorModeValue("#FFFF");
   let searchIcon = useColorModeValue("gray.700", "gray.200");
 
+  //constex para cambian de visualizacion de tarjeta a lista
+  //default tarjeta
   const { modoVisualizacion, cambiarModoVisualizacion } = useContext(ModoVisualizacionContext);
   const cambiarModo = (nuevoModo) => {
     cambiarModoVisualizacion(nuevoModo);
@@ -70,109 +155,109 @@ export default function HeaderLinks(props) {
       justifyContent="space-between"
     // gap={"5px"}
     >
-      {location.pathname !== "/admin/RegistroAdministracion"  ? (
-         <InputGroup
-         cursor="pointer"
-         bg="none"
-         borderRadius="none"
-         w={{
-           sm: "200px",
-           md: "400px",
-         }}
-         me={{ sm: "auto", md: "20px" }}
-         _focus={{
-           borderColor: { mainTeal },
-         }}
-         _active={{
-           borderColor: { mainTeal },
-         }}
-       >
-         <InputLeftElement
-           children={
-             <IconButton
-               bg="inherit"
-               borderRadius="inherit"
-               _hover="none"
-               _active={{
-                 bg: "inherit",
-                 transform: "none",
-                 borderColor: "gray.700",
-               }}
-               _focus={{
-                 boxShadow: "none",
-               }}
-               icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
-             />
-           }
-         />
-         <Input
-           fontSize="xs"
-           py="11px"
-           color={mainText}
-           placeholder="Buscar..."
-           border="none"
-           bg="none"
-           borderRadius="none"
-           css={{
-            borderBottom: "1px solid ",
-            borderColor:"gray"  
+      {location.pathname !== "/admin/RegistroAdministracion" ? (
+        <InputGroup
+          cursor="pointer"
+          bg="none"
+          borderRadius="none"
+          w={{
+            sm: "200px",
+            md: "400px",
           }}
-         />
-       </InputGroup>       
-       ):
-       <InputGroup
-       visibility={'hidden'}
-       cursor="pointer"
-       bg={"none"}
-       borderRadius="none"
-       w={{
-         sm: "200px",
-         md: "400px",
-       }}
-       me={{ sm: "auto", md: "20px" }}
-       _focus={{
-         borderColor: { mainTeal },
-       }}
-       _active={{
-         borderColor: { mainTeal },
-       }}
-     >
-       <InputLeftElement
-         children={
-           <IconButton
-             bg="inherit"
-             borderRadius="inherit"
-             _hover="none"
-             _active={{
-               bg: "inherit",
-               transform: "none",
-               borderColor: "transparent",
-             }}
-             _focus={{
-               boxShadow: "none",
-             }}
-             icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
-           ></IconButton>
-         }
-       />
-       <Input
-         fontSize="xs"
-         py="11px"
-         color={mainText}
-         placeholder="Buscar..."
-         border={"none"}
-         background={"none"}
-         borderRadius={"none"}
-         borderBottom={"solid 1px"}
-       />
-     </InputGroup>}
-     
+          me={{ sm: "auto", md: "20px" }}
+          _focus={{
+            borderColor: { mainTeal },
+          }}
+          _active={{
+            borderColor: { mainTeal },
+          }}
+        >
+          <InputLeftElement
+            children={
+              <IconButton
+                bg="inherit"
+                borderRadius="inherit"
+                _hover="none"
+                _active={{
+                  bg: "inherit",
+                  transform: "none",
+                  borderColor: "gray.700",
+                }}
+                _focus={{
+                  boxShadow: "none",
+                }}
+                icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
+              />
+            }
+          />
+          <Input
+            fontSize="xs"
+            py="11px"
+            color={mainText}
+            placeholder="Buscar..."
+            border="none"
+            bg="none"
+            borderRadius="none"
+            css={{
+              borderBottom: "1px solid ",
+              borderColor: "gray"
+            }}
+          />
+        </InputGroup>
+      ) :
+        <InputGroup
+          visibility={'hidden'}
+          cursor="pointer"
+          bg={"none"}
+          borderRadius="none"
+          w={{
+            sm: "200px",
+            md: "400px",
+          }}
+          me={{ sm: "auto", md: "20px" }}
+          _focus={{
+            borderColor: { mainTeal },
+          }}
+          _active={{
+            borderColor: { mainTeal },
+          }}
+        >
+          <InputLeftElement
+            children={
+              <IconButton
+                bg="inherit"
+                borderRadius="inherit"
+                _hover="none"
+                _active={{
+                  bg: "inherit",
+                  transform: "none",
+                  borderColor: "transparent",
+                }}
+                _focus={{
+                  boxShadow: "none",
+                }}
+                icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
+              ></IconButton>
+            }
+          />
+          <Input
+            fontSize="xs"
+            py="11px"
+            color={mainText}
+            placeholder="Buscar..."
+            border={"none"}
+            background={"none"}
+            borderRadius={"none"}
+            borderBottom={"solid 1px"}
+          />
+        </InputGroup>}
+
       {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
         <Box marginLeft={'-30%'} display={{ base: "none", md: "block" }}>
-          <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion!=='tarjeta'? "#89bbcc": 'none'}>
+          <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
             <BsListUl size="30px" color="#137797" />
           </Button>
-          <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion==='tarjeta'? "#89bbcc": 'none'}>
+          <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion === 'tarjeta' ? "#89bbcc" : 'none'}>
             <BsGrid3X3GapFill size="25px" color="#137797" />
           </Button>
         </Box>
@@ -275,10 +360,14 @@ export default function HeaderLinks(props) {
             h="18px"
           />
           <Box >
-            <Button _hover={{ bg: "none" }} borderRadius={"13px"} background={'none'} padding={'0px'}>
+            <Button
+              _hover={{ bg: "none" }}
+              borderRadius={"13px"}
+              background={'none'}
+              padding={'0px'}
+              onClick={handleLogout}>
               <BiLogOut
                 size={"20px"}
-                // strokeWidth={1}
                 style={{ color: "#137798" }}
               />
             </Button>
