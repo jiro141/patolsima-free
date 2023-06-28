@@ -8,14 +8,15 @@ import {
     Button
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { updateInforme } from "api/controllers/informes";
+import CKEditorConfig from "api/ckeditor/ckeditorconfig";
 
 const ModalDescripcion = ({ titulo, idStudy }) => {
     const [editorData, setEditorData] = useState('');
-    // console.log(editorData);
+    let field_name;
     const initialValues = {
         estudio: idStudy,
     };
@@ -23,19 +24,19 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
     // console.log(initialValues);
     switch (titulo) {
         case 'Descripción macroscópica':
-            initialValues.descripcion_macroscopica = editorData;
+            field_name = 'descripcion_macroscopica';
             break;
         case 'Descripción microscópica':
-            initialValues.descripcion_microscopica = editorData;
+            field_name = 'descripcion_microscopica';
             break;
         case 'Diagnóstico':
-            initialValues.diagnostico = editorData;
+            field_name = 'diagnostico';
             break;
         case 'Notas':
-            initialValues.notas = editorData;
+            field_name = 'notas';
             break;
         case 'Bibliografía':
-            initialValues.bibliografia = editorData;
+            field_name = 'bibliografia';
             break;
         default:
             break;
@@ -50,6 +51,8 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
         initialValues,
         validationSchema,
         onSubmit: async (formData) => {
+            formData[field_name] = editorData;
+            console.log('form data formik pipi');
             console.log(formData);
             try {
                 const enviarInforme = await updateInforme(idStudy, formData);
@@ -60,10 +63,6 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
         },
     });
 
-    const editorConfiguration = {
-        // Configuración del editor CKEditor
-    };
-
     return (
         <>
             <Box marginTop={'-50px'}>
@@ -71,9 +70,9 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
                 <Box height={'sm'} maxH={'200px'} overflowY="scroll">
                     <CKEditor
                         height={'500px'}
-                        editor={ClassicEditor}
+                        editor={Editor}
                         data={editorData}
-                        config={editorConfiguration}
+                        config={CKEditorConfig}
                         onReady={(editor) => {
                             // Lógica adicional cuando el editor está listo
                         }}
