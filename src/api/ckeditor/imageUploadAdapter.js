@@ -2,30 +2,32 @@ import Axios from "api/authApi";
 
 function CustomUploadAdapterPlugin(editor) {
     const informe_id = editor.config._config.patolsima_informe_id;
+
+    // Only allocates the upload handler for instances of the Editor with informe_id
+    if (!informe_id) {
+        return;
+    }
+
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-        console.log("calling createUploadAdapter");
         return new ImageUploadAdapter(loader, informe_id)
     }
 }
 
 class ImageUploadAdapter {
     constructor(loader, informe_id) {
-        // CKEditor 5's FileLoader instance.
         this.loader = loader;
         this.informe_id = informe_id;
-        // URL where to send files.
         this.requestPromise = null;
         this.abortController = new AbortController();
-        console.log('ImageUploadAdapter creado');
     }
 
     // Starts the upload process.
     upload() {
-        console.log('desde la carga informe_id');
-        console.log(this.informe_id);
         const data = new FormData();
+        // Aqui falta refrescar el token de acceso si ya expiró
         const token = localStorage.getItem("access");
-        return new Promise((resolve, reject) => {
+        const informe_id = this.informe_id;
+        return this.loader.file.then(file_from_promise => new Promise((resolve, reject) => {
             var config = {
                 onUploadProgress: function (progressEvent) {
                     if (progressEvent.lengthComputable) {
@@ -36,22 +38,23 @@ class ImageUploadAdapter {
                 signal: this.abortController.signal
             };
 
-            this.loader.file.then(result => {
-                data.append('file', result);
-                Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-                this.requestPromise = Axios.post(`/v1/core/informes/`, data, config);
-                this.requestPromise.then(data => {
-                    console.log('from Api');
-                    console.log(data);
-                    resolve(data);
+
+            data.append('file', file_from_promise);
+            Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+            Axios.defaults.headers['Content-Type'] = 'multipart/form-data';
+            this.requestPromise = Axios.post(`/v1/core/informes/${informe_id}/fields_image_upload/`, data, config);
+            this.requestPromise.then(data => {
+                    resolve({
+                        urls: {
+                            default: data.data.uri
+                        },
+                        server_response: data.data
+                    });
                 })
                 .catch(err => {
-                    console.log('Error from Api');
-                    console.log(err);
                     reject(err);
                 });
-            });
-        });
+        }));
     }
 
     // Aborts the upload process.

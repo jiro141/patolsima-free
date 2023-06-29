@@ -9,10 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import CKEditorDefaultConfig from "api/ckeditor/ckeditorconfig";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { updateInforme } from "api/controllers/informes";
-import CKEditorConfig from "api/ckeditor/ckeditorconfig";
 
 const ModalDescripcion = ({ titulo, idStudy }) => {
     const [editorData, setEditorData] = useState('');
@@ -72,7 +72,7 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
                         height={'500px'}
                         editor={Editor}
                         data={editorData}
-                        config={CKEditorConfig}
+                        config={{...{patolsima_informe_id: idStudy}, ...CKEditorDefaultConfig}}
                         onReady={(editor) => {
                             // Lógica adicional cuando el editor está listo
                         }}

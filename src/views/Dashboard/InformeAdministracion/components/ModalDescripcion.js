@@ -9,11 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
-// import CKEditorInspector from '@ckeditor/ckeditor5-inspector';
-import CKEditorConfig from "api/ckeditor/ckeditorconfig";
+import CKEditorDefaultConfig from "api/ckeditor/ckeditorconfig";
 
 
-const ModalDescripcion = () => {
+const ModalDescripcion = ({ titulo, idStudy }) => {
 
     return (
         <>
@@ -23,7 +22,7 @@ const ModalDescripcion = () => {
                     <Box minH={'400px'} maxH={'200px'}  overflowY="scroll">
                         <CKEditor
                             editor={Editor}
-                            config={CKEditorConfig}
+                            config={{...{patolsima_informe_id: idStudy}, ...CKEditorDefaultConfig}}
                             data=""
                             onReady={(editor) => {
                                 console.log("CKEditor5 React Component is ready to use!", editor);
