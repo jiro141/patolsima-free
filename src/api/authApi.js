@@ -1,30 +1,21 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-// ${Cookies.get('access')}
 
-// const Axios = axios.create({
-//     baseURL: `${REACT_APP_BACKEND_URL}`,
-//     timeout: 100000,
-//     headers: {
-//       "content-type": "application/json",
-//     },
-//     withCredentials: false,
-//   });
-  
-//   export default Axios;
 
   const Axios = axios.create({
     baseURL: `${REACT_APP_BACKEND_URL}`,
     headers: { "content-type": "application/json" },
   });
+
   
-//   Axios.interceptors.request.use(async config => {
-//     // const token = window.localStorage.getItem("accessToken");
-//     if (token){
-//         config.headers.Authorization = `Bearer ${token}`;
-//     }else return config
-//   })
+  
+   Axios.interceptors.request.use(async config => {
+      const token = window.localStorage.getItem("access");
+     if (token){
+         config.headers.Authorization = `Bearer ${token}`;
+     } return config
+   })
   
   export default Axios;
 
