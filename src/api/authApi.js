@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 
@@ -8,8 +7,6 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
     headers: { "content-type": "application/json" },
   });
 
-  
-  
    Axios.interceptors.request.use(async config => {
       const token = window.localStorage.getItem("access");
      if (token){
