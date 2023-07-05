@@ -4,11 +4,8 @@ import Axios from "api/authApi";
 export const getFacturasList= async () => {
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-    // console.log(token);
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/`)
-        console.log(response);
-        // console.log(response.data);
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -19,7 +16,6 @@ export const getFacturasDetail= async (id) => {
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/${id}`)
-        // console.log(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -31,7 +27,6 @@ export const putFacturaTerceros= async (id,data) => {
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`,data)
-        console.log(response);
         // return response.data;
     } catch (error) {
         console.log(error);
@@ -43,7 +38,6 @@ export const postAbonar= async (data) => {
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.post(`/v1/facturacion/pagos/`,data)
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -65,9 +59,9 @@ export const postConfirmar= async (id) => {
 export const postNotaPago= async (id) => {
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    console.log(id);
     try {
         const response = await Axios.get(`/v1/facturacion/pagos/${id}/nota_de_pago/`)
-        console.log(response);
         return response;
     } catch (error) {
         console.log(error);
@@ -79,7 +73,6 @@ export const putMonto= async (id,data) => {
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.put(`/v1/facturacion/itemsorden/${id}/`,data)
-        console.log(response);
         return response;
     } catch (error) {
         console.log(error);

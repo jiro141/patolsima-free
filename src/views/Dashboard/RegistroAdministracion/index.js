@@ -58,7 +58,7 @@ function Registro() {
                 bg={isActive ? "#9BC5D3" : "#9BC5D3"}
                 color={isActive ? "#2b6cb0" : "transpared"}
                 borderRadius={isActive ? "40px" : "45%"}
-                padding={isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "15px" }}
+                padding={isActive ? { md: "5px 80px", sm: "5px 60px", lg: "20px 200px" } : { lg: "15px" }}
                 fontSize={isActive ? "20px" : "0px"}
                 width="50px"
                 height="50px"
@@ -91,20 +91,21 @@ function Registro() {
             </MotionTab>
         );
     };
-    
+
     return (
         <Box
-            margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+            margin={{ lg: '50px 0px 0px 0px', md: "60px 0px 0px 0px", sm: '30px 0px 10% 0px' }}
             padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-            backgroundColor={'gray.100'}
+            backgroundColor={{ lg: 'gray.100', md: 'gray.100', sm: 'none' }}
             // backgroundImage={Imagen}
             borderTopLeftRadius={'20px'}
             backgroundSize="cover"
             backgroundPosition="center"
-            overflowY="scroll"
+            // overflowY="scroll"
             overflowX="hidden"
-            maxH={'42em'}
-            scrollPadding={'1px'}
+            maxH={{ lg: '50em', sm: '60em' }}
+            // scrollPadding={'1px'}
+            overflowY={'hidden'}
 
         >
             <Box
@@ -123,36 +124,44 @@ function Registro() {
                         </TabList>
                         <TabPanels>
                             {/* {activeTab === 0 && ( */}
-                                <TabPanel>
-                                    {oneState === 'post' && activeTab === 0 ?
-                                        <ClienteCardPostInitial  registro={registroSeleccionadoCliente} setRegistro={setRegistroSeleccionadoCliente} oneState={oneState} setOneState={setOneState} />
-                                        :
-                                        <ClienteCardPut  registro={registroSeleccionadoCliente} setRegistro={setRegistroSeleccionadoCliente} oneState={oneState} setOneState={setOneState} />
-                                    }
-                                </TabPanel>
+                            <TabPanel>
+                                {oneState === 'post' && activeTab === 0 ?
+                                    <ClienteCardPostInitial registro={registroSeleccionadoCliente} setRegistro={setRegistroSeleccionadoCliente} oneState={oneState} setOneState={setOneState} />
+                                    :
+                                    <ClienteCardPut registro={registroSeleccionadoCliente} setRegistro={setRegistroSeleccionadoCliente} oneState={oneState} setOneState={setOneState} />
+                                }
+                            </TabPanel>
                             {/* )} */}
                             {/* {activeTab === 1 && ( */}
-                                <TabPanel>
-                                    {twoState === 'post' && activeTab === 1 ?
-                                        <MedicoCardPostInitial  registro={resgistroSeleccionadoMedico} setRegistro={setRegistroSeleccionadoMedico} twoState={twoState} setTwoState={setTwoState} />
-                                        :
-                                        <MedicoCardPut  registro={resgistroSeleccionadoMedico} setRegistro={setRegistroSeleccionadoMedico} twoState={twoState} setTwoState={setTwoState} />}
+                            <TabPanel>
+                                {twoState === 'post' && activeTab === 1 ?
+                                    <MedicoCardPostInitial registro={resgistroSeleccionadoMedico} setRegistro={setRegistroSeleccionadoMedico} twoState={twoState} setTwoState={setTwoState} />
+                                    :
+                                    <MedicoCardPut registro={resgistroSeleccionadoMedico} setRegistro={setRegistroSeleccionadoMedico} twoState={twoState} setTwoState={setTwoState} />}
 
-                                </TabPanel>
+                            </TabPanel>
                             {/* )} */}
                             {/* {activeTab === 2 && ( */}
-                                <TabPanel>
-                                    <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                        <Muestra  />
-                                    </Box>
-                                </TabPanel>
+                            <TabPanel>
+                                <Box backgroundColor={"#FFFF"}
+                                    boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
+                                    padding={{ lg: '30px', sm: '15px' }}
+                                    borderRadius='20px'
+                                    m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
+                                    <Muestra />
+                                </Box>
+                            </TabPanel>
                             {/* )} */}
                             {/* {activeTab === 3 && ( */}
-                                <TabPanel>
-                                    <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
-                                        <Muestra2  />
-                                    </Box>
-                                </TabPanel>
+                            <TabPanel>
+                                <Box backgroundColor={"#FFFF"}
+                                    boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
+                                    padding={{ lg: '30px', sm: '15px' }}
+                                    borderRadius='20px'
+                                    m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
+                                    <Muestra2 />
+                                </Box>
+                            </TabPanel>
                             {/* )} */}
                         </TabPanels>
                     </Tabs >

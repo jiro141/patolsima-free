@@ -15,7 +15,7 @@ export const globalStyles = {
 			},
 			html: {
 				fontFamily: "'Montserrat', sans-serif",
-				overflow: "hidden"
+				// overflow: "hidden"
 
 			},
 			heading:{

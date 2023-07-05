@@ -21,25 +21,16 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
+import { getListInforme } from 'api/controllers/informes';
+import { deleteInforme } from 'api/controllers/informes';
 // import BusquedaCliente from './BusquedaCliente';
 
 const ListaInformes = () => {
-    //definicion de los valores a cargar
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [especialidad, setEspecialidad] = useState('');
-    const [email, setEmail] = useState('');
-    const [telefono, setTelefono] = useState('');
-    //carga de los datos del formulario
-    const formData = {
-        nombre,
-        apellido,
-        especialidad,
-        email,
-        telefono,
-    };
+   
     //Alerta para no seguir 
     const [alerta, setAlerta] = useState(false);
+    const [informes, setInformes] = useState();
+    const [informesList,setInformesList]=useState();
     //alerta 
     const mensajeAlerta = () => {
         if (Object.values(formData).every((value) => value == '')) {
@@ -54,21 +45,18 @@ const ListaInformes = () => {
         setMostrarModal(!mostrarModal);
     };
     //consultar los datos de la api, mostrarlos en la lista 
-    const [pasientes, setPasientes] = useState([]);
-    const [tabla, setTabla] = useState([]);
     const [Busqueda, setBusqueda] = useState("");
-    const [registroSeleccionado, setRegistroSeleccionado] = useState(null);
     //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
     const peticionGet = async () => {
-        await axios.get("https://jsonplaceholder.typicode.com/users")
-            .then(response => {
-                setPasientes(response.data);
-                setTabla(response.data);
-            }).catch(error => {
-                //  console.log(error);
-            })
+        try {
+            const informesList = await getListInforme()
+            setInformes(informesList);
+            setInformesList(informesList)
+
+        } catch (error) {
+            console.log(error);
+        }
     };
-    //para activar el evento que filtra a los datos que se encuentran la lista
     useEffect(() => {
         peticionGet();
     }, []);
@@ -76,40 +64,43 @@ const ListaInformes = () => {
         setBusqueda(event.target.value);
         filtrar(event.target.value)
     };
+    //para activar el evento que filtra a los datos que se encuentran la lista
     //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
     //que toma minusculas y mayusculas por y minusculas
     const filtrar = (terminoBusqueda) => {
-        var resultadoBusqueda = tabla.filter((elemento) => {
-            if (elemento.name.toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento.username.toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento.address.zipcode.includes(terminoBusqueda)
+        let resultadoBusqueda = informesList.filter((elemento) => {
+            if (elemento.estudio_codigo.toLowerCase().includes(terminoBusqueda.toLowerCase())
+                ||
+                elemento.estudio_tipo.toLowerCase().includes(terminoBusqueda.toLowerCase())
+                ||
+                elemento.estudio_paciente_ci.toString().includes(terminoBusqueda)
             ) {
                 return elemento;
             }
         });
-        setPasientes(resultadoBusqueda);
+        
+        setInformes(resultadoBusqueda);
     }
-    const [registro, setRegistro] = useState([]);
-    const seleccionarRegistro = (registro) => {
-        setRegistroSeleccionado(registro);
-
-        console.log('Registro seleccionado:', registro);
-
-        setNombre(registro.nombre);
-        setApellido(registro.apellido);
-        setEspecialidad(registro.especialidad);
-        setEmail(registro.email);
-        setTelefono(registro.telefono);
-
-        toggleModal();
+    const eliminarInforme = async () => {
+        try {
+            const pacienteDelete = await deleteInforme(informes.id);
+            // setInformes(informes.filter(i => i.id !== ));
+            // Eliminar el paciente del estado local
+        } catch (error) {
+            console.log(error);
+        }
     }
-
+    const renderDate = (createdAt) => {
+        const date = createdAt ? new Date(createdAt) : null;
+        if (date) {
+            const formattedDate = date.toLocaleDateString();
+            return formattedDate;
+        }
+        return '';
+    };
     return (
         <>
             <Box>
-                {/* {registroSeleccionado ? (
-                                <MostrarCliente registroSeleccionado={pasientes} />
-                            ) : ( */}
                 <Box>
                     <Box bg="none" py={4} mb={4}>
                         <Grid templateColumns={'1fr 2fr'} maxW="container.lg">
@@ -151,32 +142,32 @@ const ListaInformes = () => {
                                         borderBottom="3px solid"
                                         borderBottomColor={'gray.500'}
                                         textAlign='center'>Tipo de Estudio</Th>
-                                        <Th borderRadius='none'
+                                    <Th borderRadius='none'
                                         borderBottom="3px solid"
                                         borderBottomColor={'gray.500'}
                                         textAlign='center'>Patologo</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {pasientes && pasientes.map((pasientes) => (
-                                    <Tr key={pasientes.id}>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.id}
+                                {informes && informes.map((informe) => (
+                                    <Tr key={informe.id}>
+                                        <Link textAlign={'center'} as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
+                                            {informe.estudio_codigo}
+                                        </Link>
+                                        <Link textAlign={'center'} as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
+                                            {renderDate(informe.created_at)}
                                         </Link>
                                         <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.address.zipcode}
+                                            {/* {pasientes.address.zipcode} */}
                                         </Link>
                                         <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.address.zipcode}
+                                            {informe.estudio_paciente_ci}
                                         </Link>
                                         <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.name}
+                                            {informe.estudio_tipo}
                                         </Link>
                                         <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.username}
-                                        </Link>
-                                        <Link as="td" margin={'10px'} borderRadius="none" borderBottom="1px solid" borderBottomColor="gray.500" onClick={() => seleccionarRegistro(pasientes)}>
-                                            {pasientes.address.geo.lat}
+                                            {informe.estudio_patologo_name}
                                         </Link>
                                     </Tr>
                                 ))}

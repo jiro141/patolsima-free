@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import {
     Alert,
     AlertIcon,
@@ -33,10 +33,10 @@ import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualiza
 import { useFormik, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
 import { postStudies } from 'api/controllers/estudios';
-
+import { BsFolderPlus } from "react-icons/bs";
 
 const Muestra = () => {
-    const { dataPaciente, dataMedico,pacienteID } = useContext(ModoVisualizacionContext);
+    const { dataPaciente, dataMedico, pacienteID } = useContext(ModoVisualizacionContext);
     //definicion de los valores a cargar
     const [estudiot, setEstudiot] = useState('');
     const [estudioa, setEstudioa] = useState('');
@@ -44,21 +44,32 @@ const Muestra = () => {
     const [tmuestra, setTmuestra] = useState('');
     const [notas, setNotas] = useState('');
     const [archivo, setAchivo] = useState('');
+    const fileInputRef = useRef(null);
+
+    const handleButtonClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileInputChange = (event) => {
+        const file = event.target.files[0];
+        // Aquí puedes realizar las operaciones que desees con el archivo seleccionado
+        console.log(file);
+    };
     console.log(pacienteID);
     //carga de los datos del formulario
     const formik = useFormik({
-    
+
         initialValues: {
             tipo: 'CITOLOGIA_GINECOLOGICA',
             urgente: false,
             envio_digital: false,
             paciente_id: pacienteID,
             medico_tratante_id: 5,
-            patolog_id: '',
-            notas: 'vsdfdfd'
+            patolog_id: null,
+            notas: ''
         },
         validateOnChange: false,
-        onSubmit: async (formData, { resetForm }) => { 
+        onSubmit: async (formData, { resetForm }) => {
             console.log(formData);
             try {
                 const estudioPost = await postStudies(formData);
@@ -84,8 +95,8 @@ const Muestra = () => {
     return (
         <>
             <form >
-                <Text fontSize={'20px'} margin='2% auto 2% auto' color={'gray.600'}>Información General</Text>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Text fontSize={'20px'} margin={'2% auto 2% auto'} color={'gray.600'}>Información General</Text>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap='20px'>
                     <Box>
                         <Text marginBottom={'1.5%'} fontSize={'17px'}>Paciente</Text>
                         <Text>{dataPaciente.nombres} {dataPaciente.apellidos}</Text>
@@ -98,17 +109,17 @@ const Muestra = () => {
 
                     </Box>
                 </Grid>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap='20px'>
                 </Grid>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px' >
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap='20px' >
                     <Box>
-                        <Text textAlign={'left'} fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Datos de Estudio</Text>
+                        <Text textAlign={'left'} fontSize={'20px'} margin={{lg:'15px auto 0 30px',sm:'15px auto 5px auto'}} color={'gray.600'}>Datos de Estudio</Text>
                     </Box>
                     <Box>
-                        <Text textAlign={'left'} fontSize={'18px'} margin='15px auto 0 auto' color={'gray.600'}>Estudio N°: C-nn-yyyy </Text>
+                        <Text textAlign={'left'} fontSize={'18px'} margin={{lg:'15px auto 0 auto',sm:'0px auto 10px auto'}} color={'gray.600'}>Estudio N°: C-nn-yyyy </Text>
                     </Box>
                 </Grid>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px'>
+                <Grid templateColumns={{lg:'repeat(2,1fr)',sm:'1fr'}} gap='20px'>
                     <Select color="gray.400" defaultValue="sexo">
                         <option hidden >Tipo de Estudio:</option>
                         <option value='BIOPSIA'>Biopsia</option>
@@ -125,7 +136,7 @@ const Muestra = () => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid templateColumns={'repeat(2,1fr)'} gap='20px' marginY={'2%'}>
+                <Grid templateColumns={{lg:'repeat(3,1fr)',sm:'1fr'}} gap='20px' marginY={'2%'}>
                     <FormControl display='flex' alignItems='center'>
                         <Switch
                             id='envio_digital'
@@ -151,6 +162,19 @@ const Muestra = () => {
                         <FormLabel htmlFor='urgente' mb='0' ms='1' fontWeight='normal'>
                             Urgente
                         </FormLabel>
+                    </FormControl>
+                    <FormControl display='flex' alignItems='center'>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleFileInputChange}
+                        />
+                        <FormLabel>Agregar adjuntos</FormLabel>
+                        <Button type="button" onClick={handleButtonClick}>
+                            <BsFolderPlus color="#137797" />
+                        </Button>
+
                     </FormControl>
 
                 </Grid>
@@ -203,8 +227,8 @@ const Muestra = () => {
             </form>
             <Box w={'100%'} textAlign={'center'}>
                 <Button
-                    padding={'10px 60px'}
-                    marginBottom='-120px'
+                    padding={{lg:'10px 60px',md:"10px 60px",sm:"10px 20px"}}
+                    marginBottom={{lg:'-18%',md:'-15%',sm:'-15%'}}
                     bgColor={'#137798'}
                     color='#ffff'
                     borderRadius={'20px'}
@@ -213,9 +237,13 @@ const Muestra = () => {
             </Box>
             <Box w={'100%'} textAlign='end'>
                 <Button
-                    marginBottom={{ lg: '-80px', md: '-15%', sm: '-30%' }}
+                    type='submit'
+                    marginLeft={{ lg: '35em', md: '80%', sm: '' }}
+                    marginRight={{sm:'30%'}}
+                    marginTop={{lg:'0',md:"0",sm:"20%"}}
+                    marginBottom={{ lg: '-5em', md: '-7%', sm: '-15%' }}
                     borderRadius={'20px'}
-                    bgColor={'#137798'}
+                    bgColor={'#137797'}
                     color='#ffff'
                     onClick={formik.handleSubmit}
                 >
