@@ -203,14 +203,7 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                     </FormControl>
                 </Grid>
             </form>
-           {/* <Button
-                borderRadius={'20px'}
-                padding={'10px 60px'}
-                marginTop='20px'
-                bgColor={'#89bbcc'}
-                color='#ffff'
-                onClick={toggleModal}>
-            Ver más</Button>*/}
+           
             <ShowMoreButton
             
             handleClick={toggleModal}

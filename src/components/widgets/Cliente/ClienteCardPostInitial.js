@@ -324,9 +324,6 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
         
         </form>
       }
-
-     
-
       <FilteredDataModal
         isOpenModal={mostrarModal}
         isToggleModal={toggleModal}
