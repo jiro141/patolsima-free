@@ -46,6 +46,7 @@ function SignIn() {
         password: password,
       });
        window.localStorage.setItem('access', data.access);
+       window.localStorage.setItem('refresh', data.refresh);
        history.push('layouts/Admin.js'); 
       // console.log(access); 	
     } catch (error) {

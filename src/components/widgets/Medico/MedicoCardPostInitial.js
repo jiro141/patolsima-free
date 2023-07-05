@@ -23,6 +23,8 @@ import * as Yup from 'yup';
 import { postMedicos } from 'api/controllers/medicos';
 import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Confirmacion';
 import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
+import InputOverall from '../Inputs/InputOverall';
+import ShowMoreButton from '../Buttons/ShowMoreButton';
 
 const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro }) => {
     const { setFormValues } = useContext(ModoVisualizacionContext);
@@ -147,24 +149,26 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
             <form >
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Nombres:'
-                            type="text"
-                            name="nombres"
-                            value={formik.values.nombres}
-                            onChange={e => formik.setFieldValue('nombres', e.target.value)}
-                        />
-                    </FormControl>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Apellidos:'
-                            type="text"
-                            name="Apellido"
-                            value={formik.values.apellidos}
-                            onChange={e => formik.setFieldValue('apellidos', e.target.value)}
-                        />
-                    </FormControl>
+                 
+                     <InputOverall
+                name="nombres"
+                value={formik.values.nombres}
+                placeholder="Nombres:"
+                onChange={(e) =>
+                  formik.setFieldValue("nombres", e.target.value)
+                }
+                errors={formik.errors.nombres}
+              />
+                 
+             <InputOverall
+                name="Apellido"
+                value={formik.values.apellidos}
+                placeholder='Apellidos:'
+                onChange={(e) =>
+                  formik.setFieldValue("apellidos", e.target.value)
+                }
+                errors={formik.errors.apellidos}
+              />
                 </Grid>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
                     <FormControl mb={3}>
@@ -199,14 +203,18 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                     </FormControl>
                 </Grid>
             </form>
-            <Button
+           {/* <Button
                 borderRadius={'20px'}
                 padding={'10px 60px'}
                 marginTop='20px'
                 bgColor={'#89bbcc'}
                 color='#ffff'
                 onClick={toggleModal}>
-                Ver más</Button>
+            Ver más</Button>*/}
+            <ShowMoreButton
+            
+            handleClick={toggleModal}
+            />
             <Modal
                 size={'4xl'}
                 maxWidth='100%'

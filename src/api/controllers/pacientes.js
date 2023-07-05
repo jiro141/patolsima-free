@@ -5,9 +5,15 @@ import Axios from "api/authApi";
 export const getPacientesList = async (endpoint) => {
     try {
         const response = await Axios.get(`/v1/core/pacientes/`)
-         console.log(response.data);
         return response.data.results;
-
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getPacientesListByCi = async ({searchci}) => {
+    try {
+        const response = await Axios.get(`/v1/core/pacientes/?ci=${searchci}`)
+        return response.data.results;
     } catch (error) {
         console.log(error);
     }
@@ -24,23 +30,14 @@ export const getPacientesDetail = async (id) => {
 }
 
 //guardar pacietes metodo post
-export const postPacientes = async ({ci,nombres,apellidos,fecha_nacimiento,direccion,email,telefono_fijo,telefono_celular,sexo}) => {
+export const postPacientes = async (data) => {
+
     try {
-        const response = await Axios.post(`/v1/core/pacientes/`, {
-            ci,
-            nombres,
-            apellidos,
-            fecha_nacimiento,
-            direccion,
-            email,
-            telefono_fijo,
-            telefono_celular,
-            sexo
-        })
+        const response = await Axios.post(`/v1/core/pacientes/`, data)
         console.log(response);
         return response.data.id;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 
 }

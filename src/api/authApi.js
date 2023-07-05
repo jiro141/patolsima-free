@@ -9,9 +9,11 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
    Axios.interceptors.request.use(async config => {
       const token = window.localStorage.getItem("access");
+      //refresh
      if (token){
          config.headers.Authorization = `Bearer ${token}`;
-     } return config
+     } 
+     return config
    })
   
   export default Axios;

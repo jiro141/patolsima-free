@@ -6,38 +6,18 @@ import {
     Button,
 
 } from "@chakra-ui/react";
+import GeneralButton from "components/widgets/Buttons/GeneralButton";
 
 
 
 const Confirmacion = ({ nombres, eliminar, close, id,especialidad }) => {
-    console.log(id);
-    //tamaños de modal
-    // console.log(nombres);
     return (
         <Box marginTop={"20px"}>
             <Text textAlign={'center'}>{`¿Desea eliminar a ${nombres}${especialidad ? ` (${especialidad})` : ''}?`}</Text>
-            <Grid gap={"10px"} templateColumns={"repeat(2,1fr)"}>
-                <Button
-                    marginX={'10px'}
-                    marginY={'30px'}
-                    color={'whiteAlpha.900'}
-                    borderColor={'gray.400'}
-                    background={'#137797'}
-                    borderRadius={'20px'}
-                    onClick={() => {
-                        eliminar(id);
-                        close();
-                    }}
-                >Si</Button>
-                <Button
-                    marginX={'10px'}
-                    marginY={'30px'}
-                    border={'solid'}
-                    color={'#137797'}
-                    borderColor={'#137797'}
-                    background={'none'}
-                    borderRadius={'20px'}
-                    onClick={close}>No</Button>
+            <Grid gap={"10px"} templateColumns={"repeat(2,1fr)"}>         
+                <GeneralButton text="Si" handleClick={()=>console.log('eliminando')} />
+                <GeneralButton text="No" type="outline" handleClick={close} />
+
             </Grid>
         </Box>
     );

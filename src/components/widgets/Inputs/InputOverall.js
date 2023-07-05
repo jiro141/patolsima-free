@@ -8,10 +8,12 @@ export default function InputOverall({
   onChange,
   placeholder,
   name,
+  defaultValue
 }) {
   return (
     <FormControl isInvalid={errors} mb={3}>
       <Input
+      defaultValue={defaultValue ? defaultValue : ''}
         isRequired
         placeholder={placeholder}
         type={type === "ci" ? "number" : "text"}
