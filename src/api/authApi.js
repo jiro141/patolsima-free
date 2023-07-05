@@ -14,9 +14,9 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
      if (token){
          config.headers.Authorization = `Bearer ${token}`;
      } 
-     if(refresh){
+  /*   if(refresh){
       config.headers.Authorization = `Bearer ${refresh}`;
-     }
+     }*/
      return config
    })
   

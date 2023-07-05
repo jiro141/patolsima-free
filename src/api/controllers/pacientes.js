@@ -7,7 +7,7 @@ export const getPacientesList = async (endpoint) => {
         const response = await Axios.get(`/v1/core/pacientes/`)
         return response.data.results;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 export const getPacientesListByCi = async ({searchci}) => {
@@ -45,7 +45,8 @@ export const postPacientes = async (data) => {
 export const putPacientes = async (id,registro) => {  
     try {
         const response = await Axios.put(`/v1/core/pacientes/${id}/`,registro) // para el put tambien tengo que enviar un body
-        console.log(response);
+        console.log(response.data);
+        return response.data
     } catch (error) {
         console.log(error);
     }

@@ -50,6 +50,7 @@ const ClienteCardPut = ({ oneState, setOneState, registro, setRegistro }) => {
     const onSubmit = async (paciente) => {
         setIsloading(true);
         try {
+            console.log(pacienteID)
             const pacientePut = await putPacientes(pacienteID, registro)
             if (pacientePut) {
                 toast.success('¡El paciente fue guardado correctamente!', {
@@ -99,10 +100,12 @@ const ClienteCardPut = ({ oneState, setOneState, registro, setRegistro }) => {
 
     // dentro de estafuncion cambio el estado a put 
     const seleccionarRegistro = async (paciente) => {
-        setPacienteID(paciente.id)
+       
+       // setPacienteID(paciente.id)
         try {
             const pacienteDetail = await getPacientesDetail(paciente.id)
-            console.log(pacienteDetail);
+            console.log(pacienteDetail.id);
+            setPacienteID(pacienteDetail.id)
             setRegistro(pacienteDetail);
             toggleModal(true);
             setOneState('put')

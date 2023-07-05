@@ -50,7 +50,7 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
 
   const formik = useFormik({
     initialValues: {
-      ci: "",
+      ci:"",
       nombres: "",
       apellidos: "",
       fecha_nacimiento: "",
@@ -63,7 +63,7 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
     validationSchema: Yup.object({
       nombres: Yup.string().required("Los nombres son obligatorios"),
       apellidos: Yup.string().required("Los apellidos son obligatorios"),
-      ci: Yup.string().required("La cedula es obligatoria"),
+      //ci: Yup.string().required("La cedula es obligatoria"),
       telefono_celular: Yup.string().required("el telefono es obligatorio"),
       direccion: Yup.string().required("La direccion es obligatoria"),
       fecha_nacimiento: Yup.string().required(
@@ -76,13 +76,15 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      console.log('hanldeee submittt')
-     
+    const newObj={
+      ...formData,
+      ci:searchci
+    }
       try {
-        const pacientePost = await postPacientes(formData);
+        const pacientePost = await postPacientes(newObj);
         setFormValues(formData);
         setPacienteID(pacientePost);
-        console.log('try')
+       
         if (pacientePost) {
           toast.success("¡El paciente fue guardado correctamente!", {
             autoClose: 1000,
@@ -94,7 +96,7 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
           toast.error("¡Hubo un error al guardar el paciente!", {
             autoClose: 1000,
           });
-          console.log('nory')
+          formik.resetForm()
         }
         getPacients();
       } catch (error) {
@@ -219,10 +221,12 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
           <Grid
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}
+            
           >
-            {
-              <InputAutoComplete
-                name={"ci"}
+           
+             
+            <InputAutoComplete
+               // name={"ci"}
                 searchValue={searchci}
                 onChange={handleChangeCi}
                 resultSearch={pacientsByCi}
@@ -233,7 +237,9 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
                 selectSearch={selectSearch}
                 
               />
-            }
+              
+              <input name="ci" value={formik.values.ci} style={{display:'none'}}/>
+         
             
             <InputSelector
               name="sexo"
