@@ -4,10 +4,10 @@ import Configurator from 'components/Configurator/Configurator';
 import Footer from 'components/Footer/Footer.js';
 // Layout components
 import AdminNavbar from 'components/Navbars/AdminNavbar.js';
-import Sidebar from 'components/Sidebar';
-import React, { useState,useEffect } from 'react';
+import SidebarContent from 'components/Sidebar';
+import React, { useState, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
-import routes from 'routes.js';
+import { dashRoutesAdministracion, dashRoutesPatologo } from 'routes.js';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
@@ -21,6 +21,7 @@ import { ModoVisualizacionProvider } from "components/ModoVisualizacion/ModoVisu
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Dashboard(props) {
+	const dashRoutes = [...dashRoutesAdministracion, ...dashRoutesPatologo];
 	const { ...rest } = props;
 	// states and functions
 	const [sidebarVariant, setSidebarVariant] = useState('transparent');
@@ -29,53 +30,53 @@ export default function Dashboard(props) {
 	const getRoute = () => {
 		return window.location.pathname !== '/admin/full-screen-maps';
 	};
-	const getActiveRoute = (routes) => {
+	const getActiveRoute = (dashRoutes) => {
 		let activeRoute = 'Default Brand Text';
-		for (let i = 0; i < routes.length; i++) {
-			if (routes[i].collapse) {
-				let collapseActiveRoute = getActiveRoute(routes[i].views);
+		for (let i = 0; i < dashRoutes.length; i++) {
+			if (dashRoutes[i].collapse) {
+				let collapseActiveRoute = getActiveRoute(dashRoutes[i].views);
 				if (collapseActiveRoute !== activeRoute) {
 					return collapseActiveRoute;
 				}
-			} else if (routes[i].category) {
-				let categoryActiveRoute = getActiveRoute(routes[i].views);
+			} else if (dashRoutes[i].category) {
+				let categoryActiveRoute = getActiveRoute(dashRoutes[i].views);
 				if (categoryActiveRoute !== activeRoute) {
 					return categoryActiveRoute;
 				}
 			} else {
-				if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
-					return routes[i].name;
+				if (window.location.href.indexOf(dashRoutes[i].layout + dashRoutes[i].path) !== -1) {
+					return dashRoutes[i].name;
 				}
 			}
 		}
 		return activeRoute;
 	};
 	// This changes navbar state(fixed or not)
-	const getActiveNavbar = (routes) => {
+	const getActiveNavbar = (dashRoutes) => {
 		let activeNavbar = false;
-		for (let i = 0; i < routes.length; i++) {
-			if (routes[i].category) {
-				let categoryActiveNavbar = getActiveNavbar(routes[i].views);
+		for (let i = 0; i < dashRoutes.length; i++) {
+			if (dashRoutes[i].category) {
+				let categoryActiveNavbar = getActiveNavbar(dashRoutes[i].views);
 				if (categoryActiveNavbar !== activeNavbar) {
 					return categoryActiveNavbar;
 				}
 			} else {
-				if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
-					if (routes[i].secondaryNavbar) {
-						return routes[i].secondaryNavbar;
+				if (window.location.href.indexOf(dashRoutes[i].layout + dashRoutes[i].path) !== -1) {
+					if (dashRoutes[i].secondaryNavbar) {
+						return dashRoutes[i].secondaryNavbar;
 					}
 				}
 			}
 		}
 		return activeNavbar;
 	};
-	const getRoutes = (routes) => {
-		return routes.map((prop, key) => {
+	const getRoutes = (dashRoutes) => {
+		return dashRoutes.map((prop, key) => {
 			if (prop.collapse) {
-				return getRoutes(prop.views);
+				return dashRoutes(prop.views);
 			}
 			if (prop.category === 'account') {
-				return getRoutes(prop.views);
+				return dashRoutes(prop.views);
 			}
 			if (prop.layout === '/admin') {
 				return <Route path={prop.layout + prop.path} component={prop.component} key={key} />;
@@ -89,16 +90,16 @@ export default function Dashboard(props) {
 	const history = useHistory();
 
 	useEffect(() => {
-	  const handlePopstate = (event) => {
-		history.go(1); // Vuelve a avanzar una página para mantener al usuario en la página de inicio
-		window.history.pushState(null, document.title, window.location.href); // Reemplaza la entrada actual del historial
-	  };
-  
-	  window.addEventListener("popstate", handlePopstate);
-  
-	  return () => {
-		window.removeEventListener("popstate", handlePopstate);
-	  };
+		const handlePopstate = (event) => {
+			history.go(1); // Vuelve a avanzar una página para mantener al usuario en la página de inicio
+			window.history.pushState(null, document.title, window.location.href); // Reemplaza la entrada actual del historial
+		};
+
+		window.addEventListener("popstate", handlePopstate);
+
+		return () => {
+			window.removeEventListener("popstate", handlePopstate);
+		};
 	}, [history]);
 
 
@@ -110,8 +111,8 @@ export default function Dashboard(props) {
 	return (
 		<ModoVisualizacionProvider>
 			<ChakraProvider theme={theme} resetCss={false}>
-				<Sidebar
-					routes={routes}
+				<SidebarContent
+					routes={dashRoutes}
 					display='none'
 					sidebarVariant={sidebarVariant}
 					{...rest}
@@ -124,8 +125,8 @@ export default function Dashboard(props) {
 					<Portal>
 						<AdminNavbar
 							onOpen={onOpen}
-							brandText={getActiveRoute(routes)}
-							secondary={getActiveNavbar(routes)}
+							brandText={getActiveRoute(dashRoutes)}
+							secondary={getActiveNavbar(dashRoutes)}
 							fixed={fixed}
 							{...rest}
 						/>
@@ -134,14 +135,14 @@ export default function Dashboard(props) {
 						<PanelContent>
 							<PanelContainer>
 								<Switch>
-									{getRoutes(routes)}
+									{getRoutes(dashRoutes)}
 									<Redirect from='/admin' to='/admin/Home' />
 								</Switch>
 							</PanelContainer>
 						</PanelContent>
 					) : null}
 				</MainPanel>
-				<ToastContainer/>
+				<ToastContainer />
 			</ChakraProvider>
 		</ModoVisualizacionProvider>
 

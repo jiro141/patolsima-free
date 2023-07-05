@@ -40,12 +40,13 @@ const ModalFacturacion = ({ study }) => {
         try {
             const facturasDetail = await getFacturasDetail(study.id);
             setFacturasDetail(facturasDetail);
-            setItemOrden(facturasDetail?.items_orden[0]?.estudio)
+            setItemOrden(facturasDetail?.items_orden.map(item => item.estudio));
 
         } catch (error) {
             console.log(error);
         }
     }
+    console.log(itemOrden);
     useEffect(() => {
         datosModal();
     }, []);

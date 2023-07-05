@@ -1,11 +1,16 @@
 import axios from "axios";
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 21ee66a46830f329f7cef63d216b28f7d804a4e5
 
   const Axios = axios.create({
     baseURL: `${REACT_APP_BACKEND_URL}`,
     headers: { "content-type": "application/json" },
   });
+<<<<<<< HEAD
 
    Axios.interceptors.request.use(async config => {
       const token = window.localStorage.getItem("access");
@@ -20,82 +25,6 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
      return config
    })
   
+=======
+>>>>>>> 21ee66a46830f329f7cef63d216b28f7d804a4e5
   export default Axios;
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // console.log(Cookies.get('access'));
-// export const authApi = axios.create(
-//     {
-//         // withCredentials: true,
-//         baseURL: REACT_APP_BACKEND_URL,
-//     }
-// );
-
-// export const apiURLs = {
-
-//     pacientes: {
-//         getPacientes: { path: 'v1/core/pacientes/', method: 'GET' },
-//         getPacienteDetail: { path: 'v1/core/pacientes/:id/', method: 'GET' },
-//         crearPaciente: { path: 'v1/core/pacientes/', method: 'POST' },
-//         actualizarPaciente: { path: 'v1/core/pacientes/:id/', method: 'PUT' },
-//         borrarPaciente: { path: 'v1/core/pacientes/:id/', method: 'DELETE' },
-//     }
-// };
-
-// const defaultErrorHandler = (error) => {
-//     console.error(error);
-// };
-
- 
-
-
-// export const makeRequest = async (method, path, params, data) => {
-//     const token = null;
-//         console.log(token);
-//     let requestObj = {
-//         method: method,
-//         path: path
-//     }
-//     console.log(requestObj);
-//     if (method === 'POST' || method === 'PUT') {
-//         requestObj.config.headers['Content-Type'] = 'application/json'
-//         requestObj.config.data = data
-//     }
-//     if (params != undefined) {
-//         Object.entries(params.pathParams || {}).forEach(
-//             ([paramName, paramValue]) => {
-//                 path = path.replace(`:${paramName}`, encodeURIComponent(paramValue));
-//             }
-//         );
-//         if (params.queryParams != undefined && Object.keys(params.queryParams).length > 0) {
-//             const encodeQueryParams = p => Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
-//             path = (path + '?' + encodeQueryParams(params.queryParams));
-//         }
-//         requestObj.url = path;
-//         if (params.payload != undefined) {
-//             requestObj.data = params.payload
-//         }
-//     }
-
-//     try {
-//         const response = await authApi.request(requestObj)
-//         if (response) {
-//             return response
-//         }
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-
-

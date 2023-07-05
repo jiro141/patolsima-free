@@ -1,5 +1,5 @@
 ﻿import React from "react"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "layouts/Admin.js";
@@ -33,6 +33,7 @@ import logo from "assets/img/logo.png";
 import { authApi } from "api/authApi";
 import { useAuthContext } from "hooks/useAuthContext";
 import Axios from "api/authApi";
+import { usersList } from "api/controllers/grupos";
 
 function SignIn() {
   // Estados para guardar el correo y la contraseña ingresados por el usuario
@@ -45,16 +46,22 @@ function SignIn() {
         username: username,
         password: password,
       });
+<<<<<<< HEAD
        window.localStorage.setItem('access', data.access);
        window.localStorage.setItem('refresh', data.refresh);
        history.push('layouts/Admin.js'); 
       // console.log(access); 	
+=======
+      window.localStorage.setItem('access', data.access);
+      history.push('layouts/Admin.js');
+>>>>>>> 21ee66a46830f329f7cef63d216b28f7d804a4e5
     } catch (error) {
       console.log(error);
       setShowErrorModal(true);
     }
   }
 
+  
 
 
 
