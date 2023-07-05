@@ -150,7 +150,7 @@ const ListaInformes = () => {
                                     <Th borderRadius='none'
                                         borderBottom="3px solid"
                                         borderBottomColor={'gray.500'}
-                                        textAlign='center'>Tipo de Estudio</Th>
+                                        textAlign='center'>Tipo de Estudio </Th>
                                         <Th borderRadius='none'
                                         borderBottom="3px solid"
                                         borderBottomColor={'gray.500'}

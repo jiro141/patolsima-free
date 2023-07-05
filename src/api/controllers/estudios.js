@@ -2,8 +2,6 @@ import Axios from "api/authApi";
 
 //guardar estudio metodo post
 export const postStudies = async (formData) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.post(`/v1/core/estudios/`, formData)
         console.log(response);
@@ -12,8 +10,6 @@ export const postStudies = async (formData) => {
     }
 }
 export const studiesDetail = async (id) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/core/estudios/${id}`)
         // console.log(response.data);
@@ -23,8 +19,6 @@ export const studiesDetail = async (id) => {
     }
 }
 export const getStudiesList = async () => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/core/estudios/`)
         // console.log(response.data.results);
@@ -34,8 +28,6 @@ export const getStudiesList = async () => {
     }
 }
 export const getStudiesDetail = async (id) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/core/estudios/${id}/`)
         console.log(response.data);

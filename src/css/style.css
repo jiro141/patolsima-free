@@ -133,7 +133,31 @@
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
   }
+  .centerLoader{
+    display: flex;
+   justify-content:center;
+   margin-top:5%
+
+  }
+  .autocompleteBox{
+    border:1px solid #e6e6e6;
+    border-radius:6px;
+    padding:10px;
+    margin-top:2%;
+    
+    
   
+  }
+  .scrollTableStyle{
+    
+  }
+  .autocompleteBox :hover {
+    cursor: pointer;
+    background-color: #9BC5D3;
+    color: #000000;
+    border-radius:6px;
+    padding:3.5px;
+  }
   @media (max-width: 800px) {
     .react-calendar__month-view__weekdays{
       font-size: 0.7em;

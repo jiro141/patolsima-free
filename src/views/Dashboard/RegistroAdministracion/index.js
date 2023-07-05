@@ -11,10 +11,10 @@ import {
 import { motion } from "framer-motion";
 import Muestra from './Components/Muestra';
 import Muestra2 from './Components/Muestra 2';
-import ClienteCardPostInitial from 'components/widgets/ClienteCardPostInitial';
-import ClienteCardPut from 'components/widgets/ClienteCardPut';
-import MedicoCardPostInitial from 'components/widgets/MedicoCardPostInitial';
-import MedicoCardPut from 'components/widgets/MedicoCardPut';
+import ClienteCardPostInitial from 'components/widgets/Cliente/ClienteCardPostInitial';
+import ClienteCardPut from 'components/widgets/Cliente/ClienteCardPut';
+import MedicoCardPostInitial from 'components/widgets/Medico/MedicoCardPostInitial';
+import MedicoCardPut from 'components/widgets/Medico/MedicoCardPut';
 
 function Registro() {
     //activar o desactivar el tab

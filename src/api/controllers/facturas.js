@@ -2,8 +2,12 @@
 import Axios from "api/authApi";
 
 export const getFacturasList= async () => {
+<<<<<<< HEAD
+    // console.log(token);
+=======
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+>>>>>>> 21ee66a46830f329f7cef63d216b28f7d804a4e5
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/`)
         return response.data.results;
@@ -12,8 +16,6 @@ export const getFacturasList= async () => {
     }
 }
 export const getFacturasDetail= async (id) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/${id}`)
         return response.data;
@@ -23,8 +25,6 @@ export const getFacturasDetail= async (id) => {
 }
 //factura a terceros
 export const putFacturaTerceros= async (id,data) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`,data)
         // return response.data;
@@ -34,8 +34,6 @@ export const putFacturaTerceros= async (id,data) => {
 }
 //abonar 
 export const postAbonar= async (data) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.post(`/v1/facturacion/pagos/`,data)
         return response.data;
@@ -45,8 +43,6 @@ export const postAbonar= async (data) => {
 }
 //confirmar
 export const postConfirmar= async (id) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/confirmar/`)
         console.log(response);
@@ -57,9 +53,12 @@ export const postConfirmar= async (id) => {
 }
 //nota de pago
 export const postNotaPago= async (id) => {
+<<<<<<< HEAD
+=======
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     console.log(id);
+>>>>>>> 21ee66a46830f329f7cef63d216b28f7d804a4e5
     try {
         const response = await Axios.get(`/v1/facturacion/pagos/${id}/nota_de_pago/`)
         return response;
@@ -69,8 +68,6 @@ export const postNotaPago= async (id) => {
 }
 //agregar monto put
 export const putMonto= async (id,data) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.put(`/v1/facturacion/itemsorden/${id}/`,data)
         return response;

@@ -3,13 +3,17 @@ import Axios from "api/authApi";
 
 
 export const getPacientesList = async (endpoint) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/core/pacientes/`)
-        // console.log(response);
         return response.data.results;
-
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+export const getPacientesListByCi = async ({searchci}) => {
+    try {
+        const response = await Axios.get(`/v1/core/pacientes/?ci=${searchci}`)
+        return response.data.results;
     } catch (error) {
         console.log(error);
     }
@@ -17,8 +21,6 @@ export const getPacientesList = async (endpoint) => {
 
 //detallado pacientes metodo get
 export const getPacientesDetail = async (id) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get(`/v1/core/pacientes/${id}`)
         return response.data;
@@ -28,37 +30,33 @@ export const getPacientesDetail = async (id) => {
 }
 
 //guardar pacietes metodo post
-export const postPacientes = async (formData) => {
-    
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+export const postPacientes = async (data) => {
+
     try {
-        const response = await Axios.post(`/v1/core/pacientes/`, formData)
-        // console.log(response.data.id);
+        const response = await Axios.post(`/v1/core/pacientes/`, data)
+        console.log(response);
         return response.data.id;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 
 }
 //guardar pacietes metodo put
-export const putPacientes = async (id,registro) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+export const putPacientes = async (id,registro) => {  
     try {
         const response = await Axios.put(`/v1/core/pacientes/${id}/`,registro) // para el put tambien tengo que enviar un body
-        console.log(response);
+        console.log(response.data);
+        return response.data
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 
 //eliminar pacientes metodo delete 
 export const deletePaciente = async (id) => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.delete(`/v1/core/pacientes/${id}`)
+        return response.data
     } catch (error) {
         console.log(error);
     }

@@ -46,8 +46,15 @@ function SignIn() {
         username: username,
         password: password,
       });
+<<<<<<< HEAD
+       window.localStorage.setItem('access', data.access);
+       window.localStorage.setItem('refresh', data.refresh);
+       history.push('layouts/Admin.js'); 
+      // console.log(access); 	
+=======
       window.localStorage.setItem('access', data.access);
       history.push('layouts/Admin.js');
+>>>>>>> 21ee66a46830f329f7cef63d216b28f7d804a4e5
     } catch (error) {
       console.log(error);
       setShowErrorModal(true);
