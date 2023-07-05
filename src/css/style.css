@@ -148,6 +148,9 @@
     
   
   }
+  .scrollTableStyle{
+    
+  }
   .autocompleteBox :hover {
     cursor: pointer;
     background-color: #9BC5D3;

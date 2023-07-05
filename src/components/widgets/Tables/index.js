@@ -113,7 +113,90 @@ export function TR({
   </Tbody>
   );
 }
-
+export function TRM({
+  tBodyData,
+  handleSelectTBody,
+  handleSelectIcon,
+ // title = "pruebas",
+}) {
+  return (
+    <Tbody >
+    {tBodyData &&
+      tBodyData?.map((medics) => (
+        <Tr key={medics.id}>
+          <Link
+            paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(medics)}
+          >
+            {medics.nombres}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(medics)}
+          >
+            {medics.apellidos}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(medics)}
+          >
+            {medics.especialidad}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(medics)}
+          >
+            {medics.telefono_celular}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(medics)}
+          >
+            {medics.email}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() =>
+              handleSelectIcon(medics)
+            }
+          >
+            <BsFillTrashFill color="#137797" />
+          </Link>
+        </Tr>
+      ))}
+  </Tbody>
+  );
+}
 export function TABLE_PACIENTS({
   thData,
   tBodyData,
@@ -127,6 +210,27 @@ export function TABLE_PACIENTS({
       </Thead>
      
         <TR
+          tBodyData={tBodyData}
+          handleSelectTBody={handleSelectTBody}
+          handleSelectIcon={handleSelectIcon}
+        />
+     
+    </Table>
+  );
+}
+
+export function TABLE_MEDICOS({
+  thData,
+  tBodyData,
+  handleSelectTBody,
+  handleSelectIcon,
+}) {
+  return (
+    <Table variant="simple">
+      <Thead>
+        <TH thData={thData} />
+      </Thead>     
+        <TRM
           tBodyData={tBodyData}
           handleSelectTBody={handleSelectTBody}
           handleSelectIcon={handleSelectIcon}

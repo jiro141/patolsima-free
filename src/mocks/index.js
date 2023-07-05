@@ -9,4 +9,11 @@ export const selectorOptionsGenders = [
     { value: 'Teléfono'},
     { value: 'Correo'},
   ];
+  export const thValuesMedicos = [
+    { value: 'Nombres' },
+    { value: 'Apellidos'},
+    { value: 'Especialidad'},
+    { value: 'Teléfono'},
+    { value: 'Correo'},
+  ];
 
