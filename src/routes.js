@@ -50,7 +50,7 @@ const categorias = {
     {
       groupName:"patologia",
       path: "/RegistroPatologo",
-      name: "Registro",
+      name: "Registro patologo",
       icon: <HomeIcon color="inherit" />,
       component: RegistroPatologo,
       layout: "/admin",
@@ -58,7 +58,7 @@ const categorias = {
     {
       groupName:"patologia",
       path: "/Informe",
-      name: "Informe",
+      name: "Informe patologo",
       icon: <BsFillClipboardPlusFill color="inherit" />,
       secondaryNavbar: true,
       component: Informe,
