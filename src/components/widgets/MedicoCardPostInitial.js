@@ -143,7 +143,11 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
     }
 
     return (
-        <Box backgroundColor={"#FFFF"} boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)" padding={'30px'} borderRadius='20px' m={'1% 13% 5% 13%'}>
+        <Box backgroundColor={"#FFFF"}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
+            padding={{ lg: '30px', sm: '15px' }}
+            borderRadius='20px'
+            m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
             <form >
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información Personal</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
@@ -203,6 +207,7 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                 borderRadius={'20px'}
                 padding={'10px 60px'}
                 marginTop='20px'
+                marginLeft={{ lg: '0px', sm: '10%' }}
                 bgColor={'#89bbcc'}
                 color='#ffff'
                 onClick={toggleModal}>
@@ -318,8 +323,9 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                 </ModalContent>
             </Modal>
             <Button
-                marginLeft={{ lg: '38em', md: '80%', sm: '70%' }}
-                marginBottom={{ lg: '-4.5em', md: '-15%', sm: '-30%' }}
+                type='submit'
+                marginLeft={{ lg: '35em', md: '80%', sm: '30%' }}
+                marginBottom={{ lg: '-4.5em', md: '-5%', sm: '-20%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'

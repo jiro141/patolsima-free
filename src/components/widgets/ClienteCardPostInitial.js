@@ -189,7 +189,7 @@ const ClienteCardPostInitial = ({ oneState, setOneState, registro, setRegistro,s
         <Box
             backgroundColor={"#FFFF"}
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
-            padding={'30px'}
+            padding={{lg:'30px',sm:'15px'}}
             borderRadius='20px'
             m={{ lg: '1% 13% 5% 13%', sm: '2%' }} >
             <form onSubmit={formik.handleSubmit}>
@@ -324,6 +324,7 @@ const ClienteCardPostInitial = ({ oneState, setOneState, registro, setRegistro,s
                 borderRadius={'20px'}
                 padding={'10px 60px'}
                 marginTop='20px'
+                marginLeft={{lg:'0px',sm:'10%'}}
                 bgColor={'#89bbcc'}
                 color='#ffff'
                 onClick={toggleModal}>
@@ -457,8 +458,8 @@ const ClienteCardPostInitial = ({ oneState, setOneState, registro, setRegistro,s
             </Modal>
             <Button
                 type='submit'
-                marginLeft={{ lg: '38em', md: '80%', sm: '70%' }}
-                marginBottom={{ lg: '-4.5em', md: '-15%', sm: '-30%' }}
+                marginLeft={{ lg: '35em', md: '80%', sm: '30%' }}
+                marginBottom={{ lg: '-4.5em', md: '-5%', sm: '-20%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'

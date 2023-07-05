@@ -73,7 +73,7 @@ const Dashboard = () => {
   }, { confirmadas: [], pagadas: [], pendientes: [] });
 
   const sinProcesarStudies = facturasClasificadas.pendientes.map((listaFacturas, i) => {
-    const fechaHora = listaFacturas.fecha_recepcion;
+    const fechaHora = listaFacturas?.fecha_recepcion;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
       id: listaFacturas.id,
@@ -86,7 +86,7 @@ const Dashboard = () => {
   });
 
   const pendientesStudies = facturasClasificadas.confirmadas.map((listaFacturas) => {
-    const fechaHora = listaFacturas.fecha_recepcion;
+    const fechaHora = listaFacturas?.fecha_recepcion;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
       id: listaFacturas.id,

@@ -17,10 +17,10 @@ import { postNotaPago } from "api/controllers/facturas";
 
 
 const Confirmacion = ({ toggleModalConfirmacion, facturasDetail,pago}) => {
-    console.log(pago);
+    console.log(facturasDetail.pagos[facturasDetail.pagos.length - 1].id);
     const notaPago = async () => {
         try {
-            const NotaPago = await postNotaPago(facturasDetail.id)
+            const NotaPago = await postNotaPago(facturasDetail.pagos[facturasDetail.pagos.length - 1].id)
         } catch (error) {
             console.log(error);
         }

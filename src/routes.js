@@ -17,52 +17,61 @@ import {
   PersonIcon,
   DocumentIcon,
 } from "components/Icons/Icons";
+const categorias = {
+  administracion: [
+    {
+      groupName:"administracion",
+      path: "/RegistroAdministracion",
+      name: "Registro",
+      icon: <HomeIcon color="inherit" />,
+      component: RegistroAdministradcion,
+      layout: "/admin",
+    },
+    {
+      groupName:"administracion",
+      path: "/Facturacion",
+      name: "Facturación",
+      icon: <BsReceiptCutoff color="inherit" />,
+      component: Facturacion,
+      layout: "/admin",
+    },
+    {
+      groupName:"administracion",
+      path: "/InformeAdministracion",
+      name: "Informe",
+      icon: <BsFillClipboardPlusFill color="inherit" />,
+      secondaryNavbar: true,
+      component: InformeAdministracion,
+      layout: "/admin",
+    },
+    // ...otros componentes de la categoría "administracion"...
+  ],
+  patologia: [
+    {
+      groupName:"patologia",
+      path: "/RegistroPatologo",
+      name: "Registro",
+      icon: <HomeIcon color="inherit" />,
+      component: RegistroPatologo,
+      layout: "/admin",
+    },
+    {
+      groupName:"patologia",
+      path: "/Informe",
+      name: "Informe",
+      icon: <BsFillClipboardPlusFill color="inherit" />,
+      secondaryNavbar: true,
+      component: Informe,
+      layout: "/admin",
+    },
+    // ...otros componentes de la categoría "patologia"...
+  ],
+  // ...otras categorías...
+};
 
-var dashRoutes = [
-  {
-    path: "/RegistroAdministracion",
-    name: "Registro",
-    icon: <HomeIcon color="inherit" />,
-    component: RegistroAdministradcion,
-    layout: "/admin",
-  },
-  {
-    path: "/Facturacion",
-    name: "Facturación",
-    icon: <BsReceiptCutoff color="inherit" />,
-    component: Facturacion,
-    layout: "/admin",
-  },
-  {
-    path: "/InformeAdministracion",
-    name: "Informe",
-    icon: <BsFillClipboardPlusFill color="inherit" />,
-    secondaryNavbar: true,
-    component: InformeAdministracion,
-    layout: "/admin",
-  },
-  {
-    name: "Patólogia",
-    category: "account",
-    state: "pageCollapse",
-    views: [
-      {
-        path: "/RegistroPatologo",
-        name: "Registro",
-        icon: <HomeIcon color="inherit" />,
-        component: RegistroPatologo,
-        layout: "/admin",
-      },
-      {
-        path: "/Informe",
-        name: "Informe",
-        icon: <BsFillClipboardPlusFill color="inherit" />,
-        secondaryNavbar: true,
-        component: Informe,
-        layout: "/admin",
-      },
-    ],
-  },
+
+export const dashRoutesAdministracion = [
+  ...categorias.administracion,
   {
     path: "/signin",
     component: SignIn,
@@ -82,4 +91,48 @@ var dashRoutes = [
     hide: true
   },
 ];
+export const dashRoutesPatologo = [
+  ...categorias.patologia,
+  {
+    path: "/signin",
+    component: SignIn,
+    layout: "/auth",
+    hide: true
+  },
+  {
+    path: "/Home",
+    component: Dashboard,
+    layout: "/admin",
+    hide: true
+  },
+  {
+    path: "/signup",
+    component: SignUp,
+    layout: "/auth",
+    hide: true
+  },
+];
+var dashRoutes = [
+  ...categorias.patologia,
+  ...categorias.administracion,
+  {
+    path: "/signin",
+    component: SignIn,
+    layout: "/auth",
+    hide: true
+  },
+  {
+    path: "/Home",
+    component: Dashboard,
+    layout: "/admin",
+    hide: true
+  },
+  {
+    path: "/signup",
+    component: SignUp,
+    layout: "/auth",
+    hide: true
+  },
+];
+
 export default dashRoutes;
