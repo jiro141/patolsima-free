@@ -25,6 +25,12 @@ import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Conf
 import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
 import InputOverall from '../Inputs/InputOverall';
 import ShowMoreButton from '../Buttons/ShowMoreButton';
+import SaveButton from '../Buttons/SaveButton';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import DeleteModal from '../Modals/DeleteModal';
+import { deletePaciente } from 'api/controllers/pacientes';
+import { deleteMedico } from 'api/controllers/medicos';
 
 const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro }) => {
     const { setFormValues } = useContext(ModoVisualizacionContext);
@@ -43,16 +49,12 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                 if (guardarMedico) {
                     toast.success('¡El medico fue guardado correctamente!', {
                         autoClose: 1500,
-                        onClose: () => {
-                            setIsloading(false);
-                        }
+                       
                     });
                 } else {
                     toast.error('¡Hubo un error al guardar el medico!', {
                         autoClose: 1500,
-                        onClose: () => {
-                            setIsloading(false);
-                        }
+                      
                     });
                 }
                 setFormValues(formData, 'medico');
@@ -102,16 +104,18 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
 
     const toggleModalConfirmacion = (medico) => {
         setShowModalConfirmacion(!showModalConfirmacion);
-        setMedicoName(`${medico.nombres} ${medico.apellidos}`);
+        setMedicoName(medico.nombres);
         setMedicoID(medico.id)
         setEspecialidad(medico.especialidad);
 
     };
 
     const eliminarMedico = async (medicoID) => {
+        console.log(medicoID)
         try {
-            const medicoDelete = await deletePaciente(medicoID);
-            setPacientes(medicos.filter(p => p.id !== medicoID));
+            const medicoDelete = await deleteMedico(medicoID);
+            setMedicos(medicos.filter(p => p.id !== medicoID));
+            setShowModalConfirmacion(!showModalConfirmacion);
             // Eliminar el paciente del estado local
         } catch (error) {
             console.log(error);
@@ -171,36 +175,38 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
               />
                 </Grid>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Especialidad '
-                            type="text"
-                            name="Especialidad"
-                            value={formik.values.especialidad}
-                            onChange={e => formik.setFieldValue('especialidad', e.target.value)}
-                        />
-                    </FormControl>
+   
+             <InputOverall
+                name="Especialidad "
+                value={formik.values.especialidad}
+                placeholder='Especialidad:'
+                onChange={(e) =>
+                  formik.setFieldValue("especialidad", e.target.value)
+                }
+                errors={formik.errors.especialidad}
+              />
                 </Grid>
                 <Text fontSize={'20px'} margin='15px auto 30px auto' color={'gray.600'}>Información de Contacto</Text>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: '1fr' }} gap={{ lg: '20px', sm: '5px' }}>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Email:'
-                            type="email"
-                            name="email"
-                            value={formik.values.email}
-                            onChange={e => formik.setFieldValue('email', e.target.value)}
-                        />
-                    </FormControl>
-                    <FormControl mb={3}>
-                        <Input
-                            placeholder='Telefono de Contacto:'
-                            type="text"
-                            name="Telefono"
-                            value={formik.values.telefono_celular}
-                            onChange={e => formik.setFieldValue('telefono_celular', e.target.value)}
-                        />
-                    </FormControl>
+                 
+            <InputOverall
+                name="Email:"
+                value={formik.values.email}
+                placeholder='Email'
+                onChange={(e) =>
+                  formik.setFieldValue("email", e.target.email)
+                }
+                errors={formik.errors.email}
+              />
+               
+             <InputOverall
+                 name="Telefono"
+                 value={formik.values.telefono_celular}
+                 placeholder='Telefono de Contacto:'
+                onChange={e => formik.setFieldValue('telefono_celular', e.target.value)}
+                        
+                errors={formik.errors.telefono_celular}
+              />
                 </Grid>
             </form>
            
@@ -318,17 +324,9 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            <Button
-                marginLeft={{ lg: '38em', md: '80%', sm: '70%' }}
-                marginBottom={{ lg: '-4.5em', md: '-15%', sm: '-30%' }}
-                borderRadius={'20px'}
-                bgColor={'#137797'}
-                color='#ffff'
-                onClick={formik.handleSubmit}
-            >
-                Guardar
-            </Button>
-            <Modal
+         
+                                                <SaveButton handleSubmit={formik.handleSubmit} />
+            {/*<Modal
                 size={"xs"}
                 maxWidth='100%'
                 isOpen={showModalConfirmacion}
@@ -339,7 +337,15 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                         <Confirmacion nombres={medicoName} id={medicoID} close={toggleModalConfirmacion} eliminar={eliminarMedico} especialidad={especialidad} />
                     </ModalBody>
                 </ModalContent>
-            </Modal>
+                                                </Modal>*/}
+                                                 <DeleteModal
+        isOpen={showModalConfirmacion}
+        onClose={toggleModalConfirmacion}
+        id={medicoID}
+        close={toggleModalConfirmacion}
+        eliminar={eliminarMedico}
+        nombres={'medico name'}
+      />
         </Box>
     );
 

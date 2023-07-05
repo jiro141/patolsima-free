@@ -23,7 +23,9 @@ export const getMedicosDetail = async (id) => {
 export const postMedicos = async (formData) => {
     try {
         const response = await Axios.post(`/v1/core/medicos/`,formData)
-       console.log(response);
+        console.log(response.data);
+        return response.data
+       
     } catch (error) {
         console.log(error);
     }
@@ -33,6 +35,18 @@ export const putMedicos = async (id,registro) => {
     try {
         const response = await Axios.put(`/v1/core/medicos/${id}/`,registro)
        console.log(response);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//delete medico
+
+export const deleteMedico = async (id) => {
+  
+    try {
+        const response = await Axios.delete(`/v1/core/medicos/${id}`)
+        return response.data
     } catch (error) {
         console.log(error);
     }

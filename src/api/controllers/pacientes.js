@@ -48,7 +48,7 @@ export const putPacientes = async (id,registro) => {
         console.log(response.data);
         return response.data
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 
@@ -56,6 +56,7 @@ export const putPacientes = async (id,registro) => {
 export const deletePaciente = async (id) => {
     try {
         const response = await Axios.delete(`/v1/core/pacientes/${id}`)
+        return response.data
     } catch (error) {
         console.log(error);
     }
