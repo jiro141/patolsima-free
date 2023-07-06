@@ -82,7 +82,7 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
     }
       try {
         const pacientePost = await postPacientes(newObj);
-        setFormValues(formData);
+        setFormValues(newObj);
         setPacienteID(pacientePost);
        
         if (pacientePost) {
