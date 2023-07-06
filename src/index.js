@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect} from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import AuthProvider from "context/authContext/AuthProvider";
@@ -8,8 +8,12 @@ import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
 
 function App() {
-  React.useEffect(() => {
+/*  React.useEffect(() => {
     handleTokenRefresh();
+  }, []);*/
+
+  useEffect(() => {
+    handleTokenRefresh()
   }, []);
 
   return (

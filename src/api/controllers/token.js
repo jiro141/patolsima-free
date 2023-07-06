@@ -1,6 +1,6 @@
-import axios from "axios";
+import Axios from "api/authApi";
 
-export async function handleTokenRefresh() {
+/*export async function handleTokenRefresh() {
   // Verificar si hay un token de acceso almacenado en el LocalStorage
   const access_token = localStorage.getItem("access");
 //   console.log(access_token);
@@ -21,7 +21,7 @@ export async function handleTokenRefresh() {
       if (refresh_token) {
         try {
           // Enviar una solicitud al endpoint '/token/refresh' para obtener un nuevo token de acceso
-          const response = await axios.post("/token/refresh", {
+          const response = await Axios.post("/token/refresh", {
             refresh_token,
           });
           console.log(response);
@@ -57,4 +57,24 @@ export async function handleTokenRefresh() {
   } else {
     console.error("No se encontró el token de acceso en el LocalStorage");
   }
+}*/
+
+
+export const handleTokenRefresh=()=>{
+  const fetchRefreshToken= async () => {
+    const refresh = window.localStorage.getItem("refresh");
+    try {
+      const response = await Axios.post('/token/refresh/',{refresh}); 
+      window.localStorage.setItem('newAcessToken', response.access);     
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  fetchRefreshToken();
+  const interval = setInterval(() => {
+    fetchRefreshToken();
+  }, 2 * 60 * 60 * 1000);
+
+
+  return () => clearInterval(interval);
 }
