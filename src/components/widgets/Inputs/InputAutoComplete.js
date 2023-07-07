@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FormControl, Input, FormErrorMessage,List,ListItem, Box} from "@chakra-ui/react";
 import '../../../css/style.css'
+import MainContext from "context/mainContext/MainContext";
 
 export default function InputAutoComplete({
   errors,
@@ -14,7 +15,7 @@ export default function InputAutoComplete({
   handleSelectSearch,
   selectSearch
 }) {
-  //console.log(resultSearch[0].nombres)
+  const {oneState}=useContext(MainContext)
   return (
     <div>
  <FormControl isInvalid={errors} mb={3}>
@@ -33,7 +34,7 @@ export default function InputAutoComplete({
         </>
       )}
 
-{resultSearch  && !selectSearch && 
+{resultSearch  && !selectSearch && oneState=='post' &&
         resultSearch?.length > 0
         ?
        <div  className="autocompleteBox" onClick={handleSelectSearch}>

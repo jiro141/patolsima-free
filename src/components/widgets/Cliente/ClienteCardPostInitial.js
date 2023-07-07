@@ -21,11 +21,13 @@ import { usePacientsListCi } from "hooks/Pacients/usePacientByCI";
 import debounce from "just-debounce-it";
 import InputAutoComplete from "../Inputs/InputAutoComplete";
 import { useEffect } from "react";
+import MainContext from "context/mainContext/MainContext";
 
-const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
+const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
     ModoVisualizacionContext
   );
+  const {activeTab, setActiveTab,setTwoState,setOneState,oneState}=useContext(MainContext)
   const [mostrarModal, setMostrarModal] = useState(false);
   const [Busqueda, setBusqueda] = useState("");
   const [pacienteName, setPacienteName] = useState("");
@@ -76,34 +78,45 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-    const newObj={
-      ...formData,
-      ci:searchci
-    }
-      try {
-        const pacientePost = await postPacientes(newObj);
-        setFormValues(newObj);
-        setPacienteID(pacientePost);
-       
-        if (pacientePost) {
-          toast.success("¡El paciente fue guardado correctamente!", {
-            autoClose: 1000,
-          });
-        } 
-        else
-        
-        {
-          toast.error("¡Hubo un error al guardar el paciente!", {
-            autoClose: 1000,
-          });
-          formik.resetForm()
+      if(oneState==='post' && activeTab === 0){
+        const newObj={
+          ...formData,
+          ci:searchci
         }
-        getPacients();
-      } catch (error) {
-        toast.error(error.message, { autoClose: 1000 });
+          try {
+            const pacientePost = await postPacientes(newObj);
+            setFormValues(newObj,'paciente');
+            setPacienteID(pacientePost);
+           
+            if (pacientePost) {
+              toast.success("¡El paciente fue guardado correctamente!", {
+                autoClose: 1000,
+              });
+              setActiveTab(1)
+              setTwoState('post')
+            } 
+            else
+            
+            {
+              toast.error("¡Hubo un error al guardar el paciente!", {
+                autoClose: 1000,
+              });
+              formik.resetForm()
+            }
+            getPacients();
+          } catch (error) {
+            toast.error(error.message, { autoClose: 1000 });
+          }
+         // return;
+        }
+        if(oneState =='put'){
+          console.log('putttt')
+        }
       }
-      return;
-    },
+    
+
+
+
   });
   useEffect(() => {
     seterrorci("");
@@ -127,6 +140,7 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
         telefono_celular: mapped[0].tlf,
       });
       setSelectSearch(true);
+      setOneState('put')
     }
 
     //setSelectSearch(false);
@@ -143,8 +157,21 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
     filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
+    
+    formik.setValues({
+      ci:paciente.ci,
+      nombres: paciente.nombres,
+      apellidos: paciente.apellidos,
+      fecha_nacimiento: paciente.fecha_nacimiento,
+      direccion: paciente.direccion,
+      email: paciente.email,
+      telefono_fijo:paciente.telefono_fijo,
+      telefono_celular: paciente.telefono_celular,
+      sexo: paciente.sexo,
+    });
     try {
       const pacienteDetail = await getPacientesDetail(paciente.id);
+      setPacienteID(paciente.id)
       setRegistro(pacienteDetail);
       toggleModal(true);
       setOneState("put");
@@ -225,20 +252,36 @@ const ClienteCardPostInitial = ({ setOneState, setRegistro, isLoading }) => {
           >
            
              
-            <InputAutoComplete
-               // name={"ci"}
-                searchValue={searchci}
-                onChange={handleChangeCi}
-                resultSearch={pacientsByCi}
-                errors={errorci}
-                loading={loadingpacientsByCi}
-                placeholder={"Cedula de identidad"}
-                handleSelectSearch={handleSelectSearch}
-                selectSearch={selectSearch}
-                
-              />
+           
+              {oneState==='put' && 
+              <InputOverall
+              name="ci"
+              value={formik.values.ci}
+              placeholder="Cedula de identidad"
+              onChange={(e) =>
+                formik.setFieldValue("ci", e.target.value)
+              }
+              errors={formik.errors.ci}
+            /> 
+              }
+
+              {oneState==='post' &&
+                 <InputAutoComplete
+                 // name={"ci"}
+                  searchValue={searchci}
+                  onChange={handleChangeCi}
+                  resultSearch={pacientsByCi}
+                  errors={errorci}
+                  loading={loadingpacientsByCi}
+                  placeholder={"Cedula de identidad"}
+                  handleSelectSearch={handleSelectSearch}
+                  selectSearch={selectSearch}
+                  
+                />
+              }
+
               
-              <input name="ci" value={formik.values.ci} style={{display:'none'}}/>
+              
          
             
             <InputSelector

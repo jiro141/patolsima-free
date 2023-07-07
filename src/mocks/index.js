@@ -17,3 +17,10 @@ export const selectorOptionsGenders = [
     { value: 'Correo'},
   ];
 
+  export const typeStudies = [
+    { value: 'BIOPSIA' },
+    { value: 'CITOLOGIA_GINECOLOGICA'},
+    { value: 'CITOLOGIA_ESPECIAL'},
+    { value: 'INMUNOSTOQUIMICA'},
+  ];
+

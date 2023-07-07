@@ -32,6 +32,7 @@ import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Conf
 import { putPacientes } from 'api/controllers/pacientes';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
 
 const ClienteCardPut = ({ oneState, setOneState, registro, setRegistro }) => {
 
@@ -41,13 +42,15 @@ const ClienteCardPut = ({ oneState, setOneState, registro, setRegistro }) => {
     const [Busqueda, setBusqueda] = useState("");
     const [mostrarModal, setMostrarModal] = useState(false);
     const [pacienteName, setPacienteName] = useState('');
-    const [pacienteID, setPacienteID] = useState('');
+    const { pacienteID} = useContext(ModoVisualizacionContext);
+   // const [pacienteID, setPacienteID] = useState('');
     const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
     //estado para el boton pase de loading... 
     const [isLoading, setIsloading] = useState(false);
 
     //funcion para enviar valores put (falta arreglar 2/6/2023)
     const onSubmit = async (paciente) => {
+        
         setIsloading(true);
         try {
             console.log(pacienteID)

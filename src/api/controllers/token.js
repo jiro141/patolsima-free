@@ -60,20 +60,30 @@ import Axios from "api/authApi";
 }*/
 
 
-export const handleTokenRefresh=()=>{
+export const handleTokenRefresh=async()=>{
+ 
+
   const fetchRefreshToken= async () => {
-    const refresh = window.localStorage.getItem("refresh");
+   
+    const refresh =  window.localStorage.getItem("refresh");
     try {
       const response = await Axios.post('/token/refresh/',{refresh}); 
-      window.localStorage.setItem('newAcessToken', response.access);     
+      //console.log(response.data.access)
+       window.localStorage.setItem('newAcessToken', response.data.access);     
     } catch (error) {
       console.log(error);
     }
   };
   fetchRefreshToken();
+
+//time : 2 * 60 * 60 * 1000
   const interval = setInterval(() => {
+   
     fetchRefreshToken();
-  }, 2 * 60 * 60 * 1000);
+    window.localStorage.removeItem('access')
+   window.localStorage.removeItem('refresh')
+     
+  },2 * 60 * 60 * 1000 );
 
 
   return () => clearInterval(interval);

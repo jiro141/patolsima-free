@@ -12,6 +12,7 @@ export function usePacients() {
       setloading(true);
       seterror(null);
       const pacientesList = await getPacientesList();
+      console.log(pacientesList)
       setpacients(pacientesList);
       setPacientesEstatico(pacientesList)
       console.log(pacientesList);

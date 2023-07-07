@@ -9,13 +9,14 @@ const Axios = axios.create({
 Axios.interceptors.request.use(async (config) => {
   const token = window.localStorage.getItem("access");
   const newAcessToken = window.localStorage.getItem("newAcessToken");
-  //newAcessToken
+ 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   if (newAcessToken) {
     config.headers.Authorization = `Bearer ${newAcessToken}`;
   }
+  
   return config;
 });
 

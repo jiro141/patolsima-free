@@ -23,7 +23,6 @@ export const getMedicosDetail = async (id) => {
 export const postMedicos = async (formData) => {
     try {
         const response = await Axios.post(`/v1/core/medicos/`,formData)
-        console.log(response.data);
         return response.data
        
     } catch (error) {

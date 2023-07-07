@@ -39,6 +39,9 @@ function SignIn() {
   // Estados para guardar el correo y la contraseña ingresados por el usuario
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const history = useHistory();
+  const context = useAuthContext();
 
   const signIn = async () => {
     try {
@@ -75,9 +78,7 @@ function SignIn() {
 
 
   //Alerta para no seguir 
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const history = useHistory();
-  const context = useAuthContext();
+  
 
 
 

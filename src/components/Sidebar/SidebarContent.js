@@ -182,7 +182,7 @@ const SidebarContent = ({ logoText, routes }) => {
   return (
     <Box maxW={'200px'}>
       <Box w="70%" h="5px" m=" 5px 10px 150px 10px">
-        <Link href="/admin/Home"><Image src={Logo} alt="Logo palmosima" /></Link>
+        <Link href="https://patolsima.netlify.app/admin/Home"><Image src={Logo} alt="Logo palmosima" /></Link>
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
           <Grid templateColumns={"1fr 2fr"}>
             <TimeIcon boxSize={6} />

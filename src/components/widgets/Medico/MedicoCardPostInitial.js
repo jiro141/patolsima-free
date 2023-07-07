@@ -38,14 +38,18 @@ import { deletePaciente } from "api/controllers/pacientes";
 import { deleteMedico } from "api/controllers/medicos";
 import FilteredDataModal from "../Modals/FilteredDataModal";
 import { thValuesMedicos } from "mocks";
+import MainContext from "context/mainContext/MainContext";
 
 const MedicoCardPostInitial = ({
-  twoState,
-  setTwoState,
+ 
   registro,
   setRegistro,
 }) => {
-  const { setFormValues } = useContext(ModoVisualizacionContext);
+  const { setFormValues,
+    setMedicoID,medicoID } = useContext(ModoVisualizacionContext);
+  const {activeTab, setActiveTab,setTwoState,twoState, setTwoStatee}=useContext(MainContext)
+
+  
   const formik = useFormik({
     initialValues: {
       nombres: "",
@@ -58,11 +62,13 @@ const MedicoCardPostInitial = ({
       // se agregar resetForm para limpar los campos del formulario
       try {
         const guardarMedico = await postMedicos(formData);
-        // resetForm();
+        //console.log(guardarMedico)
         if (guardarMedico) {
+          setMedicoID(guardarMedico.id)
           toast.success("¡El medico fue guardado correctamente!", {
             autoClose: 1500,
           });
+          setActiveTab(2)
         } else {
           toast.error("¡Hubo un error al guardar el medico!", {
             autoClose: 1500,
@@ -106,7 +112,7 @@ const MedicoCardPostInitial = ({
   };
 
   const [medicoName, setMedicoName] = useState("");
-  const [medicoID, setMedicoID] = useState("");
+ // const [medicoID, setMedicoID] = useState("");
   const [especialidad, setEspecialidad] = useState("");
   //modal confirmacion eliminacion
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
@@ -151,6 +157,14 @@ const MedicoCardPostInitial = ({
     setMedicos(resultadoBusqueda);
   };
   const seleccionarRegistro = async (medico) => {
+    
+    formik.setValues({
+      nombres: medico?.nombres,
+      apellidos: medico?.apellidos,
+      especialidad: medico?.especialidad,
+      telefono_celular: medico?.telefono_celular,
+      email: medico?.email,
+    });
     try {
       const medicosDetail = await getMedicosDetail(medico.id);
       setRegistro(medicosDetail);

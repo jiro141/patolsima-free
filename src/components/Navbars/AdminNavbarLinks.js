@@ -54,6 +54,8 @@ export default function HeaderLinks(props) {
 
   const handleLogout = () => {
     window.localStorage.removeItem('access') // Elimina  de acceso
+    window.localStorage.removeItem('refresh')
+    window.localStorage.removeItem('newAcessToken')
     history.push("../Auth/SignIn");
   };
 
@@ -116,7 +118,7 @@ export default function HeaderLinks(props) {
     }
   }
   useEffect(() => {
-    handleTokenRefresh()
+    //handleTokenRefresh()
     return () => {
     };
   }, []);
@@ -266,15 +268,15 @@ export default function HeaderLinks(props) {
 
       <Box display={"flex"} justifyContent="">
         <Box
-          backgroundColor={"#89bbcc"}
+          //backgroundColor={"#89bbcc"}
           padding={"5% 8%"}
           borderRadius={"15px"}
           m={"auto 30px"}
         >
           <Menu>
-            <MenuButton>
+          {/*  <MenuButton>
               <BellIcon color={"#137798"} w="18px" h="18px" />
-            </MenuButton>
+      </MenuButton>*/}
             <MenuList p="16px 8px">
               <Flex flexDirection="column">
                 <MenuItem borderRadius="none" mb="10px">

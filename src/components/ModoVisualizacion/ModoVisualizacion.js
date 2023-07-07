@@ -7,6 +7,9 @@ export function ModoVisualizacionProvider({ children }) {
   const [dataPaciente, setDataPaciente] = useState({});
   const [dataMedico, setDataMedico] = useState({});
   const [pacienteID, setPacienteID] = useState('');
+  const [medicoID, setMedicoID] = useState('');
+  const [estudioID, setEstudioID] = useState('');
+  const [muestraID, setMuestraID] = useState('');
 
   const setFormValues = (values, tipo) => {
     if (tipo === 'paciente') {
@@ -34,7 +37,13 @@ export function ModoVisualizacionProvider({ children }) {
         dataPaciente,
         dataMedico,
         pacienteID,
-        setPacienteID
+        setPacienteID,
+        medicoID, 
+        setMedicoID,
+        estudioID,
+        setEstudioID,
+        muestraID,
+        setMuestraID
       }}
     >
       {children}

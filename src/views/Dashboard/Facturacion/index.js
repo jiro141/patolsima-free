@@ -28,6 +28,7 @@ import ModoLista from "./ModoLista";
 import { getFacturasList } from "api/controllers/facturas";
 import { getCambio } from "api/controllers/tazaDia";
 import { getFacturasDetail } from "api/controllers/facturas";
+import { useFacturas } from "hooks/Facturas/useFacturas";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
@@ -35,6 +36,7 @@ const Dashboard = () => {
   const [study, setStudy] = useState([]);
   const [facturas, setFacturas] = useState([]);
   const [cambioDelDia, setCambioDelDia] = useState('');
+ // const {facturas,getFacturas}=useFacturas()
 
   const cambioDia = async () => {
     try {
@@ -61,7 +63,8 @@ const Dashboard = () => {
   useEffect(() => {
     peticionGet();
   }, []);
-  const facturasClasificadas = facturas.reduce((clasificacion, factura) => {
+
+ /*const facturasClasificadas = facturas?.reduce((clasificacion, factura) => {
     if (factura.confirmada) {
       clasificacion.confirmadas.push(factura);
     } else if (factura.pagada) {
@@ -70,9 +73,9 @@ const Dashboard = () => {
       clasificacion.pendientes.push(factura);
     }
     return clasificacion;
-  }, { confirmadas: [], pagadas: [], pendientes: [] });
+  }, { confirmadas: [], pagadas: [], pendientes: [] })*/
 
-  const sinProcesarStudies = facturasClasificadas.pendientes.map((listaFacturas, i) => {
+ /* const sinProcesarStudies = facturasClasificadas.pendientes.map((listaFacturas, i) => {
     const fechaHora = listaFacturas?.fecha_recepcion;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
@@ -83,9 +86,9 @@ const Dashboard = () => {
       ci: listaFacturas.cliente.ci_rif,
       monto: listaFacturas.total_usd
     };
-  });
+  });*/
 
-  const pendientesStudies = facturasClasificadas.confirmadas.map((listaFacturas) => {
+ /* const pendientesStudies = facturasClasificadas.confirmadas.map((listaFacturas) => {
     const fechaHora = listaFacturas?.fecha_recepcion;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return {
@@ -96,7 +99,7 @@ const Dashboard = () => {
       ci: listaFacturas.cliente.ci_rif,
       monto: listaFacturas.total_usd
     }
-  });
+  });*/
 
   //modal 
   // console.log(facturas.reduce);
@@ -238,7 +241,7 @@ const Dashboard = () => {
             >
               <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
                 <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {renderStudies(sinProcesarStudies)}
+                  {/*renderStudies(sinProcesarStudies)*/}
                 </Grid>
               </Box>
             </Box>
@@ -261,7 +264,7 @@ const Dashboard = () => {
             >
               <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
                 <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {renderStudies(pendientesStudies)}
+                  {/*renderStudies(pendientesStudies)*/}
                 </Grid>
               </Box>
             </Box>
