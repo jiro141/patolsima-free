@@ -14,11 +14,23 @@ import MedicoCardPostInitial from "components/widgets/Medico/MedicoCardPostIniti
 import Muestra from "components/widgets/Estudio/Muestra";
 import { useContext } from "react";
 import MainContext from "context/mainContext/MainContext";
+import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 function Registro() {
-  const { activeTab, twoState, setTwoState } = useContext(MainContext);
+  const { activeTab, twoState, setTwoState,setActiveTab } = useContext(MainContext);
+  const { estudioID } = useContext(ModoVisualizacionContext);
   //tabs para los nombres
+  //console.log(activeTab)
   const MotionTab = motion(Tab);
+
+  const isMountedRef = useRef(true); // Referencia mutable para verificar si el componente está montado
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false; // Establecer la referencia en false cuando el componente se desmonta
+    };
+  }, []);
 
   const [
     registroSeleccionadoCliente,
@@ -43,9 +55,16 @@ function Registro() {
     }
   );
 
-  const CustomTab = ({ title, isActive, isDisabled = false }) => {
+  const CustomTab = ({ title, isActive, isDisabled = false,onClick }) => {
+   
     return (
       <MotionTab
+      style={{
+        pointerEvents: isDisabled ? "none" : "auto",
+        opacity: isDisabled ? 0.5 : 1,
+        cursor: isDisabled ? "not-allowed" : "pointer",
+      }}
+      isActive={()=>console.log('is active')}
         margin="30px 5px 0 5px"
         border="none"
         bg={isActive ? "#9BC5D3" : "#9BC5D3"}
@@ -56,6 +75,7 @@ function Registro() {
             ? { md: "5px 80px", sm: "5px 60px", lg: "20px 200px" }
             : { lg: "15px" }
         }
+        
         fontSize={isActive ? "20px" : "0px"}
         width="50px"
         height="50px"
@@ -67,10 +87,12 @@ function Registro() {
       </MotionTab>
     );
   };
-  const CustomStudy2 = ({ title, isActive, activeTab }) => {
-    const isDisabled = activeTab === 2 || activeTab === 3 ? false : true;
+  const CustomStudy2 = ({ title, isActive, activeTab,isDisabled = false  }) => {
+   // const isDisabled = activeTab === 0  ? true : false;
     return (
-      <MotionTab
+      <div >
+        <MotionTab
+       
         margin="30px 5px 0 5px"
         border="none"
         bg={isActive ? "#9BC5D3" : "#9BC5D3"}
@@ -85,16 +107,30 @@ function Registro() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 1 }}
         isDisabled={isDisabled}
+        
       >
         {isActive ? title : activeTab == 2 ? "+" : null}
       </MotionTab>
+        </div>
+      
     );
   };
-
+  useEffect(() => {
+    if (isMountedRef.current) {
+      console.log(activeTab);
+      setActiveTab(0)
+    }
+   
+    return ()=> {
+      setActiveTab(null)
+      console.log(activeTab);
+      isMountedRef.current = false; 
+    };
+  }, []);
   return (
     <Box
       margin={{
-        lg: "50px 0px 0px 0px",
+        lg: "50px 0px 0px 30px",
         md: "60px 0px 0px 0px",
         sm: "30px 0px 10% 0px",
       }}
@@ -114,23 +150,28 @@ function Registro() {
           width={{ lg: "90%", md: "100%", sm: "100%" }}
         >
           <Tabs>
-            <TabList display={"flex"} justifyContent={"center"} border={"none"}>
-              <CustomTab title="Paciente" isActive={activeTab === 0} />
+            <TabList isDisabled display={"flex"} justifyContent={"center"} border={"none"}>
+              <CustomTab 
+              title="Paciente"
+               isActive={activeTab === 0}
+               isDisabled={activeTab > 0  }
+               />
               <CustomTab
                 title="Médico"
                 isActive={activeTab === 1}
-                isDisabled={activeTab === 0   }
+                isDisabled={activeTab === 0  }
               />
               <CustomTab
                 title="Estudio"
                 isActive={activeTab === 2}
-                isDisabled={activeTab === 0 || activeTab === 1}
+                isDisabled={ activeTab < 2 &&  activeTab < 3}
               />
-              <CustomStudy2
+             { <CustomStudy2
                 title="Estudio2"
-                isActive={activeTab === 3}
-                isDisabled={activeTab === 0 || activeTab === 2}
-              />
+                isActive={activeTab === 3 }
+                
+                isDisabled={ activeTab < 3 }
+              />}
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -140,7 +181,7 @@ function Registro() {
                     setRegistro={setRegistroSeleccionadoCliente}
                   />
                 )}
-                {activeTab === 1 && (
+                {activeTab === 1 && twoState==='post' &&(
                   <MedicoCardPostInitial
                     registro={resgistroSeleccionadoMedico}
                     setRegistro={setRegistroSeleccionadoMedico}
@@ -159,7 +200,7 @@ function Registro() {
                     <Muestra />
                   </Box>
                 )}
-                {activeTab === 3 && (
+                {activeTab === 3 &&(
                   <Box
                     backgroundColor={"#FFFF"}
                     boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
@@ -169,7 +210,8 @@ function Registro() {
                   >
                     <Muestra2 />
                   </Box>
-                )}
+                ) }
+               
               </TabPanel>
             </TabPanels>
           </Tabs>

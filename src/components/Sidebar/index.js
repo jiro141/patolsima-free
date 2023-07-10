@@ -33,7 +33,9 @@ function Sidebar(props) {
         <Box
           bg={sidebarBg}
           transition={variantChange}
-          w="260px"
+          //w="260px"
+          overflowY="auto"
+    overflowX="hidden"  
           maxW="260px"
           ms={{
             sm: "16px",
@@ -46,6 +48,21 @@ function Sidebar(props) {
           pe="20px"
           m={sidebarMargins}
           borderRadius={sidebarRadius}
+          sx={{
+            "&::-webkit-scrollbar": {
+              width: "8px",
+              borderRadius: "8px",
+              backgroundColor: "#f5f5f5",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#555",
+            },
+            zIndex:100
+          }}
         >
           <SidebarContent routes={routes}
             display="none"

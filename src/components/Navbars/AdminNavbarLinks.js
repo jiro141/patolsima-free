@@ -43,6 +43,7 @@ import { authApi } from "api/authApi";
 import AuthContext from "context/authContext/AuthContext";
 import { useEffect } from "react";
 import { handleTokenRefresh } from "api/controllers/token";
+import MainContext from "context/mainContext/MainContext";
 
 
 export default function HeaderLinks(props) {
@@ -137,6 +138,9 @@ export default function HeaderLinks(props) {
   //constex para cambian de visualizacion de tarjeta a lista
   //default tarjeta
   const { modoVisualizacion, cambiarModoVisualizacion } = useContext(ModoVisualizacionContext);
+  const {facturas, setFacturas, filteredFact,hiddenFactssort, sethiddenFactssort }= useContext(MainContext)
+  
+  
   const cambiarModo = (nuevoModo) => {
     cambiarModoVisualizacion(nuevoModo);
   };
@@ -149,6 +153,34 @@ export default function HeaderLinks(props) {
   const activeLisMode = (routeName) => {
     return location.pathname === routeName ? "active" : "";
   };
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    console.log(query)
+    if (query.startsWith(" ")) return;
+   
+    sethiddenFactssort(false)
+    filterFacts(query);
+    if(query === ''){
+      sethiddenFactssort(true)
+    }
+    //setBusqueda(query);
+   
+  };
+  const filterFacts=(searchTearm)=>{
+    let resultadoBusqueda = filteredFact.filter((elemento) => {
+      if (
+        elemento.cliente.razon_social
+          .toLowerCase()
+          .includes(searchTearm.toLowerCase()) ||
+          elemento.cliente.ci_rif
+          .toLowerCase()
+          .includes(searchTearm.toLowerCase()) 
+      ) {
+        return elemento;
+      }
+    });
+    setFacturas(resultadoBusqueda);
+  }
   return (
     <Flex
       pe={{ sm: "0px", md: "0px" }}
@@ -199,6 +231,8 @@ export default function HeaderLinks(props) {
             placeholder="Buscar..."
             border="none"
             bg="none"
+            //value={filterFacts}
+            onChange={handleBusquedaChange}
             borderRadius="none"
             css={{
               borderBottom: "1px solid ",

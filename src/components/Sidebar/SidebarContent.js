@@ -1,5 +1,3 @@
-/*eslint-disable*/
-// chakra imports
 import {
   Box,
   Button,
@@ -20,16 +18,31 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Reloj } from "components/Sidebar/Reloj";
 import { Fecha } from "components/Sidebar/Fecha";
 import { Calendario } from "components/Sidebar/Calendario";
-
-// this function creates the links and collapses that appear in the sidebar (left menu)
+import { useGroups } from "hooks/Groups/useGroups";
+import { useEffect } from "react";
 
 const SidebarContent = ({ logoText, routes }) => {
-  // to check for active links and opened collapses
-  let location = useLocation();
-  // this is for the rest of the collapses
-  const [state, setState] = React.useState({});
+ const {getGroups,groups,setgroups}=useGroups()
+ useEffect(() => {
+  const getUsersGroups=async()=>{
+    getGroups()
+    const groups = await window.localStorage.getItem("groups");
+    setgroups(JSON.parse(groups))
+  }
+  getUsersGroups()
+ }, [])
+ const admin=groups[0]
+ const patologo=groups[1]
+ const both=groups
 
-  // verifies if routeName is the one active (in browser input)
+  const adminRoutes = routes.filter(
+    (route) => route.groupName === "administracion"
+  );
+  const patologiaRoutes = routes.filter(
+    (route) => route.groupName === "patologia"
+  );
+  let location = useLocation();
+ 
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
   };
@@ -41,40 +54,14 @@ const SidebarContent = ({ logoText, routes }) => {
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
     const colorIcon = useColorModeValue("gray.400");
 
-    return routes.map((prop, key) => {
+    return patologiaRoutes.map((prop, key) => {
       if (prop.hide) {
         return null;
-      }
-      if (prop.category) {
-        var st = {};
-        st[prop["state"]] = !state[prop.state];
-        return (
-          <div key={prop.name}>
-            <Separator></Separator>
-            <Text
-              color={"#000"}
-              mb={{
-                xl: "5px",
-              }}
-              mx="auto"
-              ps={{
-                sm: "10px",
-                xl: "16px",
-              }}
-              py="8px"
-            >
-              {prop.name}
-            </Text>
-            {createLinks(prop.views)}
-            <Box margin={'0px 0 20px 0'}>
-              <Separator></Separator>
-            </Box>
-          </div>
-        );
-      }
-
+      } 
       return (
-        <NavLink to={prop.layout + prop.path} key={prop.name}>
+       <>
+        
+     {  <NavLink to={prop.layout + prop.path} key={prop.name}>
           {activeRoute(prop.layout + prop.path) === "active" ? (
             <Button
               boxSize="initial"
@@ -172,17 +159,271 @@ const SidebarContent = ({ logoText, routes }) => {
               </Flex>
             </Button>
           )}
-        </NavLink>
+        </NavLink> }
+      
+       </> 
       );
+
+
+
+    });
+  };
+  const createLinksAdmin = (routes) => {
+    // Chakra Color Mode
+    const activeBg = useColorModeValue("#89bbcc", "gray.700");
+    const inactiveBg = useColorModeValue("transparet");
+    const activeColor = useColorModeValue("#2B6CB0", "white");
+    const inactiveColor = useColorModeValue("gray.400", "gray.400");
+    const colorIcon = useColorModeValue("gray.400");
+
+    return adminRoutes.map((prop, key) => {
+      if (prop.hide) {
+        return null;
+      }
+      
+      return (
+       <>
+        
+     {  <NavLink to={prop.layout + prop.path} key={prop.name}>
+          {activeRoute(prop.layout + prop.path) === "active" ? (
+            <Button
+              boxSize="initial"
+              justifyContent="flex-start"
+              alignItems="center"
+              bg={activeBg}
+              mb={{
+                xl: "5px",
+              }}
+              mx={{
+                xl: "auto",
+              }}
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              py="8px"
+              borderRadius="15px"
+              _hover="none"
+              w="100%"
+              _active={{
+                bg: "inherit",
+                transform: "none",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                boxShadow: "none",
+              }}
+            >
+              <Flex>
+                {typeof prop.icon === "string" ? (
+                  <Icon>{prop.icon}</Icon>
+                ) : (
+                  <IconBox
+                    bg={'none'}
+                    color="white"
+                    h="30px"
+                    w="30px"
+                    me="12px"
+                  >
+                    {prop.icon}
+                  </IconBox>
+                )}
+                <Text color={activeColor} my="auto" fontSize="sm">
+                  { prop.name}
+                </Text>
+              </Flex>
+            </Button>
+          ) : (
+            <Button
+              boxSize="initial"
+              justifyContent="flex-start"
+              alignItems="center"
+              bg="transparent"
+              mb={{
+                xl: "5px",
+              }}
+              mx={{
+                xl: "auto",
+              }}
+              py="8px"
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              borderRadius="15px"
+              _hover="none"
+              w="100%"
+              _active={{
+                bg: "inherit",
+                transform: "none",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                boxShadow: "none",
+              }}
+            >
+              <Flex>
+                {typeof prop.icon === "string" ? (
+                  <Icon>{prop.icon}</Icon>
+                ) : (
+                  <IconBox
+                    bg={inactiveBg}
+                    color={colorIcon}
+                    h="30px"
+                    w="30px"
+                    me="12px"
+                  >
+                    {prop.icon}
+                  </IconBox>
+                )}
+                <Text color={inactiveColor} my="auto" fontSize="sm">
+                  {prop.name}
+                </Text>
+              </Flex>
+            </Button>
+          )}
+        </NavLink> }
+      
+       </> 
+      );
+
+
+
+    });
+  };
+  const createLinksAll = (routes) => {
+    // Chakra Color Mode
+    const activeBg = useColorModeValue("#89bbcc", "gray.700");
+    const inactiveBg = useColorModeValue("transparet");
+    const activeColor = useColorModeValue("#2B6CB0", "white");
+    const inactiveColor = useColorModeValue("gray.400", "gray.400");
+    const colorIcon = useColorModeValue("gray.400");
+
+    return routes.map((prop, key) => {
+      if (prop.hide) {
+        return null;
+      }
+      
+      return (
+       <>
+        
+     {  <NavLink to={prop.layout + prop.path} key={prop.name}>
+          {activeRoute(prop.layout + prop.path) === "active" ? (
+            <Button
+              boxSize="initial"
+              justifyContent="flex-start"
+              alignItems="center"
+              bg={activeBg}
+              mb={{
+                xl: "5px",
+              }}
+              mx={{
+                xl: "auto",
+              }}
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              py="8px"
+              borderRadius="15px"
+              _hover="none"
+              w="100%"
+              _active={{
+                bg: "inherit",
+                transform: "none",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                boxShadow: "none",
+              }}
+            >
+              <Flex>
+                {typeof prop.icon === "string" ? (
+                  <Icon>{prop.icon}</Icon>
+                ) : (
+                  <IconBox
+                    bg={'none'}
+                    color="white"
+                    h="30px"
+                    w="30px"
+                    me="12px"
+                  >
+                    {prop.icon}
+                  </IconBox>
+                )}
+                <Text color={activeColor} my="auto" fontSize="sm">
+                  { prop.name}
+                </Text>
+              </Flex>
+            </Button>
+          ) : (
+            <Button
+              boxSize="initial"
+              justifyContent="flex-start"
+              alignItems="center"
+              bg="transparent"
+              mb={{
+                xl: "5px",
+              }}
+              mx={{
+                xl: "auto",
+              }}
+              py="8px"
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              borderRadius="15px"
+              _hover="none"
+              w="100%"
+              _active={{
+                bg: "inherit",
+                transform: "none",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                boxShadow: "none",
+              }}
+            >
+              <Flex>
+                {typeof prop.icon === "string" ? (
+                  <Icon>{prop.icon}</Icon>
+                ) : (
+                  <IconBox
+                    bg={inactiveBg}
+                    color={colorIcon}
+                    h="30px"
+                    w="30px"
+                    me="12px"
+                  >
+                    {prop.icon}
+                  </IconBox>
+                )}
+                <Text color={inactiveColor} my="auto" fontSize="sm">
+                  {prop.name}
+                </Text>
+              </Flex>
+            </Button>
+          )}
+        </NavLink> }
+      
+       </> 
+      );
+
+
+
     });
   };
 
-  const links = <>{createLinks(routes)}</>;
+  const linksAdmin = <>{createLinksAdmin(routes)}</>;
+  const linksPatology = <>{createLinks(routes)}</>;
+  const linksAll = <>{createLinksAll(routes)}</>;
+
 
   return (
     <Box maxW={'200px'}>
       <Box w="70%" h="5px" m=" 5px 10px 150px 10px">
-        <Link href="https://patolsima.netlify.app/admin/Home"><Image src={Logo} alt="Logo palmosima" /></Link>
+        <Link href="/admin/Home"><Image src={Logo} alt="Logo palmosima" /></Link>
         <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
           <Grid templateColumns={"1fr 2fr"}>
             <TimeIcon boxSize={6} />
@@ -200,11 +441,11 @@ const SidebarContent = ({ logoText, routes }) => {
       <Box pt={"10px"} mb="5px">
         <Box margin={'50px 0 20px 0'}>
           <Separator></Separator>
-          <Text marginTop={'10px'} marginLeft={'13px'} >Administración</Text>
+          <Text marginTop={'10px'} marginLeft={'13px'}>{groups=== both || groups===admin ? `Administración` : groups=== patologo ? 'Patologia' : ''}</Text>
         </Box>
       </Box>
       <Stack direction="column" mb="40px">
-        <Box>{links} 
+        <Box>{groups=== both ? linksAll : groups===admin ? linksAdmin : groups=== patologo ? linksPatology: ''} 
         <Separator></Separator>
         </Box>
       </Stack>

@@ -18,6 +18,16 @@ export const getFacturasDetail= async (id) => {
         console.log(error);
     }
 }
+//post ordenes
+export const postOrdenes= async (data) => {
+    try {
+        const response = await Axios.post(`/v1/facturacion/ordenes/`,data)
+         return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 //factura a terceros
 export const putFacturaTerceros= async (id,data) => {
     try {

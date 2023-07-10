@@ -21,13 +21,21 @@ export const postMuestra = async (formData) => {
     }
 }
 //adjunto
-export const postMuestraAdjunto = async (id,formData) => {   
+export const postMuestraAdjunto = async (estudioIds,formData) => {   
     try {
-        const response = await Axios.post(`/v1/core/estudios/${id}/adjuntos/`, formData)
-        return response.data
-    } catch (error) {
-        console.log(error);
-    }
+        const response = await Axios.post(`/v1/core/estudios/${estudioIds}/adjuntos/`, formData, {
+          headers: {
+            "content-type": "application/pdf",
+          },
+        });
+    
+        return response.data;
+      } catch (error) {
+        throw new Error("Error uploading file");
+      }
+
+
+   
 }
 
 export const studiesDetail = async (id) => {

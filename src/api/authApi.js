@@ -3,7 +3,7 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Axios = axios.create({
   baseURL: `${REACT_APP_BACKEND_URL}`,
-  headers: { "content-type": "application/json" },
+  headers: { "content-type": "application/json"},
 });
 
 Axios.interceptors.request.use(async (config) => {

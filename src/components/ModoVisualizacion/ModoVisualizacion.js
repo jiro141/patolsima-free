@@ -9,7 +9,15 @@ export function ModoVisualizacionProvider({ children }) {
   const [pacienteID, setPacienteID] = useState('');
   const [medicoID, setMedicoID] = useState('');
   const [estudioID, setEstudioID] = useState('');
+  const [estudioIds, setEstudioIds] = useState([]);
   const [muestraID, setMuestraID] = useState('');
+
+  const setFormEstudioIds=(values)=>{
+    setEstudioID((prevValues) => ({
+      ...prevValues,
+      ...values,
+    }));
+  }
 
   const setFormValues = (values, tipo) => {
     if (tipo === 'paciente') {
@@ -43,7 +51,9 @@ export function ModoVisualizacionProvider({ children }) {
         estudioID,
         setEstudioID,
         muestraID,
-        setMuestraID
+        setMuestraID,
+        setFormEstudioIds,
+        estudioIds, setEstudioIds
       }}
     >
       {children}

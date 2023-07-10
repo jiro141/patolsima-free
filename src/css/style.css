@@ -1,8 +1,9 @@
 .react-calendar {
-    margin-top: -20px;
-    width: 100%;
+   margin-top: -20px;
+   width: 100%;
     height: 100%;
     max-width: 100%;
+    padding: 15px;
     background: white;
     border: 3px solid #137797;
 
@@ -54,7 +55,43 @@
   .react-calendar__navigation button:disabled {
     background-color: #f0f0f0;
   }
+  .wrapCalendarInput{
+    position: relative;
+    z-index: 1;
+  }
+  .custom-div {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e0;
+    border-radius: 4px;
+    padding: 0.5rem;
+    width: 100%;
+  }
+  body::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f5f5f5;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  
+  body::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  .wrapbtnClose {
  
+    display: flex;
+    justify-content: flex-end;
+    width: 81%;
+    position: absolute;
+    margin-top: 7px;
+    padding-right: 15px;
+    padding-bottom: 0px;
+    z-index: 100;
+  }
   .react-calendar__month-view__weekdays {
     text-align: center;
     text-transform: uppercase;

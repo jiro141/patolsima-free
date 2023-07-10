@@ -194,7 +194,9 @@ const ModalFacturacion = ({ study }) => {
                         <Box margin={'5px'}  >
                             <Text fontSize={'16px'} >Paciente</Text>
                             {studyDetail ? (
-                                <Text fontSize={'14px'}>{studyDetail.paciente.nombres} {studyDetail.paciente.apellidos}</Text>
+                                <Text fontSize={'14px'}>{/*studyDetail?.paciente.nombres} {studyDetail.paciente.apellidos*/}
+                                prueba
+                                </Text>
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>
                             )}

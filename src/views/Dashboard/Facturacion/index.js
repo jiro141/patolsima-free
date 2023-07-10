@@ -16,7 +16,11 @@ import {
   Button,
   Flex,
   CloseButton,
-  useBreakpointValue
+  useBreakpointValue,
+  InputGroup,
+  InputLeftElement,
+  IconButton,
+  Input
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
 import { BsReceipt } from "react-icons/bs";
@@ -29,40 +33,27 @@ import { getFacturasList } from "api/controllers/facturas";
 import { getCambio } from "api/controllers/tazaDia";
 import { getFacturasDetail } from "api/controllers/facturas";
 import { useFacturas } from "hooks/Facturas/useFacturas";
+import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
+import CardOverall_ from "components/widgets/Cards/CardOverall";
+import { SearchIcon } from "@chakra-ui/icons";
+import MainContext from "context/mainContext/MainContext";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+  const { hiddenFactssort,sethiddenFactssort,filteredFact } = useContext(MainContext);
   const colorA = '#137797';
   const [study, setStudy] = useState([]);
-  const [facturas, setFacturas] = useState([]);
-  const [cambioDelDia, setCambioDelDia] = useState('');
- // const {facturas,getFacturas}=useFacturas()
+  const {facturas,getFacturas,getCambios,cambioDelDia,facturasConfirmadas,facturasNoConfirmadas,loading}=useFacturas()
 
-  const cambioDia = async () => {
-    try {
-      const cambio = await getCambio()
-      setCambioDelDia(cambio)
-    } catch (error) {
-      console.log(error);
-    }
-  }
+ // console.log(cambioDelDia)
   useEffect(() => {
-    cambioDia();
+    getFacturas()
+    getCambios();
   }, []);
 
 
-  const peticionGet = async () => {
-    try {
-      const facturasList = await getFacturasList()
-      setFacturas(facturasList)
-      // console.log(facturasList);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    peticionGet();
-  }, []);
+
+ 
 
  /*const facturasClasificadas = facturas?.reduce((clasificacion, factura) => {
     if (factura.confirmada) {
@@ -188,21 +179,24 @@ const Dashboard = () => {
     ));
   };
 
+
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+    
+        <Box
+         margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
           padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
           backgroundColor={'gray.100'}
           borderTopLeftRadius={'20px'}
           backgroundSize="cover"
           backgroundPosition="center"
-          overflowY="scroll"
-          overflowX="hidden"
-          maxH={'40em'}
+          overflowY="hidden"
+          overflowX={{lg:"hidden",sm:"auto"}}
+         // maxH={'40em'}
         >
           <Box
-            width={'100%'}
+            width={{lg:'100%',sm:"95%"}}
             margin={'10px 0px 0px 25px'}
             display="flex" justifyContent="flex-end"
           >
@@ -223,59 +217,25 @@ const Dashboard = () => {
             </Box>
           </Box>
           <Box marginTop={'-15px'} padding={'2%'} >
-            <Heading
-              size="md"
-            >
-              Sin confirmar
-            </Heading>
-            <Box
-              width={'100%'}
-              m={"20px 30px 30px 10px"}
-              backgroundColor={'#FFFF'}
-              boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-              padding={"25px"}
-              borderRadius="20px"
-              minH={'300px'} maxH={'300px'}
-              overflowY="scroll"
-              overflowX="hidden"
-            >
-              <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
-                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {/*renderStudies(sinProcesarStudies)*/}
-                </Grid>
-              </Box>
-            </Box>
-            <Heading
-              margin={'20px 0 20px 0 '}
-              size="md"
-            >
-              Pendientes de pago
-            </Heading>
-            <Box
-              width={'100%'}
-              m={"20px 30px 30px 10px"}
-              backgroundColor={'#FFFF'}
-              boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-              padding={"25px"}
-              borderRadius="20px"
-              minH={'300px'} maxH={'300px'}
-              overflowY="scroll"
-              overflowX="hidden"
-            >
-              <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
-                <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {/*renderStudies(pendientesStudies)*/}
-                </Grid>
-              </Box>
-            </Box>
-            <Button
-              borderRadius={'20px'}
-              padding={'10px 30px'}
-              bgColor={'#137797'}
-              color='#ffff'
-              onClick={toggleModalList}
-            >
-              Ver más</Button>
+         
+          {
+          
+          hiddenFactssort ?
+          <>
+          <CardOverall_ title={'Sin confirmar'} content={facturasNoConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading}/>
+           <CardOverall_ title={'Pendientes de pago'} content={facturasConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading} />
+           </>
+           
+           : 
+           <CardOverall_ title={'Buscando...'} content={facturas} toggleModal={toggleModal} colorA={colorA}/>
+          
+           
+           }
+
+          
+            
+            
+              <ShowMoreButton handleClick={toggleModalList} />
           </Box>
         </Box>
         <Modal
@@ -304,6 +264,8 @@ const Dashboard = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
+
+
         <Modal
           size={sizeView}
           maxWidth='100%'

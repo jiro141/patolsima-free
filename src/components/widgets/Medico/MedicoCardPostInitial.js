@@ -68,7 +68,7 @@ const MedicoCardPostInitial = ({
           toast.success("¡El medico fue guardado correctamente!", {
             autoClose: 1500,
           });
-          setActiveTab(2)
+          setActiveTab(activeTab + 1)
         } else {
           toast.error("¡Hubo un error al guardar el medico!", {
             autoClose: 1500,

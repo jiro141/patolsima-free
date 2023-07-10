@@ -17,7 +17,7 @@ import {
   PersonIcon,
   DocumentIcon,
 } from "components/Icons/Icons";
-const categorias = {
+ const categorias = {
   administracion: [
     {
       groupName:"administracion",
@@ -26,6 +26,7 @@ const categorias = {
       icon: <HomeIcon color="inherit" />,
       component: RegistroAdministradcion,
       layout: "/admin",
+      type:'admin'
     },
     {
       groupName:"administracion",
@@ -113,8 +114,12 @@ export const dashRoutesPatologo = [
   },
 ];
 var dashRoutes = [
+  
+
+    ...categorias.administracion,
+  
   ...categorias.patologia,
-  ...categorias.administracion,
+ 
   {
     path: "/signin",
     component: SignIn,

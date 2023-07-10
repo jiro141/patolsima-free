@@ -6,7 +6,10 @@ export function MainContextProvider({ children }) {
   const [activeTab, setActiveTab] = useState(0);
   const [oneState, setOneState] = useState('post');
   const [twoState, setTwoState] = useState('post');
-
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [facturas, setFacturas] = useState([]);
+  const [filteredFact, setfilteredFact] = useState([]);
+  const [hiddenFactssort, sethiddenFactssort] = useState(true);
 
   return (
     <MainContext.Provider
@@ -15,7 +18,11 @@ export function MainContextProvider({ children }) {
         setActiveTab,
         oneState,
         setOneState,
-        twoState, setTwoState
+        twoState, setTwoState,
+        loginSuccess, setLoginSuccess,
+        facturas, setFacturas,
+        filteredFact, setfilteredFact,
+        hiddenFactssort, sethiddenFactssort
       }}
     >
       {children}

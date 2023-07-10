@@ -22,11 +22,16 @@ import debounce from "just-debounce-it";
 import InputAutoComplete from "../Inputs/InputAutoComplete";
 import { useEffect } from "react";
 import MainContext from "context/mainContext/MainContext";
+import Calendar from 'react-calendar';
+import { formatDate } from "helpers";
+import InputCalendar from "../Inputs/InputCalendar";
 
 const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
     ModoVisualizacionContext
   );
+  
+
   const {activeTab, setActiveTab,setTwoState,setOneState,oneState}=useContext(MainContext)
   const [mostrarModal, setMostrarModal] = useState(false);
   const [Busqueda, setBusqueda] = useState("");
@@ -34,6 +39,12 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const [pacienteIdDelete, setPacienteIdDelete] = useState("");
   const [selectSearch, setSelectSearch] = useState(false);
+  const [onOpenCalendar, setOpenCalendar] = useState(false);
+  const [date, onChange] = useState(formatDate(new Date()));
+
+  const handleDateChange = (date) => {
+    onChange(date);
+  };
 
   const {
     pacients,
@@ -55,7 +66,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
       ci:"",
       nombres: "",
       apellidos: "",
-      fecha_nacimiento: "",
+     // fecha_nacimiento: '',
       direccion: "",
       email: "",
       telefono_fijo: " ",
@@ -68,9 +79,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
       //ci: Yup.string().required("La cedula es obligatoria"),
       telefono_celular: Yup.string().required("el telefono es obligatorio"),
       direccion: Yup.string().required("La direccion es obligatoria"),
-      fecha_nacimiento: Yup.string().required(
-        "La fecha de nacimiento es obligatoria"
-      ),
+     
       sexo: Yup.string().required("el sexo es obligatorio"),
       email: Yup.string()
         .email("direccion de correo no valida")
@@ -78,11 +87,16 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
+      let dateformat=formatDate(date)
+      let dateNew = dateformat.trim()
+      console.log(typeof dateNew)
       if(oneState==='post' && activeTab === 0){
         const newObj={
           ...formData,
-          ci:searchci
+          ci:searchci,
+          fecha_nacimiento:dateNew
         }
+        console.log(newObj)
           try {
             const pacientePost = await postPacientes(newObj);
             setFormValues(newObj,'paciente');
@@ -92,7 +106,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
               toast.success("¡El paciente fue guardado correctamente!", {
                 autoClose: 1000,
               });
-              setActiveTab(1)
+              setActiveTab(activeTab + 1)
               setTwoState('post')
             } 
             else
@@ -118,6 +132,8 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
 
 
   });
+
+  console.log()
   useEffect(() => {
     seterrorci("");
   }, []);
@@ -240,7 +256,10 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
         <form>
           <Text
             fontSize={"20px"}
-            margin="15px 30px 30px 30px"
+            textAlign={'left'}
+            
+            margin={'5px'}
+            padding={'5px'}
             color={"gray.600"}
           >
             Información Personal
@@ -323,15 +342,19 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}
           >
-            <InputOverall
+           {/* <InputOverall
               name="fecha_nacimiento"
-              value={formik.values.fecha_nacimiento}
+              value={date}
               placeholder="Fecha de Nacimiento (AAAA-MM-DD): "
-              onChange={(e) =>
-                formik.setFieldValue("fecha_nacimiento", e.target.value)
-              }
-              errors={formik.errors.apellidos}
-            />
+              onChange={handleDateChange}
+              //errors={formik.errors.fecha_nacimiento}
+              type="date"
+              //handleClick={()=>console.log('clik')}
+            /> */}
+            <InputCalendar onOpenCalendar={onOpenCalendar} value={date} onChange={handleDateChange} setOpenCalendar={setOpenCalendar} />
+            
+             
+            
             <InputOverall
               name="direccion"
               value={formik.values.direccion}
@@ -343,8 +366,11 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
             />
           </Grid>
           <Text
+          textAlign={'left'}
             fontSize={"20px"}
-            margin="15px 30px 30px 30px"
+            margin={'5px'}
+            padding={'5px'}
+            //margin="15px 30px 30px 30px"
             color={"gray.600"}
           >
             Información de Contacto
@@ -393,8 +419,12 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
         eliminar={eliminarPaciente}
         nombres={pacienteName}
       />
-       <ShowMoreButton handleClick={toggleModal} />
+      <div style={{}}>
+      <ShowMoreButton handleClick={toggleModal} />
       <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
+      </div>
+      
+      
     </Box>
   );
 };
