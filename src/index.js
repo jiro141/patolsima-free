@@ -10,12 +10,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import { MainContextProvider } from "context/mainContext/MainContext";
 
 function App() {
-  const history = useHistory();
   
-  useEffect(async () => {
-    handleTokenRefresh();
-    await history.push("auth/signin");
-  }, []);
+
 
   return (
     <AuthProvider>

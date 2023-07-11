@@ -197,6 +197,126 @@ export function TRM({
   </Tbody>
   );
 }
+export function TRF({
+  tBodyData,
+  handleSelectTBody,
+  handleSelectIcon,
+ // title = "pruebas",
+}) {
+  return (
+    <Tbody >
+    {tBodyData &&
+      tBodyData?.map((bills) => (
+        <Tr key={bills.id}>
+          <Link
+            paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            {bills.id}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+             {bills.fecha_recepcion}
+           
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+             {bills.fecha_impresion}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            {bills.cliente.razon_social}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+           {bills.cliente.ci_rif}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            {bills.cliente.email}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            {bills.total_bs}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            {bills.total_usd}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() =>
+              handleSelectIcon(bills)
+            }
+          >
+            <BsFillTrashFill color="#137797" />
+          </Link>
+        </Tr>
+      ))}
+  </Tbody>
+  );
+}
+
+
 export function TABLE_PACIENTS({
   thData,
   tBodyData,
@@ -239,3 +359,24 @@ export function TABLE_MEDICOS({
     </Table>
   );
 }
+
+export function TABLE_FACTURAS({
+  thData,
+  tBodyData,
+  handleSelectTBody,
+  handleSelectIcon,
+}) {
+  return (
+    <Table variant="simple">
+      <Thead>
+        <TH thData={thData} />
+      </Thead>     
+        <TRF
+          tBodyData={tBodyData}
+          handleSelectTBody={handleSelectTBody}
+          handleSelectIcon={handleSelectIcon}
+        />    
+    </Table>
+  );
+}
+

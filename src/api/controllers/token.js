@@ -1,4 +1,6 @@
 import Axios from "api/authApi";
+import { handleLogout } from "components/Navbars/AdminNavbarLinks";
+import { useHistory  } from "react-router-dom";
 
 /*export async function handleTokenRefresh() {
   // Verificar si hay un token de acceso almacenado en el LocalStorage
@@ -61,10 +63,11 @@ import Axios from "api/authApi";
 
 
 export const handleTokenRefresh=async()=>{
- 
+  console.log('entrada ')
+  const history= useHistory();
 
   const fetchRefreshToken= async () => {
-   
+   console.log('funcionnn ')
     const refresh =  window.localStorage.getItem("refresh");
     try {
       const response = await Axios.post('/token/refresh/',{refresh}); 
@@ -80,11 +83,14 @@ export const handleTokenRefresh=async()=>{
   const interval = setInterval(() => {
    
     fetchRefreshToken();
-    window.localStorage.removeItem('access')
-   window.localStorage.removeItem('refresh')
-     
-  },2 * 60 * 60 * 1000 );
-
-
+    //handleLogout()
+   // window.localStorage.removeItem('access')
+  // window.localStorage.removeItem('refresh')
+   //history.push("/Auth/SignIn");
+   //history.push("/Auth/SignIn");
+  console.log('ejecutaanddo')
+  },5000);
+  
+ 
   return () => clearInterval(interval);
 }

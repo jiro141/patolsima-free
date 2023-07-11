@@ -131,7 +131,7 @@ function SignIn() {
       </ModalContent>
     </Modal>
 
-    <Flex position='relative' mb='40px' >
+    <Flex  position='relative' mb='40px' >
       <Flex
         h={{ sm: "initial", md: "75vh", lg: "85vh" }}
         w='100%'
@@ -231,28 +231,13 @@ function SignIn() {
               </Button>
 
             </FormControl>
-            {/* <Flex
-              flexDirection='column'
-              justifyContent='space-between'
-              alignItems='center'
-              maxW='100%'
-              mt='0px'>
-              <Text color={textColor} fontWeight='medium'>
-                <Link _hover={{ bg: { titleColor } }} as='span' ms='5px' fontWeight='bold'>
-                  ¿Olvidaste tu contraseña?
-                </Link>
-              </Text>
-              <Text color={textColor} fontWeight='medium'>
-                <Link _hover={{ bg: { titleColor } }} as='span' ms='5px' fontWeight='bold'>
-                  Crear nueva cuenta
-                </Link>
-              </Text>
-            </Flex> */}
+          
           </Flex>
         </Flex>
         <Box
           display={{ base: "none", md: "block" }}
           overflowX='hidden'
+          overflowY={'hidden'}
           h='100%'
           w='50vw'
           position='absolute'
@@ -268,7 +253,7 @@ function SignIn() {
             position='absolute'
             borderBottomLeftRadius='20px'>
             <Box >
-              <Text color={'whiteAlpha.900'} textAlign={'justify'} fontWeight='medium' margin={'69% 40px'} >
+              <Text color={'whiteAlpha.900'} textAlign={'justify'} fontWeight='medium' margin={'67% 40px'} >
                 La misión de Laboratorio de Anatomía Patológica Patolsima es prestar un servicio de salud, mediante la realización de estudios de laboratorio de citologías, biopsias e inmunohistoquímica, con garantía en la precisión y exactitud de los resultados, satisfaciendo las necesidades de nuestros clientes y brindándoles un servicio de calidad.
               </Text>
             </Box>

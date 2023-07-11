@@ -17,6 +17,16 @@ export const selectorOptionsGenders = [
     { value: 'Correo'},
   ];
 
+  export const thValuesFacturas = [
+    { value: '#' },
+    { value: 'Recibida'},
+    { value: 'Impresa'},
+    { value: 'Cliente'},
+    { value: 'RIF/CI'},
+    { value: 'Monto ($)'},
+    { value: 'Monto(Bs)'},
+  ];
+
   export const typeStudies = [
     { value: 'BIOPSIA' },
     { value: 'CITOLOGIA_GINECOLOGICA'},

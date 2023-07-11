@@ -6,7 +6,6 @@ import {
   useColorModeValue,
   Badge,
   Heading,
-  Grid,
   Link,
   Modal,
   ModalOverlay,
@@ -14,28 +13,19 @@ import {
   ModalHeader,
   ModalBody,
   Button,
-  Flex,
   CloseButton,
   useBreakpointValue,
-  InputGroup,
-  InputLeftElement,
-  IconButton,
-  Input
+ 
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
 import { BsReceipt } from "react-icons/bs";
-import { authApi } from "api/authApi";
 import ModalFacturacion from "./components/ModalFacturacion";
 import ListaFacturas from "./components/ListaFacturas";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
-import { getFacturasList } from "api/controllers/facturas";
-import { getCambio } from "api/controllers/tazaDia";
-import { getFacturasDetail } from "api/controllers/facturas";
 import { useFacturas } from "hooks/Facturas/useFacturas";
 import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 import CardOverall_ from "components/widgets/Cards/CardOverall";
-import { SearchIcon } from "@chakra-ui/icons";
 import MainContext from "context/mainContext/MainContext";
 
 const Dashboard = () => {
@@ -216,6 +206,8 @@ const Dashboard = () => {
               </Text>
             </Box>
           </Box>
+
+          
           <Box marginTop={'-15px'} padding={'2%'} >
          
           {
@@ -227,7 +219,13 @@ const Dashboard = () => {
            </>
            
            : 
-           <CardOverall_ title={'Buscando...'} content={facturas} toggleModal={toggleModal} colorA={colorA}/>
+           <CardOverall_ title={'Resultados'} 
+           content={facturas}
+            toggleModal={toggleModal}
+             colorA={colorA}
+             loading={loading}
+             type='search'
+             />
           
            
            }

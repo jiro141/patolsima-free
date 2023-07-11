@@ -127,6 +127,8 @@ const Dashboard = () => {
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+ 
+ 
   const renderStudies = (studies) => {
     return studies.map((study) => (
       <Box>
@@ -203,15 +205,15 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
-          padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-          backgroundColor={'gray.100'}
-          borderRadius={'20px'}
-          backgroundSize="cover"
-          backgroundPosition="center"
-          overflowY="scroll"
-          overflowX="hidden"
-          maxH={'40em'}
+        <Box 
+        margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
+        padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
+        backgroundColor={'gray.100'}
+        borderTopLeftRadius={'20px'}
+        backgroundSize="cover"
+        backgroundPosition="center"
+        overflowY="hidden"
+        overflowX={{lg:"hidden",sm:"auto"}}
         >
           <Box padding={'2%'} >
             <Heading
@@ -220,15 +222,31 @@ const Dashboard = () => {
               Informes terminados
             </Heading>
             <Box
-              width={'100%'}
+              width={"100%"}
               m={"20px 30px 30px 10px"}
-              backgroundColor={'#FFFF'}
+              backgroundColor={"#FFFF"}
               boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
               padding={"25px"}
               borderRadius="20px"
-              minH={'300px'} maxH={'300px'}
-              overflowY="scroll"
+              minH={"300px"}
+              maxH={"300px"}
+              overflowY="auto"
               overflowX="hidden"
+              border="1px solid #ccc"
+              sx={{
+                "&::-webkit-scrollbar": {
+                  width: "8px",
+                  borderRadius: "8px",
+                  backgroundColor: "#f5f5f5",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#888",
+                  borderRadius: "5px",
+                },
+                "&::-webkit-scrollbar-thumb:hover": {
+                  background: "#555",
+                },
+              }}
             >
               <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
                 <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
@@ -242,16 +260,31 @@ const Dashboard = () => {
               Informes en proceso
             </Heading>
             <Box
-              width={'100%'}
-              m={"20px 30px 30px 10px"}
-              backgroundColor={'#FFFF'}
-              boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-              padding={"25px"}
-              borderRadius="20px"
-              minH={'300px'}
-              maxH={'300px'}
-              overflowY="auto"
-              overflowX="hidden"
+            width={"100%"}
+            m={"20px 30px 30px 10px"}
+            backgroundColor={"#FFFF"}
+            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            padding={"25px"}
+            borderRadius="20px"
+            minH={"300px"}
+            maxH={"300px"}
+            overflowY="auto"
+            overflowX="hidden"
+            border="1px solid #ccc"
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "8px",
+                borderRadius: "8px",
+                backgroundColor: "#f5f5f5",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#888",
+                borderRadius: "5px",
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                background: "#555",
+              },
+            }}
             >
               <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
                 <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>

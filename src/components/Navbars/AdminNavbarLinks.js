@@ -46,21 +46,24 @@ import { handleTokenRefresh } from "api/controllers/token";
 import MainContext from "context/mainContext/MainContext";
 
 
+
+
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
 
   const history = useHistory();
   const authContext = useContext(AuthContext);
 
-
   const handleLogout = () => {
+  
     window.localStorage.removeItem('access') // Elimina  de acceso
     window.localStorage.removeItem('refresh')
     window.localStorage.removeItem('newAcessToken')
     window.localStorage.removeItem('groups')
     //groups
-    history.push("../Auth/SignIn");
+    history.push("/Auth/SignIn");
   };
+  
 
    async function handleTokenRefresh() {
     // Verificar si hay un token de acceso almacenado en el LocalStorage
