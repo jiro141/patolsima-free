@@ -22,17 +22,16 @@ import { useGroups } from "hooks/Groups/useGroups";
 import { useEffect } from "react";
 
 const SidebarContent = ({ logoText, routes }) => {
- const {getGroups,groups,setgroups}=useGroups()
+ const {getGroups,groups}=useGroups()
  useEffect(() => {
   const getUsersGroups=async()=>{
     getGroups()
-    const groups = await window.localStorage.getItem("groups");
-    setgroups(JSON.parse(groups))
   }
   getUsersGroups()
  }, [])
- const admin=groups[0]
- const patologo=groups[1]
+
+ const arrGroup=groups[0]
+ console.log(arrGroup)
  const both=groups
 
   const adminRoutes = routes.filter(
@@ -441,11 +440,11 @@ const SidebarContent = ({ logoText, routes }) => {
       <Box pt={"10px"} mb="5px">
         <Box margin={'50px 0 20px 0'}>
           <Separator></Separator>
-          <Text marginTop={'10px'} marginLeft={'13px'}>{groups=== both || groups===admin ? `Administración` : groups=== patologo ? 'Patologia' : ''}</Text>
+          <Text marginTop={'10px'} marginLeft={'13px'}>{arrGroup=== "administracion"? `Administración` : arrGroup=== "patologo" ? 'Patologia' : ''}</Text>
         </Box>
       </Box>
       <Stack direction="column" mb="40px">
-        <Box>{groups=== both ? linksAll : groups===admin ? linksAdmin : groups=== patologo ? linksPatology: ''} 
+        <Box>{arrGroup=== "patologo" ? linksPatology : arrGroup=== "administracion" ? linksAdmin : linksAll} 
         <Separator></Separator>
         </Box>
       </Stack>

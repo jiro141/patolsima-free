@@ -11,6 +11,7 @@ export function useGroups() {
       setloading(true);
       seterror(null);
       const groupList = await usersList();
+      setgroups(groupList)
       window.localStorage.setItem('groups', JSON.stringify(groupList));  
     } catch (error) {
       seterror(error.message);

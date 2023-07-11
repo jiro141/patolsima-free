@@ -57,6 +57,8 @@ export default function HeaderLinks(props) {
     window.localStorage.removeItem('access') // Elimina  de acceso
     window.localStorage.removeItem('refresh')
     window.localStorage.removeItem('newAcessToken')
+    window.localStorage.removeItem('groups')
+    //groups
     history.push("../Auth/SignIn");
   };
 
