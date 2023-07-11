@@ -19,7 +19,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 
 function Registro() {
-  const { activeTab, twoState, setTwoState,setActiveTab } = useContext(MainContext);
+  const { activeTab, twoState, setTwoState, setActiveTab } = useContext(MainContext);
   const { estudioID } = useContext(ModoVisualizacionContext);
   //tabs para los nombres
   //console.log(activeTab)
@@ -55,16 +55,16 @@ function Registro() {
     }
   );
 
-  const CustomTab = ({ title, isActive, isDisabled = false,onClick }) => {
-   
+  const CustomTab = ({ title, isActive, isDisabled = false}) => {
+
     return (
       <MotionTab
-      style={{
-        pointerEvents: isDisabled ? "none" : "auto",
-        opacity: isDisabled ? 0.5 : 1,
-        cursor: isDisabled ? "not-allowed" : "pointer",
-      }}
-      isActive={()=>console.log('is active')}
+        style={{
+          pointerEvents: isDisabled ? "none" : "auto",
+          opacity: isDisabled ? 0.5 : 1,
+          cursor: isDisabled ? "not-allowed" : "pointer",
+        }}
+        // isActive={() => console.log('is active')}
         margin="30px 5px 0 5px"
         border="none"
         bg={isActive ? "#9BC5D3" : "#9BC5D3"}
@@ -75,7 +75,7 @@ function Registro() {
             ? { md: "5px 80px", sm: "5px 60px", lg: "20px 200px" }
             : { lg: "15px" }
         }
-        
+
         fontSize={isActive ? "20px" : "0px"}
         width="50px"
         height="50px"
@@ -87,32 +87,31 @@ function Registro() {
       </MotionTab>
     );
   };
-  const CustomStudy2 = ({ title, isActive, activeTab,isDisabled = false  }) => {
-   // const isDisabled = activeTab === 0  ? true : false;
+  const CustomStudy2 = ({ title, isActive, activeTab, isDisabled = false }) => {
+    // const isDisabled = activeTab === 0  ? true : false;
     return (
       <div >
         <MotionTab
-       
-        margin="30px 5px 0 5px"
-        border="none"
-        bg={isActive ? "#9BC5D3" : "#9BC5D3"}
-        color={isActive ? "#FFFF" : "#2b6cb0"}
-        borderRadius={isActive ? "40px" : "45%"}
-        padding={
-          isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "15px" }
-        }
-        fontSize={isActive ? "20px" : "30px"}
-        width="50px"
-        height="50px"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 1 }}
-        isDisabled={isDisabled}
-        
-      >
-        {isActive ? title : activeTab == 2 ? "+" : null}
-      </MotionTab>
-        </div>
-      
+          margin="30px 5px 0 5px"
+          border="none"
+          bg={isActive ? "#9BC5D3" : "#9BC5D3"}
+          color={isActive ? "#FFFF" : "#2b6cb0"}
+          borderRadius={isActive ? "40px" : "45%"}
+          padding={
+            isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "15px" }
+          }
+          fontSize={isActive ? "20px" : "30px"}
+          width="50px"
+          height="50px"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 1 }}
+          isDisabled={isDisabled}
+
+        >
+          {isActive ? title : activeTab == 2 ? "+" : null}
+        </MotionTab>
+      </div>
+
     );
   };
   useEffect(() => {
@@ -120,11 +119,11 @@ function Registro() {
       console.log(activeTab);
       setActiveTab(0)
     }
-   
-    return ()=> {
+
+    return () => {
       setActiveTab(null)
       console.log(activeTab);
-      isMountedRef.current = false; 
+      isMountedRef.current = false;
     };
   }, []);
   return (
@@ -151,26 +150,25 @@ function Registro() {
         >
           <Tabs>
             <TabList isDisabled display={"flex"} justifyContent={"center"} border={"none"}>
-              <CustomTab 
-              title="Paciente"
-               isActive={activeTab === 0}
-               isDisabled={activeTab > 0  }
-               />
+              <CustomTab
+                title="Paciente"
+                isActive={activeTab === 0}
+                isDisabled={activeTab > 0}
+              />
               <CustomTab
                 title="Médico"
                 isActive={activeTab === 1}
-                isDisabled={activeTab === 0  }
+                isDisabled={activeTab === 0}
               />
               <CustomTab
                 title="Estudio"
                 isActive={activeTab === 2}
-                isDisabled={ activeTab < 2 &&  activeTab < 3}
+                isDisabled={activeTab < 2 && activeTab < 3}
               />
-             { <CustomStudy2
+              {<CustomStudy2
                 title="Estudio2"
-                isActive={activeTab === 3 }
-                
-                isDisabled={ activeTab < 3 }
+                isActive={activeTab === 3}
+                isDisabled={activeTab < 3}
               />}
             </TabList>
             <TabPanels>
@@ -181,7 +179,7 @@ function Registro() {
                     setRegistro={setRegistroSeleccionadoCliente}
                   />
                 )}
-                {activeTab === 1 && twoState==='post' &&(
+                {activeTab === 1 &&  (
                   <MedicoCardPostInitial
                     registro={resgistroSeleccionadoMedico}
                     setRegistro={setRegistroSeleccionadoMedico}
@@ -200,7 +198,7 @@ function Registro() {
                     <Muestra />
                   </Box>
                 )}
-                {activeTab === 3 &&(
+                {activeTab === 3 && (
                   <Box
                     backgroundColor={"#FFFF"}
                     boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
@@ -210,8 +208,8 @@ function Registro() {
                   >
                     <Muestra2 />
                   </Box>
-                ) }
-               
+                )}
+
               </TabPanel>
             </TabPanels>
           </Tabs>

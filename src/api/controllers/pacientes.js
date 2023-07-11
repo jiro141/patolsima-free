@@ -1,5 +1,6 @@
 //listar pacientes metodo get
 import Axios from "api/authApi";
+import { object } from "yup";
 
 
 export const getPacientesList = async (endpoint) => {
@@ -10,7 +11,7 @@ export const getPacientesList = async (endpoint) => {
         console.log(error.message);
     }
 }
-export const getPacientesListByCi = async ({searchci}) => {
+export const getPacientesListByCi = async ({ searchci }) => {
     try {
         const response = await Axios.get(`/v1/core/pacientes/?ci=${searchci}`)
         return response.data.results;
@@ -42,15 +43,17 @@ export const postPacientes = async (data) => {
 
 }
 //guardar pacietes metodo put
-export const putPacientes = async (id,registro) => {  
+export const putPacientes = async (id, registro) => {
     try {
-        const response = await Axios.put(`/v1/core/pacientes/${id}/`,registro) // para el put tambien tengo que enviar un body
+        const response = await Axios.put(`/v1/core/pacientes/${id.id}/`, registro);
         console.log(response.data);
-        return response.data
+        return response.data;
     } catch (error) {
         console.log(error.message);
     }
-}
+};
+
+
 
 //eliminar pacientes metodo delete 
 export const deletePaciente = async (id) => {

@@ -39,17 +39,25 @@ import { deleteMedico } from "api/controllers/medicos";
 import FilteredDataModal from "../Modals/FilteredDataModal";
 import { thValuesMedicos } from "mocks";
 import MainContext from "context/mainContext/MainContext";
+import { putMedicos } from "api/controllers/medicos";
 
 const MedicoCardPostInitial = ({
- 
   registro,
   setRegistro,
+  isLoading
 }) => {
   const { setFormValues,
-    setMedicoID,medicoID } = useContext(ModoVisualizacionContext);
-  const {activeTab, setActiveTab,setTwoState,twoState, setTwoStatee}=useContext(MainContext)
-
-  
+    setMedicoID, medicoID } = useContext(ModoVisualizacionContext);
+  const { activeTab, setActiveTab, setTwoState, twoState } = useContext(MainContext);
+  const [medicos, setMedicos] = useState("");
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [tabla, setTabla] = useState([]);
+  const [Busqueda, setBusqueda] = useState("");
+  const [medicoName, setMedicoName] = useState("");
+  // const [medicoID, setMedicoID] = useState("");
+  const [especialidad, setEspecialidad] = useState("");
+  //modal confirmacion eliminacion
+  const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const formik = useFormik({
     initialValues: {
       nombres: "",
@@ -59,39 +67,58 @@ const MedicoCardPostInitial = ({
       email: "",
     },
     onSubmit: async (formData, { resetForm }) => {
-      // se agregar resetForm para limpar los campos del formulario
-      try {
-        const guardarMedico = await postMedicos(formData);
-        //console.log(guardarMedico)
-        if (guardarMedico) {
-          setMedicoID(guardarMedico.id)
-          toast.success("¡El medico fue guardado correctamente!", {
-            autoClose: 1500,
-          });
-          setActiveTab(activeTab + 1)
-        } else {
-          toast.error("¡Hubo un error al guardar el medico!", {
-            autoClose: 1500,
-          });
+      if (twoState === 'post') {
+        try {
+          const guardarMedico = await postMedicos(formData);
+          if (guardarMedico) {
+            setMedicoID(guardarMedico.id)
+            toast.success("¡El medico fue guardado correctamente!", {
+              autoClose: 1500,
+            });
+            setActiveTab(activeTab + 1)
+          } else {
+            toast.error("¡Hubo un error al guardar el medico!", {
+              autoClose: 1500,
+            });
+          }
+          setFormValues(formData, "medico");
+        } catch (error) {
+          toast.error(error.message, { autoClose: 1000 });
         }
-        setFormValues(formData, "medico");
-      } catch (error) {
-        console.log(error);
       }
-      return;
+      if (twoState === 'put') {
+        try {
+          const guardarMedico = await putMedicos(formData);
+          console.log(guardarMedico);
+          if (guardarMedico) {
+            setMedicoID(guardarMedico.id)
+            toast.success("¡El medico fue guardado correctamente!", {
+              autoClose: 1500,
+            });
+            setActiveTab(activeTab + 1)
+          } else {
+            toast.error("¡Hubo un error al guardar el medico!", {
+              autoClose: 1500,
+            });
+            formik.resetForm()
+          }
+          setFormValues(formData, "medico");
+        } catch (error) {
+          toast.error(error.message, { autoClose: 1000 });
+        }
+      }
     },
   });
   //definicion de los valores a cargar
-  const [medicos, setMedicos] = useState("");
+
 
   //para la tabla flotante, modal es la terminologia para ventana flotante
-  const [mostrarModal, setMostrarModal] = useState(false);
+
   const toggleModal = () => {
     setMostrarModal(!mostrarModal);
   };
   //consultar los datos de la api, mostrarlos en la lista
-  const [tabla, setTabla] = useState([]);
-  const [Busqueda, setBusqueda] = useState("");
+
   //consulta los datos de la api, mediante el metodo axios debe ser una peticion asincrona (async)
   const peticionGet = async () => {
     try {
@@ -111,11 +138,7 @@ const MedicoCardPostInitial = ({
     filtrar(event.target.value);
   };
 
-  const [medicoName, setMedicoName] = useState("");
- // const [medicoID, setMedicoID] = useState("");
-  const [especialidad, setEspecialidad] = useState("");
-  //modal confirmacion eliminacion
-  const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+
 
   const toggleModalConfirmacion = (medico) => {
     setShowModalConfirmacion(!showModalConfirmacion);
@@ -157,8 +180,9 @@ const MedicoCardPostInitial = ({
     setMedicos(resultadoBusqueda);
   };
   const seleccionarRegistro = async (medico) => {
-    
+
     formik.setValues({
+      id: medico?.id,
       nombres: medico?.nombres,
       apellidos: medico?.apellidos,
       especialidad: medico?.especialidad,
@@ -169,7 +193,7 @@ const MedicoCardPostInitial = ({
       const medicosDetail = await getMedicosDetail(medico.id);
       setRegistro(medicosDetail);
       toggleModal(true);
-      setTwoState("put");
+      setTwoState('put');
     } catch (error) {
       console.log(error);
     }
@@ -259,11 +283,11 @@ const MedicoCardPostInitial = ({
         tBodyData={medicos}
         handleSelectTBody={seleccionarRegistro}
         handleSelectIcon={toggleModalConfirmacion}
-        //loading={loading}
+        // loading={loading}
         handleBusquedaChange={handleBusquedaChange}
       />
 
-      <SaveButton handleSubmit={formik.handleSubmit} />
+      <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
 
       <DeleteModal
         isOpen={showModalConfirmacion}

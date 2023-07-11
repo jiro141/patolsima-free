@@ -65,19 +65,20 @@ const Muestra = () => {
       notas: " ",
       urgente: false,
       envio_digital: false,
-      tipo: "CITOLOGIA_GINECOLOGICA",
+      tipo: "",
     },
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       //console.log(formData);
       const newObj = {
-        paciente_id: pacienteID,
+        paciente_id: pacienteID.id,
         medico_tratante_id: medicoID,
         patologo_id: null,
         ...formData,
       };
       try {
         const estudioPost = await postStudies(newObj);
+        console.log(newObj);
         if (estudioPost) {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
@@ -259,7 +260,7 @@ const Muestra = () => {
           size="lg"
           name="notas"
           borderRadius="md"
-          placeholder="notas"
+          placeholder="notas:"
           value={formik.values.notas}
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />

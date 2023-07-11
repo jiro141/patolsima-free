@@ -18,9 +18,9 @@ export default function AddMuestraForm() {
 
   const formik = useFormik({
     initialValues: {
-      tipo_de_muestra: "Tipo de muestra ",
-      descripcion: "Descripcion ",
-      notas: "Notas "
+      tipo_de_muestra: "",
+      descripcion: " ",
+      notas: ""
   
     },
     validateOnChange: false,

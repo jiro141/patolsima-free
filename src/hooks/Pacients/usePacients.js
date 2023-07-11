@@ -12,10 +12,10 @@ export function usePacients() {
       setloading(true);
       seterror(null);
       const pacientesList = await getPacientesList();
-      console.log(pacientesList)
+      // console.log(pacientesList)
       setpacients(pacientesList);
       setPacientesEstatico(pacientesList)
-      console.log(pacientesList);
+      // console.log(pacientesList);
     } catch (error) {
       seterror(error.message);
     } finally {

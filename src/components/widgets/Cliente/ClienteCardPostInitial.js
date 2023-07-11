@@ -25,14 +25,15 @@ import MainContext from "context/mainContext/MainContext";
 import Calendar from 'react-calendar';
 import { formatDate } from "helpers";
 import InputCalendar from "../Inputs/InputCalendar";
+import { putPacientes } from "api/controllers/pacientes";
 
-const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
+const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
     ModoVisualizacionContext
   );
-  
 
-  const {activeTab, setActiveTab,setTwoState,setOneState,oneState}=useContext(MainContext)
+
+  const { activeTab, setActiveTab, setTwoState, setOneState, oneState } = useContext(MainContext)
   const [mostrarModal, setMostrarModal] = useState(false);
   const [Busqueda, setBusqueda] = useState("");
   const [pacienteName, setPacienteName] = useState("");
@@ -63,10 +64,10 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
 
   const formik = useFormik({
     initialValues: {
-      ci:"",
+      ci: "",
       nombres: "",
       apellidos: "",
-     // fecha_nacimiento: '',
+      // fecha_nacimiento: '',
       direccion: "",
       email: "",
       telefono_fijo: " ",
@@ -79,7 +80,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
       //ci: Yup.string().required("La cedula es obligatoria"),
       telefono_celular: Yup.string().required("el telefono es obligatorio"),
       direccion: Yup.string().required("La direccion es obligatoria"),
-     
+
       sexo: Yup.string().required("el sexo es obligatorio"),
       email: Yup.string()
         .email("direccion de correo no valida")
@@ -87,47 +88,72 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      let dateformat=formatDate(date)
+      let dateformat = formatDate(date)
       let dateNew = dateformat.trim()
       console.log(typeof dateNew)
-      if(oneState==='post' && activeTab === 0){
-        const newObj={
+      if (oneState === 'post' && activeTab === 0) {
+        const newObj = {
           ...formData,
-          ci:searchci,
-          fecha_nacimiento:dateNew
+          ci: searchci,
+          fecha_nacimiento: dateNew
         }
-        console.log(newObj)
-          try {
-            const pacientePost = await postPacientes(newObj);
-            setFormValues(newObj,'paciente');
-            setPacienteID(pacientePost);
-           
-            if (pacientePost) {
-              toast.success("¡El paciente fue guardado correctamente!", {
-                autoClose: 1000,
-              });
-              setActiveTab(activeTab + 1)
-              setTwoState('post')
-            } 
-            else
-            
-            {
-              toast.error("¡Hubo un error al guardar el paciente!", {
-                autoClose: 1000,
-              });
-              formik.resetForm()
-            }
-            getPacients();
-          } catch (error) {
-            toast.error(error.message, { autoClose: 1000 });
+        try {
+          const pacientePost = await postPacientes(newObj);
+          setFormValues(newObj, 'paciente');
+          setPacienteID(pacientePost);
+
+          if (pacientePost) {
+            toast.success("¡El paciente fue guardado correctamente!", {
+              autoClose: 1000,
+            });
+            setActiveTab(activeTab + 1)
+            setTwoState('post')
           }
-         // return;
+          else {
+            toast.error("¡Hubo un error al guardar el paciente!", {
+              autoClose: 1000,
+            });
+            formik.resetForm()
+          }
+          getPacients();
+        } catch (error) {
+          toast.error(error.message, { autoClose: 1000 });
         }
-        if(oneState =='put'){
-          console.log('putttt')
+        // return;
+      }
+      if (oneState == 'put') {
+        const Obj = {
+          ...formData,
+          fecha_nacimiento: dateNew,
+        }
+        const id = {
+          id:formData.id
+        }
+        try {
+          const pacientePost = await putPacientes(id,Obj);
+          setFormValues(Obj, 'paciente');
+          setPacienteID(pacientePost);
+
+          if (pacientePost) {
+            toast.success("¡El paciente fue guardado correctamente!", {
+              autoClose: 1000,
+            });
+            setActiveTab(activeTab + 1)
+            setTwoState('post')
+          }
+          else {
+            toast.error("¡Hubo un error al guardar el paciente!", {
+              autoClose: 1000,
+            });
+            formik.resetForm()
+          }
+          getPacients();
+        } catch (error) {
+          toast.error(error.message, { autoClose: 1000 });
         }
       }
-    
+    }
+
 
 
 
@@ -141,11 +167,13 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
   const handleSelectSearch = () => {
     if (pacientsByCi.length > 0) {
       const mapped = pacientsByCi.map((data, i) => ({
+        id: data.id,
         ci: data.ci,
         nombres: data.nombres,
         apellidos: data.apellidos,
         email: data.email,
         tlf: data.telefono_celular,
+        sexo:data.sexo
       }));
 
       formik.setValues({
@@ -154,6 +182,8 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
         apellidos: mapped[0].apellidos,
         email: mapped[0].email,
         telefono_celular: mapped[0].tlf,
+        email:mapped[0].email,
+        sexo:mapped[0].sexo
       });
       setSelectSearch(true);
       setOneState('put')
@@ -173,15 +203,16 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
     filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
-    
+
     formik.setValues({
-      ci:paciente.ci,
+      id: paciente.id,
+      ci: paciente.ci,
       nombres: paciente.nombres,
       apellidos: paciente.apellidos,
       fecha_nacimiento: paciente.fecha_nacimiento,
       direccion: paciente.direccion,
       email: paciente.email,
-      telefono_fijo:paciente.telefono_fijo,
+      telefono_fijo: paciente.telefono_fijo,
       telefono_celular: paciente.telefono_celular,
       sexo: paciente.sexo,
     });
@@ -257,7 +288,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
           <Text
             fontSize={"20px"}
             textAlign={'left'}
-            
+
             margin={'5px'}
             padding={'5px'}
             color={"gray.600"}
@@ -267,42 +298,33 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
           <Grid
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}
-            
+
           >
-           
-             
-           
-              {oneState==='put' && 
+            {oneState === 'put' &&
               <InputOverall
-              name="ci"
-              value={formik.values.ci}
-              placeholder="Cedula de identidad"
-              onChange={(e) =>
-                formik.setFieldValue("ci", e.target.value)
-              }
-              errors={formik.errors.ci}
-            /> 
-              }
+                name="ci"
+                value={formik.values.ci}
+                placeholder="Cedula de identidad"
+                onChange={(e) =>
+                  formik.setFieldValue("ci", e.target.value)
+                }
+                errors={formik.errors.ci}
+              />
+            }
+            {oneState === 'post' &&
+              <InputAutoComplete
+                // name={"ci"}
+                searchValue={searchci}
+                onChange={handleChangeCi}
+                resultSearch={pacientsByCi}
+                errors={errorci}
+                loading={loadingpacientsByCi}
+                placeholder={"Cedula de identidad"}
+                handleSelectSearch={handleSelectSearch}
+                selectSearch={selectSearch}
 
-              {oneState==='post' &&
-                 <InputAutoComplete
-                 // name={"ci"}
-                  searchValue={searchci}
-                  onChange={handleChangeCi}
-                  resultSearch={pacientsByCi}
-                  errors={errorci}
-                  loading={loadingpacientsByCi}
-                  placeholder={"Cedula de identidad"}
-                  handleSelectSearch={handleSelectSearch}
-                  selectSearch={selectSearch}
-                  
-                />
-              }
-
-              
-              
-         
-            
+              />
+            }
             <InputSelector
               name="sexo"
               errors={formik.errors.sexo}
@@ -342,7 +364,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}
           >
-           {/* <InputOverall
+            {/* <InputOverall
               name="fecha_nacimiento"
               value={date}
               placeholder="Fecha de Nacimiento (AAAA-MM-DD): "
@@ -352,9 +374,6 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
               //handleClick={()=>console.log('clik')}
             /> */}
             <InputCalendar onOpenCalendar={onOpenCalendar} value={date} onChange={handleDateChange} setOpenCalendar={setOpenCalendar} />
-            
-             
-            
             <InputOverall
               name="direccion"
               value={formik.values.direccion}
@@ -366,7 +385,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
             />
           </Grid>
           <Text
-          textAlign={'left'}
+            textAlign={'left'}
             fontSize={"20px"}
             margin={'5px'}
             padding={'5px'}
@@ -396,7 +415,7 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
               errors={formik.errors.telefono_celular}
             />
           </Grid>
-        
+
         </form>
       }
       <FilteredDataModal
@@ -420,11 +439,11 @@ const ClienteCardPostInitial = ({  setRegistro, isLoading }) => {
         nombres={pacienteName}
       />
       <div style={{}}>
-      <ShowMoreButton handleClick={toggleModal} />
-      <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
+        <ShowMoreButton handleClick={toggleModal} />
+        <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
       </div>
-      
-      
+
+
     </Box>
   );
 };

@@ -30,10 +30,10 @@ export const postMedicos = async (formData) => {
     }
 }
 //guardar pacietes metodo put
-export const putMedicos = async (id,registro) => {
+export const putMedicos = async (formData) => {
     try {
-        const response = await Axios.put(`/v1/core/medicos/${id}/`,registro)
-       console.log(response);
+        const response = await Axios.put(`/v1/core/medicos/${formData.id}/`,formData)
+        return response.data;
     } catch (error) {
         console.log(error);
     }
