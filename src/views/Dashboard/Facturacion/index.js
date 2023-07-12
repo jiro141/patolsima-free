@@ -258,9 +258,11 @@ const handleDeleteFact = async(facturaIdDelete)=>{
           
           <>
          
-          <CardOverall_ title={'Sin confirmar'} content={facturasNoConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading}/>
+          <CardOverall_ title={'Sin confirmar'} content={facturasNoConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading} type='other' />
 
-           <CardOverall_ title={'Pendientes de pago'} content={facturasConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading} />
+           <CardOverall_ title={'Pendientes de pago'} content={facturasConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading}
+           type='other'
+           />
            </>
            
            : 

@@ -155,7 +155,7 @@ export default function CardOverall_({
               <NotFound desc={"No se encontraron los resultados"} />
             </>
           )}
-          {content.length === 0 && !loading && (
+          {content.length === 0 && type==='other' && !loading && (
             <>
               <NotFound desc={"No se encontraron los resultados"} />
             </>
