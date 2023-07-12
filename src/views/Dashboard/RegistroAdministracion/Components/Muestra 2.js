@@ -53,7 +53,7 @@ const Muestra2 = () => {
 
 
   const fileInputRef = useRef(null);
-
+  const [selectedFile, setSelectedFile] = useState(null);
   const formik = useFormik({
     initialValues: {
       tipo: "CITOLOGIA_GINECOLOGICA",
@@ -81,6 +81,15 @@ const Muestra2 = () => {
   });
 
   const uniqueId = generateUniqueId();
+  //const fileInputRef = useRef(null);
+ 
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  const handleUpload = async() => {
+    fileInputRef.current.click();
+   
+  };
 
   return (
     <>
