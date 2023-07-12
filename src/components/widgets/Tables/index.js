@@ -10,10 +10,11 @@ import {
   Tbody,
 } from "@chakra-ui/react";
 import { BsFillTrashFill } from "react-icons/bs";
+import { formatDate } from "helpers";
 
 export function TH({ thData }) {
   return (
-    <Tr >
+    <Tr>
       {thData.map((item, index) => (
         <Th borderRadius="none"
 
@@ -221,28 +222,30 @@ export function TRF({
           <Link
             paddingX={"10px"}
             as="td"
+            style={{fontSize:'13px'}}
            // margin={"10px"}
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
             onClick={() => handleSelectTBody(bills)}
           >
-             {bills.fecha_recepcion}
+             {formatDate(bills.fecha_recepcion)}
            
           </Link>
           <Link
             paddingX={"10px"}
             as="td"
+            style={{fontSize:'13px'}}
            // margin={"10px"}
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
             onClick={() => handleSelectTBody(bills)}
           >
-             {bills.fecha_impresion}
+             {bills.fecha_impresion ? formatDate(bills.fecha_impresion) : ''}
           </Link>
           <Link
-            paddingX={"10px"}
+            //paddingX={"10px"}
             as="td"
            // margin={"10px"}
             borderRadius="none"
@@ -250,10 +253,11 @@ export function TRF({
             borderBottomColor="gray.500"
             onClick={() => handleSelectTBody(bills)}
           >
-            {bills.cliente.razon_social}
+            
+            {  bills.cliente.razon_social.length > 17 ? bills.cliente.razon_social.substring(0, 17) + '...': bills.cliente.razon_social }
           </Link>
           <Link
-            paddingX={"10px"}
+           // paddingX={"10px"}
             as="td"
             margin={"10px"}
             borderRadius="none"
@@ -263,28 +267,7 @@ export function TRF({
           >
            {bills.cliente.ci_rif}
           </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-            {bills.cliente.email}
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-            {bills.total_bs}
-          </Link>
+         
           <Link
             paddingX={"10px"}
             as="td"
@@ -295,6 +278,18 @@ export function TRF({
             onClick={() => handleSelectTBody(bills)}
           >
             {bills.total_usd}
+            
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+           {bills.total_bs}
           </Link>
           <Link
             paddingX={"10px"}

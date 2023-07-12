@@ -1,15 +1,11 @@
 import { getFacturasList } from "api/controllers/facturas";
-import { getCambio } from "api/controllers/tazaDia";
-import MainContext from "context/mainContext/MainContext";
-import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
 
-export function useSearchFacturas() {
+export function useSearchFacturas() { 
 
   const [searchFacturas, setSearchFacturas] = useState([]);
   const [staticFacturas, setStaticFacturas] = useState([]);
-
-  const [loading, setloading] = useState(false);
+  const [loadingSF, setloading] = useState(false);
   const [error, seterror] = useState(false);
 
 
@@ -30,5 +26,5 @@ export function useSearchFacturas() {
   
  
 
-  return {getSearchFacturas };
+  return {getSearchFacturas,loadingSF,searchFacturas,staticFacturas,error,setSearchFacturas };
 }

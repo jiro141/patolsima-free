@@ -3,17 +3,12 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import AuthProvider from "context/authContext/AuthProvider";
 import ProtectedRoute from "ProtectedRoute/ProtectedRoute";
-import { handleTokenRefresh } from "api/controllers/token";
 import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
-import { useHistory, useLocation } from "react-router-dom";
 import { MainContextProvider } from "context/mainContext/MainContext";
 
 function App() {
-  
-
-
-  return (
+ return (
     <AuthProvider>
       <MainContextProvider>
         <BrowserRouter>

@@ -25,6 +25,7 @@ export const selectorOptionsGenders = [
     { value: 'RIF/CI'},
     { value: 'Monto ($)'},
     { value: 'Monto(Bs)'},
+    { value: ' '},
   ];
 
   export const typeStudies = [

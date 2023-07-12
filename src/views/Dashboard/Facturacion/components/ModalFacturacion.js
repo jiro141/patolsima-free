@@ -21,6 +21,7 @@ import { getFacturasDetail } from "api/controllers/facturas";
 import { studiesDetail } from "api/controllers/estudios";
 import { postConfirmar } from "api/controllers/facturas";
 import { putMonto } from "api/controllers/facturas";
+import { generateUniqueId } from "helpers";
 
 
 
@@ -35,7 +36,7 @@ const ModalFacturacion = ({ study }) => {
             monto_usd: "",
         }
     );
-    console.log(facturasDetail);
+    //console.log(facturasDetail);
     const datosModal = async () => {
         try {
             const facturasDetail = await getFacturasDetail(study.id);
@@ -46,7 +47,8 @@ const ModalFacturacion = ({ study }) => {
             console.log(error);
         }
     }
-    console.log(itemOrden);
+   // console.log(itemOrden);
+  // console.log(facturasDetail.balance);
     useEffect(() => {
         datosModal();
     }, []);
@@ -65,7 +67,8 @@ const ModalFacturacion = ({ study }) => {
 
     const confirmar = async () => {
         try {
-            const confirmarFactura = await postConfirmar(facturasDetail.id)
+            const confirmarFactura = await postConfirmar(facturasDetail?.id)
+            console.log(confirmarFactura)
         } catch (error) {
             console.log(error);
         }
@@ -110,12 +113,13 @@ const ModalFacturacion = ({ study }) => {
     const size = useBreakpointValue({ sm: "sm", lg: "xl", md: 'xs' });
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+    let newId= generateUniqueId()
     return (
         <>
             <Box marginTop={'-50px'}>
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
                     <Text margin={'5px'} color={'gray.900'} fontSize={'20px'} >Datos de factura</Text>
-                    <Text margin={'18px'} textAlign={{ lg: 'right', sm: 'left' }} color={'gray.500'} fontSize={'20px'} >Recibo N  nnnnnn</Text>
+                    <Text margin={'18px'} textAlign={{ lg: 'right', sm: 'left' }} color={'gray.500'} fontSize={'20px'} >Recibo N { `${newId}`}</Text>
                 </Grid>
                 <Grid templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                     <Box>
@@ -292,11 +296,11 @@ const ModalFacturacion = ({ study }) => {
                         <Box margin={'10px'}>
                             <Text margin={'5px'} fontSize={'20px'}>Abonado</Text>
                             {facturasDetail ? (
-                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance.pagado_usd} $</Text>
+                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance?.pagado_usd} $</Text>
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>)}
                             {facturasDetail ? (
-                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance.pagado_bs} Bs</Text>
+                                <Text fontSize={'14px'} marginTop={'5px'}>{facturasDetail.balance?.pagado_bs} Bs</Text>
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>)}
                         </Box>
@@ -305,19 +309,23 @@ const ModalFacturacion = ({ study }) => {
                         <Box margin={'10px'}>
                             <Text margin={'5px'} fontSize={'20px'}>Total</Text>
                             {facturasDetail ? (
-                                <Text fontSize={'14px'}>{facturasDetail.balance.total_usd} $</Text>
+                                <Text fontSize={'14px'}>{facturasDetail.balance?.total_usd} $</Text>
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>
                             )}
                             {facturasDetail ? (
-                                <Text fontSize={'14px'}>{facturasDetail.balance.total_bs} Bs</Text>
+                                <Text fontSize={'14px'}>{facturasDetail.balance?.total_bs} Bs</Text>
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>
                             )}
                         </Box>
                     </Box>
                 </Grid>
-                <Button
+              { 
+             facturasDetail && facturasDetail.balance?.total_bs > 0 ?
+              <>
+              
+               <Button
                     marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                     marginLeft={'1%'}
                     borderRadius={'20px'}
@@ -334,6 +342,10 @@ const ModalFacturacion = ({ study }) => {
                     onClick={toggleModalAbonar}>
                     Abonar
                 </Button>
+                </> : ''
+                }
+
+
                 <Button
                     marginBottom={{ lg: '-3.5%', md: '-5%', sm: '-10%' }}
                     marginLeft={{ lg: '85%', md: '85%', sm: '75%' }}
@@ -341,7 +353,7 @@ const ModalFacturacion = ({ study }) => {
                     bgColor={'#137797'}
                     color='#ffff'
                     onClick={() => {
-                        toggleModalConfirmacion();
+                        //toggleModalConfirmacion();
                         confirmar();
                     }}>
                     Confirmar
@@ -385,7 +397,7 @@ const ModalFacturacion = ({ study }) => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            <Modal
+           {/* <Modal
                 size={"sm"}
                 maxWidth='100%'
                 isOpen={showModalAbonar}
@@ -410,7 +422,7 @@ const ModalFacturacion = ({ study }) => {
                         <ModalAbonar close={toggleModalAbonar} onPagoIdChange={handlePagoIdChange} facturasDetail={facturasDetail} />
                     </ModalBody>
                 </ModalContent>
-            </Modal>
+            </Modal>*/}
         </>
     );
 }

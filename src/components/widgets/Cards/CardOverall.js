@@ -147,7 +147,7 @@ export default function CardOverall_({
                 sm: "repeat(1,1fr)",
               }}
             >
-              {renderStudies(content, toggleModal,colorA)}
+              { renderStudies(content, toggleModal,colorA) }
             </Grid>
           )}
           {content.length === 0 && type==='search' && (
@@ -155,6 +155,12 @@ export default function CardOverall_({
               <NotFound desc={"No se encontraron los resultados"} />
             </>
           )}
+          {content.length === 0 && !loading && (
+            <>
+              <NotFound desc={"No se encontraron los resultados"} />
+            </>
+          )}
+           
         </Box>
       </Box>
     </div>

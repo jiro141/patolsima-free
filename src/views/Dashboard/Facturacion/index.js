@@ -27,13 +27,23 @@ import { useFacturas } from "hooks/Facturas/useFacturas";
 import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 import CardOverall_ from "components/widgets/Cards/CardOverall";
 import MainContext from "context/mainContext/MainContext";
+import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
+import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
+import { thValuesFacturas } from "mocks";
+import DeleteModal from "components/widgets/Modals/DeleteModal";
+import { deleteOrden } from "api/controllers/facturas";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenFactssort,sethiddenFactssort,filteredFact } = useContext(MainContext);
+  const { hiddenFactssort } = useContext(MainContext);
   const colorA = '#137797';
+  const [Busqueda, setBusqueda] = useState("");
   const [study, setStudy] = useState([]);
+  const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+  const [facturaIdDelete, setfacturaIdDelete] = useState("");
+  const [pacienteName, setPacienteName] = useState("");
   const {facturas,getFacturas,getCambios,cambioDelDia,facturasConfirmadas,facturasNoConfirmadas,loading}=useFacturas()
+  const {getSearchFacturas,loadingSF,searchFacturas,staticFacturas,error,setSearchFacturas}=useSearchFacturas()
 
  // console.log(cambioDelDia)
   useEffect(() => {
@@ -41,7 +51,13 @@ const Dashboard = () => {
     getCambios();
   }, []);
 
-
+  const toggleModalConfirmacion = (factura) => {
+    setShowModalConfirmacion(!showModalConfirmacion);
+    setfacturaIdDelete(factura?.id)
+      setPacienteName(factura?.cliente?.razon_social)
+    
+    
+  };
 
  
 
@@ -86,12 +102,14 @@ const Dashboard = () => {
   // console.log(facturas.reduce);
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (study) => {
+    
     setShowModal(!showModal);
     setStudy(study);
   };
 
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
+   getSearchFacturas()
     setShowModalList(!showModalList);
   };
   //tamaños de modal
@@ -168,8 +186,32 @@ const Dashboard = () => {
       </Link >
     ));
   };
-
-
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    setBusqueda(query);
+    filtrar(query);
+  };
+  const filtrar = (terminoBusqueda) => {
+    let resultadoBusqueda = staticFacturas.filter((elemento) => {
+        if (elemento.cliente.razon_social.toLowerCase().includes(terminoBusqueda.toLowerCase())
+            ||
+            elemento.cliente.ci_rif.toString().includes(terminoBusqueda)
+        ) {
+            return elemento;
+        }
+    });
+    setSearchFacturas(resultadoBusqueda);
+}
+const handleDeleteFact = async(facturaIdDelete)=>{
+  try {
+    await deleteOrden(facturaIdDelete);
+    setSearchFacturas(searchFacturas.filter((p) => p.id !== facturaIdDelete));
+    setShowModalConfirmacion(!showModalConfirmacion);
+  } catch (error) {
+    //toast.error(error.message, { autoClose: 1000 });
+  }
+}
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
@@ -207,14 +249,17 @@ const Dashboard = () => {
             </Box>
           </Box>
 
-          
+
           <Box marginTop={'-15px'} padding={'2%'} >
          
           {
           
           hiddenFactssort ?
+          
           <>
+         
           <CardOverall_ title={'Sin confirmar'} content={facturasNoConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading}/>
+
            <CardOverall_ title={'Pendientes de pago'} content={facturasConfirmadas} toggleModal={toggleModal} colorA={colorA} loading={loading} />
            </>
            
@@ -264,7 +309,7 @@ const Dashboard = () => {
         </Modal>
 
 
-        <Modal
+       {/* <Modal
           size={sizeView}
           maxWidth='100%'
           isOpen={showModalList}
@@ -289,7 +334,28 @@ const Dashboard = () => {
               <ListaFacturas />
             </ModalBody>
           </ModalContent>
-        </Modal>
+        </Modal>*/}
+
+<DeleteModal
+        isOpen={showModalConfirmacion}
+        onClose={toggleModalConfirmacion}
+        id={facturaIdDelete}
+        close={toggleModalConfirmacion}
+        eliminar={handleDeleteFact}
+        nombres={pacienteName}
+      />
+<FilteredDataModal 
+isOpenModal={showModalList}
+ isToggleModal={toggleModalList}
+ Busqueda={Busqueda}
+ handleBusquedaChange={handleBusquedaChange}
+ thData={thValuesFacturas}
+ tBodyData={searchFacturas}
+ handleSelectIcon={toggleModalConfirmacion}
+ type="facturas"
+ />
+
+
       </>) : (<ModoLista />)
   );
 };

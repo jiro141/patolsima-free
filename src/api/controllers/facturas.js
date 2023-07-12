@@ -32,7 +32,7 @@ export const postOrdenes= async (data) => {
 export const putFacturaTerceros= async (id,data) => {
     try {
         const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`,data)
-        // return response.data;
+         return response.data;
     } catch (error) {
         console.log(error);
     }
@@ -46,12 +46,22 @@ export const postAbonar= async (data) => {
         console.log(error);
     }
 }
+//delete orden
+export const deleteOrden= async (id) => {
+    try {
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}`)
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 //confirmar
 export const postConfirmar= async (id) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/confirmar/`)
         console.log(response);
-        // return response.data;
+         return response.data;
     } catch (error) {
         console.log(error);
     }
