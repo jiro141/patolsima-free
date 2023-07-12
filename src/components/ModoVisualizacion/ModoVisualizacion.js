@@ -9,7 +9,7 @@ export function ModoVisualizacionProvider({ children }) {
   const [pacienteID, setPacienteID] = useState('');
   const [medicoID, setMedicoID] = useState('');
   const [estudioID, setEstudioID] = useState('');
-  const [estudioIds, setEstudioIds] = useState([]);
+  const [estudioId2, setEstudioId2] = useState([]);
   const [muestraID, setMuestraID] = useState('');
 
   const setFormEstudioIds=(values)=>{
@@ -53,7 +53,7 @@ export function ModoVisualizacionProvider({ children }) {
         muestraID,
         setMuestraID,
         setFormEstudioIds,
-        estudioIds, setEstudioIds
+        estudioId2, setEstudioId2
       }}
     >
       {children}

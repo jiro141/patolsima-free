@@ -106,7 +106,9 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
-            setActiveTab(activeTab + 1)
+           setActiveTab(activeTab + 1)
+           console.log(activeTab)
+           //setActiveTab(1)
             setTwoState('post')
           }
           else {

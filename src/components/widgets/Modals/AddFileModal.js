@@ -12,10 +12,6 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import GeneralButton from "../Buttons/GeneralButton";
-import { useState } from "react";
-import { BsFolderPlus } from "react-icons/bs";
-import { postMuestraAdjunto } from "api/controllers/estudios";
-import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import { useContext } from "react";
 import MainContext from "context/mainContext/MainContext";
 
@@ -23,9 +19,6 @@ export default function AddFileModal({ isOpen, setOpenModal }) {
   const {
     activeTab,
     setActiveTab,
-    setTwoState,
-    twoState,
-    setTwoStatee,
   } = useContext(MainContext);
  // const [confirmDocument, setconfirmDocument] = useState(false);
 
