@@ -179,6 +179,8 @@ const MedicoCardPostInitial = ({
     });
     setMedicos(resultadoBusqueda);
   };
+  // iconname-->BsArrowRightCircle 
+  //nombre del label  saltar etapa
   const seleccionarRegistro = async (medico) => {
 
     formik.setValues({

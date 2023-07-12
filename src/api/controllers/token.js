@@ -63,7 +63,7 @@ import { useHistory  } from "react-router-dom";
 
 
 export const handleTokenRefresh=async()=>{
-  console.log('entrada ')
+
  // const history= useHistory();
 
   const fetchRefreshToken= async () => {
@@ -83,13 +83,11 @@ export const handleTokenRefresh=async()=>{
   const interval = setInterval(() => {
    
     fetchRefreshToken();
-    //handleLogout()
-   // window.localStorage.removeItem('access')
-  // window.localStorage.removeItem('refresh')
+    window.localStorage.removeItem('access')
+   window.localStorage.removeItem('refresh')
    //history.push("/Auth/SignIn");
-   //history.push("/Auth/SignIn");
-  console.log('ejecutaanddo')
-  },5000);
+
+  },2 * 60 * 60 * 1000);
   
  
   return () => clearInterval(interval);
