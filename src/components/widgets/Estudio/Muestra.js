@@ -21,16 +21,17 @@ import InputSelector from "../Inputs/InputSelector";
 import { typeStudies } from "mocks";
 import Switch_ from "../Switchs/Switch";
 import AddMuestraForm from "./AddMuestraForm";
-import GeneralButton from "../Buttons/GeneralButton";
+//import GeneralButton from "../Buttons/GeneralButton";
 import SaveButton from "../Buttons/SaveButton";
 import { generateUniqueId } from "helpers";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddFileModal from "../Modals/AddFileModal";
-import MainContext from "context/mainContext/MainContext";
+//import MainContext from "context/mainContext/MainContext";
 import { postOrdenes } from "api/controllers/facturas";
 import { postMuestraAdjunto } from "api/controllers/estudios";
 import { useHistory } from "react-router-dom";
+import SuccessModal from "../Modals/SuccessModal";
 
 const Muestra = () => {
   const {
@@ -41,10 +42,12 @@ const Muestra = () => {
     estudioID,
     muestraID,
     setEstudioID,
+    estudioId2
   } = useContext(ModoVisualizacionContext);
 
   //definicion de los valores a cargar
   const [openModal, setOpenModal] = useState(false);
+  const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
   
@@ -66,6 +69,10 @@ const Muestra = () => {
       envio_digital: false,
       tipo: "",
     },
+    validationSchema: Yup.object({
+      notas: Yup.string().required("El campo es obligatorio"),
+      tipo: Yup.string().required("El campo es obligatorio"),
+    }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       //console.log(formData);
@@ -77,7 +84,7 @@ const Muestra = () => {
       };
       try {
         const estudioPost = await postStudies(newObj);
-        console.log(newObj);
+        
         if (estudioPost) {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
@@ -100,7 +107,7 @@ const Muestra = () => {
 
   useEffect(() => {
    const sendOrden=async()=>{
-   if(estudioID && muestraID){
+   if(estudioID && muestraID && !estudioId2){
     const newOrden={
       estudio_ids: [estudioID]
     }
@@ -108,6 +115,14 @@ const Muestra = () => {
     console.log(postOrden)
     
    }
+  /* if(estudioId2){
+    const newOrden={
+      estudio_ids: [estudioID,estudioId2]
+    }
+    const postOrden =await postOrdenes(newOrden)
+    console.log(postOrden)
+    
+   }*/
    }
 
    sendOrden()
@@ -116,16 +131,7 @@ const Muestra = () => {
     }
   }, [estudioID])
 
-  useEffect(() => {
-    if(estudioID && muestraID){ 
-     // window.location.reload();
-    }
-   
-  
-    return () => {
-      
-    }
-  }, [])
+ 
   
 
   useEffect(() => {
@@ -142,8 +148,7 @@ const Muestra = () => {
         }
       }
     }
-    postDoc()
-  
+    postDoc() 
     return () => {}
   }, [estudioID])
   
@@ -277,10 +282,12 @@ const Muestra = () => {
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {estudioID && <AddMuestraForm />}
-        {estudioID && muestraID &&(
+        {estudioID && <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />}
+        {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} /> }
+       
+        {/*estudioID && muestraID &&(
           <AddFileModal isOpen={openModal} setOpenModal={setOpenModal} />
-        )}
+        )*/}
       </form>
 
       {!estudioID && (

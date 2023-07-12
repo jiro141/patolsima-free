@@ -10,7 +10,7 @@ import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualiza
 import SaveButton from '../Buttons/SaveButton';
 import GeneralButton from '../Buttons/GeneralButton';
 
-export default function AddMuestraForm() {
+export default function AddMuestraForm({setOpenModalSuccess}) {
   const { estudioID, setMuestraID,muestraID } = useContext(
     ModoVisualizacionContext
   );
@@ -40,7 +40,7 @@ export default function AddMuestraForm() {
           toast.success("¡La muestra fue creada con exito!", {
             autoClose: 1000,
           });
-         // history.push("/admin");
+          setOpenModalSuccess(true)
         }else{
           toast.error("¡Hubo un error al crear la muestra!", {
             autoClose: 1000,
