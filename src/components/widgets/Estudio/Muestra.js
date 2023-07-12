@@ -30,6 +30,7 @@ import AddFileModal from "../Modals/AddFileModal";
 import MainContext from "context/mainContext/MainContext";
 import { postOrdenes } from "api/controllers/facturas";
 import { postMuestraAdjunto } from "api/controllers/estudios";
+import { useHistory } from "react-router-dom";
 
 const Muestra = () => {
   const {
@@ -40,14 +41,12 @@ const Muestra = () => {
     estudioID,
     muestraID,
     setEstudioID,
-    estudioIds,
-    setEstudioIds,
   } = useContext(ModoVisualizacionContext);
 
   //definicion de los valores a cargar
   const [openModal, setOpenModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  
+  const history = useHistory();
   
   const fileInputRef = useRef(null);
  
@@ -71,7 +70,7 @@ const Muestra = () => {
     onSubmit: async (formData, { resetForm }) => {
       //console.log(formData);
       const newObj = {
-        paciente_id: pacienteID.id,
+        paciente_id: pacienteID,
         medico_tratante_id: medicoID,
         patologo_id: null,
         ...formData,
@@ -101,12 +100,13 @@ const Muestra = () => {
 
   useEffect(() => {
    const sendOrden=async()=>{
-   if(estudioID){
+   if(estudioID && muestraID){
     const newOrden={
       estudio_ids: [estudioID]
     }
     const postOrden =await postOrdenes(newOrden)
     console.log(postOrden)
+    
    }
    }
 
@@ -115,6 +115,18 @@ const Muestra = () => {
       
     }
   }, [estudioID])
+
+  useEffect(() => {
+    if(estudioID && muestraID){ 
+     // window.location.reload();
+    }
+   
+  
+    return () => {
+      
+    }
+  }, [])
+  
 
   useEffect(() => {
     const postDoc=async()=>{
@@ -266,7 +278,7 @@ const Muestra = () => {
         />
 
         {estudioID && <AddMuestraForm />}
-        {estudioID && (
+        {estudioID && muestraID &&(
           <AddFileModal isOpen={openModal} setOpenModal={setOpenModal} />
         )}
       </form>

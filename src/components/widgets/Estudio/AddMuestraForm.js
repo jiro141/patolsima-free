@@ -40,7 +40,7 @@ export default function AddMuestraForm() {
           toast.success("¡La muestra fue creada con exito!", {
             autoClose: 1000,
           });
-          
+         // history.push("/admin");
         }else{
           toast.error("¡Hubo un error al crear la muestra!", {
             autoClose: 1000,
