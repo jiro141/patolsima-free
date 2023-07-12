@@ -41,6 +41,10 @@ import { thValuesMedicos } from "mocks";
 import MainContext from "context/mainContext/MainContext";
 import { putMedicos } from "api/controllers/medicos";
 
+
+ // iconname-->BsArrowRightCircle 
+  //nombre del label  saltar etapa
+
 const MedicoCardPostInitial = ({
   registro,
   setRegistro,
@@ -179,8 +183,7 @@ const MedicoCardPostInitial = ({
     });
     setMedicos(resultadoBusqueda);
   };
-  // iconname-->BsArrowRightCircle 
-  //nombre del label  saltar etapa
+ 
   const seleccionarRegistro = async (medico) => {
 
     formik.setValues({

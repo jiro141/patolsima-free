@@ -54,6 +54,8 @@ const Muestra2 = () => {
 
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const formik = useFormik({
     initialValues: {
       tipo: "CITOLOGIA_GINECOLOGICA",
@@ -216,7 +218,7 @@ const Muestra2 = () => {
           <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />
         )}
         {openModalSuccess && (
-          <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />
+          <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} type='muestra2' />
         )}
       </form>
     </>
