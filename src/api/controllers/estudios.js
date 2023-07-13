@@ -40,8 +40,8 @@ export const postMuestraAdjunto = async (estudioIds,formData) => {
 
 export const studiesDetail = async (id) => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/${id}`)
-        // console.log(response.data);
+        const response = await Axios.get(`/v1/core/estudios/${11}`)
+         console.log(response.data);
         return response.data;
     } catch (error) {
         console.log(error);

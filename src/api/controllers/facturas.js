@@ -41,6 +41,7 @@ export const putFacturaTerceros= async (id,data) => {
 export const postAbonar= async (data) => {
     try {
         const response = await Axios.post(`/v1/facturacion/pagos/`,data)
+        console.log(response)
         return response.data;
     } catch (error) {
         console.log(error);
@@ -79,7 +80,7 @@ export const postNotaPago= async (id) => {
 export const putMonto= async (id,data) => {
     try {
         const response = await Axios.put(`/v1/facturacion/itemsorden/${id}/`,data)
-        return response;
+        return response.data;
     } catch (error) {
         console.log(error);
     }

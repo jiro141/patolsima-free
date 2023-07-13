@@ -18,7 +18,7 @@ import FacturaTerceros from "./FacturaTerceros";
 import { postAbonar } from "api/controllers/facturas";
 
 
-const ModalAbonar = ({ facturasDetail, onPagoIdChange,close }) => {
+const ModalAbonar = ({ facturasDetail, onPagoIdChange,close,setShowModalAbonar }) => {
     //modal
     // const [showModal, setShowModal] = useState(false);
     const [pagoId, setPagoId] = useState();
@@ -35,9 +35,10 @@ const ModalAbonar = ({ facturasDetail, onPagoIdChange,close }) => {
     const onSubmit = async () => {
         try {
             const pacientePut = await postAbonar(data)
-            // console.log(pacientePut);
+             console.log(pacientePut);
             setPagoId(pacientePut);
-            onPagoIdChange(pacientePut); // Llama a la función de callback con el valor de pagoId
+            onPagoIdChange(pacientePut); 
+            setShowModalAbonar(false);
         }
         catch (error) {
             console.log(error);
@@ -83,10 +84,7 @@ const ModalAbonar = ({ facturasDetail, onPagoIdChange,close }) => {
                     borderRadius={'20px'}
                     bgColor={'#137797'}
                     color='#ffff'
-                    onClick={() => {
-                        onSubmit();
-                        close();
-                    }}>
+                    onClick={onSubmit}>
                     Abonar
                 </Button>
             </Box>

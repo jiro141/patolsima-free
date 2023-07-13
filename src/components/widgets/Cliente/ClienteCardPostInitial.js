@@ -22,7 +22,6 @@ import debounce from "just-debounce-it";
 import InputAutoComplete from "../Inputs/InputAutoComplete";
 import { useEffect } from "react";
 import MainContext from "context/mainContext/MainContext";
-import Calendar from 'react-calendar';
 import { formatDate } from "helpers";
 import InputCalendar from "../Inputs/InputCalendar";
 import { putPacientes } from "api/controllers/pacientes";

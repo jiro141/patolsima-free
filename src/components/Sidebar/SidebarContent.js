@@ -430,9 +430,13 @@ const SidebarContent = ({ logoText, routes }) => {
         </Box>
       </Box>
       {loading ? (
-        <div className="centerLoader">
-          <CircularProgress value={20} size="80px" color="#137797" />
+        <Box margin={"50px 0 20px 0"}>
+           <Separator></Separator>
+<div className="centerLoader">
+          <CircularProgress value={20} size="30px" color="#137797"  />
         </div>
+        </Box>
+        
       ) : (
         <>
           <Box pt={"10px"} mb="5px">
