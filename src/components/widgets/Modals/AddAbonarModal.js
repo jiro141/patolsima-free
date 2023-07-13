@@ -34,7 +34,7 @@ export default function AddAbonarModal({
 
   const handleSubmit = async () => {
     const newObj = {
-      orden: idOrden,
+      orden: facturasDetail.id,
       monto_usd: valueInput,
     };
     console.log('heree endpoint')
