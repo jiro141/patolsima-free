@@ -41,9 +41,12 @@ import Switch_ from "components/widgets/Switchs/Switch";
 import AddMuestraForm from "components/widgets/Estudio/AddMuestraForm";
 import SuccessModal from "components/widgets/Modals/SuccessModal";
 import { generateUniqueId } from "helpers";
+import { postOrdenes } from "api/controllers/facturas";
 
 const Muestra2 = () => {
   const {
+    estudioID,
+    muestraID,
     dataPaciente,
     dataMedico,
     pacienteID,
@@ -52,29 +55,58 @@ const Muestra2 = () => {
   } = useContext(ModoVisualizacionContext);
 
 
-  const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  //definicion de los valores a cargar
   const [openModal, setOpenModal] = useState(false);
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  // const history = useHistory();
+
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  const handleUpload = async () => {
+    fileInputRef.current.click();
+
+  };
+  //carga de los datos del formulario
   const formik = useFormik({
     initialValues: {
-      tipo: "CITOLOGIA_GINECOLOGICA",
+      notas: " ",
       urgente: false,
       envio_digital: false,
-      patologo_id: null,
-      notas: "",
+      tipo: "",
     },
+    validationSchema: Yup.object({
+      notas: Yup.string().required("El campo es obligatorio"),
+      tipo: Yup.string().required("El campo es obligatorio"),
+    }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
+      //console.log(formData);
       const newObj = {
-        paciente_id: pacienteID,
-        medico_tratante_id: medicoID,
+        paciente_id: pacienteID.id,
+        medico_tratante_id: medicoID || null,
         patologo_id: null,
         ...formData,
       };
       try {
         const estudioPost = await postStudies(newObj);
-        setEstudioId2(estudioPost.id);
+
+        if (estudioPost) {
+          toast.success("¡El estudio fue creado con exito!", {
+            autoClose: 1000,
+          });
+
+          setEstudioID(estudioPost.id);
+
+          setOpenModal(true);
+        } else {
+          toast.error("¡Hubo un error al crear el estudio!", {
+            autoClose: 1000,
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -82,16 +114,34 @@ const Muestra2 = () => {
     },
   });
 
+  useEffect(() => {
+    const sendOrden = async () => {
+      if (estudioId2 && muestraID && !estudioID) {
+        const newOrden = {
+          estudio_ids: [estudioId2]
+        }
+        const postOrden = await postOrdenes(newOrden)
+        console.log(postOrden)
+
+      }
+      /* if(estudioId2){
+        const newOrden={
+          estudio_ids: [estudioID,estudioId2]
+        }
+        const postOrden =await postOrdenes(newOrden)
+        console.log(postOrden)
+        
+       }*/
+    }
+
+    sendOrden()
+    return () => {
+
+    }
+  }, [estudioId2])
+
   const uniqueId = generateUniqueId();
   //const fileInputRef = useRef(null);
- 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-  const handleUpload = async() => {
-    fileInputRef.current.click();
-   
-  };
 
   return (
     <>
@@ -104,21 +154,21 @@ const Muestra2 = () => {
             <Text marginBottom={"1.5%"} fontSize={"17px"}>
               Paciente
             </Text>
-            <Text>
+            <Badge>
               {dataPaciente.nombres} {dataPaciente.apellidos}
-            </Text>
+            </Badge>
             <Text marginY={"1.5%"} fontSize={"17px"}>
               Cédula de Identidad
             </Text>
-            <Text>{dataPaciente.ci}</Text>
+            <Badge>{dataPaciente.ci}</Badge>
           </Box>
           <Box>
             <Text marginBottom={"1.5%"} fontSize={"17px"}>
               Médico tratante
             </Text>
-            <Text>
+            <Badge>
               {dataMedico.nombres} {dataMedico.apellidos}
-            </Text>
+            </Badge>
           </Box>
         </Grid>
         <Grid
@@ -182,26 +232,14 @@ const Muestra2 = () => {
             onChange={(e) => formik.setFieldValue("urgente", e.target.checked)}
             label={"Urgente"}
           />
-          <FormControl
-            display="flex"
-            alignItems="center"
-            justifyContent={"center"}
-            marginTop={"5px"}
-          >
-            <input
-              type="file"
-              accept=".pdf"
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              ref={fileInputRef}
-            />
-            <FormLabel>
-              {selectedFile ? selectedFile.name : "Sube un archivo"}
-            </FormLabel>
+          {<FormControl display="flex" alignItems="center" justifyContent={'center'} marginTop={"5px"}>
+            <input type="file" accept=".pdf" onChange={handleFileChange}
+              style={{ display: 'none' }} ref={fileInputRef} />
+            <FormLabel>{selectedFile ? selectedFile.name : 'Sube un archivo'}</FormLabel>
             <Button type="button" onClick={handleUpload}>
               <BsFolderPlus color="#137797" />
             </Button>
-          </FormControl>
+          </FormControl>}
         </Grid>
 
         <Textarea
@@ -214,13 +252,14 @@ const Muestra2 = () => {
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {estudioId2 && (
-          <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />
-        )}
-        {openModalSuccess && (
-          <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} type='muestra2' />
-        )}
+        {estudioId2 && <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />}
+        {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
       </form>
+      {!estudioId2 && (
+        <Box w={"100%"} textAlign="end">
+          <SaveButton handleSubmit={handleSubmit} />
+        </Box>
+      )}
     </>
   );
 };
