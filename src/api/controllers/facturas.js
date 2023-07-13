@@ -85,3 +85,24 @@ export const putMonto= async (id,data) => {
         console.log(error);
     }
 }
+//Generar factura
+export const postFactura= async (id,data) => {
+    console.log(id,data)
+    try {
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`,data)
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//Generar Recibo
+export const postRecibo= async (id,data) => {
+    try {
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data)
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+

@@ -27,6 +27,8 @@ import { useFacturaDetail } from "hooks/Facturas/useFacturaDetail";
 import GeneralButton from "components/widgets/Buttons/GeneralButton";
 import { useFacturas } from "hooks/Facturas/useFacturas";
 import AddAbonarModal from "components/widgets/Modals/AddAbonarModal";
+import { postFactura } from "api/controllers/facturas";
+import { postRecibo } from "api/controllers/facturas";
 
 
 
@@ -41,6 +43,8 @@ const ModalFacturacion = ({ study }) => {
     loadingStudy}=useFacturaDetail({studyId:study.id})
   
     const [editing, setEditing] = useState(false);
+    const [pdfUrl, setPdfUrl] = useState('');
+
     const [pagoId,setPagoId]=useState();
     const [data, setData] = useState(
         {
@@ -129,7 +133,21 @@ const ModalFacturacion = ({ study }) => {
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId= generateUniqueId()
-
+console.log(facturasDetail)
+const generarFactura=async()=>{
+    const fact={
+        n_factura: newId
+    }
+  const resFact= await postFactura(facturasDetail.id,fact)
+  console.log(resFact)
+}
+const generarRecibo=async()=>{
+    const fact={
+        n_factura: 123456
+    }
+    const resRecibo= await postRecibo(study.id,fact)
+    console.log(resRecibo)
+  }
     return (
         <>
             <Box marginTop={'-50px'}>
@@ -448,10 +466,14 @@ const ModalFacturacion = ({ study }) => {
                     bgColor={'#137797'}
                     color='#ffff'
                    
-                    //onClick={()=>setShowModalAbonar(true)}
+                    onClick={generarRecibo}
                     >
                     Generar recibo
                 </Button>
+                <GeneralButton
+                text="Generar Factura"
+                 handleClick={generarFactura}
+                />
                 </Box> :
                 
                 <> 
@@ -478,10 +500,18 @@ const ModalFacturacion = ({ study }) => {
 
                
                 <Box marginLeft={{ lg: '85%', md: '85%', sm: '70%' }} marginBottom={{ lg: '-3.5%', md: '-5%', sm: '-10%' }}>
-                <GeneralButton
-                text="Confirmar"
-                 handleClick={confirmar}
-                />
+             
+            {facturasDetail?.confirmada===false ?
+
+            <GeneralButton
+            text="Confirmar"
+             handleClick={confirmar}
+            />
+        :
+        <Box style={{marginTop:'50px'}}>
+
+        </Box>
+        }
                 </Box>
                 
             </Box>
