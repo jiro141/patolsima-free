@@ -40,7 +40,7 @@ import FilteredDataModal from "../Modals/FilteredDataModal";
 import { thValuesMedicos } from "mocks";
 import MainContext from "context/mainContext/MainContext";
 import { putMedicos } from "api/controllers/medicos";
-
+import nextStation from "../Buttons/nextStation";
 
  // iconname-->BsArrowRightCircle 
   //nombre del label  saltar etapa
@@ -212,6 +212,7 @@ const MedicoCardPostInitial = ({
       borderRadius="20px"
       m={"1% 13% 5% 13%"}
     >
+      <nextStation/>
       <form>
         <Text fontSize={"20px"} margin="15px auto 30px auto" color={"gray.600"}>
           Información Personal
@@ -291,7 +292,7 @@ const MedicoCardPostInitial = ({
         // loading={loading}
         handleBusquedaChange={handleBusquedaChange}
       />
-
+      
       <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
 
       <DeleteModal
