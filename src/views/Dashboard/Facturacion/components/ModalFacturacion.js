@@ -29,10 +29,13 @@ import { useFacturas } from "hooks/Facturas/useFacturas";
 import AddAbonarModal from "components/widgets/Modals/AddAbonarModal";
 import { postFactura } from "api/controllers/facturas";
 import { postRecibo } from "api/controllers/facturas";
+import { Separator } from "components/Separator/Separator";
+import { postArchivar } from "api/controllers/facturas";
 
 
 
 const ModalFacturacion = ({ study }) => {
+    console.log(study)
    const { 
     getFacturasDetails,
     facturasDetail,
@@ -148,6 +151,15 @@ const generarRecibo=async()=>{
     const resRecibo= await postRecibo(study.id,fact)
     console.log(resRecibo)
   }
+  const handleArchivar=async()=>{
+   const resSendArchived= await postArchivar(study.id)
+   if(resSendArchived){
+    toast.success("¡Se archivo la factura correctamente!", {
+        autoClose: 1000,
+      });
+   }
+   console.log(resSendArchived)
+  }
     return (
         <>
             <Box marginTop={'-50px'}>
@@ -230,20 +242,43 @@ const generarRecibo=async()=>{
                                 <Text fontSize={'14px'}>Loading...</Text>
                             )}
                         </Box>
+                        
                     </Box>
+                    <Box margin={'5px'}>
+                            <Text fontSize={'16px'} >Estado del pago</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>
+                                    
+                                    {facturasDetail.pagada===false ?
+                                        
+                                        <Badge variant='subtle' colorScheme={"orange"}>
+                                         Pendiente
+                                        </Badge>
+                                        :
+                                        <Badge variant='subtle' colorScheme='green'>
+                                         Completado
+                                        </Badge>
+                                    }
+                                    </Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
+                        </Box>
                 </Grid>
 
-                <Button
-                    marginTop={'2px'}
-                    marginLeft={{ lg: '70%', md: '60%', sm: '40%' }}
+              {
+              <Button
+                    marginTop={'15px'}
+marginBottom={'10px'}
+                   // marginLeft={{ lg: '70%', md: '60%', sm: '40%' }}
                     borderRadius={'20px'}
                     bgColor={'#137797'}
                     color='#ffff'
                     onClick={() => toggleModal(study)}>
                     Factura para un tercero
-                </Button>
+                </Button>}
 
-
+                <Separator></Separator>
                 <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>
                 <Grid templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                     <Box>
@@ -357,9 +392,10 @@ const generarRecibo=async()=>{
                         </Box>
                     </Box>
                 </Grid>
-                <Grid margin={'10px'} templateColumns={{ lg: "repeat(4,1fr)", md: "repeat(4,1fr)", sm: "repeat(2,1fr)" }} >
-                    <Box>
-                        <Box margin={'10px'}>
+                
+                <Grid marginTop={'5px'} marginBottom={'3px'} marginLeft={'5px'} marginRight={'18px'} templateColumns={{ lg: "repeat(4,1fr)", md: "repeat(4,1fr)", sm: "repeat(2,1fr)" }} >
+                    <Box >
+                        <Box margin={'5px'}>
                             <Text margin={'5px'} fontSize={'20px'}>Monto</Text>
                             <Text fontSize={'14px'} marginTop={'5px'}>
                                 <Badge>
@@ -452,6 +488,7 @@ const generarRecibo=async()=>{
               <Box style={{border:'0px solid',}}>
               
               <Button
+              onClick={handleArchivar}
                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                     marginRight={'2%'}
                     borderRadius={'20px'}
@@ -478,6 +515,7 @@ const generarRecibo=async()=>{
                 
                 <> 
                   <Button
+                  onClick={handleArchivar}
                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                    marginRight={'2%'}
                     borderRadius={'20px'}
@@ -499,14 +537,17 @@ const generarRecibo=async()=>{
 
 
                
-                <Box marginLeft={{ lg: '85%', md: '85%', sm: '70%' }} marginBottom={{ lg: '-3.5%', md: '-5%', sm: '-10%' }}>
+                <Box marginLeft={{ lg: '85%', md: '85%', sm: '70%' }} 
+                marginBottom={{ lg: '-3.5%', md: '-2%', sm: '-10%' }}>
              
             {facturasDetail?.confirmada===false ?
-
+            <div style={{marginTop:'-55px'}}>
             <GeneralButton
-            text="Confirmar"
-             handleClick={confirmar}
-            />
+                        text="Confirmar"
+                        handleClick={confirmar}
+                        />
+            </div>
+            
         :
         <Box style={{marginTop:'50px'}}>
 

@@ -31,12 +31,19 @@ export const postOrdenes= async (data) => {
 //factura a terceros
 export const putFacturaTerceros= async (id,data) => {
     try {
-        const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`,data)
+        const response = await Axios.put(`/v1/facturacion/clientes/${id}/`,data)
          return response.data;
     } catch (error) {
         console.log(error);
     }
 }
+//facturas para terceros->
+
+//https://patolsima-api-19f65176eefa.herokuapp.com/v1/facturacion/clientes/idCliente/
+//patolsima-ordenes-metodos cliente
+//archivar orden no se pueden archivar ordenes que no esten pagas 
+
+//ordenes filtrar por 
 //abonar 
 export const postAbonar= async (data) => {
     try {
@@ -100,6 +107,16 @@ export const postFactura= async (id,data) => {
 export const postRecibo= async (id,data) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data)
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//Archivar orden
+export const postArchivar= async (id,data) => {
+    try {
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/archivar/`,{})
         return response.data;
     } catch (error) {
         console.log(error);

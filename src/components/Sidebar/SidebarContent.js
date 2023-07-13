@@ -452,14 +452,18 @@ const SidebarContent = ({ logoText, routes }) => {
             </Box>
           </Box>
           <Stack direction="column" mb="40px">
-           { <Box>
+           {/* <Box>
               {arrGroup === "patologo"
                 ? linksPatology
                 : arrGroup === "administracion"
                 ? linksAdmin
                 : linksAll}
               <Separator></Separator>
-            </Box>}
+            </Box>*/}
+             <Box>
+              {linksAll}
+              <Separator></Separator>
+            </Box>
           </Stack>
         </>
       )}
