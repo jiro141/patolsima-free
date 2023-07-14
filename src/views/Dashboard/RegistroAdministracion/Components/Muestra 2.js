@@ -53,7 +53,7 @@ const Muestra2 = () => {
     estudioId2,
     setEstudioId2,
   } = useContext(ModoVisualizacionContext);
-
+  console.log(estudioId2);
 
   //definicion de los valores a cargar
   const [openModal, setOpenModal] = useState(false);
@@ -99,7 +99,7 @@ const Muestra2 = () => {
             autoClose: 1000,
           });
 
-          setEstudioID(estudioPost.id);
+          setEstudioId2(estudioPost.id);
 
           setOpenModal(true);
         } else {
@@ -252,7 +252,8 @@ const Muestra2 = () => {
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {estudioId2 && <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />}
+        {estudioId2 && 
+        <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />}
         {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
       </form>
       {!estudioId2 && (
