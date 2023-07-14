@@ -64,7 +64,7 @@ const Muestra = () => {
   //carga de los datos del formulario
   const formik = useFormik({
     initialValues: {
-      notas: " ",
+      notas: null,
       urgente: false,
       envio_digital: false,
       tipo: "",
