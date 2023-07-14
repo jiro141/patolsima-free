@@ -25,7 +25,8 @@ import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Conf
 import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
 
 const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro }) => {
-    const { setFormValues } = useContext(ModoVisualizacionContext);
+    const { setFormValues, setMedicoID } = useContext(ModoVisualizacionContext);
+    console.log('estoy en post medico')
     const formik = useFormik({
         initialValues: {
             nombres: '',
@@ -34,7 +35,8 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
             telefono_celular: "",
             email: ""
         },
-        onSubmit: async (formData, { resetForm }) => { // se agregar resetForm para limpar los campos del formulario 
+        onSubmit: async (formData, { resetForm }) => { 
+            console.log(formData)
             try {
                 const guardarMedico = await postMedicos(formData);
                 // resetForm();
@@ -92,7 +94,7 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
     };
 
     const [medicoName, setMedicoName] = useState('');
-    const [medicoID, setMedicoID] = useState('');
+    //const [medicoID, setMedicoID] = useState('');
     const [especialidad, setEspecialidad] = useState('');
     //modal confirmacion eliminacion 
     const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);

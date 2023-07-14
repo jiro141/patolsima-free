@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { BsFillCheckCircleFill, BsFolderPlus } from "react-icons/bs";
 import MainContext from "context/mainContext/MainContext";
 
-export default function SuccessModal({ isOpen, setOpenModal }) {
+export default function SuccessModal({ isOpen, setOpenModal,type }) {
   const {
     activeTab,
     setActiveTab,
@@ -27,6 +27,9 @@ export default function SuccessModal({ isOpen, setOpenModal }) {
     window.location.reload();
   };
   const handleClose = () => {
+    if(type==='muestra2'){
+      //logica para resetear el form y agregar otra muestra
+    }
     setActiveTab(activeTab + 1)
     setOpenModal(false);
   };

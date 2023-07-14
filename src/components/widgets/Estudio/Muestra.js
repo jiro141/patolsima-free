@@ -50,17 +50,17 @@ const Muestra = () => {
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
-  
+
   const fileInputRef = useRef(null);
- 
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-  const handleUpload = async() => {
+  const handleUpload = async () => {
     fileInputRef.current.click();
-   
+
   };
- 
+
   //carga de los datos del formulario
   const formik = useFormik({
     initialValues: {
@@ -75,23 +75,24 @@ const Muestra = () => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      //console.log(formData);
+      
       const newObj = {
         paciente_id: pacienteID,
-        medico_tratante_id: medicoID,
+        medico_tratante_id: medicoID || null ,
         patologo_id: null,
         ...formData,
       };
+      console.log(newObj);
       try {
         const estudioPost = await postStudies(newObj);
-        
+
         if (estudioPost) {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
           });
 
           setEstudioID(estudioPost.id);
-          
+
           setOpenModal(true);
         } else {
           toast.error("¡Hubo un error al crear el estudio!", {
@@ -106,53 +107,53 @@ const Muestra = () => {
   });
 
   useEffect(() => {
-   const sendOrden=async()=>{
-   if(estudioID && muestraID && !estudioId2){
-    const newOrden={
-      estudio_ids: [estudioID]
-    }
-    const postOrden =await postOrdenes(newOrden)
-    console.log(postOrden)
-    
-   }
-  /* if(estudioId2){
-    const newOrden={
-      estudio_ids: [estudioID,estudioId2]
-    }
-    const postOrden =await postOrdenes(newOrden)
-    console.log(postOrden)
-    
-   }*/
-   }
+    const sendOrden = async () => {
+      if (estudioID && muestraID && !estudioId2) {
+        const newOrden = {
+          estudio_ids: [estudioID]
+        }
+        const postOrden = await postOrdenes(newOrden)
+        console.log(postOrden)
 
-   sendOrden()
+      }
+      /* if(estudioId2){
+        const newOrden={
+          estudio_ids: [estudioID,estudioId2]
+        }
+        const postOrden =await postOrdenes(newOrden)
+        console.log(postOrden)
+        
+       }*/
+    }
+
+    sendOrden()
     return () => {
-      
+
     }
   }, [estudioID])
 
- 
-  
+
+
 
   useEffect(() => {
-    const postDoc=async()=>{
+    const postDoc = async () => {
       if (selectedFile) {
         const formData = new FormData();
         formData.append("file", selectedFile);
-  
+
         try {
-        const resAdjunto= await postMuestraAdjunto(estudioID,formData)
-        console.log(resAdjunto)
+          const resAdjunto = await postMuestraAdjunto(estudioID, formData)
+          console.log(resAdjunto)
         } catch (error) {
           console.log(error)
         }
       }
     }
-    postDoc() 
-    return () => {}
+    postDoc()
+    return () => { }
   }, [estudioID])
-  
-  
+
+
 
   const uniqueId = generateUniqueId();
   const handleSubmit = () => {
@@ -263,14 +264,14 @@ const Muestra = () => {
             label={"Urgente"}
           />
 
-          { <FormControl display="flex" alignItems="center" justifyContent={'center'} marginTop={"5px"}>
-              <input type="file" accept=".pdf" onChange={handleFileChange} 
-               style={{ display: 'none' }} ref={fileInputRef}/>
-                <FormLabel>{selectedFile ? selectedFile.name : 'Sube un archivo'}</FormLabel>
-              <Button type="button" onClick={handleUpload}>
-                <BsFolderPlus color="#137797" />
-              </Button>
-            </FormControl>}
+          {<FormControl display="flex" alignItems="center" justifyContent={'center'} marginTop={"5px"}>
+            <input type="file" accept=".pdf" onChange={handleFileChange}
+              style={{ display: 'none' }} ref={fileInputRef} />
+            <FormLabel>{selectedFile ? selectedFile.name : 'Sube un archivo'}</FormLabel>
+            <Button type="button" onClick={handleUpload}>
+              <BsFolderPlus color="#137797" />
+            </Button>
+          </FormControl>}
         </Grid>
         <Textarea
           marginTop={"10px"}
@@ -283,11 +284,7 @@ const Muestra = () => {
         />
 
         {estudioID && <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />}
-        {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} /> }
-       
-        {/*estudioID && muestraID &&(
-          <AddFileModal isOpen={openModal} setOpenModal={setOpenModal} />
-        )*/}
+        {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
       </form>
 
       {!estudioID && (
