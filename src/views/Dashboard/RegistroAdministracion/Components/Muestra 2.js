@@ -86,8 +86,8 @@ const Muestra2 = () => {
     onSubmit: async (formData, { resetForm }) => {
       //console.log(formData);
       const newObj = {
-        paciente_id: pacienteID.id,
-        medico_tratante_id: medicoID || null,
+        paciente_id: pacienteID,
+        medico_tratante_id: medicoID,
         patologo_id: null,
         ...formData,
       };

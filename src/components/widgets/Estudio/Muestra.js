@@ -75,13 +75,14 @@ const Muestra = () => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      //console.log(formData);
+      
       const newObj = {
-        paciente_id: pacienteID.id,
-        medico_tratante_id: medicoID || null,
+        paciente_id: pacienteID,
+        medico_tratante_id: medicoID || null ,
         patologo_id: null,
         ...formData,
       };
+      console.log(newObj);
       try {
         const estudioPost = await postStudies(newObj);
 
