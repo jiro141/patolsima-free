@@ -484,7 +484,7 @@ marginBottom={'10px'}
                     </Box>
                 </Grid>
               { 
-             facturasDetail && facturasDetail.balance.por_pagar_usd === 0 ?
+             facturasDetail && facturasDetail.pagada ?
               <Box style={{border:'0px solid',}}>
               
               <Button
