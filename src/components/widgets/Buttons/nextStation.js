@@ -1,32 +1,25 @@
-import React, { useContext } from 'react';
-import { Button, FormLabel, Box, Text } from '@chakra-ui/react';
-import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import MainContext from 'context/mainContext/MainContext';
+import React from 'react'
+import {
+    Button,
+} from '@chakra-ui/react';
+import { BsFillArrowRightCircleFill } from "react-icons/bs";
 
-export const NextStation = () => {
-    const { activeTab, setActiveTab } = useContext(MainContext);
-
-    const handleIncrement = () => {
-        setActiveTab(activeTab + 1);
-    };
-
+export const nextStation = () => {
     return (
-        <Box
-            display={'flex'}
-            justifyContent={'end'}
-            marginBottom={'-20px'}>
-            <Box
-                display={'flex'}
-                justifyContent={'center'}
-                alignContent={'center'}>
-                <FormLabel marginRight={'7px'}>Saltar Etapa</FormLabel>
-                <div
-                    style={{ alignItems: 'center'}}
-                    onClick={handleIncrement}
-                >
-                    <BsFillArrowRightCircleFill color="#137797" size={'30px'} />
-                </div>
-            </Box>
-        </Box>
-    );
-};
+        <Button
+            type='submit'
+            marginLeft={'80%'}
+            marginBottom={'-12%'}
+            // marginLeft={{ lg: '38em', md: '80%', sm: '70%' }}
+            // marginBottom={{ lg: '-4.5em', md: '-15%', sm: '-30%' }}
+            borderRadius={'20px'}
+            bgColor={'#137797'}
+            color='#ffff'
+            onClick={handleSubmit}
+            isLoading={isLoading}
+            loadingText="Guardando..."
+        >
+            <BsFillArrowRightCircleFill />
+        </Button>
+    )
+}
