@@ -59,7 +59,6 @@ const MedicoCardPostInitial = ({
   const [tabla, setTabla] = useState([]);
   const [Busqueda, setBusqueda] = useState("");
   const [medicoName, setMedicoName] = useState("");
-  // const [medicoID, setMedicoID] = useState("");
   const [especialidad, setEspecialidad] = useState("");
   //modal confirmacion eliminacion
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);

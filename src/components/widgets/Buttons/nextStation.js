@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Button,
 } from '@chakra-ui/react';
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import MainContext from 'context/mainContext/MainContext';
 
-export const nextStation = () => {
+export const NextStation = () => {
+   // useContext(MainContext)
     return (
         <Button
             type='submit'
