@@ -32,37 +32,56 @@ import Imagen from "assets/img/Textura.png";
 import logo from "assets/img/logo.png";
 import { useAuthContext } from "hooks/useAuthContext";
 import Axios from "api/authApi";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useFormik, validateYupSchema } from "formik";
+import * as Yup from "yup";
 import MainContext from "context/mainContext/MainContext";
 
 function SignIn() {
   // Estados para guardar el correo y la contraseña ingresados por el usuario
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [loading, setLoading] = useState(null);
+  const [error, setError] = useState(null);
   const history = useHistory();
   const {setLoginSuccess}=useContext(MainContext)
-
-  const signIn = async () => {
-    try {
-      const { data } = await Axios.post("/login/", {
-        username: username,
-        password: password,
-      });
-       window.localStorage.setItem('access', data.access);
-       window.localStorage.setItem('refresh', data.refresh);
-       setLoginSuccess(true)
-       history.push('layouts/Admin.js'); 
-      // console.log(access); 	
-    } catch (error) {
-      console.log(error);
-      setShowErrorModal(true);
-    }
-  }
-
-  
-
-
+   //carga de los datos del formulario
+   const formik = useFormik({
+    initialValues: {
+      username:"",
+      password:""
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required("El campo es obligatorio"),
+      password: Yup.string().required("El campo es obligatorio"),
+    }),
+    validateOnChange: false,
+    onSubmit: async (formData, { resetForm }) => {
+      setLoading(true)
+      try {
+        const { data } = await Axios.post("/login/",formData );
+         window.localStorage.setItem('access', data.access);
+         window.localStorage.setItem('refresh', data.refresh);
+         setLoginSuccess(true)
+         //setError(false)
+         history.push('layouts/Admin.js'); 	
+      } catch (error) {
+        setError(error.message)
+        console.log(error);
+       
+        history.push('/'); 	
+      }finally{
+        setLoading(false)
+        if(error){
+          toast.error(error, {
+            autoClose: 1000,
+          });
+        }
+        return 
+      }
+    },
+  });
 
 
 
@@ -70,40 +89,6 @@ function SignIn() {
   const titleColor = useColorModeValue("#137797", "#137797");
   const textColor = useColorModeValue("gray.400", "white");
   const switchColor = useColorModeValue("#137797", "while");
-
-  // Componente de inicio de sesión
-
-
-
-
-
-
-  //Alerta para no seguir 
-  
-
-
-
-
-
-  // Función de inicio de sesión
-  // const handleLogin = async () => {
-  //   const body = {
-  //     username: username,
-  //     password: password,
-  //   };
-  //   try {
-  //     // const response = await authApi.post("login/", body);
-  //     if (response.status === 200) {
-  //       context.getTokens(response.data)
-  //       // console.log(response.data.access, "respuesta");
-  //       // Redirigir al dashboard
-  //       history.push('layouts/Admin.js'); 
-  //     }
-  //   } catch (error) {
-  //     setShowErrorModal(true);
-  //   }
-  // };
-
 
 
 
@@ -168,7 +153,7 @@ function SignIn() {
             </Heading>
 
             <FormControl>
-              <FormLabel mt='24px' ms='4px' fontSize='sm' fontWeight='normal'>
+              <FormLabel mt='24px' ms='4px' fontSize='sm' fontWeight='bold'>
                 Email
               </FormLabel>
               <Input
@@ -177,16 +162,21 @@ function SignIn() {
                 borderLeft={'none'}
                 borderRight={'none'}
                 borderBottomColor={'#137797'}
-                mb='24px'
+                mb='10px'
                 fontSize='sm'
                 type='text'
                 id="username"
                 size='lg'
-                value={username}
+                name="username"
                 onChange={(e) =>
-                  setUsername(e.target.value)}
+                  formik.setFieldValue("username", e.target.value)
+                }
               />
-              <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
+              { formik.errors.username &&
+              <div style={{marginBottom:'15px'}}>
+              <p style={{color:'red',fontWeight:'bold'}} >{formik.errors.username}</p>
+              </div>}
+              <FormLabel ms='4px' fontSize='sm' fontWeight='bold'>
                 Contraseña
               </FormLabel>
               <Input
@@ -195,14 +185,24 @@ function SignIn() {
                 borderLeft={'none'}
                 borderRight={'none'}
                 borderBottomColor={'#137797'}
-                mb='36px'
+                mb='20px'
                 fontSize='sm'
                 type='password'
                 id="password"
                 size='lg'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                onChange={(e) =>
+                  formik.setFieldValue("password", e.target.value)
+                }
+                //value={password}
+               // onChange={(e) => setPassword(e.target.value)}
               />
+               {
+                formik.errors.password &&
+                <div style={{marginBottom:'15px'}}>
+               <p style={{color:'red',fontWeight:'bold'}}>{formik.errors.password}</p>
+               </div>}
+
               <FormControl display='flex' alignItems='center'>
                 <Switch id='remember-login' color={switchColor} me='10px' />
                 <FormLabel
@@ -226,8 +226,8 @@ function SignIn() {
                   bg: "#0D5C6F",
                   color: "white"
                 }}
-                onClick={() => signIn()}>
-                Iniciar sesión
+                onClick={formik.handleSubmit}>
+               {loading ?'Cargando...' : 'Iniciar sesión'}
               </Button>
 
             </FormControl>

@@ -31,7 +31,8 @@ import { postFactura } from "api/controllers/facturas";
 import { postRecibo } from "api/controllers/facturas";
 import { Separator } from "components/Separator/Separator";
 import { postArchivar } from "api/controllers/facturas";
-
+import { Document, Page } from 'react-pdf';
+import ModalPrint from "components/widgets/Modals/ModalPrintFact";
 
 
 const ModalFacturacion = ({ study }) => {
@@ -46,7 +47,10 @@ const ModalFacturacion = ({ study }) => {
     loadingStudy}=useFacturaDetail({studyId:study.id})
   
     const [editing, setEditing] = useState(false);
-    const [pdfUrl, setPdfUrl] = useState('');
+    const [pdfContent, setPdfContent] = useState(null);
+    const [pdfContentFact, setPdfContentFact] = useState(null);
+    const [openModalFact, setOpenModalFact] = useState(false);
+    const [openModalFact2, setOpenModalFact2] = useState(false);
 
     const [pagoId,setPagoId]=useState();
     const [data, setData] = useState(
@@ -128,28 +132,42 @@ const ModalFacturacion = ({ study }) => {
         setShowModalConfirmacion(!showModalConfirmacion);
     };
     const [showModalAbonar, setShowModalAbonar] = useState(false);
-    const toggleModalAbonar = () => {
-       // setShowModalAbonar(!showModalAbonar);
-    };
-    //tamaños de modal
-    const size = useBreakpointValue({ sm: "sm", lg: "xl", md: 'xs' });
+
+  
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId= generateUniqueId()
-console.log(facturasDetail)
+//console.log(facturasDetail)
 const generarFactura=async()=>{
     const fact={
         n_factura: newId
     }
   const resFact= await postFactura(facturasDetail.id,fact)
-  console.log(resFact)
+  if(resFact){
+    setPdfContentFact(resFact.uri)
+    setOpenModalFact2(true)
+  }else{
+    toast.error("¡Ocurrio un error al generar la factura!", {
+        autoClose: 1000,
+      });
+   }
+  //console.log(resFact)
+
 }
 const generarRecibo=async()=>{
     const fact={
-        n_factura: 123456
+        n_factura: newId
     }
     const resRecibo= await postRecibo(study.id,fact)
-    console.log(resRecibo)
+    if(resRecibo){
+    setPdfContent(resRecibo.uri)
+    setOpenModalFact(true)
+    }else{
+        toast.error("¡Ocurrio un error al generar el recibo!", {
+            autoClose: 1000,
+          });
+       }
+   
   }
   const handleArchivar=async()=>{
    const resSendArchived= await postArchivar(study.id)
@@ -157,12 +175,16 @@ const generarRecibo=async()=>{
     toast.success("¡Se archivo la factura correctamente!", {
         autoClose: 1000,
       });
+   }else{
+    toast.error("¡Ocurrio un error al archivar!", {
+        autoClose: 1000,
+      });
    }
-   console.log(resSendArchived)
+   //console.log(resSendArchived)
   }
     return (
         <>
-            <Box marginTop={'-50px'}>
+            <Box marginTop={'-50px'}  >
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
                     <Text margin={'5px'} color={'gray.900'} fontSize={'20px'} >Datos de factura</Text>
                     <Text margin={'18px'} textAlign={{ lg: 'right', sm: 'left' }} color={'gray.500'} fontSize={'20px'} >
@@ -485,7 +507,7 @@ marginBottom={'10px'}
                 </Grid>
               { 
              facturasDetail && facturasDetail.pagada ?
-              <Box style={{border:'0px solid',}}>
+              <Box >
               
               <Button
               onClick={handleArchivar}
@@ -513,7 +535,7 @@ marginBottom={'10px'}
                 />
                 </Box> :
                 
-                <> 
+                <div style={{display:'flex',  alignItems:'center'}}> 
                   <Button
                   onClick={handleArchivar}
                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
@@ -532,16 +554,9 @@ marginBottom={'10px'}
                     onClick={()=>setShowModalAbonar(true)}>
                     Abonar
                 </Button>
-                </>
-                }
 
-
-               
-                <Box marginLeft={{ lg: '85%', md: '85%', sm: '70%' }} 
-                marginBottom={{ lg: '-3.5%', md: '-2%', sm: '-10%' }}>
-             
-            {facturasDetail?.confirmada===false ?
-            <div style={{marginTop:'-55px'}}>
+                {facturasDetail?.confirmada===false ?
+            <div style={{ width:'80%', display:'flex',justifyContent:'flex-end'}}>
             <GeneralButton
                         text="Confirmar"
                         handleClick={confirmar}
@@ -549,13 +564,19 @@ marginBottom={'10px'}
             </div>
             
         :
-        <Box style={{marginTop:'50px'}}>
-
-        </Box>
+        ''
         }
-                </Box>
+                </div>
+                }
+
+<ModalPrint text={'¿Desea descargar el recibo ?'} isOpen={openModalFact} setOpenModal={setOpenModalFact} pdfContent={pdfContent} />
+<ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />
+
+           {/** */}   
                 
             </Box>
+           
+     
             <Modal
                 size={"lg"}
                 maxWidth='100%'
@@ -583,7 +604,7 @@ marginBottom={'10px'}
                 </ModalContent>
             </Modal>
 
-
+        
             <Modal
                 size={"xs"}
                 maxWidth='100%'
