@@ -154,7 +154,7 @@ function SignIn() {
 
             <FormControl>
               <FormLabel mt='24px' ms='4px' fontSize='sm' fontWeight='bold'>
-                Email
+                Usuario
               </FormLabel>
               <Input
                 borderRadius={'none'}

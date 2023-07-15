@@ -49,7 +49,7 @@ export default function AddAbonarModal({
         //onPagoIdChange(pacientePut);
         setShowModal(false);
       } else {
-        toast.error("¡Hubo un error al guardar el paciente!", {
+        toast.error("¡Hubo un error al abonar la factura!", {
           autoClose: 1000,
         });
       }

@@ -90,10 +90,12 @@ const Dashboard = () => {
     };
   
     return studies.map((study) => (
-      <Flex flexDirection="row 7" key={study.id}>
+      <Flex flexDirection="row 7" key={study.id} >
         <Link onClick={() => toggleModal(study)}>
           <Box
-            margin="5px 0px"
+        //  border={'1px solid'}
+          marginLeft={'30px'}
+            //margin="5px 0px"
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
             borderRadius="16px"
             padding="0"
@@ -175,13 +177,14 @@ const Dashboard = () => {
     modoVisualizacion === 'tarjeta' ? (
       <>
         <Box
-          margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+          margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
           padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
           backgroundColor={'gray.100'}
           borderRadius={'20px'}
           backgroundSize="cover"
           backgroundPosition="center"
           height={'auto'}
+          
         >
           <Box padding={'2%'}>
             <Heading
@@ -198,6 +201,22 @@ const Dashboard = () => {
               overflowY="scroll"
               overflowX="hidden"
               maxH={'34em'}
+              minH={"300px"}
+      //  maxH={"300px"}
+              sx={{
+                "&::-webkit-scrollbar": {
+                  width: "8px",
+                  borderRadius: "8px",
+                  backgroundColor: "#f5f5f5",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#888",
+                  borderRadius: "5px",
+                },
+                "&::-webkit-scrollbar-thumb:hover": {
+                  background: "#555",
+                },
+              }}
 
             >
               <SimpleGrid columns={1} spacing={4}>

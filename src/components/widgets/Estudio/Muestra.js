@@ -12,7 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
-import { useFormik, validateYupSchema } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { postStudies } from "api/controllers/estudios";
 import { BsFolderPlus } from "react-icons/bs";
@@ -25,7 +25,7 @@ import SaveButton from "../Buttons/SaveButton";
 import { generateUniqueId } from "helpers";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddFileModal from "../Modals/AddFileModal";
+//import AddFileModal from "../Modals/AddFileModal";
 //import MainContext from "context/mainContext/MainContext";
 import { postOrdenes } from "api/controllers/facturas";
 import { postMuestraAdjunto } from "api/controllers/estudios";

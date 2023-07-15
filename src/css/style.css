@@ -188,6 +188,42 @@
   .scrollTableStyle{
     
   }
+  .btnPrint{
+    width: 50%;
+  margin: 30px 10px;
+  border: 1px solid #137797;
+  color: #137797;
+  background-color: none;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  }
+  .btnPrint:hover{
+    background-color: #137797;
+  color: #fff;
+  }
+  .btnPrintOutline{
+    width: 50%;
+  margin: 30px 10px;
+  border: 1px solid #137797;
+  color: #137797;
+  background-color: transparent;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  }
+  .btnPrintOutline:hover{
+    background-color: #137797;
+    color: #fff;
+  }
   .autocompleteBox :hover {
     cursor: pointer;
     background-color: #9BC5D3;

@@ -37,6 +37,14 @@ export const putFacturaTerceros= async (id,data) => {
         console.log(error);
     }
 }
+export const postFacturaTerceros= async (data) => {
+    try {
+        const response = await Axios.post(`/v1/facturacion/clientes/`,data)
+         return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 //facturas para terceros->
 
 //https://patolsima-api-19f65176eefa.herokuapp.com/v1/facturacion/clientes/idCliente/
@@ -94,10 +102,10 @@ export const putMonto= async (id,data) => {
 }
 //Generar factura
 export const postFactura= async (id,data) => {
-    console.log(id,data)
+    //console.log(id,data)
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`,data)
-        return response.data.confirm.s3_file;
+        return response.data;
     } catch (error) {
         console.log(error);
     }

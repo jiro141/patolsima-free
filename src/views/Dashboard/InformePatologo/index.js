@@ -164,15 +164,16 @@ const Dashboard = () => {
     modoVisualizacion === 'tarjeta' ? (
       <>
         <Box
-          margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
+          margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
           padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
           backgroundColor={'gray.100'}
           borderRadius={'20px'}
           backgroundSize="cover"
           backgroundPosition="center"
-          overflowY="scroll"
+          overflowY="hidden"
           overflowX="hidden"
-          maxH={'40em'}
+          height={'auto'}
+          //maxH={'40em'}
         >
           <Box padding={'2%'}>
             <Heading
@@ -188,7 +189,23 @@ const Dashboard = () => {
               borderRadius="20px"
               overflowY="scroll"
               overflowX="hidden"
-              maxH={'33.5em'}
+              maxH={'34em'}
+              minH={"300px"}
+              sx={{
+                "&::-webkit-scrollbar": {
+                  width: "8px",
+                  borderRadius: "8px",
+                  backgroundColor: "#f5f5f5",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#888",
+                  borderRadius: "5px",
+                },
+                "&::-webkit-scrollbar-thumb:hover": {
+                  background: "#555",
+                },
+              }}
+              //maxH={'33.5em'}
             >
               <SimpleGrid columns={1} spacing={4}>
                 <SimpleGrid columns={1}>
