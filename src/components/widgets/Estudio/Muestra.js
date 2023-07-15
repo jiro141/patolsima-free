@@ -16,7 +16,6 @@ import { useFormik, validateYupSchema } from "formik";
 import * as Yup from "yup";
 import { postStudies } from "api/controllers/estudios";
 import { BsFolderPlus } from "react-icons/bs";
-import InputOverall from "../Inputs/InputOverall";
 import InputSelector from "../Inputs/InputSelector";
 import { typeStudies } from "mocks";
 import Switch_ from "../Switchs/Switch";

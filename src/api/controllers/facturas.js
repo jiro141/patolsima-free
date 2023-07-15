@@ -97,7 +97,7 @@ export const postFactura= async (id,data) => {
     console.log(id,data)
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`,data)
-        return response.data;
+        return response.data.confirm.s3_file;
     } catch (error) {
         console.log(error);
     }
@@ -106,8 +106,9 @@ export const postFactura= async (id,data) => {
 //Generar Recibo
 export const postRecibo= async (id,data) => {
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data)
-        return response.data;
+        //const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data)
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data);
+        return response.data.confirm.s3_file;
     } catch (error) {
         console.log(error);
     }

@@ -32,7 +32,7 @@ const SidebarContent = ({ logoText, routes }) => {
     getUsersGroups();
   }, []);
 
-  const arrGroup = groups[0];
+  const arrGroup = groups ? groups[0] : '';
 
   const adminRoutes = routes.filter(
     (route) => route.groupName === "administracion"
