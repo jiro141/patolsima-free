@@ -7,8 +7,8 @@ export default function ShowMoreButton({ handleClick }) {
   return (
     <Button
       borderRadius={'20px'}
-      padding={'10px 60px'}
-      marginTop='20px'
+      paddingX={'60px'}
+      // marginTop='20px'
       bgColor={'#89bbcc'}
       color='#ffff'
       onClick={handleClick}>

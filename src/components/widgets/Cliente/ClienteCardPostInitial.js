@@ -99,15 +99,15 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         try {
           const pacientePost = await postPacientes(newObj);
           setFormValues(newObj, 'paciente');
-          setPacienteID(pacientePost);
+          setPacienteID(pacientePost.id);
 
           if (pacientePost) {
             toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
-           setActiveTab(activeTab + 1)
-           console.log(activeTab)
-           //setActiveTab(1)
+            setActiveTab(activeTab + 1)
+            console.log(activeTab)
+            //setActiveTab(1)
             setTwoState('post')
           }
           else {
@@ -128,10 +128,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           fecha_nacimiento: dateNew,
         }
         const id = {
-          id:formData.id
+          id: formData.id
         }
         try {
-          const pacientePost = await putPacientes(id,Obj);
+          const pacientePost = await putPacientes(id, Obj);
           setFormValues(Obj, 'paciente');
           setPacienteID(pacientePost);
 
@@ -174,7 +174,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         apellidos: data.apellidos,
         email: data.email,
         tlf: data.telefono_celular,
-        sexo:data.sexo
+        sexo: data.sexo
       }));
 
       formik.setValues({
@@ -183,8 +183,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         apellidos: mapped[0].apellidos,
         email: mapped[0].email,
         telefono_celular: mapped[0].tlf,
-        email:mapped[0].email,
-        sexo:mapped[0].sexo
+        email: mapped[0].email,
+        sexo: mapped[0].sexo
       });
       setSelectSearch(true);
       setOneState('put')
@@ -219,10 +219,12 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     });
     try {
       const pacienteDetail = await getPacientesDetail(paciente.id);
+      console.log(pacienteDetail);
       setPacienteID(paciente.id)
       setRegistro(pacienteDetail);
       toggleModal(true);
       setOneState("put");
+      // formik.validateForm();
     } catch (error) {
       console.log(error);
     }
@@ -439,10 +441,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         eliminar={eliminarPaciente}
         nombres={pacienteName}
       />
-      <div style={{}}>
+      <Box marginTop={'10px'} display={'flex'} alignItems={'end'} justifyContent={'space-between'}>
         <ShowMoreButton handleClick={toggleModal} />
         <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
-      </div>
+      </Box>
 
 
     </Box>

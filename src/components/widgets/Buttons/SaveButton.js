@@ -7,11 +7,9 @@ import {
 export default function SaveButton({ handleSubmit, isLoading }) {
   return (
     <Button
+      // marginBottom={'-1%'}
       type='submit'
-      marginLeft={ '80%' }
-      marginBottom={'-12%'}
-      // marginLeft={{ lg: '38em', md: '80%', sm: '70%' }}
-      // marginBottom={{ lg: '-4.5em', md: '-15%', sm: '-30%' }}
+      paddingX={'20px'}
       borderRadius={'20px'}
       bgColor={'#137797'}
       color='#ffff'
