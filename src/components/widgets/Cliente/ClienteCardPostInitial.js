@@ -99,6 +99,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         try {
           const pacientePost = await postPacientes(newObj);
           setFormValues(newObj, 'paciente');
+          console.log(pacientePost)
           setPacienteID(pacientePost.id);
 
           if (pacientePost) {
@@ -106,7 +107,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
               autoClose: 1000,
             });
             setActiveTab(activeTab + 1)
-            console.log(activeTab)
+            //console.log(activeTab)
             //setActiveTab(1)
             setTwoState('post')
           }

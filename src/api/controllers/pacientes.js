@@ -36,7 +36,7 @@ export const postPacientes = async (data) => {
     try {
         const response = await Axios.post(`/v1/core/pacientes/`, data)
         console.log(response);
-        return response.data.id;
+        return response.data;
     } catch (error) {
         console.log(error.message);
     }

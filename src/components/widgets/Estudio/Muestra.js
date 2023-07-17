@@ -74,14 +74,14 @@ const Muestra = () => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      
+      //console.log(pacienteID)
       const newObj = {
         paciente_id: pacienteID,
         medico_tratante_id: medicoID || null ,
         patologo_id: null,
         ...formData,
       };
-      console.log(newObj);
+      //console.log(newObj);
       try {
         const estudioPost = await postStudies(newObj);
 
@@ -106,8 +106,8 @@ const Muestra = () => {
   });
 
   useEffect(() => {
-    const sendOrden = async () => {
-      if (estudioID && muestraID && !estudioId2) {
+  /*  const sendOrden = async () => {
+      if (muestraID ) {
         const newOrden = {
           estudio_ids: [estudioID]
         }
@@ -115,6 +115,29 @@ const Muestra = () => {
         console.log(postOrden)
 
       }
+       if(estudioId2){
+        const newOrden={
+          estudio_ids: [estudioID,estudioId2]
+        }
+        const postOrden =await postOrdenes(newOrden)
+        console.log(postOrden)
+        
+       }
+    }
+*/
+ 
+  }, [estudioID])
+
+  useEffect(() => {
+    const sendOrden = async () => {
+  
+        const newOrden = {
+          estudio_ids: [estudioID]
+        }
+        const postOrden = await postOrdenes(newOrden)
+        console.log(postOrden)
+
+      
       /* if(estudioId2){
         const newOrden={
           estudio_ids: [estudioID,estudioId2]
@@ -129,7 +152,7 @@ const Muestra = () => {
     return () => {
 
     }
-  }, [estudioID])
+  }, [])
 
 
 
