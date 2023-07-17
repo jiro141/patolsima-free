@@ -25,10 +25,18 @@ import ModalInforme from "./components/ModalInforma";
 import ListaInformes from "./components/ListaInformes";
 import ModoLista from "./ModoLista"
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import MainContext from "context/mainContext/MainContext";
+import CardOverall_ from "components/widgets/Cards/CardOverall";
+import { useInformes } from "hooks/Informes/useInformes";
+import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+  const {  
+    
+    hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
+    const {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error}=useInformes()
   const colorA = '#137797';
 
   const sinProcesarStudies = [
@@ -127,7 +135,10 @@ const Dashboard = () => {
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
- 
+  useEffect(() => {
+    getInformes();
+   
+  }, []);
  
   const renderStudies = (studies) => {
     return studies.map((study) => (
@@ -205,103 +216,57 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Box 
-        margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
-        padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-        backgroundColor={'gray.100'}
-        borderTopLeftRadius={'20px'}
+           <Box
+        margin={{ lg: "50px 0px 0px 30px", sm: "60px 0px 10% 0px" }}
+        padding={{ lg: "0 25px", md: "10px", sm: "0px 0 10% 0" }}
+        backgroundColor={"gray.100"}
+        borderTopLeftRadius={"20px"}
         backgroundSize="cover"
         backgroundPosition="center"
         overflowY="hidden"
-        overflowX={{lg:"hidden",sm:"auto"}}
-        >
-          <Box padding={'2%'} >
-            <Heading
-              size="md"
-            >
-              Informes terminados
-            </Heading>
-            <Box
-              width={"100%"}
-              m={"20px 30px 30px 10px"}
-              backgroundColor={"#FFFF"}
-              boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-              padding={"25px"}
-              borderRadius="20px"
-              minH={"300px"}
-              maxH={"300px"}
-              overflowY="auto"
-              overflowX="hidden"
-              border="1px solid #ccc"
-              sx={{
-                "&::-webkit-scrollbar": {
-                  width: "8px",
-                  borderRadius: "8px",
-                  backgroundColor: "#f5f5f5",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#888",
-                  borderRadius: "5px",
-                },
-                "&::-webkit-scrollbar-thumb:hover": {
-                  background: "#555",
-                },
-              }}
-            >
-              <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
-                <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {renderStudies(sinProcesarStudies)}
-                </Grid>
-              </Box>
-            </Box>
-            <Heading
-              size="md"
-            >
-              Informes en proceso
-            </Heading>
-            <Box
-            width={"100%"}
-            m={"20px 30px 30px 10px"}
-            backgroundColor={"#FFFF"}
-            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            padding={"25px"}
-            borderRadius="20px"
-            minH={"300px"}
-            maxH={"300px"}
-            overflowY="auto"
-            overflowX="hidden"
-            border="1px solid #ccc"
-            sx={{
-              "&::-webkit-scrollbar": {
-                width: "8px",
-                borderRadius: "8px",
-                backgroundColor: "#f5f5f5",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: "#888",
-                borderRadius: "5px",
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                background: "#555",
-              },
-            }}
-            >
-              <Box margin={{ lg: "0px", md: "0", sm: "5%" }}>
-                <Grid gap={"15px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                  {renderStudies(pendientesStudies)}
-                </Grid>
-              </Box>
-            </Box>
-            <Button
-              borderRadius={'20px'}
-              padding={'10px 30px'}
-              bgColor={'#137797'}
-              color='#ffff'
-              onClick={toggleModalList}
-            >
-              Ver más</Button>
-          </Box>
+        overflowX={{ lg: "hidden", sm: "auto" }}
+        // maxH={'40em'}
+      >
+       
+
+        <Box marginTop={"-15px"} padding={"2%"}>
+          {hiddenInformessort ? (
+            <>
+              <CardOverall_
+              type='informes'
+                title={"Infomes sin completar"}
+                content={informesNoCompletados}
+                toggleModal={toggleModal}
+                colorA={colorA}
+                loading={loading}
+                
+              />
+
+              <CardOverall_
+                title={"Infomes Completados"}
+                content={informesCompletados}
+                toggleModal={toggleModal}
+                colorA={colorA}
+                loading={loading}
+                type='informes'
+              />
+            </>
+          ) : (
+            <CardOverall_
+              title={"Resultados"}
+              content={informes}
+              toggleModal={toggleModal}
+              colorA={colorA}
+              loading={loading}
+              type="search"
+            />
+          )}
+
+          <ShowMoreButton handleClick={toggleModalList} />
         </Box>
+      </Box>
+
+
         <Modal
           size={'4xl'}
           maxWidth='100%'
@@ -328,7 +293,9 @@ const Dashboard = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
-        <Modal
+
+
+       {/* <Modal
           size={sizeView}
           maxWidth='100%'
           isOpen={showModalList}
@@ -353,7 +320,9 @@ const Dashboard = () => {
               <ListaInformes />
             </ModalBody>
           </ModalContent>
-        </Modal>
+        </Modal>*/}
+
+
       </>
     ) : (<ModoLista />)
   );

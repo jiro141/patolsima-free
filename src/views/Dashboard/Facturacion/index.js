@@ -71,45 +71,7 @@ const Dashboard = () => {
     setPacienteName(factura?.cliente?.razon_social);
   };
 
-  /*const facturasClasificadas = facturas?.reduce((clasificacion, factura) => {
-    if (factura.confirmada) {
-      clasificacion.confirmadas.push(factura);
-    } else if (factura.pagada) {
-      clasificacion.pagadas.push(factura);
-    } else {
-      clasificacion.pendientes.push(factura);
-    }
-    return clasificacion;
-  }, { confirmadas: [], pagadas: [], pendientes: [] })*/
 
-  /* const sinProcesarStudies = facturasClasificadas.pendientes.map((listaFacturas, i) => {
-    const fechaHora = listaFacturas?.fecha_recepcion;
-    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-    return {
-      id: listaFacturas.id,
-      nestudio: listaFacturas.cliente,
-      fecha: fecha,
-      paciente: listaFacturas.cliente.razon_social,
-      ci: listaFacturas.cliente.ci_rif,
-      monto: listaFacturas.total_usd
-    };
-  });*/
-
-  /* const pendientesStudies = facturasClasificadas.confirmadas.map((listaFacturas) => {
-    const fechaHora = listaFacturas?.fecha_recepcion;
-    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-    return {
-      id: listaFacturas.id,
-      nestudio: listaFacturas.cliente,
-      fecha: fecha,
-      paciente: listaFacturas.cliente.razon_social,
-      ci: listaFacturas.cliente.ci_rif,
-      monto: listaFacturas.total_usd
-    }
-  });*/
-
-  //modal
-  // console.log(facturas.reduce);
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (study) => {
     setShowModal(!showModal);
@@ -122,84 +84,7 @@ const Dashboard = () => {
     setShowModalList(!showModalList);
   };
   //tamaños de modal
-  const size = useBreakpointValue({ base: "sm", lg: "3xl", md: "2xl" });
-  const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: "2xl" });
-
-  const renderStudies = (studies) => {
-    return studies.map((study) => (
-      <Link
-        onClick={() => {
-          toggleModal(study);
-        }}
-      >
-        <Box
-          margin={"5px auto 5px auto"}
-          boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-          borderRadius={"16px"}
-          key={study.id}
-          padding={"0"}
-        >
-          <Box
-            borderTopLeftRadius={"16px"}
-            borderTopRightRadius={"16px"}
-            backgroundColor={colorA}
-            padding={"10px"}
-            paddingBottom={"0px"}
-            minH={"15px"}
-          >
-            <Badge
-              textAlign={"center"}
-              background={"none"}
-              padding={"5px 20px 0px 20px"}
-              w={"180px"}
-              height={"35px"}
-            >
-              <Icon
-                border={"solid"}
-                borderColor={colorA}
-                marginTop={"-15%"}
-                marginLeft={"86%"}
-                height={"50px"}
-                width={"50px"}
-                padding={"5px"}
-                borderRadius={"50%"}
-                as={BsReceipt}
-                backgroundColor={"#FFFF"}
-                color={colorA}
-              />
-            </Badge>
-          </Box>
-          <Box p={"10px"}>
-            <Heading fontSize={"16px"}>Fecha</Heading>
-            <Text
-              textAlign={"right"}
-              ml={2}
-              fontSize={"16px"}
-              color={useColorModeValue("gray.600", "gray.400")}
-            >
-              {study.fecha}
-            </Text>
-            <Heading fontSize={"16px"}>Paciente</Heading>
-            <Text
-              fontSize={"16px"}
-              textAlign={"right"}
-              color={useColorModeValue("gray.600", "gray.400")}
-            >
-              {study.paciente}
-            </Text>
-            <Heading fontSize={"16px"}>RIF/CI</Heading>
-            <Text fontSize={"16px"} textAlign={"right"}>
-              {study.ci}
-            </Text>
-            <Heading fontSize={"16px"}>Monto Total</Heading>
-            <Text fontSize={"16px"} textAlign={"right"}>
-              {study.monto} ($)
-            </Text>
-          </Box>
-        </Box>
-      </Link>
-    ));
-  };
+  const size = useBreakpointValue({ base: "sm", lg: "3xl", md: "2xl" }); 
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;

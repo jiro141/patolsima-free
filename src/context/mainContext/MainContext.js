@@ -13,10 +13,14 @@ export function MainContextProvider({ children }) {
   const [oneState, setOneState] = useState('post');
   const [twoState, setTwoState] = useState('post');
   const [loginSuccess, setLoginSuccess] = useState(false);
+  //--------------------------------------------------------
   const [facturas, setFacturas] = useState([]);
   const [filteredFact, setfilteredFact] = useState([]);
   const [hiddenFactssort, sethiddenFactssort] = useState(true);
-
+   //--------------------------------------------------------
+  const [informes, setInformes] = useState([]);
+  const [filteredInforme, setfilteredInforme] = useState([]);
+  const [hiddenInformessort, sethiddenInformessort] = useState(true);
   
 
    useEffect(() => {
@@ -58,7 +62,10 @@ export function MainContextProvider({ children }) {
         loginSuccess, setLoginSuccess,
         facturas, setFacturas,
         filteredFact, setfilteredFact,
-        hiddenFactssort, sethiddenFactssort
+        hiddenFactssort, sethiddenFactssort,
+        informes, setInformes,
+        filteredInforme, setfilteredInforme,
+        hiddenInformessort, sethiddenInformessort
       }}
     >
       {children}

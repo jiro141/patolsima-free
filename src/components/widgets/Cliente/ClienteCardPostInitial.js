@@ -89,7 +89,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     onSubmit: async (formData, { resetForm }) => {
       let dateformat = formatDate(date)
       let dateNew = dateformat.trim()
-      console.log(typeof dateNew)
+     // console.log(typeof dateNew)
       if (oneState === 'post' && activeTab === 0) {
         const newObj = {
           ...formData,
@@ -133,7 +133,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         try {
           const pacientePost = await putPacientes(id, Obj);
           setFormValues(Obj, 'paciente');
-          setPacienteID(pacientePost);
+          setPacienteID(pacientePost.id);
 
           if (pacientePost) {
             toast.success("¡El paciente fue guardado correctamente!", {

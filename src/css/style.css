@@ -231,6 +231,20 @@
     border-radius:6px;
     padding:3.5px;
   }
+  .WrapAlignRow{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+  }
+  .AlignRow{
+    display:flex;
+    justify-content:space-between;
+     width:'100%';
+    align-items:center;
+    padding-bottom: 5%;
+    padding-top: 3.5%;
+  }
   @media (max-width: 800px) {
     .react-calendar__month-view__weekdays{
       font-size: 0.7em;

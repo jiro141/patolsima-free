@@ -137,12 +137,13 @@ const ModalFacturacion = ({ study }) => {
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId= generateUniqueId()
-//console.log(facturasDetail)
+    let newId2= generateUniqueId()
+console.log(facturasDetail)
 const generarFactura=async()=>{
     const fact={
-        n_factura: newId
+        n_factura: newId2
     }
-  const resFact= await postFactura(facturasDetail.id,fact)
+  const resFact= await postFactura(study.id,fact)
   if(resFact){
     setPdfContentFact(resFact.uri)
     setOpenModalFact2(true)
