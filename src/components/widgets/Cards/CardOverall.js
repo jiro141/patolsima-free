@@ -137,7 +137,7 @@ const renderInformes = (content, toggleModal, colorA) => {
             color={useColorModeValue("gray.600", "gray.400")}
           />
 
-          <RowCard
+         {study.estudio_prioridad  && <RowCard
             headTitle={"Prioridad"}
             data={
               <Badge>
@@ -146,7 +146,7 @@ const renderInformes = (content, toggleModal, colorA) => {
              
             }
             color={useColorModeValue("gray.600", "gray.400")}
-          />
+          />}
         </Box>
       </Box>
     </Link>
