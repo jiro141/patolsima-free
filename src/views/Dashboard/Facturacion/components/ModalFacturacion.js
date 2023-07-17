@@ -143,7 +143,6 @@ const generarFactura=async()=>{
         n_factura: newId
     }
   const resFact= await postFactura(facturasDetail.id,fact)
-  console.log(resFact)
   if(resFact){
     setPdfContentFact(resFact.uri)
     setOpenModalFact2(true)
@@ -160,7 +159,6 @@ const generarRecibo=async()=>{
         n_factura: newId
     }
     const resRecibo= await postRecibo(study.id,fact)
-    console.log(resRecibo)
     if(resRecibo){
     setPdfContent(resRecibo.uri)
     setOpenModalFact(true)
@@ -538,7 +536,15 @@ marginBottom={'10px'}
                 </Box> :
                 
                 <div style={{display:'flex',  alignItems:'center'}}> 
-                 
+                  <Button
+                  onClick={handleArchivar}
+                    //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
+                   marginRight={'2%'}
+                    borderRadius={'20px'}
+                    bgColor={'#137797'}
+                    color='#ffff'>
+                    Archivar
+                </Button>
                 <Button
                    // marginBottom={{ lg: '-10.5%', md: '-13%', sm: '-25%' }}
                    // marginLeft={{ lg: '50%', md: '52%', sm: '12%' }}

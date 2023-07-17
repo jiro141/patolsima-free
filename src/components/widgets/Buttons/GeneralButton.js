@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/react";
 import React from "react";
 import '../../../css/style.css'
 
-
 export default function GeneralButton({ type, text, handleClick,pdfContent }) {
   return (
     <>

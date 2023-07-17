@@ -24,9 +24,7 @@ export default function ModalPrint({ isOpen, setOpenModal, type, text,pdfContent
     //setOpenModal(false);
     // window.location.reload();
   };
-  const handleClose = () => {
-    setOpenModal(false)
-  };
+  const handleClose = () => {};
 
   return (
     <Modal size={"sm"}  isOpen={isOpen}>
@@ -55,7 +53,7 @@ export default function ModalPrint({ isOpen, setOpenModal, type, text,pdfContent
             <Box style={{display:'flex',  width:'100%'}}>
           
             <GeneralButton text="Si" type="download" pdfContent={pdfContent} />
-            <GeneralButton text="No" type="downloadOutline" handleClick={handleClose} />
+            <GeneralButton text="No" type="downloadOutline" handleClick={()=>setOpenModal(false)} />
               
             </Box>
           </Box>

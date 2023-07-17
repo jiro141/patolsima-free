@@ -40,8 +40,8 @@ import FilteredDataModal from "../Modals/FilteredDataModal";
 import { thValuesMedicos } from "mocks";
 import MainContext from "context/mainContext/MainContext";
 import { putMedicos } from "api/controllers/medicos";
-import { NextStation } from "../Buttons/nextStation";
-
+import { NextStation } from "../Buttons/NextStation";
+import { useMedicos } from "hooks/Medicos/useMedicos";
 
 // iconname-->BsArrowRightCircle 
 //nombre del label  saltar etapa
@@ -54,14 +54,23 @@ const MedicoCardPostInitial = ({
   const { setFormValues,
     setMedicoID, medicoID } = useContext(ModoVisualizacionContext);
   const { activeTab, setActiveTab, setTwoState, twoState } = useContext(MainContext);
-  const [medicos, setMedicos] = useState("");
+  // const [medicos, setMedicos] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [tabla, setTabla] = useState([]);
+  // const [tabla, setTabla] = useState([]);
   const [Busqueda, setBusqueda] = useState("");
   const [medicoName, setMedicoName] = useState("");
   const [especialidad, setEspecialidad] = useState("");
   //modal confirmacion eliminacion
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+  const {
+    medicos,
+    getMedicos,
+    loading,
+    error,
+    setMedicos,
+    tabla,
+    setTabla
+  } = useMedicos();
   const formik = useFormik({
     initialValues: {
       nombres: "",
@@ -86,6 +95,7 @@ const MedicoCardPostInitial = ({
             });
           }
           setFormValues(formData, "medico");
+          getMedicos();
         } catch (error) {
           toast.error(error.message, { autoClose: 1000 });
         }
@@ -119,6 +129,7 @@ const MedicoCardPostInitial = ({
   //para la tabla flotante, modal es la terminologia para ventana flotante
 
   const toggleModal = () => {
+    getMedicos();
     setMostrarModal(!mostrarModal);
   };
   //consultar los datos de la api, mostrarlos en la lista
@@ -259,7 +270,7 @@ const MedicoCardPostInitial = ({
           gap={{ lg: "20px", sm: "5px" }}
         >
           <InputOverall
-            name="Email:"
+            name="email"
             value={formik.values.email}
             placeholder="Email"
             onChange={(e) => formik.setFieldValue("email", e.target.email)}
@@ -278,22 +289,24 @@ const MedicoCardPostInitial = ({
         </Grid>
       </form>
 
-      <ShowMoreButton handleClick={toggleModal} />
+      <Box marginTop={'10px'} display={'flex'} alignItems={'end'} justifyContent={'space-between'}>
+        <ShowMoreButton handleClick={toggleModal} />
 
-      <FilteredDataModal
-        type={"medics"}
-        isOpenModal={mostrarModal}
-        isToggleModal={toggleModal}
-        Busqueda={Busqueda}
-        thData={thValuesMedicos}
-        tBodyData={medicos}
-        handleSelectTBody={seleccionarRegistro}
-        handleSelectIcon={toggleModalConfirmacion}
-        // loading={loading}
-        handleBusquedaChange={handleBusquedaChange}
-      />
+        <FilteredDataModal
+          type={"medics"}
+          isOpenModal={mostrarModal}
+          isToggleModal={toggleModal}
+          Busqueda={Busqueda}
+          thData={thValuesMedicos}
+          tBodyData={medicos}
+          handleSelectTBody={seleccionarRegistro}
+          handleSelectIcon={toggleModalConfirmacion}
+          loading={loading}
+          handleBusquedaChange={handleBusquedaChange}
+        />
 
-      <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
+        <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
+      </Box>
 
       <DeleteModal
         isOpen={showModalConfirmacion}
