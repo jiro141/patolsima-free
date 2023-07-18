@@ -27,7 +27,8 @@ const renderStudies = (content, toggleModal, colorA, type) => {
       }}
     >
        <Box
-        height={"250px"}
+       width={'210px'}
+        height={"231px"}
         margin={"5px auto 5px auto"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
         borderRadius={"16px"}
@@ -92,12 +93,13 @@ const renderInformes = (content, toggleModal, colorA,type) => {
         }}
       >
         <Box
-          height={"250px"}
-          margin={"5px auto 5px auto"}
-          boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-          borderRadius={"16px"}
-          key={study.id}
-          padding={"0"}
+          width={'210px'}
+        height={"231px"}
+        margin={"5px auto 5px auto"}
+        boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
+        borderRadius={"16px"}
+        key={study.id}
+        padding={"0"}
         >
           <Box
             borderTopLeftRadius={"16px"}
@@ -334,7 +336,7 @@ export function CardOverall_Infor({
         overflowY="auto"
         overflowX="hidden"
         border="1px solid #ccc"
-        sx={{
+       sx={{
           "&::-webkit-scrollbar": {
             width: "5px",
             height:"8px",
@@ -411,20 +413,20 @@ export function CardOverall_Muestra({
   overflowX="auto" // Cambiado a "auto" para activar el scroll horizontal
   border="1px solid #ccc"
   sx={{
-    "&::-webkit-scrollbar": {
-      width: "5px",
-      height:"8px",
-      borderRadius: "8px",
-      backgroundColor: "#f5f5f5",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#888",
-      borderRadius: "5px",
-    },
-    "&::-webkit-scrollbar-thumb:hover": {
-      background: "#555",
-    },
-  }}
+          "&::-webkit-scrollbar": {
+            width: "5px",
+            height:"8px",
+            borderRadius: "8px",
+            backgroundColor: "#f5f5f5",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#888",
+            borderRadius: "5px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            background: "#555",
+          },
+        }}
 >
         <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
           {loading ? (
