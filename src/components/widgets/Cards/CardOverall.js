@@ -18,6 +18,7 @@ import "../../../css/style.css";
 import NotFound from "../others/NotFound";
 import RowCard from "./RowCard";
 import { FaFlask } from "react-icons/fa";
+//here
 
 const renderStudies = (content, toggleModal, colorA, type) => {
   return content.map((study) => (
