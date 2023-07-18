@@ -56,6 +56,35 @@ export const getStudiesList = async () => {
         console.log(error);
     }
 }
+//search params
+
+export const getStudiesListPriorityALTA = async () => {
+    try {
+        const response = await Axios.get(`/v1/core/estudios/?prioridad=ALTA`)
+        // console.log(response.data.results);
+        return response.data.results
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getStudiesListPriorityMEDIA= async () => {
+    try {
+        const response = await Axios.get(`/v1/core/estudios/?prioridad=MEDIA`)
+        // console.log(response.data.results);
+        return response.data.results
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getStudiesListPriorityBAJA= async () => {
+    try {
+        const response = await Axios.get(`/v1/core/estudios/?prioridad=BAJA`)
+        // console.log(response.data.results);
+        return response.data.results
+    } catch (error) {
+        console.log(error);
+    }
+}
 export const getStudiesDetail = async (id) => {
     try {
         const response = await Axios.get(`/v1/core/estudios/${id}/`)

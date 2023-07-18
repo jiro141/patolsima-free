@@ -29,6 +29,9 @@ import MainContext from "context/mainContext/MainContext";
 import CardOverall_ from "components/widgets/Cards/CardOverall";
 import { useInformes } from "hooks/Informes/useInformes";
 import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
+import { CardOverall_Infor } from "components/widgets/Cards/CardOverall";
+import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
+import { thValuesInformes } from "mocks";
 
 
 const Dashboard = () => {
@@ -36,7 +39,10 @@ const Dashboard = () => {
   const {  
     
     hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
-    const {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error}=useInformes()
+    const {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error,setInformes}=useInformes()
+    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+
+    const [Busqueda, setBusqueda] = useState("");
   const colorA = '#137797';
 
   const sinProcesarStudies = [
@@ -139,6 +145,35 @@ const Dashboard = () => {
     getInformes();
    
   }, []);
+
+  const toggleModalConfirmacion = (paciente) => {
+    setShowModalConfirmacion(!showModalConfirmacion);
+   // setPacienteName(paciente.nombres);
+   // setPacienteIdDelete(paciente.id);
+  };
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    setBusqueda(query);
+    filtrar(query);
+  };
+
+  const filtrar = (terminoBusqueda) => {
+    let resultadoBusqueda = filteredInforme.filter((elemento) => {
+      if (
+        elemento.estudio_codigo
+          .toLowerCase()
+          .includes(terminoBusqueda.toLowerCase()) ||
+        elemento.estudio_patologo_name
+          .toLowerCase()
+          .includes(terminoBusqueda.toLowerCase()) 
+       
+      ) {
+        return elemento;
+      }
+    });
+    setInformes(resultadoBusqueda);
+  };
  
   const renderStudies = (studies) => {
     return studies.map((study) => (
@@ -229,10 +264,10 @@ const Dashboard = () => {
       >
        
 
-        <Box marginTop={"-15px"} padding={"2%"}>
+        <Box marginTop={"5px"} padding={"2%"}>
           {hiddenInformessort ? (
             <>
-              <CardOverall_
+              <CardOverall_Infor
               type='informes'
                 title={"Infomes sin completar"}
                 content={informesNoCompletados}
@@ -242,7 +277,7 @@ const Dashboard = () => {
                 
               />
 
-              <CardOverall_
+              <CardOverall_Infor
                 title={"Infomes Completados"}
                 content={informesCompletados}
                 toggleModal={toggleModal}
@@ -252,7 +287,7 @@ const Dashboard = () => {
               />
             </>
           ) : (
-            <CardOverall_
+            <CardOverall_Infor
               title={"Resultados"}
               content={informes}
               toggleModal={toggleModal}
@@ -294,8 +329,16 @@ const Dashboard = () => {
           </ModalContent>
         </Modal>
 
+<FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
+ Busqueda={Busqueda}
+ //handleSelectTBody={seleccionarRegistro}
+ handleSelectIcon={toggleModalConfirmacion}
+ loading={loading}
+ handleBusquedaChange={handleBusquedaChange}
 
-       {/* <Modal
+/>
+
+      {/* <Modal
           size={sizeView}
           maxWidth='100%'
           isOpen={showModalList}

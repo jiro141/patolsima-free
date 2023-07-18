@@ -310,6 +310,109 @@ export function TRF({
   );
 }
 
+export function TRI({
+  tBodyData,
+  handleSelectTBody,
+  handleSelectIcon,
+ // title = "pruebas",
+}) {
+  return (
+    <Tbody >
+    {tBodyData &&
+      tBodyData?.map((bills) => (
+        <Tr key={bills.id}>
+          <Link
+            paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            {bills.estudio_id}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            style={{fontSize:'13px'}}
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+             {formatDate(bills.created_at)}
+           
+          </Link>
+          
+          <Link
+            //paddingX={"10px"}
+            as="td"
+           // margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            
+            {bills.estudio_patologo_name}
+          </Link>
+          <Link
+           // paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+            {bills.estudio_paciente_ci}
+          </Link>
+         
+         
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+           {bills.estudio_tipo}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() => handleSelectTBody(bills)}
+          >
+           {bills.estudio_patologo_name}
+          </Link>
+          <Link
+            paddingX={"10px"}
+            as="td"
+            margin={"10px"}
+            borderRadius="none"
+            borderBottom="1px solid"
+            borderBottomColor="gray.500"
+            onClick={() =>
+              handleSelectIcon(bills)
+            }
+          >
+            <BsFillTrashFill color="#137797" />
+          </Link>
+        </Tr>
+      ))}
+  </Tbody>
+  );
+}
+
+
 
 export function TABLE_PACIENTS({
   thData,
@@ -373,4 +476,25 @@ export function TABLE_FACTURAS({
     </Table>
   );
 }
+
+export function TABLE_INFORMES({
+  thData,
+  tBodyData,
+  handleSelectTBody,
+  handleSelectIcon,
+}) {
+  return (
+    <Table variant="simple">
+      <Thead>
+        <TH thData={thData} />
+      </Thead>     
+        <TRI
+          tBodyData={tBodyData}
+          handleSelectTBody={handleSelectTBody}
+          handleSelectIcon={handleSelectIcon}
+        />    
+    </Table>
+  );
+}
+
 

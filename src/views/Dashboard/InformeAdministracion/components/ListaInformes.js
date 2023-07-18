@@ -111,7 +111,7 @@ const ListaInformes = () => {
                                 <MostrarCliente registroSeleccionado={pasientes} />
                             ) : ( */}
                 <Box>
-                    <Box bg="none" py={4} mb={4}>
+                   { /*<Box bg="none" py={4} mb={4}>
                         <Grid templateColumns={'1fr 2fr'} maxW="container.lg">
                             <Text margin={'auto'} fontWeight={'bold'} color='gray.500' fontSize={'24px'}> Buscar Registro</Text>
                             <Input
@@ -120,13 +120,13 @@ const ListaInformes = () => {
                                 borderRadius='none'
                                 borderBottom="1px solid"
                                 borderBottomColor={'gray.500'}
-                                placeholder="Buscar..."
+                                placeholder="Busfcar..."
                                 size="lg"
                                 value={Busqueda}
                                 onChange={handleBusquedaChange}
                             />
                         </Grid>
-                    </Box>
+                    </Box>*/}
                     <Center >
                         <Table variant="simple">
                             <Thead>

@@ -137,14 +137,17 @@ const ModalFacturacion = ({ study }) => {
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId= generateUniqueId()
-    let newId2= generateUniqueId()
-console.log(facturasDetail)
+    function numeroAleatorio() {
+        return Math.random();
+      }
+   
 const generarFactura=async()=>{
     const fact={
-        n_factura: newId2
+        n_factura: numeroAleatorio()
     }
   const resFact= await postFactura(study.id,fact)
   if(resFact){
+    console.log(resFact)
     setPdfContentFact(resFact.uri)
     setOpenModalFact2(true)
   }else{
@@ -272,14 +275,15 @@ const generarRecibo=async()=>{
                             {facturasDetail ? (
                                 <Text fontSize={'14px'}>
                                     
-                                    {facturasDetail.pagada===false ?
+                                    {facturasDetail.pagada ?
+                                    <Badge variant='subtle' colorScheme='green'>
+                                    Completado
+                                   </Badge>
                                         
+                                        
+                                        :
                                         <Badge variant='subtle' colorScheme={"orange"}>
                                          Pendiente
-                                        </Badge>
-                                        :
-                                        <Badge variant='subtle' colorScheme='green'>
-                                         Completado
                                         </Badge>
                                     }
                                     </Text>
@@ -536,11 +540,11 @@ marginBottom={'10px'}
                 />
                 </Box> :
                 
-                <div style={{display:'flex',  alignItems:'center'}}> 
-                  <Button
-                  onClick={handleArchivar}
+                <div style={{display:'flex',  alignItems:'center',justifyContent:'space-between'}}> 
+                   <Button
+              onClick={handleArchivar}
                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
-                   marginRight={'2%'}
+                    marginRight={'2%'}
                     borderRadius={'20px'}
                     bgColor={'#137797'}
                     color='#ffff'>

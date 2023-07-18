@@ -143,7 +143,7 @@ export default function HeaderLinks(props) {
   //constex para cambian de visualizacion de tarjeta a lista
   //default tarjeta
   const { modoVisualizacion, cambiarModoVisualizacion } = useContext(ModoVisualizacionContext);
-  const {facturas, setFacturas, filteredFact,hiddenFactssort, sethiddenFactssort }= useContext(MainContext)
+  const {setInformes, setFacturas, filteredFact,sethiddenInformessort, sethiddenFactssort,filteredInforme, setfilteredInforme }= useContext(MainContext)
   
   
   const cambiarModo = (nuevoModo) => {
@@ -162,46 +162,101 @@ export default function HeaderLinks(props) {
     const query = event.target.value;
     console.log(query)
     if (query.startsWith(" ")) return;
-   
+    sethiddenInformessort(false)
     sethiddenFactssort(false)
     filterFacts(query);
     if(query === ''){
       sethiddenFactssort(true)
+      sethiddenInformessort(true)
     }
     //setBusqueda(query);
    
   };
+  //const [filterInfor, setFilterInfor] = useState('');
+
+ 
+  const handleBusquedaChangeInformes = (event) => {
+    setfilteredInforme(event.target.value);
+    const query = event.target.value;
+    console.log(query)
+   if (query.startsWith(" ")) return;
+   
+    sethiddenInformessort(false)
+   // filterInfor(query);
+    if(query === ''){
+      sethiddenInformessort(true)
+    }
+    //setBusqueda(query);
+   
+  };
+ // console.log(filteredInforme)
   const filterFacts=(searchTearm)=>{
-    let resultadoBusqueda = filteredFact.filter((elemento) => {
+    if(location.pathname === "/admin/Facturacion"){
+      let resultadoBusqueda = filteredFact.filter((elemento) => {
+        if (
+          elemento.cliente.razon_social
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) ||
+            elemento.cliente.ci_rif
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) 
+        ) {
+          return elemento;
+        }
+      });
+      setFacturas(resultadoBusqueda);
+    }else{
+     // console.log(filteredInforme)
+      let resultadoBusqueda = filteredInforme.filter((elemento) => {
+        if (
+          elemento.estudio_tipo
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) ||
+            elemento.estudio_codigo
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) 
+        ) {
+          return elemento;
+        }
+      });
+      setInformes(resultadoBusqueda);
+    }
+   
+  }
+
+  const filterInfor=(searchTearm)=>{
+   //console.log(filteredInforme)
+  /*  let resultadoBusqueda = filteredInforme.filter((elemento) => {
       if (
-        elemento.cliente.razon_social
+        elemento.estudio_patologo_name
           .toLowerCase()
           .includes(searchTearm.toLowerCase()) ||
-          elemento.cliente.ci_rif
+          elemento.estudio_paciente_ci
           .toLowerCase()
           .includes(searchTearm.toLowerCase()) 
       ) {
         return elemento;
       }
     });
-    setFacturas(resultadoBusqueda);
+    setInformes(resultadoBusqueda);*/
   }
   return (
     <Flex
       pe={{ sm: "0px", md: "0px" }}
       w={{ sm: "100%", md: "auto" }}
-      margin={{ sm: "0 10px", md: "auto" }}
+     // margin={{ sm: "0 10px", md: "auto" }}
       justifyContent="space-between"
+   
     // gap={"5px"}
     >
-      {location.pathname !== "/admin/RegistroAdministracion" ? (
+      {location.pathname === "/admin/Facturacion"  ? (
         <InputGroup
           cursor="pointer"
           bg="none"
           borderRadius="none"
           w={{
             sm: "200px",
-            md: "400px",
+            md: "410px",
           }}
           me={{ sm: "auto", md: "20px" }}
           _focus={{
@@ -293,8 +348,127 @@ export default function HeaderLinks(props) {
           />
         </InputGroup>}
 
+        {/*location.pathname === "/admin/InformeAdministracion"  && (
+        <InputGroup
+      border={'1px'}
+        //marginRight={'10px'}
+        marginLeft={'-70%'}
+          cursor="pointer"
+          bg="none"
+          borderRadius="none"
+          w={{
+            sm: "200px",
+            md: "410px",
+          }}
+          //me={{ sm: "auto", md: "20px" }}
+          _focus={{
+            borderColor: { mainTeal },
+          }}
+          _active={{
+            borderColor: { mainTeal },
+          }}
+        >
+          <InputLeftElement
+            children={
+              <IconButton
+                bg="inherit"
+                borderRadius="inherit"
+                _hover="none"
+                _active={{
+                  bg: "inherit",
+                  transform: "none",
+                  borderColor: "gray.700",
+                }}
+                _focus={{
+                  boxShadow: "none",
+                }}
+                icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
+              />
+            }
+          />
+          <Input
+            fontSize="xs"
+            py="15px"
+            marginRight={'30px'}
+            color={mainText}
+            placeholder="Buscar..."
+            border={'1px'}
+            bg="none"
+           
+           // value={filterInfor}
+            onChange={handleBusquedaChangeInformes}
+            borderRadius="none"
+            css={{
+              borderBottom: "1px solid ",
+              borderColor: "gray"
+            }}
+          />
+          </InputGroup>
+         
+
+      ) */}
+
+       {location.pathname === "/admin/InformeAdministracion"  && (
+       <InputGroup
+       cursor="pointer"
+       bg="none"
+       borderRadius="none"
+       marginLeft={'-70%'}
+       w={{
+         sm: "200px",
+         md: "410px",
+       }}
+       me={{ sm: "auto", md: "20px" }}
+       _focus={{
+         borderColor: { mainTeal },
+       }}
+       _active={{
+         borderColor: { mainTeal },
+       }}
+     >
+       <InputLeftElement
+         children={
+           <IconButton
+             bg="inherit"
+             borderRadius="inherit"
+             _hover="none"
+             _active={{
+               bg: "inherit",
+               transform: "none",
+               borderColor: "gray.700",
+             }}
+             _focus={{
+               boxShadow: "none",
+             }}
+             icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
+           />
+         }
+       />
+       <Input
+         fontSize="xs"
+         py="11px"
+         color={mainText}
+         placeholder="Buscar..."
+         border="none"
+         bg="none"
+        // value={filteredInforme}
+         onChange={handleBusquedaChange}
+         borderRadius="none"
+         css={{
+           borderBottom: "1px solid ",
+           borderColor: "gray",
+           color:'#000'
+         }}
+       />
+     </InputGroup>
+         
+
+      ) }
+  
+
       {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
-        <Box marginLeft={'-30%'} display={{ base: "none", md: "block" }}>
+        <Box marginLeft={'-30%'} display={{ base: "none", md: "flex" }}>
+          
           <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
             <BsListUl size="30px" color="#137797" />
           </Button>
@@ -303,6 +477,8 @@ export default function HeaderLinks(props) {
           </Button>
         </Box>
       ) : null}
+
+
 
 
       <Box display={"flex"} justifyContent="">

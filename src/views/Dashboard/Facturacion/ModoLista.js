@@ -144,7 +144,7 @@ const Dashboard = () => {
           <Heading
             size="md"
           >
-            Sin confirmar
+            Ordenes sin confirmar
           </Heading>
           <Box
             width={'100%'}
@@ -191,7 +191,7 @@ const Dashboard = () => {
             margin={'20px 0 20px 0 '}
             size="md"
           >
-            Pendientes de pago
+           Ordenes confirmadas
           </Heading>
           <Box
             width={'100%'}

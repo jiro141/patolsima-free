@@ -1,6 +1,4 @@
-import { getFacturasList } from "api/controllers/facturas";
 import { getListInforme } from "api/controllers/informes";
-import { getCambio } from "api/controllers/tazaDia";
 import MainContext from "context/mainContext/MainContext";
 import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
@@ -55,5 +53,5 @@ export function useInformes() {
   }, []);*/
  
 
-  return {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error};
+  return {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error,setInformes};
 }

@@ -21,7 +21,12 @@ export function MainContextProvider({ children }) {
   const [informes, setInformes] = useState([]);
   const [filteredInforme, setfilteredInforme] = useState([]);
   const [hiddenInformessort, sethiddenInformessort] = useState(true);
-  
+
+ //--------------------------------------------------------
+ const [muestrasPatologo, setMuestrasPatologo] = useState([]);
+ const [filteredMuestrasPatologo, setfilteredMuestrasPatologo] = useState([]);
+ const [hiddenmuestrasPatologosort, sethiddenmuestrasPatologosort] = useState(true);
+
 
    useEffect(() => {
   
@@ -65,7 +70,11 @@ export function MainContextProvider({ children }) {
         hiddenFactssort, sethiddenFactssort,
         informes, setInformes,
         filteredInforme, setfilteredInforme,
-        hiddenInformessort, sethiddenInformessort
+        hiddenInformessort, sethiddenInformessort,
+        muestrasPatologo, setMuestrasPatologo,
+        filteredMuestrasPatologo, setfilteredMuestrasPatologo,
+        hiddenmuestrasPatologosort, sethiddenmuestrasPatologosort
+
       }}
     >
       {children}

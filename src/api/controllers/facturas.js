@@ -39,6 +39,7 @@ export const putFacturaTerceros= async (id,data) => {
     }
 }
 export const postFacturaTerceros= async (data) => {
+    
     try {
         const response = await Axios.post(`/v1/facturacion/clientes/`,data)
          return response.data;
@@ -103,7 +104,7 @@ export const putMonto= async (id,data) => {
 }
 //Generar factura
 export const postFactura= async (id,data) => {
-    //console.log(id,data)
+    console.log(id,data)
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`,data)
         return response.data.confirm.s3_file;

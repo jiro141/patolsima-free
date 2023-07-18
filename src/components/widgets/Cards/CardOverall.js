@@ -17,6 +17,7 @@ import { BsFillFileEarmarkRichtextFill, BsReceipt } from "react-icons/bs";
 import "../../../css/style.css";
 import NotFound from "../others/NotFound";
 import RowCard from "./RowCard";
+import { FaFlask } from "react-icons/fa";
 
 const renderStudies = (content, toggleModal, colorA, type) => {
   return content.map((study) => (
@@ -25,7 +26,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
         toggleModal(study);
       }}
     >
-      <Box
+       <Box
         height={"250px"}
         margin={"5px auto 5px auto"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
@@ -49,7 +50,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
           />
         </Box>
         <Box p={"10px"}>
-          <RowCard
+        <RowCard
             headTitle={"Fecha"}
             data={formatDate(study.fecha_recepcion)}
             color={useColorModeValue("gray.600", "gray.400")}
@@ -58,13 +59,13 @@ const renderStudies = (content, toggleModal, colorA, type) => {
           <RowCard
             headTitle={"Paciente"}
             data={
-              study.cliente.razon_social.length > 17
-                ? study.cliente.razon_social.substring(0, 17) + "..."
+              study.cliente.razon_social.length > 10
+                ? study.cliente.razon_social.substring(0, 10) + "..."
                 : study.cliente.razon_social
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />
-          <RowCard
+         <RowCard
             headTitle={"RIF/CI"}
             data={study.cliente.ci_rif}
             color={useColorModeValue("gray.600", "gray.400")}
@@ -76,12 +77,89 @@ const renderStudies = (content, toggleModal, colorA, type) => {
             color={useColorModeValue("gray.600", "gray.400")}
           />
         </Box>
-      </Box>
+      </Box> 
     </Link>
   ));
+ 
 };
 
-const renderInformes = (content, toggleModal, colorA) => {
+const renderInformes = (content, toggleModal, colorA,type) => {
+ 
+    return content.map((study) => (
+      <Link
+        onClick={() => {
+          toggleModal(study);
+        }}
+      >
+        <Box
+          height={"250px"}
+          margin={"5px auto 5px auto"}
+          boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
+          borderRadius={"16px"}
+          key={study.id}
+          padding={"0"}
+        >
+          <Box
+            borderTopLeftRadius={"16px"}
+            borderTopRightRadius={"16px"}
+            backgroundColor={colorA}
+            padding={"15px"}
+            paddingBottom={"0px"}
+            minH={"15px"}
+            marginV={"5px"}
+          >
+            <RowCard
+              type="headPrincipal"
+              headTitle={study.estudio_codigo}
+              icon={
+                <BsFillFileEarmarkRichtextFill size={"25px"} color={colorA} />
+              }
+              color={useColorModeValue("gray.600", "gray.400")}
+            />
+          </Box>
+          <Box className="WrapAlignRow" p={"10px"} width={"100%"}>
+            <RowCard
+               headTitle={"Paciente"}
+               data={
+                 study.estudio_patologo_name.length > 10
+                   ? study.estudio_patologo_name.substring(0, 10) + "..."
+                   : study.estudio_patologo_name
+               }
+              color={useColorModeValue("gray.600", "gray.400")}
+            />
+  
+            <RowCard
+              headTitle={"RIF/CI"}
+              data={study.estudio_paciente_ci}
+              color={useColorModeValue("gray.600", "gray.400")}
+            />
+  
+           <RowCard
+              headTitle={"Fecha"}
+              data={formatDate(study.created_at)}
+              color={useColorModeValue("gray.600", "gray.400")}
+            />
+            
+  
+           {study.estudio_prioridad  && 
+           <RowCard
+              headTitle={"Prioridad"}
+              data={
+                <Badge>
+            { study.estudio_prioridad}
+                </Badge>
+               
+              }
+              color={useColorModeValue("gray.600", "gray.400")}
+            />}
+          </Box>
+        </Box>
+      </Link>
+    ));
+  
+  
+};
+const renderMuestras = (content, toggleModal, colorA,type) => {
   return content.map((study) => (
     <Link
       onClick={() => {
@@ -89,7 +167,8 @@ const renderInformes = (content, toggleModal, colorA) => {
       }}
     >
       <Box
-        height={"250px"}
+      width={'210px'}
+        height={"231px"}
         margin={"5px auto 5px auto"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
         borderRadius={"16px"}
@@ -104,53 +183,55 @@ const renderInformes = (content, toggleModal, colorA) => {
           paddingBottom={"0px"}
           minH={"15px"}
           marginV={"5px"}
+          display={'flex'}
+          flex={'wrap'}
+          overflow={'hidden'}
         >
           <RowCard
             type="headPrincipal"
-            headTitle={study.estudio_codigo}
+            headTitle={study.codigo}
             icon={
-              <BsFillFileEarmarkRichtextFill size={"25px"} color={colorA} />
+              <FaFlask size={"25px"} color={colorA} />
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />
         </Box>
         <Box className="WrapAlignRow" p={"10px"} width={"100%"}>
           <RowCard
-             headTitle={"Paciente"}
+             headTitle={"Tipo"}
              data={
-               study.estudio_patologo_name.length > 17
-                 ? study.estudio_patologo_name.substring(0, 17) + "..."
-                 : study.estudio_patologo_name
-             }
+              study.tipo.length > 10
+                ? study.tipo.substring(0, 10) + "..."
+                : study.tipo
+            }
             color={useColorModeValue("gray.600", "gray.400")}
           />
 
-          <RowCard
-            headTitle={"RIF/CI"}
-            data={study.estudio_paciente_ci}
-            color={useColorModeValue("gray.600", "gray.400")}
-          />
+         
 
-          <RowCard
+         <RowCard
             headTitle={"Fecha"}
             data={formatDate(study.created_at)}
             color={useColorModeValue("gray.600", "gray.400")}
           />
-
-         {study.estudio_prioridad  && <RowCard
-            headTitle={"Prioridad"}
-            data={
-              <Badge>
-          { study.estudio_prioridad}
-              </Badge>
-             
-            }
+           <RowCard
+            headTitle={"Confirmado"}
+            data={study.confirmado ? <Badge colorScheme='green'>
+              Confirmado
+            </Badge> : <Badge colorScheme='yellow'>
+              Pendiente
+            </Badge> }
             color={useColorModeValue("gray.600", "gray.400")}
-          />}
+          />
+
+        
         </Box>
       </Box>
     </Link>
   ));
+ 
+
+
 };
 
 export default function CardOverall_({
@@ -179,7 +260,8 @@ export default function CardOverall_({
         border="1px solid #ccc"
         sx={{
           "&::-webkit-scrollbar": {
-            width: "8px",
+            width: "5px",
+            height:"8px",
             borderRadius: "8px",
             backgroundColor: "#f5f5f5",
           },
@@ -206,9 +288,161 @@ export default function CardOverall_({
                 sm: "repeat(1,1fr)",
               }}
             >
-              {type === "informes"
-                ? renderInformes(content, toggleModal, colorA)
-                : renderStudies(content, toggleModal, colorA)}
+              { renderStudies(content, toggleModal, colorA,type)
+               }
+               
+            </Grid>
+          ) : (content.length === 0 && type === "other") ||
+            (type === "informes" && !loading) ? (
+            <>
+              <NotFound desc={"No se encontraron los resultados"} />
+            </>
+          ) : content.length === 0 && type === "search" ? (
+            <>
+              <NotFound desc={"No se encontraron los resultados"} />
+            </>
+          ) : (
+            ""
+          )}
+        </Box>
+      </Box>
+    </div>
+  );
+}
+
+export function CardOverall_Infor({
+  title,
+  content,
+  type,
+  toggleModal,
+  loading,
+  colorA,
+}) {
+  console.log(content);
+  return (
+    <div>
+      <Heading size="md">{content.length === 0 ? " " : title}</Heading>
+      <Box
+        width={"100%"}
+        m={"20px 30px 30px 10px"}
+        backgroundColor={"#FFFF"}
+        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        padding={"25px"}
+        borderRadius="20px"
+        minH={"300px"}
+        maxH={"300px"}
+        overflowY="auto"
+        overflowX="hidden"
+        border="1px solid #ccc"
+        sx={{
+          "&::-webkit-scrollbar": {
+            width: "5px",
+            height:"8px",
+            borderRadius: "8px",
+            backgroundColor: "#f5f5f5",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#888",
+            borderRadius: "5px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            background: "#555",
+          },
+        }}
+      >
+        <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
+          {loading ? (
+            <div className="centerLoader">
+              <CircularProgress value={80} size="80px" color="#137797" />
+            </div>
+          ) : content.length > 0 ? (
+            <Grid
+              gap={"20px"}
+              templateColumns={{
+                lg: "repeat(5,1fr)",
+                md: "repeat(3,1fr)",
+                sm: "repeat(1,1fr)",
+              }}
+            >
+              { renderInformes(content, toggleModal, colorA,type)
+               }
+               
+            </Grid>
+          ) : (content.length === 0 && type === "other") ||
+            (type === "informes" && !loading) ? (
+            <>
+              <NotFound desc={"No se encontraron los resultados"} />
+            </>
+          ) : content.length === 0 && type === "search" ? (
+            <>
+              <NotFound desc={"No se encontraron los resultados"} />
+            </>
+          ) : (
+            ""
+          )}
+        </Box>
+      </Box>
+    </div>
+  );
+}
+
+export function CardOverall_Muestra({
+  title,
+  content,
+  type,
+  toggleModal,
+  loading,
+  colorA,
+}) {
+  console.log(content);
+  return (
+    <div>
+      <Heading size="md">{content.length === 0 ? " " : title}</Heading>
+      <Box
+  width={"100%"}
+  m={"20px 30px 30px 10px"}
+  backgroundColor={"#FFFF"}
+  boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+  padding={"25px"}
+  borderRadius="20px"
+  minH={"300px"}
+  maxH={"300px"}
+  overflowY="auto"
+  overflowX="auto" // Cambiado a "auto" para activar el scroll horizontal
+  border="1px solid #ccc"
+  sx={{
+    "&::-webkit-scrollbar": {
+      width: "5px",
+      height:"8px",
+      borderRadius: "8px",
+      backgroundColor: "#f5f5f5",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "#888",
+      borderRadius: "5px",
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      background: "#555",
+    },
+  }}
+>
+        <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
+          {loading ? (
+            <div className="centerLoader">
+              <CircularProgress value={80} size="80px" color="#137797" />
+            </div>
+          ) : content.length > 0 ? (
+            <Grid
+              gap={"20px"}
+              templateColumns={{
+                lg: "repeat(5,1fr)",
+                md: "repeat(3,1fr)",
+                sm: "repeat(1,1fr)",
+              }}
+            >
+              { renderMuestras(content, toggleModal, colorA,type)
+               }
+               
             </Grid>
           ) : (content.length === 0 && type === "other") ||
             (type === "informes" && !loading) ? (

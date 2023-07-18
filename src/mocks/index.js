@@ -35,3 +35,14 @@ export const selectorOptionsGenders = [
     { value: 'INMUNOSTOQUIMICA'},
   ];
 
+  export const thValuesInformes = [
+    { value: '#' },
+    { value: 'Fecha de impresa'},
+    { value: 'Paciente'},
+    { value: 'RIF/CI'},
+    { value: 'Tipo de Estudio'},
+    { value: 'Patologo'},
+    { value: ' '},
+  ];
+
+

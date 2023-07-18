@@ -24,10 +24,14 @@ import ModalRegistro from "./components/ModalRegistro";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
 import { getStudiesList } from "api/controllers/estudios";
-import { getStudiesDetail } from "api/controllers/estudios";
+import { useMuestrasPatologo } from "hooks/MuestrasPatologo/useMuestrasPatologo";
+import MainContext from "context/mainContext/MainContext";
+import CardOverall_ from "components/widgets/Cards/CardOverall";
+import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+  const { hiddenmuestrasPatologosort} = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const [studies, setStudies] = useState();
   const [study, setStudy] = useState();
@@ -35,13 +39,15 @@ const Dashboard = () => {
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
 
+ const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB}= useMuestrasPatologo()
+
   // Iterar sobre los datos y clasificar según la prioridad
   // Clasificar estudios según prioridad
-  const highPriorityStudies = [];
-  const mediumPriorityStudies = [];
-  const lowPriorityStudies = [];
+  //const highPriorityStudies = [];
+ // const mediumPriorityStudies = [];
+ // const lowPriorityStudies = [];
 
-  if (studies) {
+ /* if (studies) {
     studies.forEach((study) => {
       const priority = study.prioridad;
       const isConfirmed = study.confirmado;
@@ -56,17 +62,24 @@ const Dashboard = () => {
         }
       }
     });
-  }
-  console.log(lowPriorityColor);
+  }*/
+ // console.log(lowPriorityColor);
 
   // modales para las vistas flotantes
+
+  useEffect(() => {
+    getMuestrasPatologoAlta()
+    getMuestrasPatologoMedia()
+    getMuestrasPatologoBaja()
+  }, [])
+  
 
   const toggleModal = (study) => {
     setShowModal(!showModal);
     setStudy(study);
   };
 
-  const peticionGet = async () => {
+ /* const peticionGet = async () => {
     try {
       const estudiosList = await getStudiesList()
       setStudies(estudiosList)
@@ -77,7 +90,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     peticionGet();
-  }, []);
+  }, []); */
 
   const renderStudies = (studies, priorityColor) => {
     const renderDate = (createdAt) => {
@@ -181,97 +194,64 @@ const Dashboard = () => {
           padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
           backgroundColor={'gray.100'}
           borderRadius={'20px'}
-          backgroundSize="cover"
+          //backgroundSize="cover"
           backgroundPosition="center"
           height={'auto'}
-          
+          //width={'95%'}
         >
           <Box padding={'2%'}>
-            <Heading
+            {/*<Heading
               size="md"
             >
               Registro de muestras
-            </Heading>
-            <Box
-              width={'100%'}
-              m={"20px 30px 30px 10px"}
-              backgroundColor={"#FFFF"}
-              boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-              borderRadius="20px"
-              overflowY="scroll"
-              overflowX="hidden"
-              maxH={'34em'}
-              minH={"300px"}
-      //  maxH={"300px"}
-              sx={{
-                "&::-webkit-scrollbar": {
-                  width: "8px",
-                  borderRadius: "8px",
-                  backgroundColor: "#f5f5f5",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#888",
-                  borderRadius: "5px",
-                },
-                "&::-webkit-scrollbar-thumb:hover": {
-                  background: "#555",
-                },
-              }}
+            </Heading>*/}
+            <Box marginTop={"-15px"} padding={"2%"} >
+          {hiddenmuestrasPatologosort ? (
+            <>
+              <CardOverall_Muestra
+                title={"Prioridad Alta"}
+                content={muestraALTA}
+                toggleModal={toggleModal}
+                colorA={highPriorityColor}
+                loading={loadingA}
+                type="other"
+              />
 
-            >
-              <SimpleGrid columns={1} spacing={4}>
-                <SimpleGrid columns={1}>
-                  <Box
-                    padding={'25px'}
-                  >
-                    <Heading
-                      borderBottom="solid"
-                      borderColor={highPriorityColor}
-                      size="md"
-                      mb={4}
-                    >
-                      Prioridad Alta
-                    </Heading>
-                    <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {renderStudies(highPriorityStudies, highPriorityColor)}
-                    </Grid>
-                  </Box>
-                </SimpleGrid>
-                <SimpleGrid columns={1}>
-                  <Box padding={'25px'}>
-                    <Heading
-                      borderBottom="solid"
-                      borderColor={mediumPriorityColor}
-                      size="md"
-                      mb={4}
-                    >
-                      Prioridad Media
-                    </Heading>
-                    <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {renderStudies(mediumPriorityStudies, mediumPriorityColor)}
-                    </Grid>
-                  </Box>
-                </SimpleGrid>
-                <SimpleGrid columns={1}>
-                  <Box padding={'25px'}>
-                    <Heading
-                      borderBottom="solid"
-                      borderColor={lowPriorityColor}
-                      size="md"
-                      mb={4}
-                    >
-                      Prioridad Baja
-                    </Heading>
-                    <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {renderStudies(lowPriorityStudies, lowPriorityColor)}
-                    </Grid>
-                  </Box>
-                </SimpleGrid>
-              </SimpleGrid>
-            </Box>
+              <CardOverall_Muestra
+                title={"Prioridad Media"}
+                content={muestraMEDIA}
+                toggleModal={toggleModal}
+                colorA={mediumPriorityColor}
+                loading={loadingM}
+                type="other"
+              />
+               <CardOverall_Muestra
+                title={"Prioridad Baja"}
+                content={muestraBAJA}
+                toggleModal={toggleModal}
+                colorA={lowPriorityColor}
+                loading={loadingB}
+                type="other"
+              />
+            </>
+          ) : (
+            <CardOverall_
+              title={"Resultados"}
+              content={facturas}
+              toggleModal={toggleModal}
+              colorA={colorA}
+              //loading={loading}
+              type="search"
+            />
+          )}
+
+          {/*<ShowMoreButton handleClick={toggleModalList} />*/}
+        </Box>
           </Box>
         </Box>
-        <Modal
+
+
+       {/* <Modal
           size={'3xl'}
           maxWidth='100%'
           isOpen={showModal}
@@ -296,7 +276,7 @@ const Dashboard = () => {
               <ModalRegistro study={study} close={toggleModal} />
             </ModalBody>
           </ModalContent>
-        </Modal>
+        </Modal> */}
       </>
     ) : (
       <ModoLista />
