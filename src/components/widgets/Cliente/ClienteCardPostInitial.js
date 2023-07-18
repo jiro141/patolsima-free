@@ -205,19 +205,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
-
-    formik.setValues({
-      id: paciente.id,
-      ci: paciente.ci,
-      nombres: paciente.nombres,
-      apellidos: paciente.apellidos,
-      fecha_nacimiento: paciente.fecha_nacimiento,
-      direccion: paciente.direccion,
-      email: paciente.email,
-      telefono_fijo: paciente.telefono_fijo,
-      telefono_celular: paciente.telefono_celular,
-      sexo: paciente.sexo,
-    });
+console.log(paciente)
+  
     try {
       const pacienteDetail = await getPacientesDetail(paciente.id);
       console.log(pacienteDetail);
@@ -225,6 +214,23 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       setRegistro(pacienteDetail);
       toggleModal(true);
       setOneState("put");
+
+     
+     formik.setValues({
+        id: pacienteDetail.id,
+        ci: pacienteDetail.ci,
+        nombres: pacienteDetail.nombres,
+        apellidos: pacienteDetail.apellidos,
+       // fecha_nacimiento: date,
+        direccion: pacienteDetail.direccion,
+        email: pacienteDetail.email,
+        telefono_fijo: pacienteDetail.telefono_fijo,
+        telefono_celular: pacienteDetail.telefono_celular,
+        sexo: pacienteDetail.sexo,
+       
+      });
+      onChange(pacienteDetail.fecha_nacimiento)
+      //console.log(formikValue)
       // formik.validateForm();
     } catch (error) {
       console.log(error);
