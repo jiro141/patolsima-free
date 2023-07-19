@@ -25,6 +25,7 @@ import MainContext from "context/mainContext/MainContext";
 import { formatDate } from "helpers";
 import InputCalendar from "../Inputs/InputCalendar";
 import { putPacientes } from "api/controllers/pacientes";
+import { NextStation } from "../Buttons/NextStation";
 
 const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
@@ -269,7 +270,6 @@ console.log(paciente)
   };
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
-      console.log("search", searchci);
       if (searchci === "") {
         setsearchci("");
         return;
@@ -293,6 +293,7 @@ console.log(paciente)
       borderRadius="20px"
       m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
     >
+      <NextStation/>
       {
         <form>
           <Text

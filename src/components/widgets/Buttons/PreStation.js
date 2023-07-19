@@ -18,6 +18,7 @@ export const PreStation = () => {
       onClick={handleDeincrement}
       cursor='pointer'
       _hover={{ opacity: 0.8 }}
+      // marginBottom={'-20px'}
     >
       <FormLabel color={'black'}>Siguiente etapa</FormLabel>
       <BsFillArrowRightCircleFill size={'25px'} color='#137797' />

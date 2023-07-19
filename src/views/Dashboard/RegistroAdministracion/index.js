@@ -150,58 +150,58 @@ function Registro() {
               <CustomTab
                 title="Médico"
                 isActive={activeTab === 1}
-                isDisabled={activeTab === 0}
+                isDisabled={activeTab != 1}
               />
               <CustomTab
                 title="Estudio"
                 isActive={activeTab === 2}
-                isDisabled={activeTab < 2 && activeTab < 3}
+                isDisabled={activeTab != 2}
               />
               <CustomStudy2
                 title="Estudio2"
                 isActive={activeTab === 3}
-                isDisabled={activeTab < 3}
+                isDisabled={activeTab != 3}
               />
             </TabList>
 
-       
-                {activeTab === 0 && (
-                  <ClienteCardPostInitial
-                    registro={registroSeleccionadoCliente}
-                    setRegistro={setRegistroSeleccionadoCliente}
-                  />
-                )}
-                {activeTab === 1 &&  (
-                  <MedicoCardPostInitial
-                    registro={resgistroSeleccionadoMedico}
-                    setRegistro={setRegistroSeleccionadoMedico}
-                    twoState={twoState}
-                    setTwoState={setTwoState}
-                  />
-                )}
-                {activeTab === 2 && (
-                  <Box
-                    backgroundColor={"#FFFF"}
-                    boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
-                    padding={{ lg: "30px", sm: "15px" }}
-                    borderRadius="20px"
-                    m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
-                  >
-                    <Muestra />
-                  </Box>
-                )}
-                {activeTab === 3 && (
-                  <Box
-                    backgroundColor={"#FFFF"}
-                    boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
-                    padding={{ lg: "30px", sm: "15px" }}
-                    borderRadius="20px"
-                    m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
-                  >
-                    <Muestra2 />
-                  </Box>
-                )}
-              
+
+            {activeTab === 0 && (
+              <ClienteCardPostInitial
+                registro={registroSeleccionadoCliente}
+                setRegistro={setRegistroSeleccionadoCliente}
+              />
+            )}
+            {activeTab === 1 && (
+              <MedicoCardPostInitial
+                registro={resgistroSeleccionadoMedico}
+                setRegistro={setRegistroSeleccionadoMedico}
+                twoState={twoState}
+                setTwoState={setTwoState}
+              />
+            )}
+            {activeTab === 2 && (
+              <Box
+                backgroundColor={"#FFFF"}
+                boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
+                padding={{ lg: "30px", sm: "15px" }}
+                borderRadius="20px"
+                m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
+              >
+                <Muestra />
+              </Box>
+            )}
+            {activeTab === 3 && (
+              <Box
+                backgroundColor={"#FFFF"}
+                boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
+                padding={{ lg: "30px", sm: "15px" }}
+                borderRadius="20px"
+                m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
+              >
+                <Muestra2 />
+              </Box>
+            )}
+
           </Tabs>
         </Box>
       </Box>
