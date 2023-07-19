@@ -643,7 +643,7 @@ marginBottom={'10px'}
                 </ModalContent>
             </Modal>
 
-<AddAbonarModal facturasDetail={'facturasDetail'} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={'facturasDetail?.id'} />
+<AddAbonarModal facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={'facturasDetail?.id'} />
 
          
         </>
