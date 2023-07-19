@@ -436,7 +436,7 @@ const SidebarContent = ({ logoText, routes }) => {
           <CircularProgress value={20} size="30px" color="#137797"  />
         </div>
         </Box>
-        
+
       ) : (
         <>
           <Box pt={"10px"} mb="5px">
@@ -459,9 +459,13 @@ const SidebarContent = ({ logoText, routes }) => {
                 ? linksAdmin
                 : linksAll}
               <Separator></Separator>
-            </Box>*/}
+            </Box> */}
              <Box>
-              {linksAll}
+              {arrGroup === "patologo"
+                ? linksPatology
+                : arrGroup === "administracion"
+                ? linksAdmin
+                : linksAll}
               <Separator></Separator>
             </Box>
           </Stack>
