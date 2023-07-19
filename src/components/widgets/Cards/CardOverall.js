@@ -12,12 +12,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { formatDate } from "helpers";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsFillFileEarmarkRichtextFill, BsReceipt } from "react-icons/bs";
 import "../../../css/style.css";
 import NotFound from "../others/NotFound";
 import RowCard from "./RowCard";
 import { FaFlask } from "react-icons/fa";
+import { Separator } from "components/Separator/Separator";
 //here
 
 const renderStudies = (content, toggleModal, colorA, type) => {
@@ -29,20 +30,24 @@ const renderStudies = (content, toggleModal, colorA, type) => {
     >
        <Box
        width={'210px'}
-        height={"231px"}
+        height={"235px"}
+      
         margin={"5px auto 5px auto"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
         borderRadius={"16px"}
         key={study.id}
-        padding={"0"}
+        
+       
       >
         <Box
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
           backgroundColor={colorA}
-          padding={"10px"}
-          paddingBottom={"0px"}
-          minH={"15px"}
+         // padding={"10px"}
+          //paddingBottom={"2px"}
+          py={'1px'}
+          px={'6px'}
+          minH={"5px"}
         >
           <RowCard
             type={"headPrincipal"}
@@ -106,8 +111,8 @@ const renderInformes = (content, toggleModal, colorA,type) => {
             borderTopLeftRadius={"16px"}
             borderTopRightRadius={"16px"}
             backgroundColor={colorA}
-            padding={"15px"}
-            paddingBottom={"0px"}
+            py={'1px'}
+            px={'6px'}
             minH={"15px"}
             marginV={"5px"}
           >
@@ -182,8 +187,8 @@ const renderMuestras = (content, toggleModal, colorA,type) => {
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
           backgroundColor={colorA}
-          padding={"15px"}
-          paddingBottom={"0px"}
+          py={'1px'}
+          px={'6px'}
           minH={"15px"}
           marginV={"5px"}
           display={'flex'}
@@ -245,39 +250,70 @@ export default function CardOverall_({
   loading,
   colorA,
 }) {
-  console.log(content);
+  const containerRef = useRef(null);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const scrollSpeed = 2; // Ajusta la velocidad del desplazamiento horizontal
+
+  const handleMouseDown = (e) => {
+    setIsMouseDown(true);
+    setStartX(e.pageX - containerRef.current.offsetLeft);
+    setScrollLeft(containerRef.current.scrollLeft);
+    containerRef.current.style.scrollBehavior = "unset";
+  };
+
+  const handleMouseMove = (e) => {
+    if (isMouseDown && containerRef.current) {
+      const x = e.pageX - containerRef.current.offsetLeft;
+      const walk = (x - startX) * scrollSpeed;
+      containerRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsMouseDown(false);
+    containerRef.current.style.scrollBehavior = "smooth";
+  };
   return (
     <div>
       <Heading size="md">{content.length === 0 ? " " : title}</Heading>
       <Box
-        width={"100%"}
-        m={"20px 30px 30px 10px"}
-        backgroundColor={"#FFFF"}
-        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-        padding={"25px"}
-        borderRadius="20px"
-        minH={"300px"}
-        maxH={"300px"}
-        overflowY="auto"
-        overflowX="hidden"
-        border="1px solid #ccc"
-        sx={{
-          "&::-webkit-scrollbar": {
-            width: "5px",
-            height:"8px",
-            borderRadius: "8px",
-            backgroundColor: "#f5f5f5",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "#888",
-            borderRadius: "5px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            background: "#555",
-          },
-        }}
+           ref={containerRef}
+           width={"100%"}
+           m={"20px 30px 30px 20px"}
+           backgroundColor={"#FFFF"}
+           boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+           //py={'25px'}
+          px={'10px'}
+           py={"25px"}
+           borderRadius="20px"
+           minH={"300px"}
+           maxH={"300px"}
+           overflowY="auto"
+           overflowX="auto"
+           onMouseDown={handleMouseDown}
+           onMouseMove={handleMouseMove}
+           onMouseUp={handleMouseUp}
+           onMouseLeave={handleMouseUp}
+           border="1px solid #ccc"
+           sx={{
+                   "&::-webkit-scrollbar": {
+                     width: "6px",
+                     height:"6px",
+                     borderRadius: "8px",
+                     backgroundColor: "#f5f5f5",
+                   },
+                   "&::-webkit-scrollbar-thumb": {
+                     background: "#888",
+                     borderRadius: "5px",
+                   },
+                   "&::-webkit-scrollbar-thumb:hover": {
+                     background: "#555",
+                   },
+                 }}
       >
-        <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
+        <Box  >
           {loading ? (
             <div className="centerLoader">
               <CircularProgress value={80} size="80px" color="#137797" />
@@ -321,37 +357,68 @@ export function CardOverall_Infor({
   loading,
   colorA,
 }) {
-  console.log(content);
+  const containerRef = useRef(null);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const scrollSpeed = 2; // Ajusta la velocidad del desplazamiento horizontal
+
+  const handleMouseDown = (e) => {
+    setIsMouseDown(true);
+    setStartX(e.pageX - containerRef.current.offsetLeft);
+    setScrollLeft(containerRef.current.scrollLeft);
+    containerRef.current.style.scrollBehavior = "unset";
+  };
+
+  const handleMouseMove = (e) => {
+    if (isMouseDown && containerRef.current) {
+      const x = e.pageX - containerRef.current.offsetLeft;
+      const walk = (x - startX) * scrollSpeed;
+      containerRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsMouseDown(false);
+    containerRef.current.style.scrollBehavior = "smooth";
+  };
   return (
     <div>
       <Heading size="md">{content.length === 0 ? " " : title}</Heading>
       <Box
-        width={"100%"}
-        m={"20px 30px 30px 10px"}
-        backgroundColor={"#FFFF"}
-        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-        padding={"25px"}
-        borderRadius="20px"
-        minH={"300px"}
-        maxH={"300px"}
-        overflowY="auto"
-        overflowX="hidden"
-        border="1px solid #ccc"
-       sx={{
-          "&::-webkit-scrollbar": {
-            width: "5px",
-            height:"8px",
-            borderRadius: "8px",
-            backgroundColor: "#f5f5f5",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "#888",
-            borderRadius: "5px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            background: "#555",
-          },
-        }}
+          ref={containerRef}
+          width={"100%"}
+          m={"20px 30px 30px 20px"}
+          backgroundColor={"#FFFF"}
+          boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+          //py={'25px'}
+         px={'10px'}
+          py={"25px"}
+          borderRadius="20px"
+          minH={"300px"}
+          maxH={"300px"}
+          overflowY="auto"
+          overflowX="auto"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          border="1px solid #ccc"
+          sx={{
+                  "&::-webkit-scrollbar": {
+                    width: "6px",
+                    height:"6px",
+                    borderRadius: "8px",
+                    backgroundColor: "#f5f5f5",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#888",
+                    borderRadius: "5px",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    background: "#555",
+                  },
+                }}
       >
         <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
           {loading ? (
@@ -397,37 +464,76 @@ export function CardOverall_Muestra({
   loading,
   colorA,
 }) {
-  console.log(content);
+  const containerRef = useRef(null);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const scrollSpeed = 2; // Ajusta la velocidad del desplazamiento horizontal
+
+  const handleMouseDown = (e) => {
+    setIsMouseDown(true);
+    setStartX(e.pageX - containerRef.current.offsetLeft);
+    setScrollLeft(containerRef.current.scrollLeft);
+    containerRef.current.style.scrollBehavior = "unset";
+  };
+
+  const handleMouseMove = (e) => {
+    if (isMouseDown && containerRef.current) {
+      const x = e.pageX - containerRef.current.offsetLeft;
+      const walk = (x - startX) * scrollSpeed;
+      containerRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsMouseDown(false);
+    containerRef.current.style.scrollBehavior = "smooth";
+  };
   return (
     <div>
-      <Heading size="md">{content.length === 0 ? " " : title}</Heading>
+      <Heading size="md">
+      {content.length === 0 ? " " : <>
+      
+      {title}
+      <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
+      </>
+      }
+  
+      </Heading>
       <Box
-  width={"100%"}
-  m={"20px 30px 30px 10px"}
-  backgroundColor={"#FFFF"}
-  boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-  padding={"25px"}
-  borderRadius="20px"
-  minH={"300px"}
-  maxH={"300px"}
-  overflowY="auto"
-  overflowX="auto" // Cambiado a "auto" para activar el scroll horizontal
-  border="1px solid #ccc"
-  sx={{
-          "&::-webkit-scrollbar": {
-            width: "5px",
-            height:"8px",
-            borderRadius: "8px",
-            backgroundColor: "#f5f5f5",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "#888",
-            borderRadius: "5px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            background: "#555",
-          },
-        }}
+      ref={containerRef}
+      width={"100%"}
+      m={"20px 30px 30px 20px"}
+      backgroundColor={"#FFFF"}
+      boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+      //py={'25px'}
+     px={'10px'}
+      py={"25px"}
+      borderRadius="20px"
+      minH={"300px"}
+      maxH={"300px"}
+      overflowY="auto"
+      overflowX="auto"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      border="1px solid #ccc"
+      sx={{
+              "&::-webkit-scrollbar": {
+                width: "6px",
+                height:"6px",
+                borderRadius: "8px",
+                backgroundColor: "#f5f5f5",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#888",
+                borderRadius: "5px",
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                background: "#555",
+              },
+            }}
 >
         <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
           {loading ? (

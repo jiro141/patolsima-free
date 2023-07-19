@@ -7,8 +7,8 @@ import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
 
 export function useFacturaDetail({studyId}) {
-  const [facturasDetail, setFacturasDetail] = useState();
-  const [studyDetail, setStudyDetail] = useState();
+  const [facturasDetail, setFacturasDetail] = useState(null);
+  const [studyDetail, setStudyDetail] = useState(null);
   const [itemOrden, setItemOrden] = useState();
   const [loadingDetailFact, setloadingDetailFact] = useState(false);
   const [errorC, seterrorC] = useState(false);
@@ -19,7 +19,7 @@ export function useFacturaDetail({studyId}) {
     try {
       const facturasDetail = await getFacturasDetail(studyId);
       setFacturasDetail(facturasDetail);
-      setItemOrden(facturasDetail?.items_orden.map((item) => item.estudio));
+      setItemOrden(facturasDetail.cliente.id);
     } catch (error) {
       console.log(error);
     } finally {
@@ -29,7 +29,7 @@ export function useFacturaDetail({studyId}) {
 
   const getStudyDetail = useCallback(async () => {
     try {
-      const study = await studiesDetail(itemOrden);
+      const study = await studiesDetail(24);
       setStudyDetail(study);
     } catch (error) {
       console.log(error);

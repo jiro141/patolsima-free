@@ -28,6 +28,7 @@ import { useMuestrasPatologo } from "hooks/MuestrasPatologo/useMuestrasPatologo"
 import MainContext from "context/mainContext/MainContext";
 import CardOverall_ from "components/widgets/Cards/CardOverall";
 import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
+import ModalRegisterInforme from "components/widgets/Modals/ModalRegisterInforme";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
@@ -75,6 +76,7 @@ const Dashboard = () => {
   
 
   const toggleModal = (study) => {
+    console.log('toggleling')
     setShowModal(!showModal);
     setStudy(study);
   };
@@ -200,11 +202,7 @@ const Dashboard = () => {
           //width={'95%'}
         >
           <Box padding={'2%'}>
-            {/*<Heading
-              size="md"
-            >
-              Registro de muestras
-            </Heading>*/}
+          
             <Box marginTop={"-15px"} padding={"2%"} >
           {hiddenmuestrasPatologosort ? (
             <>
@@ -245,7 +243,7 @@ const Dashboard = () => {
             />
           )}
 
-          {/*<ShowMoreButton handleClick={toggleModalList} />*/}
+        
         </Box>
           </Box>
         </Box>
@@ -277,6 +275,9 @@ const Dashboard = () => {
             </ModalBody>
           </ModalContent>
         </Modal> */}
+        <ModalRegisterInforme showModal={showModal}
+        toggleModal={toggleModal}
+        study={study} />
       </>
     ) : (
       <ModoLista />

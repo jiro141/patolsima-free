@@ -117,6 +117,8 @@ const Dashboard = () => {
     <>
       <Box
         margin={{ lg: "50px 0px 0px 30px", sm: "60px 0px 10% 0px" }}
+        //py={'5px'}
+       
         padding={{ lg: "0 25px", md: "10px", sm: "0px 0 10% 0" }}
         backgroundColor={"gray.100"}
         borderTopLeftRadius={"20px"}
@@ -132,7 +134,7 @@ const Dashboard = () => {
           display="flex"
           justifyContent="flex-end"
         >
-          <Box width={"15%"}>
+          <Box width={"auto"} marginBottom={'-20px'}>
             <Text
               borderTopLeftRadius={"20px"}
               borderBottomLeftRadius={"20px"}
@@ -147,7 +149,7 @@ const Dashboard = () => {
           </Box>
         </Box>
 
-        <Box marginTop={"-15px"} padding={"2%"}>
+        <Box marginTop={"-15px"} width={'100%'}  >
           {hiddenFactssort ? (
             <>
               <CardOverall_

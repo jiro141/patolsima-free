@@ -12,10 +12,13 @@ import {
     ModalContent,
     ModalHeader,
     ModalBody,
-    CloseButton
+    CloseButton,
+    Badge
 } from "@chakra-ui/react";
 import ModalDescripcion from "./ModalDescripcion";
 import { getStudiesDetail } from "api/controllers/estudios";
+import { Separator } from "components/Separator/Separator";
+import GeneralButton from "components/widgets/Buttons/GeneralButton";
 
 
 const ModalInforme = ({ id }) => {
@@ -48,31 +51,43 @@ const ModalInforme = ({ id }) => {
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'} >Paciente</Text>
+                                <Text fontSize={'16px'} >Paciente</Text>
                                 {studiesDetail ? (
-                                    <Text >{studiesDetail.paciente.nombres} {studiesDetail.paciente.apellidos}</Text>
+                                    <Badge>
+                                    <Text >{studiesDetail?.paciente?.nombres} {studiesDetail.paciente.apellidos}</Text>
+                                    </Badge>
+                                    
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Fecha</Text>
+                                <Text fontSize={'16px'}>Fecha</Text>
+                                <Badge>
                                 <Text >{fecha}</Text>
+                                </Badge>
+                                
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Cedula de Identidad</Text>
+                                <Text fontSize={'16px'}>Cedula de Identidad</Text>
                                 {studiesDetail ? (
-                                    <Text >{studiesDetail.paciente.ci}</Text>
+                                    <Badge>
+                                    <Text >{studiesDetail?.paciente.ci}</Text>
+                                    </Badge>
+                                    
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Medico Tratante</Text>
+                                <Text fontSize={'16px'}>Medico Tratante</Text>
                                 {studiesDetail ? (
-                                    <Text >{studiesDetail.medico_tratante.nombres} {studiesDetail.medico_tratante.apellidos}</Text>
+                                    <Badge>
+<Text >{studiesDetail.medico_tratante.nombres} {studiesDetail.medico_tratante.apellidos}</Text>
+                                    </Badge>
+                                    
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
@@ -80,72 +95,88 @@ const ModalInforme = ({ id }) => {
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Telefono</Text>
+                                <Text fontSize={'16px'}>Telefono</Text>
                                 {studiesDetail ? (
-                                    <Text color={'gray.600'}>{studiesDetail.paciente.telefono_celular}</Text>
+                                    <Badge>
+                                <Text color={'gray.600'}>{studiesDetail.paciente.telefono_celular}</Text>
+                                    </Badge>
+                                    
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Telefono</Text>
+                                <Text fontSize={'16px'}>Telefono</Text>
                                 {studiesDetail ? (
-                                    <Text >{studiesDetail.medico_tratante.telefono_celular}</Text>
+                                    <Badge>
+ <Text >{studiesDetail.medico_tratante.telefono_celular}</Text>
+                                    </Badge>
+                                   
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
                             </Box>
                         </Box>
                     </Grid>
+                   
                     <Text margin={'10px'} fontSize={'20px'}>Información de estudio</Text>
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Numero de estudio</Text>
+                                <Text fontSize={'16px'}>Numero de estudio</Text>
                                 {studiesDetail ? (
+                                    <Badge>
                                     <Text >{studiesDetail.codigo}</Text>
+                                    </Badge>
+                                    
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
                             </Box>
-                            <Box margin={'10px'} >
+                          {/*  <Box margin={'10px'} >
                                 <Text fontSize={'17px'}>Tipo de muestra</Text>
                                 <Text>Estomago</Text>
-                            </Box>
+                            </Box>*/}
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>tipo de estudio</Text>
+                                <Text fontSize={'16px'}>Tipo de estudio</Text>
                                 {studiesDetail ? (
+                                    <Badge>
                                     <Text >{studiesDetail.tipo}</Text>
+                                    </Badge>
+                                    
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
                             </Box>
-                            <Box margin={'10px'}>
+                            {/*<Box margin={'10px'}>
                                 <Text fontSize={'17px'}>Tipo de muestra 2</Text>
                                 <Text>Estomago parte alta</Text>
-                            </Box>
+                            </Box>*/}
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Patologo</Text>
+                                <Text fontSize={'16px'}>Patologo</Text>
                                 {studiesDetail ? (
-                                    <Text >{studiesDetail.patologo.nombres} {studiesDetail.patologo.apellidos}</Text>
+                                    <Badge>
+ <Text >{studiesDetail?.patologo?.nombres} {studiesDetail?.patologo?.apellidos}</Text>
+                                    </Badge>
+                                   
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
                             </Box>
-                            <Box margin={'10px'}>
+                            {/*<Box margin={'10px'}>
                                 <Text fontSize={'17px'}>Tipo de muestra 3</Text>
                                 <Text>Estomago parte baja</Text>
-                            </Box>
+                            </Box>*/}
                         </Box>
                     </Grid>
-                    <Grid margin={'60px 10px 20px 10px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
+                    <Grid margin={'40px 5px 20px 5px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
                         <Select color="gray.400" defaultValue="Informes anteriores">
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
-                            {studiesDetail ? (
+                            {/*studiesDetail ? (
                                 studiesDetail.muestras.map((muestra, index) => (
                                     <option key={index} value={muestra.tipo_de_muestra}>
                                         {muestra.tipo_de_muestra}
@@ -153,11 +184,11 @@ const ModalInforme = ({ id }) => {
                                 ))
                             ) : (
                                 <option disabled>Loading...</option>
-                            )}
+                            )*/}
                         </Select>
                         <Select color="gray.400" defaultValue="Anexos">
                             <option hidden colorScheme="gray.400">Anexos</option>
-                            {studiesDetail ? (
+                            {/*studiesDetail ? (
                                 studiesDetail.adjuntos.map((adjunto, index) => (
                                     <option key={index} value={adjunto}>
                                         {adjunto}
@@ -165,7 +196,7 @@ const ModalInforme = ({ id }) => {
                                 ))
                             ) : (
                                 <option disabled>Loading...</option>
-                            )}
+                            )*/}
                         </Select>
                         <Input
                             placeholder='Notas'
@@ -260,16 +291,19 @@ const ModalInforme = ({ id }) => {
                                 setTitulo('Biblografía');
                             }}>Biblografía</Button>
                     </Box>
+                    <Box style={{display:"flex", justifyContent:'flex-end',marginTop:"-20px"}}>
+                    <GeneralButton  text={'Procesar'} handleClick={()=>{}}  />
+                    </Box>
                 </Box>
             </Grid>
-            <Button
+           { /*<Button
                 marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
                 marginLeft={{ lg: '88%', md: '70%', sm: '77%' }}
                 borderRadius={'20px'}
                 bgColor={'#137797'}
                 color='#ffff'>
                 Procesar
-            </Button>
+            </Button>*/}
             <Modal
                 size={'4xl'}
                 maxWidth='100%'

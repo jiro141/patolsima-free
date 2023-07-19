@@ -40,7 +40,7 @@ const Dashboard = () => {
   const [showModalList, setShowModalList] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
 
-  const highPriorityStudies = [];
+  /*const highPriorityStudies = [];
   const mediumPriorityStudies = [];
   const lowPriorityStudies = [];
   if (informes) {
@@ -54,7 +54,7 @@ const Dashboard = () => {
         lowPriorityStudies.push(informe);
       }
     });
-  }
+  }*/
 
   const toggleModal = (informe) => {
     setShowModal(!showModal);
@@ -219,7 +219,7 @@ const Dashboard = () => {
                       Prioridad Alta
                     </Heading>
                     <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {renderStudies(highPriorityStudies, highPriorityColor)}
+                      {/*renderStudies(highPriorityStudies, highPriorityColor)*/}
                     </Grid>
                   </Box>
                 </SimpleGrid>
@@ -234,7 +234,7 @@ const Dashboard = () => {
                       Prioridad Media
                     </Heading>
                     <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {renderStudies(mediumPriorityStudies, mediumPriorityColor)}
+                      {/*renderStudies(mediumPriorityStudies, mediumPriorityColor)*/}
                     </Grid>
                   </Box>
                 </SimpleGrid>
@@ -249,7 +249,7 @@ const Dashboard = () => {
                       Prioridad Baja
                     </Heading>
                     <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {renderStudies(lowPriorityStudies, lowPriorityColor)}
+                      {/*renderStudies(lowPriorityStudies, lowPriorityColor)*/}
                     </Grid>
                   </Box>
                 </SimpleGrid>
@@ -265,7 +265,7 @@ const Dashboard = () => {
               Ver más</Button>
           </Box>
         </Box>
-        <Modal
+       <Modal
           size={"4xl"}
           maxWidth='100%'
           isOpen={showModal}
@@ -291,7 +291,7 @@ const Dashboard = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
-        <Modal
+       <Modal
           size={sizeView}
           maxWidth='100%'
           isOpen={showModalList}

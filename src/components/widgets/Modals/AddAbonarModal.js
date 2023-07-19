@@ -34,7 +34,7 @@ export default function AddAbonarModal({
 
   const handleSubmit = async () => {
     const newObj = {
-      orden: facturasDetail.id,
+     // orden: facturasDetail.id,
       monto_usd: valueInput,
     };
     console.log('heree endpoint')
@@ -97,7 +97,7 @@ export default function AddAbonarModal({
               <Box>
                 <Text textAlign="center">Monto total: </Text>
               </Box>
-              <Box>
+             {/* <Box>
                 <Text textAlign="center">
                   <Badge>
                     {facturasDetail ? facturasDetail?.balance.por_pagar_usd : ""}{" "}
@@ -105,7 +105,7 @@ export default function AddAbonarModal({
                   </Badge>
                   <Badge>{facturasDetail ? facturasDetail?.balance.por_pagar_bs: ''}Bs</Badge>
                 </Text>
-              </Box>
+              </Box>*/}
             </Grid>
             <Grid gap={"3px"} templateColumns={"1.5fr 2fr"}>
               <Box width={"100%"}>

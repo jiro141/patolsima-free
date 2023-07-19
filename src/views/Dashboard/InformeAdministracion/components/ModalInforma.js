@@ -12,7 +12,8 @@ import {
     ModalContent,
     ModalHeader,
     ModalBody,
-    CloseButton
+    CloseButton,
+    Badge
 } from "@chakra-ui/react";
 import ModalDescripcion from "./ModalDescripcion";
 
@@ -32,8 +33,11 @@ const ModalInforme = () => {
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'} >Paciente</Text>
+                                <Text fontSize={'16px'} >Paciente</Text>
+                                <Badge>
                                 <Text >Amelia Amigo Jordan</Text>
+                                </Badge>
+                               
                             </Box>
                             <Box margin={'10px'}>
                                 <Text fontSize={'17px'}>Fecha</Text>

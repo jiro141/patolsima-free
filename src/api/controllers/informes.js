@@ -1,9 +1,10 @@
 import Axios from "api/authApi";
 //post create informes 
-export const postInforme= async (id) => {
+export const postInformes= async (formData,id) => {
+    console.log(formData)
     try {
-        const response = await Axios.post(`/v1/core/informes/`, id)
-        console.log(response);
+        const response = await Axios.post(`/v1/core/informes/`, formData)
+        console.log(response.data);
         return response;
     } catch (error) {
         console.log(error);

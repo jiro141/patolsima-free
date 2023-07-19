@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import {
     Box,
     Text,
@@ -33,19 +33,21 @@ import { Separator } from "components/Separator/Separator";
 import { postArchivar } from "api/controllers/facturas";
 import ModalPrint from "components/widgets/Modals/ModalPrintFact";
 import ModalFctTerceros from "components/widgets/Modals/ModalFctTerceros";
+import { studiesDetail } from "api/controllers/estudios";
+import { getStudiesDetail } from "api/controllers/estudios";
 
 
 const ModalFacturacion = ({ study }) => {
-    console.log(study)
+    //console.log(study)
    const { 
     getFacturasDetails,
     facturasDetail,
-    studyDetail,
     itemOrden,
-    getStudyDetail,
     loadingDetailFact,
+    setloadingStudy,
     loadingStudy}=useFacturaDetail({studyId:study.id})
   
+    const [studyDetail, setStudyDetail] = useState(null);
     const [editing, setEditing] = useState(false);
     const [pdfContent, setPdfContent] = useState(null);
     const [pdfContentFact, setPdfContentFact] = useState(null);
@@ -62,13 +64,26 @@ const ModalFacturacion = ({ study }) => {
         getFacturasDetails()   
       return () => {  }
     }, [])
-    useEffect(() => {
-        getStudyDetail()   
-      return () => { }
-    }, [itemOrden])
+   
+        const getStudyDetail = useCallback(async () => {
+            try {
+              const study = await getStudiesDetail(11);
+              setStudyDetail(study);
+            } catch (error) {
+              console.log(error);
+            } finally {
+           // setloadingStudy(false);
+            }
+          }, []);
+          useEffect(() => {
+            getStudyDetail()   
+          return () => {  }
+        }, [])
+  
+   
+    console.log(itemOrden)
+   
     
-    
-
 
     const confirmar = async () => {
         try {
@@ -145,7 +160,9 @@ const generarFactura=async()=>{
     const fact={
         n_factura: numeroAleatorio()
     }
-  const resFact= await postFactura(study.id,fact)
+    console.log('study id->')
+    console.log(study.id)
+  const resFact= await postFactura(study.id,659959)
   if(resFact){
     console.log(resFact)
     setPdfContentFact(resFact.uri)
@@ -186,9 +203,12 @@ const generarRecibo=async()=>{
    }
    //console.log(resSendArchived)
   }
+  console.log(facturasDetail)
+  console.log(studyDetail)
     return (
         <>
-            <Box marginTop={'-50px'}  >
+           {loadingDetailFact ?
+           <p>cargando</p>: <Box marginTop={'-50px'}  >
                 <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
                     <Text margin={'5px'} color={'gray.900'} fontSize={'20px'} >Datos de factura</Text>
                     <Text margin={'18px'} textAlign={{ lg: 'right', sm: 'left' }} color={'gray.500'} fontSize={'20px'} >
@@ -204,7 +224,7 @@ const generarRecibo=async()=>{
                             {facturasDetail ? (
                                 <Text fontSize={'14px'}>
                                     <Badge>
-                                    {facturasDetail.cliente.razon_social.length > 17 ? facturasDetail.cliente.razon_social.substring(0, 17) + '...': facturasDetail.cliente.razon_social}
+                                    {facturasDetail?.cliente.razon_social?.length > 17 ? facturasDetail.cliente?.razon_social?.substring(0, 17) + '...': facturasDetail.cliente?.razon_social}
                                     
                                     </Badge>
                                     
@@ -235,7 +255,7 @@ const generarRecibo=async()=>{
                             <Text fontSize={'16px'}>Fecha</Text>
                             {facturasDetail ? (
                                 <Text fontSize={'14px'}>
-                                   <Badge>{fecha}</Badge>
+                                   <Badge>{/*fecha*/}</Badge>
                                     
                                     </Text>
                             ) : (
@@ -285,7 +305,7 @@ const generarRecibo=async()=>{
                                         <Badge variant='subtle' colorScheme={"orange"}>
                                          Pendiente
                                         </Badge>
-                                    }
+                            }
                                     </Text>
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>
@@ -293,7 +313,7 @@ const generarRecibo=async()=>{
                         </Box>
                 </Grid>
 
-              {
+              
               <Button
                     marginTop={'15px'}
 marginBottom={'10px'}
@@ -303,7 +323,7 @@ marginBottom={'10px'}
                     color='#ffff'
                     onClick={() => toggleModal(study)}>
                     Factura para un tercero
-                </Button>}
+                </Button>
 
                 <Separator></Separator>
                 <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>
@@ -326,7 +346,7 @@ marginBottom={'10px'}
                             {studyDetail ? (
                                 <Text fontSize={'14px'}>
                                     <Badge>
-                                        {studyDetail?.paciente.nombres} {studyDetail.paciente.apellidos}
+                                        {studyDetail?.paciente.nombres} {studyDetail?.paciente.apellidos}
                                     </Badge>
                                     
                                 
@@ -580,7 +600,7 @@ marginBottom={'10px'}
            {/** */}   
                 
             </Box>
-           
+           }
      
             {/*<Modal
                 size={"lg"}
@@ -623,35 +643,9 @@ marginBottom={'10px'}
                 </ModalContent>
             </Modal>
 
-<AddAbonarModal facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={facturasDetail?.id} />
+<AddAbonarModal facturasDetail={'facturasDetail'} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={'facturasDetail?.id'} />
 
-           {/*<Modal facturasDetail?.id
-                size={"sm"}
-                maxWidth='100%'
-                isOpen={showModalAbonar}
-               // onClose={toggleModalAbonar}
-                >
-                <ModalOverlay />
-                <ModalContent marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
-                    <ModalHeader>
-                        <Button
-                            borderRadius={'50%'}
-                            colorScheme="blue"
-                            width="40px"
-                            height="40px"
-                            marginLeft={'92%'}
-                            marginTop={'-60px'}
-                            bgColor={'#137797'}
-                            color='#ffff'
-                            onClick={()=>setShowModalAbonar(false)}>
-                            <CloseButton />
-                        </Button>
-                    </ModalHeader>
-                    <ModalBody>
-                        <ModalAbonar setShowModalAbonar={setShowModalAbonar} onPagoIdChange={handlePagoIdChange} facturasDetail={facturasDetail} />
-                    </ModalBody>
-                </ModalContent>
-            </Modal>*/}
+         
         </>
     );
 }
