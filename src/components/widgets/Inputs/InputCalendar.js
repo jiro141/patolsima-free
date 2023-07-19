@@ -1,8 +1,9 @@
 import React from 'react'
 import {
-    Button,
-    CloseButton,
-    Text,
+  Box,
+  Button,
+  CloseButton,
+  Text,
 } from '@chakra-ui/react';
 import '../../../css/style.css'
 import { useState } from 'react';
@@ -12,43 +13,67 @@ import Calendar from "react-calendar";
 
 
 
-export default function InputCalendar({value,onChange,setOpenCalendar,onOpenCalendar}) {
+export default function InputCalendar({ value, onChange, setOpenCalendar, onOpenCalendar }) {
+  const [date, setDate] = useState(new Date());
 
-  const handleClick=()=>{
+  const formatShortWeekday = (locale, date) => {
+    return date.toLocaleDateString(locale, { weekday: 'short' }).charAt(0);
+  }
+
+  const formatMonthYear = (locale, date) => {
+    return date.toLocaleDateString(locale, { month: 'long' });
+  }
+
+  const tileDisabled = ({ activeStartDate, date, view }) => {
+    // Deshabilitar todos los días que no pertenecen al mes actual
+    if (view === 'month') {
+      const currentMonth = activeStartDate.getMonth();
+      return date.getMonth() !== currentMonth;
+    }
+    return false;
+  };
+
+  const handleClick = () => {
     setOpenCalendar(true)
   }
 
- const handleCloseCalendar=()=>{
-  setOpenCalendar(false)
- }
+  const handleCloseCalendar = () => {
+    setOpenCalendar(false)
+  }
   return (
     <div className='wrapCalendarInput'>
-     <div
-     onClick={handleClick}
-      className="custom-div"
-    >
-     
-      <Text> {formatDate(value)} </Text>
-    </div>
+      <div
+        onClick={handleClick}
+        className="custom-div"
+      >
 
-     {onOpenCalendar && <div style={{marginTop:'8%',width:'80%',zIndex:1, }}>
-      <div className="wrapbtnClose">
-      <Button
-                            borderRadius={'100%'}
-                            colorScheme="blue"
-                            size="30px"
-                            bgColor={'#137797'}
-                            color='#ffff'
-                            onClick={handleCloseCalendar}
-                            >
-                             <CloseButton size='sm' />
-                        </Button>
+        <Text> {formatDate(value)} </Text>
       </div>
 
-      <Calendar onChange={onChange} value={value}
-      locale="ES"
-      />
-          </div>}
-     </div>
+      {onOpenCalendar && <Box marginTop={'8%'} width={{lg: '80%',md:'50%',sm:'50%'}} zIndex={1}>
+        <div className="wrapbtnClose">
+          <Button
+            borderRadius={'100%'}
+            colorScheme="blue"
+            size="30px"
+            bgColor={'#137797'}
+            color='#ffff'
+            onClick={handleCloseCalendar}
+          >
+            <CloseButton size='sm' />
+          </Button>
+        </div>
+
+        <Calendar onChange={onChange} value={value}
+          locale="ES"
+          // onChange={setDate}
+          formatShortWeekday={formatShortWeekday}
+          formatMonthYear={formatMonthYear}
+          prev2Label={null}
+          next2Label={null}
+          tileDisabled={tileDisabled}
+        />
+      </Box>}
+    </div>
   )
 }

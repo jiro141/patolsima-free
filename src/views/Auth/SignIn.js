@@ -40,17 +40,17 @@ import MainContext from "context/mainContext/MainContext";
 
 function SignIn() {
   // Estados para guardar el correo y la contraseña ingresados por el usuario
-  
+
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
   const history = useHistory();
-  const {setLoginSuccess}=useContext(MainContext)
-   //carga de los datos del formulario
-   const formik = useFormik({
+  const { setLoginSuccess } = useContext(MainContext)
+  //carga de los datos del formulario
+  const formik = useFormik({
     initialValues: {
-      username:"",
-      password:""
+      username: "",
+      password: ""
     },
     validationSchema: Yup.object({
       username: Yup.string().required("El campo es obligatorio"),
@@ -60,25 +60,24 @@ function SignIn() {
     onSubmit: async (formData, { resetForm }) => {
       setLoading(true)
       try {
-        const { data } = await Axios.post("/login/",formData );
-         window.localStorage.setItem('access', data.access);
-         window.localStorage.setItem('refresh', data.refresh);
-         setLoginSuccess(true)
-         //setError(false)
-         history.push('layouts/Admin.js'); 	
+        const { data } = await Axios.post("/login/", formData);
+        window.localStorage.setItem('access', data.access);
+        window.localStorage.setItem('refresh', data.refresh);
+        setLoginSuccess(true)
+        //setError(false)
+        history.push('layouts/Admin.js');
       } catch (error) {
+        setShowErrorModal(true)
+        console.log(error)
         setError(error.message)
-        console.log(error);
-       
-        history.push('/'); 	
-      }finally{
+      } finally {
         setLoading(false)
-        if(error){
+        if (error) {
           toast.error(error, {
             autoClose: 1000,
           });
         }
-        return 
+        return
       }
     },
   });
@@ -116,7 +115,7 @@ function SignIn() {
       </ModalContent>
     </Modal>
 
-    <Flex  position='relative' mb='40px' >
+    <Flex position='relative' mb='40px' >
       <Flex
         h={{ sm: "initial", md: "75vh", lg: "85vh" }}
         w='100%'
@@ -172,10 +171,10 @@ function SignIn() {
                   formik.setFieldValue("username", e.target.value)
                 }
               />
-              { formik.errors.username &&
-              <div style={{marginBottom:'15px'}}>
-              <p style={{color:'red',fontWeight:'bold'}} >{formik.errors.username}</p>
-              </div>}
+              {formik.errors.username &&
+                <div style={{ marginBottom: '15px' }}>
+                  <p style={{ color: 'red', fontWeight: 'bold' }} >{formik.errors.username}</p>
+                </div>}
               <FormLabel ms='4px' fontSize='sm' fontWeight='bold'>
                 Contraseña
               </FormLabel>
@@ -194,16 +193,16 @@ function SignIn() {
                 onChange={(e) =>
                   formik.setFieldValue("password", e.target.value)
                 }
-                //value={password}
-               // onChange={(e) => setPassword(e.target.value)}
+              //value={password}
+              // onChange={(e) => setPassword(e.target.value)}
               />
-               {
+              {
                 formik.errors.password &&
-                <div style={{marginBottom:'15px'}}>
-               <p style={{color:'red',fontWeight:'bold'}}>{formik.errors.password}</p>
-               </div>}
+                <div style={{ marginBottom: '15px' }}>
+                  <p style={{ color: 'red', fontWeight: 'bold' }}>{formik.errors.password}</p>
+                </div>}
 
-              <FormControl display='flex' alignItems='center'>
+              {/* <FormControl display='flex' alignItems='center'>
                 <Switch id='remember-login' color={switchColor} me='10px' />
                 <FormLabel
                   htmlFor='remember-login'
@@ -212,7 +211,7 @@ function SignIn() {
                   fontWeight='normal'>
                   Recuerda mi Usuario
                 </FormLabel>
-              </FormControl>
+              </FormControl> */}
               <Button
                 backgroundColor={'#137797'}
                 fontSize='18px'
@@ -227,11 +226,11 @@ function SignIn() {
                   color: "white"
                 }}
                 onClick={formik.handleSubmit}>
-               {loading ?'Cargando...' : 'Iniciar sesión'}
+                {loading ? 'Cargando...' : 'Iniciar sesión'}
               </Button>
 
             </FormControl>
-          
+
           </Flex>
         </Flex>
         <Box
@@ -253,7 +252,7 @@ function SignIn() {
             position='absolute'
             borderBottomLeftRadius='20px'>
             <Box >
-              <Text color={'whiteAlpha.900'} textAlign={'justify'} fontWeight='medium' margin={'67% 40px'} >
+              <Text color={'whiteAlpha.900'} textAlign={'justify'} fontWeight='medium' margin={'60% 40px'} >
                 La misión de Laboratorio de Anatomía Patológica Patolsima es prestar un servicio de salud, mediante la realización de estudios de laboratorio de citologías, biopsias e inmunohistoquímica, con garantía en la precisión y exactitud de los resultados, satisfaciendo las necesidades de nuestros clientes y brindándoles un servicio de calidad.
               </Text>
             </Box>

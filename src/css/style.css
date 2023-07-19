@@ -82,15 +82,19 @@
     background-color: #555;
   }
   .wrapbtnClose {
- 
     display: flex;
     justify-content: flex-end;
-    width: 81%;
+    width: 80%;
     position: absolute;
     margin-top: 7px;
     padding-right: 15px;
     padding-bottom: 0px;
     z-index: 100;
+  }
+  @media (max-width: 960px){
+    .wrapbtnClose{
+      width: 50%;
+    }
   }
   .react-calendar__month-view__weekdays {
     text-align: center;
