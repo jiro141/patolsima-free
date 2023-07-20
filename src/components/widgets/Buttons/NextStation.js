@@ -27,7 +27,7 @@ export const NextStation = () => {
           _hover={{ opacity: 0.8 }}
         >
           <BsArrowLeftCircleFill size={'25px'} color='#137797' />
-          <FormLabel color={'black'}> Atras</FormLabel>
+          <FormLabel marginLeft={'10px'} color={'black'}> Atras</FormLabel>
         </Box>
       )}
       <Box

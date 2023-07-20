@@ -12,10 +12,10 @@ export default function InputSelector({
     
   return (
     <FormControl isInvalid={errors} mb={3}>
-      <Select color="gray.400" onChange={onChange} value={value} error={errors}>
-        <option hidden>{type}</option>
+      <Select color="gray.700" onChange={onChange} value={value} error={errors}>
+        <option color="gray.700"  hidden>{type}</option>
         {options.map((option, index) => (
-        <option key={index} value={option.value}>{option.value}</option>
+        <option color="gray.700" key={index} value={option.value}>{option.value}</option>
       ))}
       </Select>
       {errors && (

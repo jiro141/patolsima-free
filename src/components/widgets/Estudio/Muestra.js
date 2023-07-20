@@ -310,7 +310,7 @@ const Muestra = () => {
       </form>
 
       {!estudioID && (
-        <Box w={"100%"} textAlign="end">
+        <Box marginTop={'20px'} w={"100%"} textAlign="end">
           <SaveButton handleSubmit={handleSubmit} />
         </Box>
       )}

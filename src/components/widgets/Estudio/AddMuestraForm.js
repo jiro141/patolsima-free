@@ -19,7 +19,7 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
   const formik = useFormik({
     initialValues: {
       tipo_de_muestra: "",
-      descripcion: " ",
+      descripcion: null,
       notas: "",
     },
     validateOnChange: false,
@@ -73,12 +73,12 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
           formik.setFieldValue("tipo_de_muestra", e.target.value)
         }
       />
-      <InputOverall
+      {/* <InputOverall
         placeholder="Descripcion"
         name={"descripcion"}
         value={formik.values.descripcion}
         onChange={(e) => formik.setFieldValue("descripcion", e.target.value)}
-      />
+      /> */}
       <Textarea
         marginTop={"10px"}
         size="lg"
