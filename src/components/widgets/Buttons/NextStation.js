@@ -15,32 +15,29 @@ export const NextStation = () => {
   };
 
   return (
-    <Box display={'flex'} justifyContent={activeTab !== 0 ? 'space-between' : 'end' }>
-      {/* Condición para mostrar el botón de "Atrás" */}
+    <Box display={'flex'} justifyContent={activeTab !== 0 ? 'space-between' : 'end'}>
       {activeTab !== 0 && (
         <Box
-          display={'flex'}
-          justifyContent={'space-evenly'}
           color='#ffff'
           onClick={handleDeincrement}
           cursor='pointer'
           _hover={{ opacity: 0.8 }}
         >
           <BsArrowLeftCircleFill size={'25px'} color='#137797' />
-          <FormLabel marginLeft={'10px'} color={'black'}> Atras</FormLabel>
+
         </Box>
       )}
-      <Box
-        display={'flex'}
-        justifyContent={'space-evenly'}
-        color='#ffff'
-        onClick={handleIncrement}
-        cursor='pointer'
-        _hover={{ opacity: 0.8 }}
-      >
-        <FormLabel color={'black'}>Siguiente</FormLabel>
-        <BsFillArrowRightCircleFill size={'25px'} color='#137797' />
-      </Box>
+      {activeTab < 3 && (
+        <Box
+          color='#ffff'
+          onClick={handleIncrement}
+          cursor='pointer'
+          _hover={{ opacity: 0.8 }}
+        >
+          <BsFillArrowRightCircleFill size={'25px'} color='#137797' />
+        </Box>
+      )
+      }
     </Box>
   );
 };

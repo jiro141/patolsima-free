@@ -80,7 +80,6 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       //ci: Yup.string().required("La cedula es obligatoria"),
       telefono_celular: Yup.string().required("el telefono es obligatorio"),
       direccion: Yup.string().required("La direccion es obligatoria"),
-
       sexo: Yup.string().required("el sexo es obligatorio"),
       email: Yup.string()
         .email("direccion de correo no valida")
@@ -330,7 +329,7 @@ console.log(paciente)
                 resultSearch={pacientsByCi}
                 errors={errorci}
                 loading={loadingpacientsByCi}
-                placeholder={"Cedula de identidad"}
+                placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
                 selectSearch={selectSearch}
 
@@ -388,7 +387,7 @@ console.log(paciente)
             <InputOverall
               name="direccion"
               value={formik.values.direccion}
-              placeholder="Procedencia"
+              placeholder="Procedencia:"
               onChange={(e) =>
                 formik.setFieldValue("direccion", e.target.value)
               }

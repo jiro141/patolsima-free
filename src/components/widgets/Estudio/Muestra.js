@@ -31,6 +31,7 @@ import { postOrdenes } from "api/controllers/facturas";
 import { postMuestraAdjunto } from "api/controllers/estudios";
 import { useHistory } from "react-router-dom";
 import SuccessModal from "../Modals/SuccessModal";
+import { NextStation } from "../Buttons/NextStation";
 
 const Muestra = () => {
   const {
@@ -49,6 +50,7 @@ const Muestra = () => {
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
+  const [studyData,setStudyData]= useState();
 
   const fileInputRef = useRef(null);
 
@@ -77,7 +79,7 @@ const Muestra = () => {
       //console.log(pacienteID)
       const newObj = {
         paciente_id: pacienteID,
-        medico_tratante_id: medicoID || null ,
+        medico_tratante_id: medicoID || null,
         patologo_id: null,
         ...formData,
       };
@@ -89,9 +91,11 @@ const Muestra = () => {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
           });
-
+          console.log(estudioPost);
+          setStudyData(estudioPost);
           setEstudioID(estudioPost.id);
-
+          
+          // console.log(studyData);
           setOpenModal(true);
         } else {
           toast.error("¡Hubo un error al crear el estudio!", {
@@ -104,40 +108,37 @@ const Muestra = () => {
       return;
     },
   });
-
   useEffect(() => {
-  /*  const sendOrden = async () => {
-      if (muestraID ) {
-        const newOrden = {
-          estudio_ids: [estudioID]
+    /*  const sendOrden = async () => {
+        if (muestraID ) {
+          const newOrden = {
+            estudio_ids: [estudioID]
+          }
+          const postOrden = await postOrdenes(newOrden)
+          console.log(postOrden)
+  
         }
-        const postOrden = await postOrdenes(newOrden)
-        console.log(postOrden)
-
+         if(estudioId2){
+          const newOrden={
+            estudio_ids: [estudioID,estudioId2]
+          }
+          const postOrden =await postOrdenes(newOrden)
+          console.log(postOrden)
+          
+         }
       }
-       if(estudioId2){
-        const newOrden={
-          estudio_ids: [estudioID,estudioId2]
-        }
-        const postOrden =await postOrdenes(newOrden)
-        console.log(postOrden)
-        
-       }
-    }
-*/
- 
+  */
+
   }, [estudioID])
 
   useEffect(() => {
     const sendOrden = async () => {
-  
-        const newOrden = {
-          estudio_ids: [estudioID]
-        }
-        const postOrden = await postOrdenes(newOrden)
-        console.log(postOrden)
 
-      
+      const newOrden = {
+        estudio_ids: [estudioID]
+      }
+      const postOrden = await postOrdenes(newOrden)
+      console.log(postOrden)
       /* if(estudioId2){
         const newOrden={
           estudio_ids: [estudioID,estudioId2]
@@ -183,11 +184,12 @@ const Muestra = () => {
   };
   return (
     <div style={{ height: "auto" }}>
+      <NextStation />
       <form>
         <Text fontSize={"20px"} margin={"2% auto 2% auto"} color={"gray.600"}>
           Información General
         </Text>
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="20px">
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
             <Text marginBottom={"1.5%"} fontSize={"17px"}>
               Paciente
@@ -252,20 +254,25 @@ const Muestra = () => {
             options={typeStudies}
             type={"Tipo de Estudio:"}
           />
-          <Box>
-            <Text
-              textAlign={"left"}
-              fontSize={"18px"}
-              // margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
-              color={"gray.600"}
-            >
-              <Badge>{`${uniqueId} `}</Badge>
-            </Text>
-          </Box>
+          {
+            studyData ? (
+              <Box>
+                <Text
+                  textAlign={"left"}
+                  fontSize={"18px"}
+                  // margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
+                  color={"gray.600"}
+                >
+                  <Badge fontSize={'18px'}>{studyData.codigo}</Badge>
+                </Text>
+              </Box>
+            ) :
+              <></>
+          }
         </Grid>
         <Grid
           templateColumns={{ lg: "repeat(3,1fr)", sm: "1fr" }}
-          gap="20px"
+          gap="100px"
           marginY={"2%"}
         >
           <Switch_

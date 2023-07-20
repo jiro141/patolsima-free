@@ -79,6 +79,11 @@ const MedicoCardPostInitial = ({
       telefono_celular: "",
       email: "",
     },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("direccion de correo no valida"),
+    }),
+    validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       if (twoState === 'post') {
         try {
@@ -272,7 +277,7 @@ const MedicoCardPostInitial = ({
           <InputOverall
             name="email"
             value={formik.values.email}
-            placeholder="Email"
+            placeholder="Email:"
             onChange={(e) => formik.setFieldValue("email", e.target.email)}
             errors={formik.errors.email}
           />
