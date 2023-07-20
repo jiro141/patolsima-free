@@ -102,7 +102,7 @@ export default function AdminNavbar(props) {
       }}
       pt="8px"
       top="18px"
-      w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 275px)" }}
+      w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
     >
       <Flex
         w="100%"
@@ -112,7 +112,7 @@ export default function AdminNavbar(props) {
         }}
         alignItems={{ xl: "center" }}
       >
-        <Box ms="auto" w={{ sm: "100%", md: "100%" }}>
+        <Box ms="auto"  w={{ sm: "100%", md: "100%" }}>
           <AdminNavbarLinks
             onOpen={props.onOpen}
             logoText={props.logoText}

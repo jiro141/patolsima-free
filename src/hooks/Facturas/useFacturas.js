@@ -1,3 +1,5 @@
+import { getFacturasListNoConfirm } from "api/controllers/facturas";
+import { getFacturasListConfirm } from "api/controllers/facturas";
 import { getFacturasList } from "api/controllers/facturas";
 import { getCambio } from "api/controllers/tazaDia";
 import MainContext from "context/mainContext/MainContext";
@@ -24,16 +26,41 @@ export function useFacturas() {
       const facturasList = await getFacturasList();
       setFacturas(facturasList);  
       setfilteredFact(facturasList)
-      const confirmadas = facturasList.filter((item) => item.confirmada === true);
-      setFacturasConfirmadas(confirmadas)
-      const Noconfirmadas = facturasList.filter((item) => item.confirmada === false);
-      setFacturasNoConfirmadas(Noconfirmadas)
-   
-     // console.log(facturasList);
     } catch (error) {
       seterror(error.message);
     } finally {
       setloading(false);
+    }
+  }, []);
+  const getFacturasConfirm = useCallback(async () => {
+    try {
+      //setloading(true);
+      //seterror(null);
+      const facturasListConfirm = await getFacturasListConfirm();
+      setFacturasConfirmadas(facturasListConfirm);  
+     
+     
+     
+     // const confirmadas = facturasList.filter((item) => item.confirmada === true);
+      //setFacturasConfirmadas(confirmadas)
+      //const Noconfirmadas = facturasList.filter((item) => item.confirmada === false);
+      //setFacturasNoConfirmadas(Noconfirmadas)
+   
+     // console.log(facturasList);
+    } catch (error) {
+      //seterror(error.message);
+    } finally {
+     // setloading(false);
+    }
+  }, []);
+  const getFacturasNotConfirm = useCallback(async () => {
+    try {
+      const facturasListNotConfirm = await getFacturasListNoConfirm();
+      setFacturasNoConfirmadas(facturasListNotConfirm);  
+    } catch (error) {
+      //seterror(error.message);
+    } finally {
+     // setloading(false);
     }
   }, []);
 
@@ -51,5 +78,5 @@ export function useFacturas() {
   }, []);
  
 
-  return {facturas,getFacturas,facturasConfirmadas,facturasNoConfirmadas,loading,error,getCambios,cambioDelDia,loadingCambio,errorC };
+  return {facturas,getFacturas,facturasConfirmadas,facturasNoConfirmadas,loading,error,getCambios,cambioDelDia,loadingCambio,errorC,getFacturasConfirm,getFacturasNotConfirm,setFacturasConfirmadas };
 }

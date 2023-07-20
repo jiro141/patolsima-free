@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
 
 export function useFacturaDetail({studyId}) {
+ 
   const [facturasDetail, setFacturasDetail] = useState(null);
   const [studyDetail, setStudyDetail] = useState(null);
   const [itemOrden, setItemOrden] = useState();
@@ -46,6 +47,7 @@ export function useFacturaDetail({studyId}) {
     getStudyDetail,
     loadingDetailFact,
     loadingStudy,
-    itemOrden
+    itemOrden,
+    setFacturasDetail
   };
 }

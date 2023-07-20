@@ -27,6 +27,17 @@ export const selectorOptionsGenders = [
     { value: 'Monto(Bs)'},
     { value: ' '},
   ];
+  export const thValuesFacturasSimples = [
+
+    { value: 'FECHA'},
+    { value: 'CLIENTE'},
+    { value: 'RIF/CI'},
+    { value: 'Monto ($)'},
+    { value: 'Monto(Bs)'},
+  
+  ];
+
+
 
   export const typeStudies = [
     { value: 'BIOPSIA' },

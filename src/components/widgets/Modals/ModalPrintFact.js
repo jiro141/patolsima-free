@@ -52,7 +52,7 @@ export default function ModalPrint({ isOpen, setOpenModal, type, text,pdfContent
             </div>
             <Box style={{display:'flex',  width:'100%'}}>
           
-            <GeneralButton text="Si" type="download" pdfContent={pdfContent} />
+            <GeneralButton text="Si" type="download" pdfContent={pdfContent}  />
             <GeneralButton text="No" type="downloadOutline" handleClick={()=>setOpenModal(false)} />
               
             </Box>

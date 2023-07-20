@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useCallback } from "react";
+import { React, useState, useEffect, useCallback, useContext } from "react";
 import {
     Box,
     Text,
@@ -35,9 +35,12 @@ import ModalPrint from "components/widgets/Modals/ModalPrintFact";
 import ModalFctTerceros from "components/widgets/Modals/ModalFctTerceros";
 import { studiesDetail } from "api/controllers/estudios";
 import { getStudiesDetail } from "api/controllers/estudios";
+import MainContext from "context/mainContext/MainContext";
+import { formatDate } from "helpers";
+import { generarNumeroAleatorio } from "helpers";
 
 
-const ModalFacturacion = ({ study }) => {
+const ModalFacturacion = ({ study,setArchived }) => {
     //console.log(study)
    const { 
     getFacturasDetails,
@@ -45,14 +48,18 @@ const ModalFacturacion = ({ study }) => {
     itemOrden,
     loadingDetailFact,
     setloadingStudy,
+    setFacturasDetail,
     loadingStudy}=useFacturaDetail({studyId:study.id})
   
     const [studyDetail, setStudyDetail] = useState(null);
     const [editing, setEditing] = useState(false);
     const [pdfContent, setPdfContent] = useState(null);
     const [pdfContentFact, setPdfContentFact] = useState(null);
+    const [pdfContentNotaPago, setPdfContentNotaPago] = useState(null);
     const [openModalFact, setOpenModalFact] = useState(false);
     const [openModalFact2, setOpenModalFact2] = useState(false);
+    const [openModalPago, setOpenModalPago] = useState(false);
+    const{factClientTerceros,setfactClientTerceros}= useContext(MainContext)
 
     const [pagoId,setPagoId]=useState();
     const [data, setData] = useState(
@@ -67,7 +74,7 @@ const ModalFacturacion = ({ study }) => {
    
         const getStudyDetail = useCallback(async () => {
             try {
-              const study = await getStudiesDetail(11);
+              const study = await getStudiesDetail(study.id);
               setStudyDetail(study);
             } catch (error) {
               console.log(error);
@@ -152,17 +159,14 @@ const ModalFacturacion = ({ study }) => {
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId= generateUniqueId()
-    function numeroAleatorio() {
-        return Math.random();
-      }
-   
+    const numeroAleatorio = generarNumeroAleatorio(1, 10000000000);  
 const generarFactura=async()=>{
     const fact={
-        n_factura: numeroAleatorio()
+        n_factura: numeroAleatorio
     }
     console.log('study id->')
     console.log(study.id)
-  const resFact= await postFactura(study.id,659959)
+  const resFact= await postFactura(study.id,fact)
   if(resFact){
     console.log(resFact)
     setPdfContentFact(resFact.uri)
@@ -190,12 +194,17 @@ const generarRecibo=async()=>{
        }
    
   }
+
+  
+
   const handleArchivar=async()=>{
    const resSendArchived= await postArchivar(study.id)
    if(resSendArchived){
     toast.success("¡Se archivo la factura correctamente!", {
         autoClose: 1000,
       });
+      //setSearchFacturas(informeList.filter((item) => item.completado === true));
+      setArchived(true)
    }else{
     toast.error("¡Ocurrio un error al archivar!", {
         autoClose: 1000,
@@ -203,8 +212,15 @@ const generarRecibo=async()=>{
    }
    //console.log(resSendArchived)
   }
+
+  useEffect(() => {
+    setfactClientTerceros(null)
+  }, [])
+  
   console.log(facturasDetail)
   console.log(studyDetail)
+  console.log('factClientTerceros->')
+  console.log(factClientTerceros);
     return (
         <>
            {loadingDetailFact ?
@@ -221,7 +237,7 @@ const generarRecibo=async()=>{
                     <Box>
                         <Box margin={'5px'}>
                             <Text fontSize={'16px'} >Cliente</Text>
-                            {facturasDetail ? (
+                            {facturasDetail && !factClientTerceros  ? (
                                 <Text fontSize={'14px'}>
                                     <Badge>
                                     {facturasDetail?.cliente.razon_social?.length > 17 ? facturasDetail.cliente?.razon_social?.substring(0, 17) + '...': facturasDetail.cliente?.razon_social}
@@ -230,37 +246,79 @@ const generarRecibo=async()=>{
                                     
                                 
                                 </Text>
-                            ) : (
-                                <Text fontSize={'14px'}>Loading...</Text>
-                            )}
+                            ) :factClientTerceros ?
+                              <Text fontSize={'14px'}>
+                             <Text fontSize={'14px'}>
+                                    <Badge>
+                                    {factClientTerceros?.razon_social?.length > 17 ? factClientTerceros?.razon_social?.substring(0, 17) + '...': factClientTerceros?.razon_social}
+                                    
+                                    </Badge>
+                                    
+                                
+                                </Text>
+                            
+                        
+                        </Text> : null
+
+                             }
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
                             <Text fontSize={'16px'} >RIF/CI</Text>
-                            {facturasDetail ? (
+                            {facturasDetail && !factClientTerceros  ? (
                                 <Text fontSize={'14px'}>
                                     <Badge>
                                     {facturasDetail.cliente.ci_rif}
+                                    
                                     </Badge>
                                     
-                                    </Text>
-                            ) : (
-                                <Text fontSize={'14px'}>Loading...</Text>
-                            )}
+                                
+                                </Text>
+                            ) :factClientTerceros ?
+                              <Text fontSize={'14px'}>
+                             <Text fontSize={'14px'}>
+                                    <Badge>
+                                    {factClientTerceros?.ci_rif}
+                                    
+                                    </Badge>
+                                    
+                                
+                                </Text>
+                            
+                        
+                        </Text> : null
+
+                             }
                         </Box>
                     </Box>
                     <Box>
                         <Box margin={'5px'}>
                             <Text fontSize={'16px'}>Fecha</Text>
-                            {facturasDetail ? (
+                            {facturasDetail && !factClientTerceros  ? (
                                 <Text fontSize={'14px'}>
-                                   <Badge>{/*fecha*/}</Badge>
+                                    <Badge>
+                                    {formatDate(facturasDetail.created_at)}
                                     
-                                    </Text>
-                            ) : (
-                                <Text fontSize={'14px'}>Loading...</Text>
-                            )}
+                                    </Badge>
+                                    
+                                
+                                </Text>
+                            ) :factClientTerceros ?
+                              <Text fontSize={'14px'}>
+                             <Text fontSize={'14px'}>
+                                    <Badge>
+                                    {formatDate(factClientTerceros.created_at)}
+                                    
+                                    </Badge>
+                                    
+                                
+                                </Text>
+                            
+                        
+                        </Text> : null
+
+                             }
                         </Box>
                     </Box>
                     <Box>
@@ -596,6 +654,7 @@ marginBottom={'10px'}
 
 <ModalPrint text={'¿Desea descargar el recibo ?'} isOpen={openModalFact} setOpenModal={setOpenModalFact} pdfContent={pdfContent} />
 <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />
+<ModalPrint text={'¿Desea descargar la nota de pago ?'} isOpen={openModalPago} setOpenModal={setOpenModalPago} pdfContent={pdfContentNotaPago} type={'nota'} />
 
            {/** */}   
                 
@@ -643,7 +702,7 @@ marginBottom={'10px'}
                 </ModalContent>
             </Modal>
 
-<AddAbonarModal facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={'facturasDetail?.id'} />
+<AddAbonarModal openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={'facturasDetail?.id'}  setPdfContent={setPdfContentNotaPago} />
 
          
         </>
