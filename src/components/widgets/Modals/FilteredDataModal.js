@@ -14,6 +14,8 @@ import InputSearch from "../Inputs/InputSearch";
 import { TABLE_FACTURAS, TABLE_INFORMES, TABLE_MEDICOS, TABLE_PACIENTS } from "../Tables";
 import "../../../css/style.css";
 import NotFound from "../others/NotFound";
+import { useContext } from "react";
+import MainContext from "context/mainContext/MainContext";
 
 export default function FilteredDataModal({
   isOpenModal,
@@ -27,6 +29,7 @@ export default function FilteredDataModal({
   loading,
   type
 }) {
+
   return (
     <Modal
       size={"5xl"}

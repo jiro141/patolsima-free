@@ -1,5 +1,6 @@
 import { Box, Heading, Table, Tbody, Td, Thead, Tr } from '@chakra-ui/react'
 import { TH } from 'components/widgets/Tables'
+import { Title } from 'components/widgets/Texts'
 import { thValuesFacturasSimples } from 'mocks'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -7,11 +8,7 @@ import { Link } from 'react-router-dom'
 export  function TableOrders_Pendientes({children}) {
   return (
    <div>
-   <Heading
-            size="md"
-          >
-            Ordenes pendientes
-          </Heading>
+  <Title title={'Ordenes sin confirmar'} />
           <Box
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
             backgroundColor={"#FFFF"} 
@@ -65,11 +62,8 @@ export  function TableOrders_Pendientes({children}) {
 export  function TableOrders_Confirmadas({children}) {
     return (
      <div>
-     <Heading
-              size="md"
-            >
-              Ordenes pendientes
-            </Heading>
+    
+            <Title title={'Ordenes confirmadas'} />
             <Box
               boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
               backgroundColor={"#FFFF"} 

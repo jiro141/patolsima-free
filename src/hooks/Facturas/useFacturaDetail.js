@@ -20,7 +20,12 @@ export function useFacturaDetail({studyId}) {
     try {
       const facturasDetail = await getFacturasDetail(studyId);
       setFacturasDetail(facturasDetail);
-      setItemOrden(facturasDetail.cliente.id);
+      const itemsOrden = facturasDetail.items_orden;
+      console.log(itemsOrden)
+      if (itemsOrden && itemsOrden.length > 0) {
+        setItemOrden(itemsOrden[0].estudio);
+      }
+      
     } catch (error) {
       console.log(error);
     } finally {

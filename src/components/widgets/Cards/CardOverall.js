@@ -19,6 +19,7 @@ import NotFound from "../others/NotFound";
 import RowCard from "./RowCard";
 import { FaFlask } from "react-icons/fa";
 import { Separator } from "components/Separator/Separator";
+import { Title } from "../Texts";
 //here
 
 const renderStudies = (content, toggleModal, colorA, type) => {
@@ -32,7 +33,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
        width={'185px'}
         height={"200px"}
       
-        margin={"20px auto 20px auto"}
+        margin={"20px 0px 20px 13px"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
         borderRadius={"16px"}
         key={study.id}
@@ -43,8 +44,6 @@ const renderStudies = (content, toggleModal, colorA, type) => {
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
           backgroundColor={colorA}
-         // padding={"10px"}
-          //paddingBottom={"2px"}
           py={'1px'}
           px={'10px'}
           minH={"5px"}
@@ -100,14 +99,13 @@ const renderInformes = (content, toggleModal, colorA,type) => {
         }}
       >
         <Box
-        width={'185px'}
-        height={"200px"}
-      
-        margin={"20px auto 20px auto"}
-        boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-        borderRadius={"16px"}
-        key={study.id}
-        padding={"0"}
+       width={'185px'}
+       height={"200px"}
+     
+       margin={"20px 0px 20px 13px"}
+       boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
+       borderRadius={"16px"}
+       key={study.id}
         >
           <Box
             borderTopLeftRadius={"16px"}
@@ -256,7 +254,7 @@ export default function CardOverall_({
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [isMouseDown, setIsMouseDown] = useState(false);
-  const scrollSpeed = 2; // Ajusta la velocidad del desplazamiento horizontal
+  const scrollSpeed = 2; 
 
   const handleMouseDown = (e) => {
     setIsMouseDown(true);
@@ -279,7 +277,7 @@ export default function CardOverall_({
   };
   return (
     <div style={{}}>
-      <Heading size="md">{content.length === 0 ? " " : title}</Heading>
+     <Title title={content.length === 0 ? " " : title} />
       <Box 
       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
       backgroundColor={"#FFFF"} 
@@ -294,11 +292,7 @@ export default function CardOverall_({
            ref={containerRef}
            width={"100%"}
            height={'auto'}
-          // m={"20px 30px 30px 20px"}
-          // backgroundColor={"#FFFF"}
-          // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-           //py={'25px'}
-          px={'10px'}
+          px={'15px'}
           py={"25px"}
            borderRadius="20px"
            minH={"280px"}
@@ -404,15 +398,15 @@ export function CardOverall_Infor({
     containerRef.current.style.scrollBehavior = "smooth";
   };
   return (
-    <div>
-      <Heading size="md">{content.length === 0 ? " " : title}</Heading>
+    <div >
+       <Title title={content.length === 0 ? " " : title} />
       <Box 
-      boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-      backgroundColor={"#FFFF"} 
-      borderRadius="20px"
-      mt={'25px'}
-      mb={'20px'}
-      p={'6px'}
+       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+       backgroundColor={"#FFFF"} 
+       borderRadius="20px"
+       mt={'25px'}
+       mb={'20px'}
+       p={'6px'}
       
       > 
       <Box
@@ -423,7 +417,9 @@ export function CardOverall_Infor({
           // backgroundColor={"#FFFF"}
           // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
            //py={'25px'}
-          px={'10px'}
+          
+           //height={'auto'}
+          px={'15px'}
           py={"25px"}
            borderRadius="20px"
            minH={"280px"}
@@ -524,7 +520,7 @@ export function CardOverall_Muestra({
   };
   return (
     <div>
-      <Heading size="md">
+    {/* <Heading size="md">
       {content.length === 0 ? " " : <>
       
       {title}
@@ -532,7 +528,9 @@ export function CardOverall_Muestra({
       </>
       }
   
-      </Heading>
+    </Heading>*/}
+     <Title title={content.length === 0 ? " " : title} />
+     <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
       <Box
       ref={containerRef}
       width={"100%"}

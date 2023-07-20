@@ -270,7 +270,8 @@ const Dashboard = () => {
       >
        
 
-        <Box padding={'2%'}>
+        <Box marginTop={"30px"} width={'100%'}
+        pl={'5px'}>
           {hiddenInformessort ? (
             <>
               <CardOverall_Infor

@@ -40,7 +40,7 @@ import { formatDate } from "helpers";
 import { generarNumeroAleatorio } from "helpers";
 
 
-const ModalFacturacion = ({ study,setArchived }) => {
+const ModalFacturacion = ({ study,setArchived,handleArchivarConfirmFacts,setShowModalG }) => {
     //console.log(study)
    const { 
     getFacturasDetails,
@@ -67,25 +67,38 @@ const ModalFacturacion = ({ study,setArchived }) => {
             monto_usd: "",
         }
     );
+    const getStudyDetail = async () => {
+        try {
+       
+          const study = await getStudiesDetail(itemOrden);
+          setStudyDetail(study);
+        } catch (error) {
+          console.log(error);
+        } finally {
+       // setloadingStudy(false); facturasDetail
+        }
+      };
     useEffect(() => {
-        getFacturasDetails()   
+        getFacturasDetails()  
+        
       return () => {  }
     }, [])
+
+    useEffect(() => {
+        getStudyDetail() 
+      return () => {  }
+    }, [itemOrden])
    
-        const getStudyDetail = useCallback(async () => {
-            try {
-              const study = await getStudiesDetail(study.id);
-              setStudyDetail(study);
-            } catch (error) {
-              console.log(error);
-            } finally {
-           // setloadingStudy(false);
+        
+
+
+        /*  useEffect(() => {
+            if(facturasDetail){
+                getStudyDetail()  
             }
-          }, []);
-          useEffect(() => {
-            getStudyDetail()   
+             
           return () => {  }
-        }, [])
+        }, [])*/
   
    
     console.log(itemOrden)
@@ -159,7 +172,7 @@ const ModalFacturacion = ({ study,setArchived }) => {
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId= generateUniqueId()
-    const numeroAleatorio = generarNumeroAleatorio(1, 10000000000);  
+const numeroAleatorio = generarNumeroAleatorio(1, 10000000000);  
 const generarFactura=async()=>{
     const fact={
         n_factura: numeroAleatorio
@@ -203,10 +216,12 @@ const generarRecibo=async()=>{
     toast.success("¡Se archivo la factura correctamente!", {
         autoClose: 1000,
       });
+      handleArchivarConfirmFacts(facturasDetail.id)
       //setSearchFacturas(informeList.filter((item) => item.completado === true));
+      setShowModalG(false)
       setArchived(true)
    }else{
-    toast.error("¡Ocurrio un error al archivar!", {
+    toast.error("¡Esta factura no se puede archivar!", {
         autoClose: 1000,
       });
    }
@@ -391,7 +406,7 @@ marginBottom={'10px'}
                             <Text fontSize={'16px'} ># Estudio</Text>
                             {studyDetail ? (
                                 <Text fontSize={'14px'}>
-                                    <Badge>{studyDetail.codigo}</Badge>
+                                    <Badge>{studyDetail?.codigo}</Badge>
                                     </Text>
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>
@@ -661,33 +676,8 @@ marginBottom={'10px'}
             </Box>
            }
      
-            {/*<Modal
-                size={"lg"}
-                maxWidth='100%'
-                isOpen={showModal}
-                onClose={toggleModal}>
-                <ModalOverlay />
-                <ModalContent bg="#ffff" borderRadius={"20px"}>
-                    <ModalHeader>
-                        <Button
-                            borderRadius={'50%'}
-                            colorScheme="blue"
-                            width="40px"
-                            height="40px"
-                            marginLeft={'92%'}
-                            marginTop={'-60px'}
-                            bgColor={'#137797'}
-                            color='#ffff'
-                            onClick={toggleModal}>
-                            <CloseButton />
-                        </Button>
-                    </ModalHeader>
-                    <ModalBody>
-                        <FacturaTerceros study={study} />
-                    </ModalBody>
-                </ModalContent>
-            </Modal>*/}
-<ModalFctTerceros study={study}  toggleModal={toggleModal} showModal={showModal} />
+          
+<ModalFctTerceros study={study}  toggleModal={toggleModal} showModal={showModal} setShowModal={setShowModal} />
         
             <Modal
                 size={"xs"}

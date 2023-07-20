@@ -37,11 +37,14 @@ import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
 import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
 import DeleteModal from "components/widgets/Modals/DeleteModal";
 import { deleteOrden } from "api/controllers/facturas";
+import CardCambio from "components/widgets/Cards/CardCambio";
+import { useFacturas } from "hooks/Facturas/useFacturas";
+import { formatDate } from "helpers";
 
 
 const Dashboard = () => {
-  const [cambioDelDia, setCambioDelDia] = useState('');
-  const [facturas, setFacturas] = useState([]);
+ // const [cambioDelDia, setCambioDelDia] = useState('');
+  //const [facturas, setFacturas] = useState([]);
   const [study, setStudy] = useState([]);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const {
@@ -52,31 +55,26 @@ const Dashboard = () => {
     error,
     setSearchFacturas,
   } = useSearchFacturas();
+  const {
+    facturas,
+    getFacturas,
+    getCambios,
+    cambioDelDia,
+    facturasConfirmadas,
+    facturasNoConfirmadas,
+    loading,
+    getFacturasConfirm,getFacturasNotConfirm,
+    setFacturasNoConfirmadas
+  } = useFacturas();
 
-
-  const cambioDia = async () => {
-    try {
-      const cambio = await getCambio()
-      setCambioDelDia(cambio)
-    } catch (error) {
-      console.log(error);
-    }
-  }
   useEffect(() => {
-    cambioDia();
+    getFacturas();
+    getFacturasConfirm()
+    getFacturasNotConfirm()
+    getCambios();
+    
   }, []);
-  const peticionGet = async () => {
-    try {
-      const facturasList = await getFacturasList()
-      setFacturas(facturasList)
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(facturas);
-  useEffect(() => {
-    peticionGet();
-  }, []);
+ 
 
   const toggleModalConfirmacion = (factura) => {
     setShowModalConfirmacion(!showModalConfirmacion);
@@ -85,45 +83,7 @@ const Dashboard = () => {
   };
 
  
-  const facturasClasificadas = facturas.reduce((clasificacion, factura) => {
-    if (factura.confirmada) {
-      clasificacion.confirmadas.push(factura);
-    } else if (factura.pagada) {
-      clasificacion.pagadas.push(factura);
-    } else {
-      clasificacion.pendientes.push(factura);
-    }
-    return clasificacion;
-  }, { confirmadas: [], pagadas: [], pendientes: [] });
-  
 
-  const sinConfirmar = facturasClasificadas.pendientes.map((listaFacturas) => {
-    const fechaHora = listaFacturas.fecha_recepcion;
-    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-    return {
-      id: listaFacturas.id,
-      nestudio: listaFacturas.cliente,
-      fecha: fecha,
-      paciente: listaFacturas.cliente.razon_social,
-      ci: listaFacturas.cliente.ci_rif,
-      montoBs: listaFacturas.total_bs,
-      montoUsd:listaFacturas.total_usd
-    }
-  });
-
-  const pendientes = facturasClasificadas.confirmadas.map((listaFacturas) => {
-    const fechaHora = listaFacturas.fecha_recepcion;
-    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-    return {
-      id: listaFacturas.id,
-      nestudio: listaFacturas.cliente,
-      fecha: fecha,
-      paciente: listaFacturas.cliente.razon_social,
-      ci: listaFacturas.cliente.ci_rif,
-      montoBs: listaFacturas.total_bs,
-      montoUsd:listaFacturas.total_usd
-    }
-  });
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (study) => {
     setShowModal(!showModal);
@@ -169,121 +129,43 @@ const Dashboard = () => {
       //toast.error(error.message, { autoClose: 1000 });
     }
   };
-
+console.log(facturasNoConfirmadas)
   return (
     <>
-      <Box margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
-          padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-          backgroundColor={'gray.100'}
-          borderTopLeftRadius={'20px'}
-          backgroundSize="cover"
-          backgroundPosition="center"
-          overflowY="hidden"
-          overflowX={{lg:"hidden",sm:"auto"}}
+      <Box 
+     margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
+     w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
+     height={'auto'}
+     padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
+     backgroundColor={"gray.100"}
+     borderTopLeftRadius={"20px"}
+     backgroundSize="cover"
+     backgroundPosition="center"
+     overflowY="hidden"
+     overflowX={{ lg: "hidden", sm: "auto" }}
       >
-        <Box
-          width={'100%'}
-          margin={'10px 0px 0px 25px'}
-          display="flex" justifyContent="flex-end"
-        >
-          <Box width={"auto"} marginBottom={'-20px'} >
-            <Text
-              borderTopLeftRadius={"20px"}
-              borderBottomLeftRadius={"20px"}
-              textAlign={"center"}
-              padding="10px"
-              backgroundColor="#137797"
-              color="#FFF"
-              fontSize={"14px"}
-            >
-              Dolar BCV: {cambioDelDia}
-            </Text>
-          </Box>
-        </Box>
+     
+         <CardCambio cambioDelDia={cambioDelDia} />
         <Box marginTop={'-15px'} padding={'2%'}>
-         {/* <Heading
-            size="md"
-          >
-            Ordenes sin confirmar
-          </Heading>
-          <Box
-            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            backgroundColor={"#FFFF"} 
-            borderRadius="20px"
-            mt={'25px'}
-            mb={'20px'}
-            p={'6px'}
-            width={"100%"}
-            height={'auto'}
-           
-           // m={"20px 30px 30px 20px"}
-           // backgroundColor={"#FFFF"}
-           // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            //py={'25px'}
-            px={'10px'}
-          py={"25px"}
-           
-          
-            >
-            <Box 
-            overflow={'auto'}
-            minH={"280px"}
-           maxH={"280px"}
-           sx={{
-            "&::-webkit-scrollbar": {
-              width: "6px",
-              height:"6px",
-              borderRadius: "8px",
-              backgroundColor: "#f5f5f5",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "#888",
-              borderRadius: "5px",
-            },
-            "&::-webkit-scrollbar-thumb:hover": {
-              background: "#555",
-            },
-          }}>
-              <Table >
-                <Thead style={{width:'100%'}}>
-                 <TH thData={thValuesFacturasSimples} />
-                </Thead>
-                <Tbody>
-                  {sinConfirmar.map((study) => (
-                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                      <Td style={{width:'20%'}}>
-                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {study.fecha}</Link>
-                      </Td>
-                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
-                      <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.ci}</Link>
-                      </Td>
-                      <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
-                      </Td>
-                      <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </Box>
-          </Box>*/}
+       
          <TableOrders_Pendientes> 
 
          <Tbody>
-                  {sinConfirmar.map((study) => (
+                  {facturasNoConfirmadas.map((study) => (
                     <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
                       <Td style={{width:'20%'}}>
-                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {study.fecha}</Link>
+                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion) }</Link>
                       </Td>
-                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
+                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {   study.cliente?.razon_social.length > 10
+                ? study.cliente?.razon_social.substring(0, 10) + "..."
+                : study.cliente?.razon_social}</Link></Td>
                       <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.ci}</Link>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
                       </Td>
                       <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.total_usd} $ </Link>
                       </Td>
-                      <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
+                      <Td><Link style={{fontSize:'13.5px'}}  onClick={() => toggleModal(study)}>{study.total_bs} Bs </Link></Td>
                     </Tr>
                   ))}
                 </Tbody>
@@ -292,19 +174,25 @@ const Dashboard = () => {
          <TableOrders_Confirmadas> 
 
          <Tbody>
-                  {pendientes.map((study) => (
+                  {facturasConfirmadas.map((study) => (
                     <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
                       <Td style={{width:'20%'}}>
-                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {study.fecha}</Link>
+                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {formatDate(study?.fecha_recepcion) }</Link>
                       </Td>
-                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
+                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>
+                         
+                     {   study.cliente?.razon_social.length > 10
+                ? study.cliente?.razon_social.substring(0, 10) + "..."
+                : study.cliente?.razon_social}
+                        
+                        </Link></Td>
                       <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.ci}</Link>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
                       </Td>
                       <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.total_usd} $</Link>
                       </Td>
-                      <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
+                      <Td><Link style={{fontSize:'13.5px'}}  onClick={() => toggleModal(study)}>{study.total_bs} Bs </Link></Td>
                     </Tr>
                   ))}
                 </Tbody>
@@ -357,32 +245,7 @@ const Dashboard = () => {
         eliminar={handleDeleteFact}
         nombres={pacienteName}
       />
-     {/* <Modal
-        size={sizeView}
-        maxWidth='100%'
-        isOpen={showModalList}
-        onClose={toggleModalList}>
-        <ModalOverlay />
-        <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
-          <ModalHeader>
-            <Button
-              borderRadius={'50%'}
-              colorScheme="blue"
-              width="40px"
-              height="40px"
-              marginLeft={'95%'}
-              marginTop={'-60px'}
-              bgColor={'#137797'}
-              color='#ffff'
-              onClick={toggleModalList}>
-              <CloseButton />
-            </Button>
-          </ModalHeader>
-          <ModalBody marginTop={'-5%'}>
-            <ListaFacturas />
-          </ModalBody>
-        </ModalContent>
-      </Modal>*/}
+    
     </>
   );
 };

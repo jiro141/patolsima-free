@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Link,
   Box,
@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { formatDate } from "helpers";
+import MainContext from "context/mainContext/MainContext";
 
 export function TH({ thData }) {
   return (
@@ -203,7 +204,12 @@ export function TRF({
   handleSelectIcon,
  // title = "pruebas",
 }) {
-  return (
+ const{setidSelectItem,  setEnablefactModalDetails}= useContext(MainContext)
+ const handleClickItem=(bills)=>{
+  setidSelectItem(bills)
+  setEnablefactModalDetails(true)
+ }
+ return (
     <Tbody >
     {tBodyData &&
       tBodyData?.map((bills) => (
@@ -215,7 +221,7 @@ export function TRF({
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
+            onClick={() => handleClickItem(bills)}
           >
             {bills.id}
           </Link>
@@ -227,7 +233,7 @@ export function TRF({
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
+            onClick={() => handleClickItem(bills)}
           >
              {formatDate(bills.fecha_recepcion)}
            
@@ -240,7 +246,7 @@ export function TRF({
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
+            onClick={() => handleClickItem(bills)}
           >
              {bills.fecha_impresion ? formatDate(bills.fecha_impresion) : ''}
           </Link>
@@ -251,7 +257,7 @@ export function TRF({
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
+            onClick={() => handleClickItem(bills)}
           >
             
             {  bills.cliente.razon_social.length > 17 ? bills.cliente.razon_social.substring(0, 17) + '...': bills.cliente.razon_social }
@@ -263,7 +269,7 @@ export function TRF({
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
+            onClick={() => handleClickItem(bills)}
           >
            {bills.cliente.ci_rif}
           </Link>
@@ -275,7 +281,7 @@ export function TRF({
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
+            onClick={() => handleClickItem(bills)}
           >
             {bills.total_usd}
             
@@ -287,7 +293,10 @@ export function TRF({
             borderRadius="none"
             borderBottom="1px solid"
             borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
+            onClick={() => 
+              handleClickItem(bills)
+              //handleSelectTBody(bills)
+          }
           >
            {bills.total_bs}
           </Link>
@@ -299,6 +308,7 @@ export function TRF({
             borderBottom="1px solid"
             borderBottomColor="gray.500"
             onClick={() =>
+              
               handleSelectIcon(bills)
             }
           >
