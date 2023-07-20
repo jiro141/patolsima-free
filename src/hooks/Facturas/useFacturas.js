@@ -8,7 +8,7 @@ import { useCallback, useMemo, useState } from "react";
 
 export function useFacturas() {
  // const [facturas, setFacturas] = useState([]);
- const {facturas, setFacturas, setfilteredFact }= useContext(MainContext)
+ const {facturas, setFacturas, setfilteredFact,archived }= useContext(MainContext)
   
   const [facturasConfirmadas, setFacturasConfirmadas] = useState([]);
   const [facturasNoConfirmadas, setFacturasNoConfirmadas] = useState([]);
@@ -37,6 +37,11 @@ export function useFacturas() {
       //setloading(true);
       //seterror(null);
       const facturasListConfirm = await getFacturasListConfirm();
+      if(archived){
+        const archivedFacts=facturasListConfirm.filter((item) => item.archived === true);
+        setFacturasConfirmadas(archivedFacts);  
+       
+      }
       setFacturasConfirmadas(facturasListConfirm);  
      
      
@@ -56,6 +61,10 @@ export function useFacturas() {
   const getFacturasNotConfirm = useCallback(async () => {
     try {
       const facturasListNotConfirm = await getFacturasListNoConfirm();
+      if(archived){
+        const archivedFacts=facturasListNotConfirm.filter((item) => item.archived === true);
+        setFacturasNoConfirmadas(archivedFacts);  
+       }
       setFacturasNoConfirmadas(facturasListNotConfirm);  
     } catch (error) {
       //seterror(error.message);
@@ -78,5 +87,5 @@ export function useFacturas() {
   }, []);
  
 
-  return {facturas,getFacturas,facturasConfirmadas,facturasNoConfirmadas,loading,error,getCambios,cambioDelDia,loadingCambio,errorC,getFacturasConfirm,getFacturasNotConfirm,setFacturasConfirmadas };
+  return {facturas,getFacturas,facturasConfirmadas,facturasNoConfirmadas,loading,error,getCambios,cambioDelDia,loadingCambio,errorC,getFacturasConfirm,getFacturasNotConfirm,setFacturasConfirmadas,setFacturasNoConfirmadas };
 }

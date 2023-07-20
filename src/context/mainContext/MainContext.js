@@ -30,6 +30,12 @@ export function MainContextProvider({ children }) {
 
  //factura terceros
  const [factClientTerceros, setfactClientTerceros] = useState(null);
+ //enable factura archivada
+ const [archived, setArchived] = useState(false);
+ //--------------------------------------------------------
+//factura detail from facts tables
+const [enablefactModalDetails, setEnablefactModalDetails] = useState(false);
+ const [idSelectItem, setidSelectItem] = useState([]);
 
    useEffect(() => {
   
@@ -77,7 +83,10 @@ export function MainContextProvider({ children }) {
         muestrasPatologo, setMuestrasPatologo,
         filteredMuestrasPatologo, setfilteredMuestrasPatologo,
         hiddenmuestrasPatologosort, sethiddenmuestrasPatologosort,
-        factClientTerceros, setfactClientTerceros
+        factClientTerceros, setfactClientTerceros,
+        archived, setArchived,
+        idSelectItem, setidSelectItem,
+        enablefactModalDetails, setEnablefactModalDetails
 
       }}
     >

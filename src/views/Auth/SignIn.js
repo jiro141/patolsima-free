@@ -251,8 +251,8 @@ function SignIn() {
             bgPosition='58%'
             position='absolute'
             borderBottomLeftRadius='20px'>
-            <Box >
-              <Text color={'whiteAlpha.900'} textAlign={'justify'} fontWeight='medium' margin={'60% 40px'} >
+            <Box style={{display:'flex',height:'95%',justifyContent:'flex-end',flexDirection:'column'}} px={'10px'} >
+              <Text color={'whiteAlpha.900'} textAlign={'justify'} fontWeight='medium' >
                 La misión de Laboratorio de Anatomía Patológica Patolsima es prestar un servicio de salud, mediante la realización de estudios de laboratorio de citologías, biopsias e inmunohistoquímica, con garantía en la precisión y exactitud de los resultados, satisfaciendo las necesidades de nuestros clientes y brindándoles un servicio de calidad.
               </Text>
             </Box>

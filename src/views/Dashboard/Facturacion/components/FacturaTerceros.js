@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainContext from "context/mainContext/MainContext";
 
-const FacturaTerceros = ({ study }) => {
+const FacturaTerceros = ({ study,setShowModal }) => {
  const{ setfactClientTerceros}= useContext(MainContext)
     const formik = useFormik({
         initialValues: {
@@ -44,6 +44,7 @@ const FacturaTerceros = ({ study }) => {
                 toast.success("¡Se creo la factura correctamente!", {
                     autoClose: 1000,
                   });
+                  setShowModal(false)
               }
             } catch (error) {
                 toast.success("¡Ocurrio un error para crear la factura!", {

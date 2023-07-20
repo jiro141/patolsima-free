@@ -31,17 +31,21 @@ import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
 import { thValuesFacturas } from "mocks";
 import DeleteModal from "components/widgets/Modals/DeleteModal";
 import { deleteOrden } from "api/controllers/facturas";
+import CardCambio from "components/widgets/Cards/CardCambio";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenFactssort } = useContext(MainContext);
+  const { hiddenFactssort,archived, setArchived,
+    idSelectItem, setidSelectItem,
+    enablefactModalDetails, setEnablefactModalDetails
+  } = useContext(MainContext);
   const colorA = "#137797";
   const [Busqueda, setBusqueda] = useState("");
   const [study, setStudy] = useState([]);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
-  const [archived, setArchived] = useState(false);
+ // const [archived, setArchived] = useState(false);
   const {
     facturas,
     getFacturas,
@@ -50,7 +54,8 @@ const Dashboard = () => {
     facturasConfirmadas,
     facturasNoConfirmadas,
     loading,
-    getFacturasConfirm,getFacturasNotConfirm
+    getFacturasConfirm,getFacturasNotConfirm,
+    setFacturasNoConfirmadas
   } = useFacturas();
   const {
     getSearchFacturas,
@@ -75,26 +80,18 @@ const Dashboard = () => {
     setfacturaIdDelete(factura?.id);
     setPacienteName(factura?.cliente?.razon_social);
   };
-
-
   const [showModal, setShowModal] = useState(false);
- 
- 
-  const toggleModal = (study) => {
+ const toggleModal = (study) => {
     setShowModal(!showModal);
     setStudy(study);
   };
   useEffect(() => {
     if(archived){
-      getFacturas();
-      getFacturasConfirm()
-      setShowModal(false)
-      
+      setShowModal(false)    
     }
-    
-  }, [archived])
   
-
+  }, [archived])
+  const  handleSelectTBody=(id)=>{}
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
     getSearchFacturas();
@@ -130,16 +127,18 @@ const Dashboard = () => {
       //toast.error(error.message, { autoClose: 1000 });
     }
   };
+  const handleArchivarConfirmFacts=(facturaIdDelete)=>{
+    console.log(facturaIdDelete)
+    //setFacturasConfirmadas(facturasConfirmadas.filter((p) => p.id !== facturaIdDelete))
+    setFacturasNoConfirmadas(facturasNoConfirmadas.filter((p) => p.id !== facturaIdDelete))
+  }
+  //console.log(idSelectItem)
   return modoVisualizacion === "tarjeta" ? (
     <>
       <Box
         margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
         w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
         height={'auto'}
-        //pb={'50px'}
-        //py={'5px'}
-      // border={'1px'}
-     // pb={'60px'}
         padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
         backgroundColor={"gray.100"}
         borderTopLeftRadius={"20px"}
@@ -149,28 +148,7 @@ const Dashboard = () => {
         overflowX={{ lg: "hidden", sm: "auto" }}
         // maxH={'40em'}
       >
-        <Box
-         // width={{ lg: "100%", sm: "95%" }}
-         
-        // margin={"10px 0px 0px 55px"}
-          display="flex"
-          justifyContent="flex-end"
-          w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 250px)" }}
-        >
-          <Box width={"auto"} marginBottom={'-20px'} >
-            <Text
-              borderTopLeftRadius={"20px"}
-              borderBottomLeftRadius={"20px"}
-              textAlign={"center"}
-              padding="10px"
-              backgroundColor="#137797"
-              color="#FFF"
-              fontSize={"14px"}
-            >
-              Dolar BCV: {cambioDelDia}
-            </Text>
-          </Box>
-        </Box>
+       <CardCambio cambioDelDia={cambioDelDia} />
 
         <Box marginTop={"5px"} width={'100%'}
         pl={'5px'}
@@ -234,12 +212,39 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setArchived={setArchived} study={study} />
+            <ModalFacturacion setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={study} />
           </ModalBody>
         </ModalContent>
       </Modal>
 
-   
+      <Modal
+        size={size}
+        maxWidth="100%"
+        isOpen={enablefactModalDetails}
+        onClose={()=>setEnablefactModalDetails(false)}
+      >
+        <ModalOverlay />
+        <ModalContent borderRadius={"20px"} bg="#ffff">
+          <ModalHeader>
+            <Button
+              borderRadius={"50%"}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={"95%"}
+              marginTop={"-60px"}
+              bgColor={"#137797"}
+              color="#ffff"
+              onClick={()=>setEnablefactModalDetails(false)}
+            >
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody>
+            <ModalFacturacion setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
       <DeleteModal
         isOpen={showModalConfirmacion}
@@ -256,6 +261,7 @@ const Dashboard = () => {
         handleBusquedaChange={handleBusquedaChange}
         thData={thValuesFacturas}
         tBodyData={searchFacturas}
+        handleSelectTBody={handleSelectTBody}
         handleSelectIcon={toggleModalConfirmacion}
         type="facturas"
       />
