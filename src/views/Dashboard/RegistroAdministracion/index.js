@@ -76,6 +76,7 @@ function Registro() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 1 }}
         isDisabled={isDisabled}
+        fontWeight="bold"
       >
         {title}
       </MotionTab>
@@ -89,7 +90,7 @@ function Registro() {
           margin="30px 5px 0 5px"
           border="none"
           bg={isActive ? "#9BC5D3" : "#9BC5D3"}
-          color={isActive ? "#FFFF" : "#2b6cb0"}
+          color={isActive ? "#2b6cb0" : "#2b6cb0"}
           borderRadius={isActive ? "40px" : "45%"}
           padding={
             isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "15px" }
@@ -100,6 +101,7 @@ function Registro() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 1 }}
           isDisabled={isDisabled}
+          fontWeight="bold"
         >
           {isActive ? title : activeTab == 2 ? "+" : null}
         </MotionTab>

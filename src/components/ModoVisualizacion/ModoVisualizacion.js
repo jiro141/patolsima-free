@@ -9,7 +9,7 @@ export function ModoVisualizacionProvider({ children }) {
   const [pacienteID, setPacienteID] = useState('');
   const [medicoID, setMedicoID] = useState('');
   const [estudioID, setEstudioID] = useState('');
-  const [estudioId2, setEstudioId2] = useState([]);
+  const [estudioId2, setEstudioId2] = useState('');
   const [muestraID, setMuestraID] = useState('');
 
   const setFormEstudioIds=(values)=>{

@@ -39,10 +39,13 @@ import InputSelector from "components/widgets/Inputs/InputSelector";
 import { typeStudies } from "mocks";
 import Switch_ from "components/widgets/Switchs/Switch";
 import AddMuestraForm from "components/widgets/Estudio/AddMuestraForm";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SuccessModal from "components/widgets/Modals/SuccessModal";
 import { generateUniqueId } from "helpers";
 import { postOrdenes } from "api/controllers/facturas";
-
+import { NextStation } from "components/widgets/Buttons/NextStation";
+import SaveButton from "components/widgets/Buttons/SaveButton";
 const Muestra2 = () => {
   const {
     estudioID,
@@ -51,6 +54,7 @@ const Muestra2 = () => {
     dataMedico,
     pacienteID,
     estudioId2,
+    medicoID,
     setEstudioId2,
   } = useContext(ModoVisualizacionContext);
   console.log(estudioId2);
@@ -59,6 +63,7 @@ const Muestra2 = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [studyData,setStudyData]= useState();
   // const history = useHistory();
 
   const fileInputRef = useRef(null);
@@ -87,7 +92,7 @@ const Muestra2 = () => {
       //console.log(formData);
       const newObj = {
         paciente_id: pacienteID,
-        medico_tratante_id: medicoID,
+        medico_tratante_id: medicoID || null,
         patologo_id: null,
         ...formData,
       };
@@ -98,7 +103,8 @@ const Muestra2 = () => {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
           });
-
+          console.log(estudioPost);
+          setStudyData(estudioPost);
           setEstudioId2(estudioPost.id);
 
           setOpenModal(true);
@@ -142,14 +148,18 @@ const Muestra2 = () => {
 
   const uniqueId = generateUniqueId();
   //const fileInputRef = useRef(null);
+  const handleSubmit = () => {
+    formik.handleSubmit();
+  };
 
   return (
     <>
+    <NextStation/>
       <form>
         <Text fontSize={"20px"} margin={"2% auto 2% auto"} color={"gray.600"}>
           Información General
         </Text>
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="20px">
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
             <Text marginBottom={"1.5%"} fontSize={"17px"}>
               Paciente
@@ -175,7 +185,7 @@ const Muestra2 = () => {
           templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
           gap="20px"
         ></Grid>
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="20px">
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
             <Text
               textAlign={"left"}
@@ -190,14 +200,14 @@ const Muestra2 = () => {
             <Text
               textAlign={"left"}
               fontSize={"18px"}
-              margin={{ lg: "15px auto 0 auto", sm: "0px auto 10px auto" }}
+              margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
               color={"gray.600"}
             >
-              Estudio N°: <Badge>{`${uniqueId}`}</Badge>
+              {`Estudio N°: `}
             </Text>
           </Box>
         </Grid>
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="20px">
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
 
           <InputSelector
             name="tipo"
@@ -208,6 +218,21 @@ const Muestra2 = () => {
             options={typeStudies}
             type={"Tipo de Estudio:"}
           />
+          {
+            studyData ? (
+              <Box>
+                <Text
+                  textAlign={"left"}
+                  fontSize={"18px"}
+                  // margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
+                  color={"gray.600"}
+                >
+                  <Badge fontSize={'18px'}>{studyData.codigo}</Badge>
+                </Text>
+              </Box>
+            ) :
+              <></>
+          }
 
         </Grid>
         <Grid
