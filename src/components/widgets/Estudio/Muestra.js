@@ -186,7 +186,7 @@ const Muestra = () => {
     <div style={{ height: "auto" }}>
       <NextStation />
       <form>
-        <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px" >
+        <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{lg:"100px",md:'20px', sm:'15px'}} >
           <Text fontSize={"17px"} fontWeight={'bold'} color={"gray.600"}>
             Información General
           </Text>
@@ -275,8 +275,9 @@ const Muestra = () => {
         </Grid>
         <Grid
           templateColumns={{ lg: "repeat(3,1fr)", sm: "1fr" }}
-          gap="100px"
+          gap="10px"
           marginY={"2%"}
+
         >
           <Switch_
             id="envio_digital"
@@ -296,7 +297,7 @@ const Muestra = () => {
             label={"Urgente"}
           />
 
-          {<FormControl display="flex" alignItems="center" justifyContent={'center'} marginTop={"5px"}>
+          {<FormControl display="flex" alignItems="center" justifyContent={'left'} marginTop={"5px"}>
             <input type="file" accept=".pdf" onChange={handleFileChange}
               style={{ display: 'none' }} ref={fileInputRef} />
             <FormLabel>{selectedFile ? selectedFile.name : 'Sube un archivo'}</FormLabel>

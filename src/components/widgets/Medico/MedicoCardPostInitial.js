@@ -76,8 +76,8 @@ const MedicoCardPostInitial = ({
       nombres: "",
       apellidos: "",
       especialidad: "",
-      telefono_celular: "",
-      email: "",
+      telefono_celular: "" || null,
+      email: "" || null,
     },
     validationSchema: Yup.object({
       nombres: Yup.string().required("Los nombres son obligatorios"),
