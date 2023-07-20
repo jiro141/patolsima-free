@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -23,31 +23,37 @@ import MainContext from "context/mainContext/MainContext";
 import { postAbonar } from "api/controllers/facturas";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getNotadePago } from "api/controllers/facturas";
 
 export default function AddAbonarModal({
   isOpen,
   setShowModal,
   idOrden,
   facturasDetail,
+  setOpenModalPago,
+  openModalPago,
+  setPdfContent
 }) {
   const [valueInput, setvalueInput] = useState([]);
+  const [idPago, setIdPago] = useState('');
 
   const handleSubmit = async () => {
     const newObj = {
       orden: facturasDetail.id,
       monto_usd: valueInput,
     };
-    console.log('heree endpoint')
+   
     try {
       const sendAbonar = await postAbonar(newObj);
-      console.log(sendAbonar);
+      //console.log(sendAbonar);
       if (sendAbonar) {
         toast.success("¡El abono fue guardado correctamente!", {
           autoClose: 1000,
         });
-        // setPagoId(pacientePut);
+        setIdPago(sendAbonar.id)
         //onPagoIdChange(pacientePut);
         setShowModal(false);
+        setOpenModalPago(true)
       } else {
         toast.error("¡Hubo un error al abonar la factura!", {
           autoClose: 1000,
@@ -59,6 +65,24 @@ export default function AddAbonarModal({
       });
     }
   };
+  const generarReciboPago=async()=>{
+    const resPago= await  getNotadePago(idPago)
+    if(resPago){
+    setPdfContent(resPago.uri)
+    
+    }else{
+        return
+       }
+  }
+
+  useEffect(() => {
+    if(openModalPago){
+      generarReciboPago()
+   
+   
+    }
+  }, [openModalPago])
+  
   //console.log(facturasDetail);
   return (
     <Modal size={"sm"} maxWidth="100%" isOpen={isOpen}>
@@ -97,7 +121,7 @@ export default function AddAbonarModal({
               <Box>
                 <Text textAlign="center">Monto total: </Text>
               </Box>
-             {/* <Box>
+             { <Box>
                 <Text textAlign="center">
                   <Badge>
                     {facturasDetail ? facturasDetail?.balance.por_pagar_usd : ""}{" "}
@@ -105,7 +129,7 @@ export default function AddAbonarModal({
                   </Badge>
                   <Badge>{facturasDetail ? facturasDetail?.balance.por_pagar_bs: ''}Bs</Badge>
                 </Text>
-              </Box>*/}
+              </Box>}
             </Grid>
             <Grid gap={"3px"} templateColumns={"1.5fr 2fr"}>
               <Box width={"100%"}>

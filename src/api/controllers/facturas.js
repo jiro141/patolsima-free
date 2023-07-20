@@ -10,6 +10,26 @@ export const getFacturasList= async () => {
         console.log(error);
     }
 }
+//filterss
+export const getFacturasListConfirm= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/facturacion/ordenes/?pagada=true&confirmada=true`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getFacturasListNoConfirm= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/facturacion/ordenes/?pagada=false&confirmada=false`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getFacturasDetail= async (id) => {
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/${id}`)
@@ -39,9 +59,10 @@ export const putFacturaTerceros= async (id,data) => {
     }
 }
 export const postFacturaTerceros= async (data) => {
-    
+    console.log(data)
     try {
         const response = await Axios.post(`/v1/facturacion/clientes/`,data)
+        console.log( response.data)
          return response.data;
     } catch (error) {
         console.log(error);
@@ -116,9 +137,17 @@ export const postFactura= async (id,data) => {
 //Generar Recibo
 export const postRecibo= async (id,data) => {
     try {
-        //const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data)
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data);
         return response.data.confirm.s3_file;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getNotadePago= async (id) => {
+    try {
+        const response = await Axios.get(`/v1/facturacion/pagos/${id}/nota_de_pago/`);
+        return response.data.s3_file;
     } catch (error) {
         console.log(error);
     }

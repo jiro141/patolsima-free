@@ -29,10 +29,10 @@ const renderStudies = (content, toggleModal, colorA, type) => {
       }}
     >
        <Box
-       width={'210px'}
-        height={"235px"}
+       width={'185px'}
+        height={"200px"}
       
-        margin={"5px auto 5px auto"}
+        margin={"20px auto 20px auto"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
         borderRadius={"16px"}
         key={study.id}
@@ -46,22 +46,23 @@ const renderStudies = (content, toggleModal, colorA, type) => {
          // padding={"10px"}
           //paddingBottom={"2px"}
           py={'1px'}
-          px={'6px'}
+          px={'10px'}
           minH={"5px"}
         >
           <RowCard
             type={"headPrincipal"}
-            headTitle={"  "}
+            data={ '   ' + formatDate(study.fecha_recepcion)}
+            headTitle={formatDate(study.fecha_recepcion)}
             icon={<BsReceipt size={"25px"} color={colorA} />}
             color={useColorModeValue("gray.600", "gray.400")}
           />
         </Box>
         <Box p={"10px"}>
-        <RowCard
+       {/* <RowCard
             headTitle={"Fecha"}
             data={formatDate(study.fecha_recepcion)}
             color={useColorModeValue("gray.600", "gray.400")}
-          />
+          />*/}
 
           <RowCard
             headTitle={"Paciente"}
@@ -99,9 +100,10 @@ const renderInformes = (content, toggleModal, colorA,type) => {
         }}
       >
         <Box
-          width={'210px'}
-        height={"231px"}
-        margin={"5px auto 5px auto"}
+        width={'185px'}
+        height={"200px"}
+      
+        margin={"20px auto 20px auto"}
         boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
         borderRadius={"16px"}
         key={study.id}
@@ -112,13 +114,13 @@ const renderInformes = (content, toggleModal, colorA,type) => {
             borderTopRightRadius={"16px"}
             backgroundColor={colorA}
             py={'1px'}
-            px={'6px'}
+            px={'10px'}
             minH={"15px"}
             marginV={"5px"}
           >
             <RowCard
               type="headPrincipal"
-              headTitle={study.estudio_codigo}
+              headTitle={' ' + study.estudio_codigo}
               icon={
                 <BsFillFileEarmarkRichtextFill size={"25px"} color={colorA} />
               }
@@ -149,7 +151,7 @@ const renderInformes = (content, toggleModal, colorA,type) => {
             />
             
   
-           {study.estudio_prioridad  && 
+           {/*study.estudio_prioridad  && 
            <RowCard
               headTitle={"Prioridad"}
               data={
@@ -159,7 +161,7 @@ const renderInformes = (content, toggleModal, colorA,type) => {
                
               }
               color={useColorModeValue("gray.600", "gray.400")}
-            />}
+            />*/}
           </Box>
         </Box>
       </Link>
@@ -276,49 +278,65 @@ export default function CardOverall_({
     containerRef.current.style.scrollBehavior = "smooth";
   };
   return (
-    <div>
+    <div style={{}}>
       <Heading size="md">{content.length === 0 ? " " : title}</Heading>
+      <Box 
+      boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+      backgroundColor={"#FFFF"} 
+      borderRadius="20px"
+      mt={'25px'}
+      mb={'20px'}
+      p={'6px'}
+      
+      >
+
       <Box
            ref={containerRef}
            width={"100%"}
-           m={"20px 30px 30px 20px"}
-           backgroundColor={"#FFFF"}
-           boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+           height={'auto'}
+          // m={"20px 30px 30px 20px"}
+          // backgroundColor={"#FFFF"}
+          // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
            //py={'25px'}
           px={'10px'}
-           py={"25px"}
+          py={"25px"}
            borderRadius="20px"
-           minH={"300px"}
-           maxH={"300px"}
+           minH={"280px"}
+           maxH={"280px"}
            overflowY="auto"
            overflowX="auto"
            onMouseDown={handleMouseDown}
            onMouseMove={handleMouseMove}
            onMouseUp={handleMouseUp}
            onMouseLeave={handleMouseUp}
-           border="1px solid #ccc"
+          // border="1px solid #ccc"
            sx={{
-                   "&::-webkit-scrollbar": {
-                     width: "6px",
-                     height:"6px",
-                     borderRadius: "8px",
-                     backgroundColor: "#f5f5f5",
-                   },
-                   "&::-webkit-scrollbar-thumb": {
-                     background: "#888",
-                     borderRadius: "5px",
-                   },
-                   "&::-webkit-scrollbar-thumb:hover": {
-                     background: "#555",
-                   },
-                 }}
+            "&::-webkit-scrollbar": {
+              width: "6px",
+              height:"6px",
+              borderRadius: "8px",
+              backgroundColor: "#f5f5f5",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#555",
+            },
+          }}
+       // background={'red'}
+           
       >
-        <Box  >
+        <Box 
+        
+       
+        >
           {loading ? (
             <div className="centerLoader">
               <CircularProgress value={80} size="80px" color="#137797" />
             </div>
-          ) : content.length > 0 ? (
+          ) : content.length > 0  ? (
             <Grid
               gap={"20px"}
               templateColumns={{
@@ -345,6 +363,9 @@ export default function CardOverall_({
           )}
         </Box>
       </Box>
+      </Box>
+
+      
     </div>
   );
 }
@@ -385,40 +406,50 @@ export function CardOverall_Infor({
   return (
     <div>
       <Heading size="md">{content.length === 0 ? " " : title}</Heading>
+      <Box 
+      boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+      backgroundColor={"#FFFF"} 
+      borderRadius="20px"
+      mt={'25px'}
+      mb={'20px'}
+      p={'6px'}
+      
+      > 
       <Box
-          ref={containerRef}
-          width={"100%"}
-          m={"20px 30px 30px 20px"}
-          backgroundColor={"#FFFF"}
-          boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-          //py={'25px'}
-         px={'10px'}
+           ref={containerRef}
+           width={"100%"}
+           height={'auto'}
+          // m={"20px 30px 30px 20px"}
+          // backgroundColor={"#FFFF"}
+          // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+           //py={'25px'}
+          px={'10px'}
           py={"25px"}
-          borderRadius="20px"
-          minH={"300px"}
-          maxH={"300px"}
-          overflowY="auto"
-          overflowX="auto"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          border="1px solid #ccc"
-          sx={{
-                  "&::-webkit-scrollbar": {
-                    width: "6px",
-                    height:"6px",
-                    borderRadius: "8px",
-                    backgroundColor: "#f5f5f5",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    background: "#888",
-                    borderRadius: "5px",
-                  },
-                  "&::-webkit-scrollbar-thumb:hover": {
-                    background: "#555",
-                  },
-                }}
+           borderRadius="20px"
+           minH={"280px"}
+           maxH={"280px"}
+           overflowY="auto"
+           overflowX="auto"
+           onMouseDown={handleMouseDown}
+           onMouseMove={handleMouseMove}
+           onMouseUp={handleMouseUp}
+           onMouseLeave={handleMouseUp}
+          // border="1px solid #ccc"
+           sx={{
+            "&::-webkit-scrollbar": {
+              width: "6px",
+              height:"6px",
+              borderRadius: "8px",
+              backgroundColor: "#f5f5f5",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#555",
+            },
+          }}
       >
         <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
           {loading ? (
@@ -452,6 +483,8 @@ export function CardOverall_Infor({
           )}
         </Box>
       </Box>
+      </Box>
+      
     </div>
   );
 }

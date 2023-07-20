@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useContext, useState } from "react";
 import {
     Box,
     Text,
@@ -14,9 +14,10 @@ import InputOverall from "components/widgets/Inputs/InputOverall";
 import { postFacturaTerceros } from "api/controllers/facturas";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MainContext from "context/mainContext/MainContext";
 
 const FacturaTerceros = ({ study }) => {
-  
+ const{ setfactClientTerceros}= useContext(MainContext)
     const formik = useFormik({
         initialValues: {
           email: '',
@@ -36,8 +37,10 @@ const FacturaTerceros = ({ study }) => {
         validateOnChange: false,
         onSubmit: async (formData, { resetForm }) => {
             try {
-              const resPost=  postFacturaTerceros(formData)
+              const resPost=  await postFacturaTerceros(formData)
               if(resPost){
+                setfactClientTerceros(resPost)
+                //console.log(resPost)
                 toast.success("¡Se creo la factura correctamente!", {
                     autoClose: 1000,
                   });

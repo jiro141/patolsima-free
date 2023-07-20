@@ -252,14 +252,21 @@ const Dashboard = () => {
     modoVisualizacion === 'tarjeta' ? (
       <>
            <Box
-         margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
-         padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-         backgroundColor={'gray.100'}
-         borderRadius={'20px'}
-         //backgroundSize="cover"
-         backgroundPosition="center"
-         height={'auto'}
-         //width={'95%'}
+        margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
+        w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
+        height={'auto'}
+        //pb={'50px'}
+        //py={'5px'}
+      // border={'1px'}
+     // pb={'60px'}
+        padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
+        backgroundColor={"gray.100"}
+        borderTopLeftRadius={"20px"}
+        backgroundSize="cover"
+        backgroundPosition="center"
+        overflowY="hidden"
+        overflowX={{ lg: "hidden", sm: "auto" }}
+        // maxH={'40em'}
       >
        
 

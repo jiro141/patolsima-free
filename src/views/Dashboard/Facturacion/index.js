@@ -41,6 +41,7 @@ const Dashboard = () => {
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
+  const [archived, setArchived] = useState(false);
   const {
     facturas,
     getFacturas,
@@ -49,6 +50,7 @@ const Dashboard = () => {
     facturasConfirmadas,
     facturasNoConfirmadas,
     loading,
+    getFacturasConfirm,getFacturasNotConfirm
   } = useFacturas();
   const {
     getSearchFacturas,
@@ -62,7 +64,10 @@ const Dashboard = () => {
   // console.log(cambioDelDia)
   useEffect(() => {
     getFacturas();
+    getFacturasConfirm()
+    getFacturasNotConfirm()
     getCambios();
+    setArchived(false)
   }, []);
 
   const toggleModalConfirmacion = (factura) => {
@@ -73,10 +78,22 @@ const Dashboard = () => {
 
 
   const [showModal, setShowModal] = useState(false);
+ 
+ 
   const toggleModal = (study) => {
     setShowModal(!showModal);
     setStudy(study);
   };
+  useEffect(() => {
+    if(archived){
+      getFacturas();
+      getFacturasConfirm()
+      setShowModal(false)
+      
+    }
+    
+  }, [archived])
+  
 
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
@@ -116,10 +133,14 @@ const Dashboard = () => {
   return modoVisualizacion === "tarjeta" ? (
     <>
       <Box
-        margin={{ lg: "50px 0px 0px 30px", sm: "60px 0px 10% 0px" }}
+        margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
+        w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
+        height={'auto'}
+        //pb={'50px'}
         //py={'5px'}
-       
-        padding={{ lg: "0 25px", md: "10px", sm: "0px 0 10% 0" }}
+      // border={'1px'}
+     // pb={'60px'}
+        padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
         backgroundColor={"gray.100"}
         borderTopLeftRadius={"20px"}
         backgroundSize="cover"
@@ -129,12 +150,14 @@ const Dashboard = () => {
         // maxH={'40em'}
       >
         <Box
-          width={{ lg: "100%", sm: "95%" }}
-          margin={"10px 0px 0px 25px"}
+         // width={{ lg: "100%", sm: "95%" }}
+         
+        // margin={"10px 0px 0px 55px"}
           display="flex"
           justifyContent="flex-end"
+          w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 250px)" }}
         >
-          <Box width={"auto"} marginBottom={'-20px'}>
+          <Box width={"auto"} marginBottom={'-20px'} >
             <Text
               borderTopLeftRadius={"20px"}
               borderBottomLeftRadius={"20px"}
@@ -149,7 +172,10 @@ const Dashboard = () => {
           </Box>
         </Box>
 
-        <Box marginTop={"-15px"} width={'100%'}  >
+        <Box marginTop={"5px"} width={'100%'}
+        pl={'5px'}
+        
+        >
           {hiddenFactssort ? (
             <>
               <CardOverall_
@@ -208,7 +234,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion study={study} />
+            <ModalFacturacion setArchived={setArchived} study={study} />
           </ModalBody>
         </ModalContent>
       </Modal>

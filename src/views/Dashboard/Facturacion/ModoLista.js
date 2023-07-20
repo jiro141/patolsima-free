@@ -27,12 +27,33 @@ import ModalFacturacion from "./components/ModalFacturacion";
 import ListaFacturas from "./components/ListaFacturas";
 import { getCambio } from "api/controllers/tazaDia";
 import { getFacturasList } from "api/controllers/facturas";
+import { TH } from "components/widgets/Tables";
+import { thValuesFacturas } from "mocks";
+import { thValuesFacturasSimples } from "mocks";
+import SaveButton from "components/widgets/Buttons/SaveButton";
+import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
+import TableOrders, { TableOrders_Confirmadas, TableOrders_Pendientes } from "./components/TableOrders";
+import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
+import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
+import DeleteModal from "components/widgets/Modals/DeleteModal";
+import { deleteOrden } from "api/controllers/facturas";
 
 
 const Dashboard = () => {
   const [cambioDelDia, setCambioDelDia] = useState('');
   const [facturas, setFacturas] = useState([]);
   const [study, setStudy] = useState([]);
+  const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+  const {
+    getSearchFacturas,
+    loadingSF,
+    searchFacturas,
+    staticFacturas,
+    error,
+    setSearchFacturas,
+  } = useSearchFacturas();
+
+
   const cambioDia = async () => {
     try {
       const cambio = await getCambio()
@@ -56,6 +77,14 @@ const Dashboard = () => {
   useEffect(() => {
     peticionGet();
   }, []);
+
+  const toggleModalConfirmacion = (factura) => {
+    setShowModalConfirmacion(!showModalConfirmacion);
+    setfacturaIdDelete(factura?.id);
+    setPacienteName(factura?.cliente?.razon_social);
+  };
+
+ 
   const facturasClasificadas = facturas.reduce((clasificacion, factura) => {
     if (factura.confirmada) {
       clasificacion.confirmadas.push(factura);
@@ -102,11 +131,44 @@ const Dashboard = () => {
   };
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
+    getSearchFacturas();
     setShowModalList(!showModalList);
   };
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "3xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+  const [Busqueda, setBusqueda] = useState("");
+  const [facturaIdDelete, setfacturaIdDelete] = useState("");
+  const [pacienteName, setPacienteName] = useState("");
+
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    setBusqueda(query);
+    filtrar(query);
+  };
+  const filtrar = (terminoBusqueda) => {
+    let resultadoBusqueda = staticFacturas.filter((elemento) => {
+      if (
+        elemento.cliente.razon_social
+          .toLowerCase()
+          .includes(terminoBusqueda.toLowerCase()) ||
+        elemento.cliente.ci_rif.toString().includes(terminoBusqueda)
+      ) {
+        return elemento;
+      }
+    });
+    setSearchFacturas(resultadoBusqueda);
+  };
+  const handleDeleteFact = async (facturaIdDelete) => {
+    try {
+      await deleteOrden(facturaIdDelete);
+      setSearchFacturas(searchFacturas.filter((p) => p.id !== facturaIdDelete));
+      setShowModalConfirmacion(!showModalConfirmacion);
+    } catch (error) {
+      //toast.error(error.message, { autoClose: 1000 });
+    }
+  };
 
   return (
     <>
@@ -124,61 +186,80 @@ const Dashboard = () => {
           margin={'10px 0px 0px 25px'}
           display="flex" justifyContent="flex-end"
         >
-          <Box
-            width={'15%'}
-          >
+          <Box width={"auto"} marginBottom={'-20px'} >
             <Text
-              borderTopLeftRadius={'20px'}
-              borderBottomLeftRadius={'20px'}
-              textAlign={'center'}
+              borderTopLeftRadius={"20px"}
+              borderBottomLeftRadius={"20px"}
+              textAlign={"center"}
               padding="10px"
               backgroundColor="#137797"
               color="#FFF"
-              fontSize={'14px'}
+              fontSize={"14px"}
             >
               Dolar BCV: {cambioDelDia}
             </Text>
           </Box>
         </Box>
         <Box marginTop={'-15px'} padding={'2%'}>
-          <Heading
+         {/* <Heading
             size="md"
           >
             Ordenes sin confirmar
           </Heading>
           <Box
-            width={'100%'}
-            m={"20px 30px 30px 10px"}
-            backgroundColor={'#FFFF'}
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            padding={"25px"}
+            backgroundColor={"#FFFF"} 
             borderRadius="20px"
-            minH={'300px'} maxH={'300px'}
-            overflowY="scroll"
-            overflowX="hidden">
-            <Box>
+            mt={'25px'}
+            mb={'20px'}
+            p={'6px'}
+            width={"100%"}
+            height={'auto'}
+           
+           // m={"20px 30px 30px 20px"}
+           // backgroundColor={"#FFFF"}
+           // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+            //py={'25px'}
+            px={'10px'}
+          py={"25px"}
+           
+          
+            >
+            <Box 
+            overflow={'auto'}
+            minH={"280px"}
+           maxH={"280px"}
+           sx={{
+            "&::-webkit-scrollbar": {
+              width: "6px",
+              height:"6px",
+              borderRadius: "8px",
+              backgroundColor: "#f5f5f5",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#555",
+            },
+          }}>
               <Table >
-                <Thead>
-                  <Tr>
-                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Fecha</Th>
-                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Cliente</Th>
-                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>RIF/CI</Th>
-                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto ($)</Th>
-                    <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto (Bs)</Th>
-                  </Tr>
+                <Thead style={{width:'100%'}}>
+                 <TH thData={thValuesFacturasSimples} />
                 </Thead>
                 <Tbody>
                   {sinConfirmar.map((study) => (
                     <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}> {study.fecha}</Link>
+                      <Td style={{width:'20%'}}>
+                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {study.fecha}</Link>
                       </Td>
-                      <Td><Link onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
+                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
                       <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.ci}</Link>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.ci}</Link>
                       </Td>
                       <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
                       </Td>
                       <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
                     </Tr>
@@ -186,61 +267,50 @@ const Dashboard = () => {
                 </Tbody>
               </Table>
             </Box>
-          </Box>
-          <Heading
-            margin={'20px 0 20px 0 '}
-            size="md"
-          >
-           Ordenes confirmadas
-          </Heading>
-          <Box
-            width={'100%'}
-            m={"20px 30px 30px 10px"}
-            backgroundColor={'#FFFF'}
-            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            padding={"25px"}
-            borderRadius="20px"
-            minH={'300px'} maxH={'300px'}
-            overflowY="scroll"
-            overflowX="hidden"
-          >
-            <Table >
-              <Thead>
-                <Tr>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Fecha</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Cliente</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>RIF/CI</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto ($)</Th>
-                  <Th borderBottom={'solid 2px'} borderColor={'gray.400'}>Monto (Bs)</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {pendientes.map((study) => (
-                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
-                    <Td>
-                      <Link onClick={() => toggleModal(study)}> {study.fecha}</Link>
-                    </Td>
-                    <Td><Link onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
-                    <Td>
-                      <Link onClick={() => toggleModal(study)}>{study.ci}</Link>
-                    </Td>
-                    <Td>
-                      <Link onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
-                    </Td>
-                    <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Box>
-          <Button
-            borderRadius={'20px'}
-            padding={'10px 30px'}
-            bgColor={'#137797'}
-            color='#ffff'
-            onClick={toggleModalList}
-          >
-            Ver más</Button>
+          </Box>*/}
+         <TableOrders_Pendientes> 
+
+         <Tbody>
+                  {sinConfirmar.map((study) => (
+                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                      <Td style={{width:'20%'}}>
+                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {study.fecha}</Link>
+                      </Td>
+                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
+                      <Td>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.ci}</Link>
+                      </Td>
+                      <Td>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
+                      </Td>
+                      <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+         </TableOrders_Pendientes>
+
+         <TableOrders_Confirmadas> 
+
+         <Tbody>
+                  {pendientes.map((study) => (
+                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                      <Td style={{width:'20%'}}>
+                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {study.fecha}</Link>
+                      </Td>
+                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.paciente}</Link></Td>
+                      <Td>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.ci}</Link>
+                      </Td>
+                      <Td>
+                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study.montoUsd} $ </Link>
+                      </Td>
+                      <Td><Link onClick={() => toggleModal(study)}>{study.montoBs} Bs </Link></Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+         </TableOrders_Confirmadas>
+         
+            <ShowMoreButton handleClick={toggleModalList} />
         </Box>
       </Box>
       <Modal
@@ -269,7 +339,25 @@ const Dashboard = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-      <Modal
+      <FilteredDataModal
+        isOpenModal={showModalList}
+        isToggleModal={toggleModalList}
+        Busqueda={Busqueda}
+        handleBusquedaChange={handleBusquedaChange}
+        thData={thValuesFacturas}
+        tBodyData={searchFacturas}
+        handleSelectIcon={toggleModalConfirmacion}
+        type="facturas"
+      />
+      <DeleteModal
+        isOpen={showModalConfirmacion}
+        onClose={toggleModalConfirmacion}
+        id={facturaIdDelete}
+        close={toggleModalConfirmacion}
+        eliminar={handleDeleteFact}
+        nombres={pacienteName}
+      />
+     {/* <Modal
         size={sizeView}
         maxWidth='100%'
         isOpen={showModalList}
@@ -294,7 +382,7 @@ const Dashboard = () => {
             <ListaFacturas />
           </ModalBody>
         </ModalContent>
-      </Modal>
+      </Modal>*/}
     </>
   );
 };

@@ -1,6 +1,6 @@
 // Chakra Icons
 import { BellIcon, SearchIcon } from "@chakra-ui/icons";
-import { BiLogOut } from "react-icons/bi";
+import { BiAlignLeft, BiLogOut, BiSolidCog } from "react-icons/bi";
 
 // Chakra Imports
 import {
@@ -24,7 +24,7 @@ import avatar2 from "assets/img/avatars/avatar2.png";
 import avatar3 from "assets/img/avatars/avatar3.png";
 // Custom Icons
 import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
-import { BsListUl, BsGrid3X3GapFill } from "react-icons/bs";
+import { BsListUl, BsGrid3X3GapFill, BsListTask } from "react-icons/bs";
 // Custom Components
 import { ItemContent } from "components/Menu/ItemContent";
 import SidebarResponsive from "components/Sidebar/SidebarResponsive";
@@ -44,12 +44,23 @@ import AuthContext from "context/authContext/AuthContext";
 import { useEffect } from "react";
 import { handleTokenRefresh } from "api/controllers/token";
 import MainContext from "context/mainContext/MainContext";
+import { useGroups } from "hooks/Groups/useGroups";
+import { FaSearch } from "react-icons/fa";
+import InputOverallSearch from "components/widgets/Inputs/InputOverallSearch";
 
 
 
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
+  const { getGroups, groups, loading } = useGroups();
+  useEffect(() => {
+    const getUsersGroups = async () => {
+      getGroups();
+    };
+    getUsersGroups();
+  }, []);
+  const arrGroup = groups ? groups[0] : '';
 
   const history = useHistory();
   const authContext = useContext(AuthContext);
@@ -176,13 +187,14 @@ export default function HeaderLinks(props) {
 
  
   const handleBusquedaChangeInformes = (event) => {
+    console.log('informe')
     setfilteredInforme(event.target.value);
     const query = event.target.value;
     console.log(query)
    if (query.startsWith(" ")) return;
    
     sethiddenInformessort(false)
-   // filterInfor(query);
+    //filterInfor(query);
     if(query === ''){
       sethiddenInformessort(true)
     }
@@ -243,63 +255,21 @@ export default function HeaderLinks(props) {
   return (
     <Flex
       pe={{ sm: "0px", md: "0px" }}
-      w={{ sm: "100%", md: "auto" }}
-     // margin={{ sm: "0 10px", md: "auto" }}
+      w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 245px)" }}
+      display={'flex'}
+
       justifyContent="space-between"
+      
+      alignItems={'center'}
    
     // gap={"5px"}
     >
-      {location.pathname === "/admin/Facturacion"  ? (
-        <InputGroup
-          cursor="pointer"
-          bg="none"
-          borderRadius="none"
-          w={{
-            sm: "200px",
-            md: "410px",
-          }}
-          me={{ sm: "auto", md: "20px" }}
-          _focus={{
-            borderColor: { mainTeal },
-          }}
-          _active={{
-            borderColor: { mainTeal },
-          }}
-        >
-          <InputLeftElement
-            children={
-              <IconButton
-                bg="inherit"
-                borderRadius="inherit"
-                _hover="none"
-                _active={{
-                  bg: "inherit",
-                  transform: "none",
-                  borderColor: "gray.700",
-                }}
-                _focus={{
-                  boxShadow: "none",
-                }}
-                icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
-              />
-            }
-          />
-          <Input
-            fontSize="xs"
-            py="11px"
-            color={mainText}
-            placeholder="Buscar..."
-            border="none"
-            bg="none"
-            //value={filterFacts}
-            onChange={handleBusquedaChange}
-            borderRadius="none"
-            css={{
-              borderBottom: "1px solid ",
-              borderColor: "gray"
-            }}
-          />
-        </InputGroup>
+      {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion"  ? (
+        <InputOverallSearch
+        locale={location.pathname}
+        onChangeInformes={handleBusquedaChangeInformes}
+        onChangeFacturas={handleBusquedaChange}
+        />
       ) :
         <InputGroup
           visibility={'hidden'}
@@ -336,16 +306,7 @@ export default function HeaderLinks(props) {
               ></IconButton>
             }
           />
-          <Input
-            fontSize="xs"
-            py="11px"
-            color={mainText}
-            placeholder="Buscar..."
-            border={"none"}
-            background={"none"}
-            borderRadius={"none"}
-            borderBottom={"solid 1px"}
-          />
+         
         </InputGroup>}
 
         {/*location.pathname === "/admin/InformeAdministracion"  && (
@@ -408,7 +369,7 @@ export default function HeaderLinks(props) {
 
       ) */}
 
-       {location.pathname === "/admin/InformeAdministracion"  && (
+       {/*location.pathname === "/admin/InformeAdministracion"  && (
        <InputGroup
        cursor="pointer"
        bg="none"
@@ -463,11 +424,11 @@ export default function HeaderLinks(props) {
      </InputGroup>
          
 
-      ) }
+      ) */}
   
 
-      {location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
-        <Box marginLeft={'-30%'} display={{ base: "none", md: "flex" }}>
+      {/*location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
+        <Box display={{ base: "none", md: "flex" }}>
           
           <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
             <BsListUl size="30px" color="#137797" />
@@ -476,55 +437,13 @@ export default function HeaderLinks(props) {
             <BsGrid3X3GapFill size="25px" color="#137797" />
           </Button>
         </Box>
-      ) : null}
+      ) : null*/}
 
 
 
 
-      <Box display={"flex"} justifyContent="">
-        <Box
-          //backgroundColor={"#89bbcc"}
-          padding={"5% 8%"}
-          borderRadius={"15px"}
-          m={"auto 30px"}
-        >
-          <Menu>
-          {/*  <MenuButton>
-              <BellIcon color={"#137798"} w="18px" h="18px" />
-      </MenuButton>*/}
-            <MenuList p="16px 8px">
-              <Flex flexDirection="column">
-                <MenuItem borderRadius="none" mb="10px">
-                  <ItemContent
-                    time="13 minutes ago"
-                    info="from Alicia"
-                    boldInfo="New Message"
-                    aName="Alicia"
-                    aSrc={avatar1}
-                  />
-                </MenuItem>
-                <MenuItem borderRadius="none" mb="10px">
-                  <ItemContent
-                    time="2 days ago"
-                    info="by Josh Henry"
-                    boldInfo="New Album"
-                    aName="Josh Henry"
-                    aSrc={avatar2}
-                  />
-                </MenuItem>
-                <MenuItem borderRadius="none">
-                  <ItemContent
-                    time="3 days ago"
-                    info="Payment succesfully completed!"
-                    boldInfo=""
-                    aName="Kara"
-                    aSrc={avatar3}
-                  />
-                </MenuItem>
-              </Flex>
-            </MenuList>
-          </Menu>
-        </Box>
+      {<Box  display={"flex"} justifyContent="flex-end">
+    
 
         <Box
           backgroundColor={"#89bbcc"}
@@ -533,29 +452,7 @@ export default function HeaderLinks(props) {
           display={"flex"}
           justifyContent={"space-between"}
         >
-          {/* <NavLink to="#">
-            <Button
-              ms="0px"
-              px="0px"
-              me={{ sm: "2px", md: "16px" }}
-              color={"#FFFF"}
-              variant="transparent-with-icon"
-              rightIcon={
-                document.documentElement.dir ? (
-                  ""
-                ) : (
-                  <ProfileIcon color={"#FFFF"} w="22px" h="22px" me="0px" />
-                )
-              }
-              leftIcon={
-                document.documentElement.dir ? (
-                  <ProfileIcon color={"#FFFF"} w="22px" h="22px" me="0px" />
-                ) : (
-                  ""
-                )
-              }
-            ></Button>
-          </NavLink> */}
+        
           <SidebarResponsive
             logoText={props.logoText}
             secondary={props.secondary}
@@ -563,34 +460,41 @@ export default function HeaderLinks(props) {
             routes={routes}
             {...rest}
           />
-          <SettingsIcon
-            cursor="pointer"
-            // m={"auto 5px auto 10px"}
-            m={{
-              sm: "auto 5px auto 10px",
-              md: "auto 5px auto 10px",
-            }}
-            ref={settingsRef}
-            onClick={props.onOpen}
-            color={"#137798"}
-            w="18px"
-            h="18px"
-          />
-          <Box >
-            <Button
-              _hover={{ bg: "none" }}
-              borderRadius={"13px"}
-              background={'none'}
-              padding={'0px'}
-              onClick={handleLogout}>
-              <BiLogOut
+      { 
+      <>
+      
+      <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
+            <BsListTask size="20px" color="#137797" />
+          </Button>
+          <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion === 'tarjeta' ? "#89bbcc" : 'none'}>
+            <BsGrid3X3GapFill size="18px" color="#137797" />
+          </Button>
+          </>
+          }
+         
+         
+      { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
+      _hover={{ backgroundColor: "#EDF2F7" }}  >
+         <a style={{display:'flex', alignItems:'center'}} href="https://patolsima-api-19f65176eefa.herokuapp.com/admin/login/?next=/admin/">
+         <BiSolidCog
                 size={"20px"}
                 style={{ color: "#137798" }}
               />
-            </Button>
-          </Box>
+          </a>
+         
+          </Button>}
+
+         <Button onClick={handleLogout} colorScheme="#89bbcc" 
+      _hover={{ backgroundColor: "#EDF2F7" }} >
+         <BiLogOut
+                size={"20px"}
+                style={{ color: "#137798" }}
+              />
+          </Button>
+         
+          
         </Box>
-      </Box>
+      </Box>}
     </Flex>
   );
 }
