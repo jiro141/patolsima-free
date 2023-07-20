@@ -50,7 +50,7 @@ const Muestra = () => {
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
-  const [studyData,setStudyData]= useState();
+  const [studyData, setStudyData] = useState();
 
   const fileInputRef = useRef(null);
 
@@ -94,7 +94,7 @@ const Muestra = () => {
           console.log(estudioPost);
           setStudyData(estudioPost);
           setEstudioID(estudioPost.id);
-          
+
           // console.log(studyData);
           setOpenModal(true);
         } else {
@@ -186,9 +186,35 @@ const Muestra = () => {
     <div style={{ height: "auto" }}>
       <NextStation />
       <form>
-        <Text fontSize={"20px"} margin={"2% auto 2% auto"} color={"gray.600"}>
-          Información General
-        </Text>
+        <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px" >
+          <Text fontSize={"17px"} fontWeight={'bold'} color={"gray.600"}>
+            Información General
+          </Text>
+          <Box display={'flex'}>
+            <Text
+              fontSize={"18px"}
+              fontWeight={'bold'} 
+              color={"gray.600"}
+            >
+              {`Estudio N°: `}
+            </Text>
+            {
+              studyData ? (
+                <Box>
+                  <Text
+                    textAlign={"right"}
+                    fontSize={"18px"}
+                    // margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
+                    color={"gray.600"}
+                  >
+                    <Badge fontSize={"15px"} >{studyData.codigo}</Badge>
+                  </Text>
+                </Box>
+              ) :
+                <></>
+            }
+          </Box>
+        </Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
             <Text marginBottom={"1.5%"} fontSize={"17px"}>
@@ -221,30 +247,22 @@ const Muestra = () => {
           templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
           gap="20px"
         ></Grid>
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="20px">
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
             <Text
               textAlign={"left"}
-              fontSize={"20px"}
+              fontSize={"17px"}
+              fontWeight={'bold'}
               margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
               color={"gray.600"}
             >
               Datos de Estudio
             </Text>
           </Box>
-          <Box>
-            <Text
-              textAlign={"left"}
-              fontSize={"18px"}
-              margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
-              color={"gray.600"}
-            >
-              {`Estudio N°: `}
-            </Text>
-          </Box>
+
         </Grid>
 
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="20px">
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <InputSelector
             name="tipo"
             errors={formik.errors.tipo}
@@ -254,21 +272,6 @@ const Muestra = () => {
             options={typeStudies}
             type={"Tipo de Estudio:"}
           />
-          {
-            studyData ? (
-              <Box>
-                <Text
-                  textAlign={"left"}
-                  fontSize={"18px"}
-                  // margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
-                  color={"gray.600"}
-                >
-                  <Badge fontSize={'18px'}>{studyData.codigo}</Badge>
-                </Text>
-              </Box>
-            ) :
-              <></>
-          }
         </Grid>
         <Grid
           templateColumns={{ lg: "repeat(3,1fr)", sm: "1fr" }}
@@ -307,7 +310,7 @@ const Muestra = () => {
           size="lg"
           name="notas"
           borderRadius="md"
-          placeholder="notas:"
+          placeholder="Notas:"
           value={formik.values.notas}
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />

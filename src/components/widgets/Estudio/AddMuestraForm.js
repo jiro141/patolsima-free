@@ -61,7 +61,13 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
 
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
-      <Text fontSize={"20px"} margin={"2% auto 2% auto"} color={"gray.600"}>
+      <Text
+        textAlign={"left"}
+        fontSize={"17px"}
+        fontWeight={'bold'}
+        margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
+        color={"gray.600"}
+      >
         Agregar muestra
       </Text>
 
@@ -84,7 +90,7 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
         size="lg"
         name="notas"
         borderRadius="md"
-        placeholder="Notas"
+        placeholder="Notas:"
         value={formik.values.notas}
         onChange={(e) => formik.setFieldValue("notas", e.target.value)}
       />

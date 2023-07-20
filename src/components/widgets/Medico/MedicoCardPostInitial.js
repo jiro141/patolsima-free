@@ -80,8 +80,16 @@ const MedicoCardPostInitial = ({
       email: "",
     },
     validationSchema: Yup.object({
+      nombres: Yup.string().required("Los nombres son obligatorios"),
+      apellidos: Yup.string().required("Los apellidos son obligatorios"),
+      especialidad: Yup.string().required("Los apellidos son obligatorios"),
+      //ci: Yup.string().required("La cedula es obligatoria"),
+      // telefono_celular: Yup.string().required("el telefono es obligatorio"),
+      // direccion: Yup.string().required("La direccion es obligatoria"),
+      // sexo: Yup.string().required("el sexo es obligatorio"),
       email: Yup.string()
-        .email("direccion de correo no valida"),
+        .email("direccion de correo no valida")
+      // .required("el correo es obligatorio"),
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
@@ -276,6 +284,7 @@ const MedicoCardPostInitial = ({
         >
           <InputOverall
             name="email"
+            type={'email'}
             value={formik.values.email}
             placeholder="Email:"
             onChange={(e) => formik.setFieldValue("email", e.target.email)}

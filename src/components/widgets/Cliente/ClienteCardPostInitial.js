@@ -89,7 +89,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     onSubmit: async (formData, { resetForm }) => {
       let dateformat = formatDate(date)
       let dateNew = dateformat.trim()
-     // console.log(typeof dateNew)
+      // console.log(typeof dateNew)
       if (oneState === 'post' && activeTab === 0) {
         const newObj = {
           ...formData,
@@ -205,8 +205,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
-console.log(paciente)
-  
+    console.log(paciente)
+
     try {
       const pacienteDetail = await getPacientesDetail(paciente.id);
       console.log(pacienteDetail);
@@ -215,19 +215,19 @@ console.log(paciente)
       toggleModal(true);
       setOneState("put");
 
-     
-     formik.setValues({
+
+      formik.setValues({
         id: pacienteDetail.id,
         ci: pacienteDetail.ci,
         nombres: pacienteDetail.nombres,
         apellidos: pacienteDetail.apellidos,
-       // fecha_nacimiento: date,
+        // fecha_nacimiento: date,
         direccion: pacienteDetail.direccion,
         email: pacienteDetail.email,
         telefono_fijo: pacienteDetail.telefono_fijo,
         telefono_celular: pacienteDetail.telefono_celular,
         sexo: pacienteDetail.sexo,
-       
+
       });
       onChange(pacienteDetail.fecha_nacimiento)
       //console.log(formikValue)
@@ -277,12 +277,25 @@ console.log(paciente)
     }, 500),
     []
   );
+  const resetFormValues = () => {
+    formik.resetForm();
+    onChange(formatDate(new Date())); // También reseteamos el valor del calendario
+  };
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
+
+    if (newQuery === "") {
+      resetFormValues();
+    }
   };
+
+
+ 
+
+
 
   return (
     <Box
@@ -292,7 +305,7 @@ console.log(paciente)
       borderRadius="20px"
       m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
     >
-      <NextStation/>
+      <NextStation />
       {
         <form>
           <Text
@@ -332,6 +345,7 @@ console.log(paciente)
                 placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
                 selectSearch={selectSearch}
+                
 
               />
             }
