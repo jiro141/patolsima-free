@@ -89,8 +89,11 @@ const ModalInforme = () => {
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Numero de estudio</Text>
-                                <Text>B:aa-nnn</Text>
+                            <SubTitlelight title={'Numero de estudio'} color={'#000'} />
+                            <Badge> 
+                            <Text>B:aa-nnn</Text>
+                            </Badge>
+                               
                             </Box>
                             <Box margin={'10px'} >
                                 <Text fontSize={'17px'}>Tipo de muestra</Text>

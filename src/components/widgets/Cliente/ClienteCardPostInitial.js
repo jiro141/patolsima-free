@@ -41,6 +41,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const [pacienteIdDelete, setPacienteIdDelete] = useState("");
   const [selectSearch, setSelectSearch] = useState(false);
   const [onOpenCalendar, setOpenCalendar] = useState(false);
+  const [value, setvalue] = useState(false);
   const [date, onChange] = useState(formatDate(new Date()));
 
   const handleDateChange = (date) => {
@@ -161,10 +162,23 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   });
 
-  console.log()
+ 
   useEffect(() => {
-    seterrorci("");
-  }, []);
+  if(searchci === ''){
+   // setOneState('post')
+    //formik.resetForm()
+  }
+  if(!searchci){
+  // formik.resetForm()
+    setOneState('post')
+    console.log('no se encontraron resuladoa')
+  }
+  if(value){
+    formik.resetForm()
+    console.log('no se encontracdddron resuladoa')
+  }
+    //seterrorci("");
+  }, [formik.values]);
 
   const handleSelectSearch = () => {
     if (pacientsByCi.length > 0) {
@@ -178,7 +192,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         sexo: data.sexo
       }));
 
-      formik.setValues({
+    formik.setValues({
         ci: mapped[0].ci,
         nombres: mapped[0].nombres,
         apellidos: mapped[0].apellidos,
@@ -186,10 +200,11 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         telefono_celular: mapped[0].tlf,
         email: mapped[0].email,
         sexo: mapped[0].sexo
-      });
+      })
       setSelectSearch(true);
       setOneState('put')
     }
+    
 
     //setSelectSearch(false);
   };
@@ -201,11 +216,16 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
+    if(query=== ''){
+      setvalue(true)
+      //console.log('vcampos vacios')
+      //formik.resetForm()
+    }
     setBusqueda(query);
     filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
-console.log(paciente)
+  console.log(paciente)
   
     try {
       const pacienteDetail = await getPacientesDetail(paciente.id);
@@ -270,7 +290,12 @@ console.log(paciente)
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
       if (searchci === "") {
+        formik.setFieldValue("nombres", ""); 
+        formik.setFieldValue("apellidos", ""); 
+        formik.setFieldValue("email", ""); 
+        formik.setFieldValue("telefono_celular", ""); 
         setsearchci("");
+        //formik.resetForm('')
         return;
       }
       getPacientsByCi({ searchci });
@@ -280,9 +305,30 @@ console.log(paciente)
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;
+  
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
   };
+  const newValues={
+    ci:'',
+    nombres:'mariaa'
+  }
+useEffect(() => {
+  if(formik.values.ci === '' ){
+    setOneState('post') 
+  }
+  if(formik.values.ci === '' && oneState=='post'){
+    formik.setFieldValue("nombres", "");  
+  }
+   
+    
+    console.log(formik.values)
+    return () => {
+     
+    }
+  }, [formik.values])
+  
+  console.log(formik.values)
 
   return (
     <Box
