@@ -42,11 +42,11 @@ export default function InputAutoComplete({
           </>
         )}
         {resultSearch && !selectSearch && oneState === "post" && resultSearch.length > 0 ? (
-          <div className="autocompleteBox" onClick={handleSelectSearch} style={{ position: "absolute", zIndex: 10, backgroundColor: "white", padding:'10px' }}>
+          <div className="autocompleteBox" onClick={handleSelectSearch} style={{ width:'100%', position: "absolute", zIndex: 10, backgroundColor: "white", padding:'10px' }}>
             <List spacing={3} color={"gray.500"}>
               {resultSearch.map((data, index) => {
                 return (
-                  <ListItem key={index} color={"gray.500"}>
+                  <ListItem  key={index} color={"gray.500"}>
                     {`${data.ci}`}
                   </ListItem>
                 );

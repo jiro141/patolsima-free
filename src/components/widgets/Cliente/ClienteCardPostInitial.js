@@ -164,10 +164,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
  
   useEffect(() => {
-  if(searchci === ''){
-   // setOneState('post')
-    //formik.resetForm()
-  }
+  // if(searchci === ''){
+  //  // setOneState('post')
+  //   //formik.resetForm()
+  // }
   if(!searchci){
   // formik.resetForm()
     setOneState('post')

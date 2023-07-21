@@ -191,14 +191,14 @@ console.log(muestraID);
       <NextStation />
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
-          <Title >
+          <Text fontSize={'17px'} fontWeight={'bold'} >
             Información General
-          </Title>
+          </Text>
           <Box display={'flex'}>
-            <Title
+            <Text Text fontSize={'17px'} fontWeight={'bold'} 
             >
               {`Estudio N°: `}
-            </Title>
+            </Text>
             {
               studyData ? (
                 <Box>
@@ -218,7 +218,7 @@ console.log(muestraID);
         </Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
-            <subTitleBold marginBottom={"1.5%"} >
+            <subTitleBold marginBottom={"15px"} >
               Paciente
             </subTitleBold>
             <Text>
@@ -226,7 +226,7 @@ console.log(muestraID);
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
             </Text>
-            <subTitleBold marginY={"1.5%"}>
+            <subTitleBold marginBottom={"15px"}>
               Cédula de Identidad
             </subTitleBold>
             <Text>
@@ -234,7 +234,7 @@ console.log(muestraID);
             </Text>
           </Box>
           <Box>
-            <subTitleBold marginBottom={"1.5%"} fontSize={"17px"}>
+            <subTitleBold marginBottom={"15px"} fontSize={"17px"}>
               Médico tratante
             </subTitleBold>
             <Text>
