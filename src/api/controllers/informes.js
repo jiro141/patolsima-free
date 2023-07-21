@@ -34,6 +34,18 @@ export const updateInforme= async (id,formData) => {
         console.log(error);
     }
 }
+//informe detail 
+export const getInformeDetail= async (id) => {
+
+    try {
+        const response = await Axios.put(`/v1/core/informes/${id}/`);
+
+        console.log(response.data);
+        // return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const deleteInforme = async () => {
     const token = localStorage.getItem("access");

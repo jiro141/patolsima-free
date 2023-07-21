@@ -16,6 +16,8 @@ import {
     Badge
 } from "@chakra-ui/react";
 import ModalDescripcion from "./ModalDescripcion";
+import { Titlelight } from "components/widgets/Texts";
+import { SubTitlelight } from "components/widgets/Texts";
 
 
 const ModalInforme = () => {
@@ -29,48 +31,69 @@ const ModalInforme = () => {
         <>
             <Grid templateColumns={'2fr 1fr'}>
                 <Box marginTop={'-50px'}>
-                    <Text margin={'10px'} color={'gray.900'} fontSize={'20px'} >Información General</Text>
+                  
+                    <Titlelight title={'Información General'} color={'#000'} />
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'16px'} >Paciente</Text>
+                                
+                                <SubTitlelight title={'Paciente'} color={'#000'} />
                                 <Badge>
                                 <Text >Amelia Amigo Jordan</Text>
                                 </Badge>
                                
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Fecha</Text>
-                                <Text >15/03/1986</Text>
+                            <SubTitlelight title={'Fecha'} color={'#000'} />
+                            <Badge>
+                            <Text >15/03/1986</Text>
+                            </Badge>
+                                
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Cedula de Identidad</Text>
-                                <Text >26651254</Text>
+                            <SubTitlelight title={'Cedula de Identidad'} color={'#000'} />
+                            <Badge>
+                            <Text >26651254</Text>
+                            </Badge>
+                               
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Medico Tratante</Text>
-                                <Text >Jose Salmeron</Text>
+                            <SubTitlelight title={'Medico Tratante'} color={'#000'} />
+                            <Badge> 
+                            <Text >Jose Salmeron</Text>
+                            </Badge>
+                                
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Telefono</Text>
-                                <Text color={'gray.600'}>26651254</Text>
+                            <SubTitlelight title={'Telefono Fijo'} color={'#000'} />
+                            <Badge> 
+                            <Text color={'gray.600'}>26651254</Text>
+                            </Badge>
+                               
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Telefono</Text>
-                                <Text >26565462</Text>
+                            <SubTitlelight title={'Telefono Personal'} color={'#000'} />
+                                
+                                <Badge> 
+                            <Text color={'gray.600'}>26651254</Text>
+                            </Badge>
                             </Box>
                         </Box>
                     </Grid>
-                    <Text margin={'10px'} fontSize={'20px'}>Información de estudio</Text>
+                    <Titlelight title={'Información de estudio'} color={'#000'} />
+                    
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Numero de estudio</Text>
-                                <Text>B:aa-nnn</Text>
+                            <SubTitlelight title={'Numero de estudio'} color={'#000'} />
+                            <Badge> 
+                            <Text>B:aa-nnn</Text>
+                            </Badge>
+                               
                             </Box>
                             <Box margin={'10px'} >
                                 <Text fontSize={'17px'}>Tipo de muestra</Text>
