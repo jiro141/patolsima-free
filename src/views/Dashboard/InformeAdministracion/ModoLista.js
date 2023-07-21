@@ -25,6 +25,7 @@ import { FaFlask } from "react-icons/fa";
 import { Icon } from "@chakra-ui/react";
 import ListaInformes from "./components/ListaInformes";
 import ModalInforme from "./components/ModalInforma";
+import { Title } from "components/widgets/Texts";
 
 
 
@@ -79,23 +80,21 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
-        padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-        backgroundColor={'gray.100'}
-        borderRadius={'20px'}
+      <Box 
+        margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
+        w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
+        height={'auto'}
+        padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
+        backgroundColor={"gray.100"}
+        borderTopLeftRadius={"20px"}
         backgroundSize="cover"
         backgroundPosition="center"
-        overflowY="scroll"
-        overflowX="hidden"
-        maxH={'40em'}
+        overflowY="hidden"
+        overflowX={{ lg: "hidden", sm: "auto" }}
       >
 
         <Box padding={'2%'}>
-          <Heading
-            size="md"
-          >
-            Informes terminados
-          </Heading>
+        <Title title={' Informes no confirmados'} />
           <Box
             width={'100%'}
             m={"20px 30px 30px 10px"}
@@ -104,7 +103,7 @@ const Dashboard = () => {
             padding={"25px"}
             borderRadius="20px"
             minH={'300px'} maxH={'300px'}
-            overflowY="scroll"
+            overflowY="hidden"
             overflowX="hidden"
           >
             <Table >
@@ -121,27 +120,28 @@ const Dashboard = () => {
                 {sinConfirmar.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
                     <Td>
-                      <Link onClick={toggleModal}> {study.fecha}</Link>
+                      <Link  style={{fontSize:'13.5px'}} onClick={toggleModal}> {study.fecha}</Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.cliente}</Link></Td>
+                    <Td><Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.cliente}</Link></Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
+                      <Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.ci}</Link>
                     </Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.montoD} $ </Link>
+                      <Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.montoD} $ </Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.montoB} Bs </Link></Td>
+                    <Td><Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.montoB} Bs </Link></Td>
                   </Tr>
                 ))}
               </Tbody>
             </Table>
           </Box>
-          <Heading
+         {/* <Heading
             margin={'20px 0 20px 0 '}
             size="md"
           >
             Informes en proceso
-          </Heading>
+          </Heading>*/}
+          <Title title={' Informes confirmados'} />
           <Box
             width={'100%'}
             m={"20px 30px 30px 10px"}
@@ -150,7 +150,7 @@ const Dashboard = () => {
             padding={"25px"}
             borderRadius="20px"
             minH={'300px'} maxH={'300px'}
-            overflowY="scroll"
+            overflowY="hidden"
             overflowX="hidden"
           >
             <Table >
@@ -167,16 +167,16 @@ const Dashboard = () => {
                 {pendientes.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.nestudio}>
                     <Td>
-                      <Link onClick={toggleModal}> {study.fecha}</Link>
+                      <Link  style={{fontSize:'13.5px'}} onClick={toggleModal}> {study.fecha}</Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.cliente}</Link></Td>
+                    <Td><Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.cliente}</Link></Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.ci}</Link>
+                      <Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.ci}</Link>
                     </Td>
                     <Td>
-                      <Link onClick={toggleModal}>{study.montoD} $ </Link>
+                      <Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.montoD} $ </Link>
                     </Td>
-                    <Td><Link onClick={toggleModal}>{study.montoB} Bs </Link></Td>
+                    <Td><Link  style={{fontSize:'13.5px'}} onClick={toggleModal}>{study.montoB} Bs </Link></Td>
                   </Tr>
                 ))}
               </Tbody>

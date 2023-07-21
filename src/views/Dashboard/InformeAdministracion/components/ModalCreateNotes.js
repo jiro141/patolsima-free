@@ -2,7 +2,7 @@ import { Button, CloseButton, Modal, ModalBody, ModalContent, ModalHeader, Modal
 import React from 'react'
 import ModalDescripcion from './ModalDescripcion'
 
-export default function ModalCreateNotes({showModal,toggleModal,titulo,informeDetail,idStudy,setShowModal}) {
+export default function ModalCreateNotes({showModal,toggleModal,titulo,informeDetail,idStudy,setShowModal,type}) {
   return (
     <Modal
                 size={'lg'}
@@ -26,7 +26,11 @@ export default function ModalCreateNotes({showModal,toggleModal,titulo,informeDe
                         </Button>
                     </ModalHeader>
                     <ModalBody>
-                        <ModalDescripcion setShowModal={setShowModal} titulo={titulo} informeDetail={informeDetail} idStudy={idStudy} />
+                        { 
+                        
+                        <ModalDescripcion setShowModal={setShowModal} titulo={titulo} informeDetail={informeDetail} idStudy={idStudy} type={type} />
+                    
+                    }
                     </ModalBody>
                 </ModalContent>
             </Modal>
