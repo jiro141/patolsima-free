@@ -130,30 +130,28 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           fecha_nacimiento: dateNew,
         }
         const id = {
-          id: formData.id
+          id: formData.id || pacientsByCi[0].id
         }
         try {
-          if(pacientsByCi){
-            const pacientePost = await putPacientes(pacientsByCi[0].id, Obj);
-            setFormValues(Obj, 'paciente');
-           // setPacienteID(pacientePost.id);
-            if (pacientePost) {
-              toast.success("¡El paciente fue guardado correctamente!", {
-                autoClose: 1000,
-              });
-              setActiveTab(activeTab + 1)
-              setTwoState('post')
-            }
-            else {
-              toast.error("¡Hubo un error al guardar el paciente!", {
-                autoClose: 1000,
-              });
-              formik.resetForm()
-            }
+          // if (pacientsByCi) {
+          const pacientePost = await putPacientes(id, Obj);
+          setFormValues(Obj, 'paciente');
+          // setPacienteID(pacientePost.id);
+          if (pacientePost) {
+            toast.success("¡El paciente fue guardado correctamente!", {
+              autoClose: 1000,
+            });
+            setActiveTab(activeTab + 1)
+            setTwoState('post')
           }
-         
+          else {
+            toast.error("¡Hubo un error al guardar el paciente!", {
+              autoClose: 1000,
+            });
+            formik.resetForm()
+          }
+          // }
 
-          
           getPacients();
         } catch (error) {
           toast.error(error.message, { autoClose: 1000 });
@@ -166,16 +164,16 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   });
 
-// console.log(pacientsByCi[0].id)
+  // console.log(pacientsByCi[0].id)
   useEffect(() => {
-  if(!searchci){
-    setOneState('post')
-    
-  }
-  if(value){
-    formik.resetForm()
-    
-  }
+    if (!searchci) {
+      setOneState('post')
+
+    }
+    if (value) {
+      formik.resetForm()
+
+    }
     //seterrorci("");
   }, [formik.values]);
 
@@ -192,7 +190,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         direccion: data.direccion
       }));
 
-    formik.setValues({
+      formik.setValues({
         ci: mapped[0].ci,
         nombres: mapped[0].nombres,
         apellidos: mapped[0].apellidos,
@@ -204,7 +202,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       setSelectSearch(true);
       setOneState('put')
     }
-    
+
 
     //setSelectSearch(false);
   };
@@ -216,15 +214,15 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
-    if(query=== ''){
+    if (query === '') {
       setvalue(true)
     }
     setBusqueda(query);
     filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
-  console.log(paciente)
-  
+    console.log(paciente)
+
     try {
       const pacienteDetail = await getPacientesDetail(paciente.id);
       console.log(pacienteDetail);
@@ -232,8 +230,6 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       setRegistro(pacienteDetail);
       toggleModal(true);
       setOneState("put");
-
-
       formik.setValues({
         id: pacienteDetail.id,
         ci: pacienteDetail.ci,
@@ -288,10 +284,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
       if (searchci === "") {
-        formik.setFieldValue("nombres", ""); 
-        formik.setFieldValue("apellidos", ""); 
-        formik.setFieldValue("email", ""); 
-        formik.setFieldValue("telefono_celular", ""); 
+        formik.setFieldValue("nombres", "");
+        formik.setFieldValue("apellidos", "");
+        formik.setFieldValue("email", "");
+        formik.setFieldValue("telefono_celular", "");
         setsearchci("");
         //formik.resetForm('')
         return;
@@ -307,23 +303,23 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;
-  
+
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
 
- 
+
   };
- 
-useEffect(() => {
-  if(formik.values.ci === '' ){
-    setOneState('post') 
-  }
-  if(formik.values.ci === '' && oneState=='post'){
-   // formik.setFieldValue("nombres", "");  
-  }
+
+  useEffect(() => {
+    if (formik.values.ci === '') {
+      setOneState('post')
+    }
+    if (formik.values.ci === '' && oneState == 'post') {
+      // formik.setFieldValue("nombres", "");  
+    }
     console.log(formik.values)
     return () => {
-     
+
     }
   }, [formik.values])
 
@@ -377,7 +373,7 @@ useEffect(() => {
                 placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
                 selectSearch={selectSearch}
-                
+
 
               />
             }

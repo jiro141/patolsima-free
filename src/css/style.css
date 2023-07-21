@@ -40,6 +40,7 @@
     cursor: pointer;
   }
   .react-calendar__navigation {
+    padding-top: 30px;
     display: flex;
     height: 44px;
     justify-content: center;
@@ -84,9 +85,9 @@
   .wrapbtnClose {
     display: flex;
     justify-content: flex-end;
-    width: 85%;
+    width: 100%;
     position: absolute;
-    margin-top: 7px;
+    margin-top: 0px;
     padding-right: 15px;
     padding-bottom: 0px;
     z-index: 100;
