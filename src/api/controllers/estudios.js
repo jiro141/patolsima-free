@@ -15,6 +15,7 @@ export const postStudies = async (formData) => {
 export const postMuestra = async (formData) => {   
     try {
         const response = await Axios.post(`/v1/core/muestras/`, formData)
+        console.log(response);
         return response.data
     } catch (error) {
         console.log(error);
@@ -28,6 +29,7 @@ export const postMuestraAdjunto = async (estudioIds,formData) => {
             "content-type": "application/pdf",
           },
         });
+        console.log(response);
     
         return response.data;
       } catch (error) {

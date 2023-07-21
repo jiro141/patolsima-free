@@ -46,6 +46,7 @@ import { generateUniqueId } from "helpers";
 import { postOrdenes } from "api/controllers/facturas";
 import { NextStation } from "components/widgets/Buttons/NextStation";
 import SaveButton from "components/widgets/Buttons/SaveButton";
+import { Title, subTitleBold, Titlelight } from "components/widgets/Texts";
 const Muestra2 = () => {
   const {
     estudioID,
@@ -63,7 +64,8 @@ const Muestra2 = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [studyData,setStudyData]= useState();
+  const [studyData, setStudyData] = useState();
+  const [finish, setFinish] = useState(false);
   // const history = useHistory();
 
   const fileInputRef = useRef(null);
@@ -153,32 +155,61 @@ const Muestra2 = () => {
   };
 
   return (
-    <>
-    <NextStation/>
+    <div style={{ height: "auto" }}>
+      <NextStation />
       <form>
-        <Text fontSize={"20px"} margin={"2% auto 2% auto"} color={"gray.600"}>
-          Información General
-        </Text>
+        <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
+          <Text marginBottom={'15px'} fontSize={'17px'} fontWeight={'bold'} >
+            Información General
+          </Text>
+          <Box display={'flex'}>
+            <Text  Text fontSize={'17px'} fontWeight={'bold'} 
+            >
+              {`Estudio N°: `}
+            </Text>
+            {
+              studyData ? (
+                <Box>
+                  <Text
+                    textAlign={"right"}
+                    fontSize={"18px"}
+                    // margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
+                    color={"gray.600"}
+                  >
+                    <Badge fontSize={"15px"} >{studyData.codigo}</Badge>
+                  </Text>
+                </Box>
+              ) :
+                <></>
+            }
+          </Box>
+        </Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
-            <Text marginBottom={"1.5%"} fontSize={"17px"}>
+            <subTitleBold marginBottom={"1.5%"} >
               Paciente
+            </subTitleBold>
+            <Text>
+              <Badge>
+                {dataPaciente.nombres} {dataPaciente.apellidos}
+              </Badge>
             </Text>
-            <Badge>
-              {dataPaciente.nombres} {dataPaciente.apellidos}
-            </Badge>
-            <Text marginY={"1.5%"} fontSize={"17px"}>
+            <subTitleBold marginBottom={"15px"}>
               Cédula de Identidad
+            </subTitleBold>
+            <Text>
+              <Badge>{dataPaciente.ci}</Badge>
             </Text>
-            <Badge>{dataPaciente.ci}</Badge>
           </Box>
           <Box>
-            <Text marginBottom={"1.5%"} fontSize={"17px"}>
+            <subTitleBold marginBottom={"15px"} fontSize={"17px"}>
               Médico tratante
+            </subTitleBold>
+            <Text>
+              <Badge>
+                {dataMedico.nombres} {dataMedico.apellidos}
+              </Badge>
             </Text>
-            <Badge>
-              {dataMedico.nombres} {dataMedico.apellidos}
-            </Badge>
           </Box>
         </Grid>
         <Grid
@@ -187,28 +218,18 @@ const Muestra2 = () => {
         ></Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
-            <Text
+            <Title
               textAlign={"left"}
-              fontSize={"20px"}
-              margin={{ lg: "15px auto 0 30px", sm: "15px auto 5px auto" }}
+              margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
               color={"gray.600"}
             >
               Datos de Estudio
-            </Text>
+            </Title>
           </Box>
-          <Box>
-            <Text
-              textAlign={"left"}
-              fontSize={"18px"}
-              margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
-              color={"gray.600"}
-            >
-              {`Estudio N°: `}
-            </Text>
-          </Box>
-        </Grid>
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
 
+        </Grid>
+
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <InputSelector
             name="tipo"
             errors={formik.errors.tipo}
@@ -218,29 +239,13 @@ const Muestra2 = () => {
             options={typeStudies}
             type={"Tipo de Estudio:"}
           />
-          {
-            studyData ? (
-              <Box>
-                <Text
-                  textAlign={"left"}
-                  fontSize={"18px"}
-                  // margin={{ lg: "15px auto 0 5px", sm: "0px auto 10px auto" }}
-                  color={"gray.600"}
-                >
-                  <Badge fontSize={'18px'}>{studyData.codigo}</Badge>
-                </Text>
-              </Box>
-            ) :
-              <></>
-          }
-
         </Grid>
         <Grid
           templateColumns={{ lg: "repeat(3,1fr)", sm: "1fr" }}
-          gap="20px"
+          gap="10px"
           marginY={"2%"}
-        >
 
+        >
           <Switch_
             id="envio_digital"
             checked={formik.values.envio_digital}
@@ -250,6 +255,7 @@ const Muestra2 = () => {
             label={"Envio digital"}
             name={"envio_digital"}
           />
+
           <Switch_
             id="urgente"
             name="urgente"
@@ -257,7 +263,8 @@ const Muestra2 = () => {
             onChange={(e) => formik.setFieldValue("urgente", e.target.checked)}
             label={"Urgente"}
           />
-          {<FormControl display="flex" alignItems="center" justifyContent={'center'} marginTop={"5px"}>
+
+          {<FormControl display="flex" alignItems="center" justifyContent={'left'} marginTop={"5px"}>
             <input type="file" accept=".pdf" onChange={handleFileChange}
               style={{ display: 'none' }} ref={fileInputRef} />
             <FormLabel>{selectedFile ? selectedFile.name : 'Sube un archivo'}</FormLabel>
@@ -266,19 +273,18 @@ const Muestra2 = () => {
             </Button>
           </FormControl>}
         </Grid>
-
         <Textarea
           marginTop={"10px"}
           size="lg"
           name="notas"
           borderRadius="md"
-          placeholder="notas:"
+          placeholder="Notas:"
           value={formik.values.notas}
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {estudioId2 && 
-        <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />}
+        {estudioId2 &&
+          <AddMuestraForm muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} />}
         {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
       </form>
       {!estudioId2 && (
@@ -286,7 +292,7 @@ const Muestra2 = () => {
           <SaveButton handleSubmit={handleSubmit} />
         </Box>
       )}
-    </>
+    </div>
   );
 };
 

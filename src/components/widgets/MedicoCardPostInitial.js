@@ -29,14 +29,14 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
     console.log('estoy en post medico')
     const formik = useFormik({
         initialValues: {
+            email: '',
             nombres: '',
             apellidos: '',
             especialidad: '',
             telefono_celular: "",
-            email: ""
+           
         },
         onSubmit: async (formData, { resetForm }) => { 
-            console.log(formData)
             try {
                 const guardarMedico = await postMedicos(formData);
                 // resetForm();
@@ -188,7 +188,7 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                     <FormControl mb={3}>
                         <Input
                             placeholder='Email:'
-                            type="email"
+                            // type="email"
                             name="email"
                             value={formik.values.email}
                             onChange={e => formik.setFieldValue('email', e.target.value)}

@@ -90,7 +90,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     onSubmit: async (formData, { resetForm }) => {
       let dateformat = formatDate(date)
       let dateNew = dateformat.trim()
-     // console.log(typeof dateNew)
+      // console.log(typeof dateNew)
       if (oneState === 'post' && activeTab === 0) {
         const newObj = {
           ...formData,
@@ -164,10 +164,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
  
   useEffect(() => {
-  if(searchci === ''){
-   // setOneState('post')
-    //formik.resetForm()
-  }
+  // if(searchci === ''){
+  //  // setOneState('post')
+  //   //formik.resetForm()
+  // }
   if(!searchci){
   // formik.resetForm()
     setOneState('post')
@@ -189,7 +189,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         apellidos: data.apellidos,
         email: data.email,
         tlf: data.telefono_celular,
-        sexo: data.sexo
+        sexo: data.sexo,
+        direccion: data.direccion
       }));
 
     formik.setValues({
@@ -235,19 +236,19 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       toggleModal(true);
       setOneState("put");
 
-     
-     formik.setValues({
+
+      formik.setValues({
         id: pacienteDetail.id,
         ci: pacienteDetail.ci,
         nombres: pacienteDetail.nombres,
         apellidos: pacienteDetail.apellidos,
-       // fecha_nacimiento: date,
+        // fecha_nacimiento: date,
         direccion: pacienteDetail.direccion,
         email: pacienteDetail.email,
         telefono_fijo: pacienteDetail.telefono_fijo,
         telefono_celular: pacienteDetail.telefono_celular,
         sexo: pacienteDetail.sexo,
-       
+
       });
       onChange(pacienteDetail.fecha_nacimiento)
       //console.log(formikValue)
@@ -302,12 +303,30 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     }, 500),
     []
   );
+  const resetFormValues = () => {
+    formik.resetForm();
+    onChange(formatDate(new Date())); // También reseteamos el valor del calendario
+  };
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;
   
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
+
+    if (newQuery === "") {
+      formik.setValues({
+        ci: "algo",
+        nombres: "algo",
+        apellidos: "algo",
+        email: "algo",
+        telefono_celular: "algo",
+        email:"",
+        sexo: "",
+        direccion: ""
+      });
+      // resetFormValues();
+    }
   };
   const newValues={
     ci:'',
@@ -330,6 +349,11 @@ useEffect(() => {
   
   console.log(formik.values)
 
+
+ console.log(formik.values);
+
+
+
   return (
     <Box
       backgroundColor={"#FFFF"}
@@ -338,7 +362,7 @@ useEffect(() => {
       borderRadius="20px"
       m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
     >
-      <NextStation/>
+      <NextStation />
       {
         <form>
           <Text
@@ -378,6 +402,7 @@ useEffect(() => {
                 placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
                 selectSearch={selectSearch}
+                
 
               />
             }

@@ -63,7 +63,7 @@ function Registro() {
         margin="30px 5px 0 5px"
         border="none"
         bg={isActive ? "#9BC5D3" : "#9BC5D3"}
-        color={isActive ? "#2b6cb0" : "transpared"}
+        color={isActive ? "#137798" : "transpared"}
         borderRadius={isActive ? "40px" : "45%"}
         padding={
           isActive
@@ -90,7 +90,7 @@ function Registro() {
           margin="30px 5px 0 5px"
           border="none"
           bg={isActive ? "#9BC5D3" : "#9BC5D3"}
-          color={isActive ? "#2b6cb0" : "#2b6cb0"}
+          color={isActive ? "#137798" : "transpared"}
           borderRadius={isActive ? "40px" : "45%"}
           padding={
             isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "15px" }
@@ -129,7 +129,7 @@ function Registro() {
         md: "60px 0px 0px 0px",
         sm: "30px 0px 10% 0px",
       }}
-      padding={{ lg: "0 25px", md: "10px", sm: "0px 0 10% 0" }}
+      padding={{ lg: "0 25px 50px 25px", md: "10px", sm: "0px 0 10% 0" }}
       backgroundColor={{ lg: "gray.100", md: "gray.100", sm: "none" }}
       borderTopLeftRadius={"20px"}
       backgroundSize="cover"
@@ -143,8 +143,9 @@ function Registro() {
           width={{ lg: "90%", md: "100%", sm: "100%" }}
         >
           <Tabs>
-            <TabList isDisabled display={"flex"} justifyContent={"center"} border={"none"}>
+            <TabList color={"#137798"} isDisabled display={"flex"} justifyContent={"center"} border={"none"}>
               <CustomTab
+              
                 title="Paciente"
                 isActive={activeTab === 0}
                 isDisabled={activeTab > 0}

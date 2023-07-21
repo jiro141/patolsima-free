@@ -1,6 +1,13 @@
 import React, { useContext } from "react";
-import { FormControl, Input, FormErrorMessage, List, ListItem, Box } from "@chakra-ui/react";
-import '../../../css/style.css'
+import {
+  FormControl,
+  Input,
+  FormErrorMessage,
+  List,
+  ListItem,
+  Box
+} from "@chakra-ui/react";
+import "../../../css/style.css";
 import MainContext from "context/mainContext/MainContext";
 
 export default function InputAutoComplete({
@@ -13,14 +20,15 @@ export default function InputAutoComplete({
   loading,
   resultSearch,
   handleSelectSearch,
-  selectSearch
+  selectSearch,
 }) {
-  const { oneState } = useContext(MainContext)
+  const { oneState } = useContext(MainContext);
+
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <FormControl isInvalid={errors} mb={3}>
         <Input
-          defaultValue={''}
+          defaultValue={""}
           isRequired
           placeholder={placeholder}
           type={"number"}
@@ -33,27 +41,20 @@ export default function InputAutoComplete({
             <FormErrorMessage>{errors}</FormErrorMessage>
           </>
         )}
-        {resultSearch && !selectSearch && oneState == 'post' &&
-          resultSearch?.length > 0
-          ?
-          <div className="autocompleteBox" onClick={handleSelectSearch}>
+        {resultSearch && !selectSearch && oneState === "post" && resultSearch.length > 0 ? (
+          <div className="autocompleteBox" onClick={handleSelectSearch} style={{ width:'100%', position: "absolute", zIndex: 10, backgroundColor: "white", padding:'10px' }}>
             <List spacing={3} color={"gray.500"}>
               {resultSearch.map((data, index) => {
                 return (
-                  <ListItem color={"gray.500"}>
+                  <ListItem  key={index} color={"gray.500"}>
                     {`${data.ci}`}
                   </ListItem>
-                )
+                );
               })}
             </List>
           </div>
-
-          : ''
-        }
+        ) : null}
       </FormControl>
-
-
     </div>
-
   );
 }

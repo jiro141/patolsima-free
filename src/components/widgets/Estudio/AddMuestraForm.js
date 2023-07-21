@@ -10,8 +10,9 @@ import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualiza
 import SaveButton from "../Buttons/SaveButton";
 import GeneralButton from "../Buttons/GeneralButton";
 import { postOrdenes } from "api/controllers/facturas";
+import FinishButton from "../Buttons/FinishButton";
 
-export default function AddMuestraForm({ setOpenModalSuccess }) {
+export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish }) {
   const { estudioId2, estudioID, setMuestraID, muestraID } = useContext(
     ModoVisualizacionContext
   );
@@ -58,10 +59,26 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
       return;
     },
   });
+  const handleFinish = () => {
+    console.log('holi');
+    if (muestraID) {
+     
+      setFinish(true);
+    }
+  };
+  
 
+  console.log(finish);
+  console.log(muestraID);   
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
-      <Text fontSize={"20px"} margin={"2% auto 2% auto"} color={"gray.600"}>
+      <Text
+        textAlign={"left"}
+        fontSize={"17px"}
+        fontWeight={'bold'}
+        margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
+        color={"gray.600"}
+      >
         Agregar muestra
       </Text>
 
@@ -84,7 +101,7 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
         size="lg"
         name="notas"
         borderRadius="md"
-        placeholder="Notas"
+        placeholder="Notas:"
         value={formik.values.notas}
         onChange={(e) => formik.setFieldValue("notas", e.target.value)}
       />
@@ -96,9 +113,16 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
           />
         </Box>
       )}
-      <Box w={"100%"} textAlign="end">
-        <SaveButton handleSubmit={formik.handleSubmit} />
-      </Box>
+      {!finish ?
+        (
+          <Box marginTop={'20px'} w={"100%"} textAlign="end">
+           <SaveButton handleSubmit={formik.handleSubmit} handleFinish={handleFinish}/>
+          </Box>
+        ) :
+        <Box marginTop={'20px'} w={"100%"} textAlign="end">
+          <FinishButton handleSubmit={formik.handleSubmit} />
+        </Box>
+      }
     </div>
   );
 }
