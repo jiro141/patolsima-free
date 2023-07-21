@@ -175,7 +175,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         apellidos: data.apellidos,
         email: data.email,
         tlf: data.telefono_celular,
-        sexo: data.sexo
+        sexo: data.sexo,
+        direccion: data.direccion
       }));
 
       formik.setValues({
@@ -185,7 +186,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         email: mapped[0].email,
         telefono_celular: mapped[0].tlf,
         email: mapped[0].email,
-        sexo: mapped[0].sexo
+        sexo: mapped[0].sexo,
+        direccion: mapped[0].direccion
       });
       setSelectSearch(true);
       setOneState('put')
@@ -288,12 +290,22 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     debouncedGetPacients(newQuery);
 
     if (newQuery === "") {
-      resetFormValues();
+      formik.setValues({
+        ci: "algo",
+        nombres: "algo",
+        apellidos: "algo",
+        email: "algo",
+        telefono_celular: "algo",
+        email:"",
+        sexo: "",
+        direccion: ""
+      });
+      // resetFormValues();
     }
   };
 
 
- 
+ console.log(formik.values);
 
 
 

@@ -32,6 +32,8 @@ import { postMuestraAdjunto } from "api/controllers/estudios";
 import { useHistory } from "react-router-dom";
 import SuccessModal from "../Modals/SuccessModal";
 import { NextStation } from "../Buttons/NextStation";
+import { Title, subTitleBold, Titlelight } from "../Texts";
+import FinishButton from "../Buttons/FinishButton";
 
 const Muestra = () => {
   const {
@@ -51,6 +53,7 @@ const Muestra = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
   const [studyData, setStudyData] = useState();
+  const [finish, setFinish] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -177,7 +180,8 @@ const Muestra = () => {
   }, [estudioID])
 
 
-
+console.log(finish);
+console.log(muestraID);
   const uniqueId = generateUniqueId();
   const handleSubmit = () => {
     formik.handleSubmit();
@@ -186,18 +190,15 @@ const Muestra = () => {
     <div style={{ height: "auto" }}>
       <NextStation />
       <form>
-        <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{lg:"100px",md:'20px', sm:'15px'}} >
-          <Text fontSize={"17px"} fontWeight={'bold'} color={"gray.600"}>
+        <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
+          <Title >
             Información General
-          </Text>
+          </Title>
           <Box display={'flex'}>
-            <Text
-              fontSize={"18px"}
-              fontWeight={'bold'} 
-              color={"gray.600"}
+            <Title
             >
               {`Estudio N°: `}
-            </Text>
+            </Title>
             {
               studyData ? (
                 <Box>
@@ -217,25 +218,25 @@ const Muestra = () => {
         </Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
-            <Text marginBottom={"1.5%"} fontSize={"17px"}>
+            <subTitleBold marginBottom={"1.5%"} >
               Paciente
-            </Text>
+            </subTitleBold>
             <Text>
               <Badge>
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
             </Text>
-            <Text marginY={"1.5%"} fontSize={"17px"}>
+            <subTitleBold marginY={"1.5%"}>
               Cédula de Identidad
-            </Text>
+            </subTitleBold>
             <Text>
               <Badge>{dataPaciente.ci}</Badge>
             </Text>
           </Box>
           <Box>
-            <Text marginBottom={"1.5%"} fontSize={"17px"}>
+            <subTitleBold marginBottom={"1.5%"} fontSize={"17px"}>
               Médico tratante
-            </Text>
+            </subTitleBold>
             <Text>
               <Badge>
                 {dataMedico.nombres} {dataMedico.apellidos}
@@ -249,15 +250,13 @@ const Muestra = () => {
         ></Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
-            <Text
+            <Title
               textAlign={"left"}
-              fontSize={"17px"}
-              fontWeight={'bold'}
               margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
               color={"gray.600"}
             >
               Datos de Estudio
-            </Text>
+            </Title>
           </Box>
 
         </Grid>
@@ -316,15 +315,16 @@ const Muestra = () => {
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {estudioID && <AddMuestraForm setOpenModalSuccess={setOpenModalSuccess} />}
-        {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
+        {estudioID && <AddMuestraForm muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} />}
+        {finish && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
       </form>
-
+            
       {!estudioID && (
         <Box marginTop={'20px'} w={"100%"} textAlign="end">
           <SaveButton handleSubmit={handleSubmit} />
         </Box>
       )}
+
     </div>
   );
 };

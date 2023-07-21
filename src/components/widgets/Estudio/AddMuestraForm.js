@@ -10,8 +10,9 @@ import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualiza
 import SaveButton from "../Buttons/SaveButton";
 import GeneralButton from "../Buttons/GeneralButton";
 import { postOrdenes } from "api/controllers/facturas";
+import FinishButton from "../Buttons/FinishButton";
 
-export default function AddMuestraForm({ setOpenModalSuccess }) {
+export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish }) {
   const { estudioId2, estudioID, setMuestraID, muestraID } = useContext(
     ModoVisualizacionContext
   );
@@ -58,7 +59,17 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
       return;
     },
   });
+  const handleFinish = () => {
+    console.log('holi');
+    if (muestraID) {
+     
+      setFinish(true);
+    }
+  };
+  
 
+  console.log(finish);
+  console.log(muestraID);   
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
       <Text
@@ -102,9 +113,16 @@ export default function AddMuestraForm({ setOpenModalSuccess }) {
           />
         </Box>
       )}
-      <Box w={"100%"} textAlign="end">
-        <SaveButton handleSubmit={formik.handleSubmit} />
-      </Box>
+      {!finish ?
+        (
+          <Box marginTop={'20px'} w={"100%"} textAlign="end">
+           <SaveButton handleSubmit={formik.handleSubmit} handleFinish={handleFinish}/>
+          </Box>
+        ) :
+        <Box marginTop={'20px'} w={"100%"} textAlign="end">
+          <FinishButton handleSubmit={formik.handleSubmit} />
+        </Box>
+      }
     </div>
   );
 }

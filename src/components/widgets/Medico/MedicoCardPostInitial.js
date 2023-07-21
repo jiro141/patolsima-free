@@ -284,10 +284,10 @@ const MedicoCardPostInitial = ({
         >
           <InputOverall
             name="email"
-            type={'email'}
+            // type={'email'}
             value={formik.values.email}
             placeholder="Email:"
-            onChange={(e) => formik.setFieldValue("email", e.target.email)}
+            onChange={(e) => formik.setFieldValue("email", e.target.value)}
             errors={formik.errors.email}
           />
 

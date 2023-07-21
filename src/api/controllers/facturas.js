@@ -43,6 +43,7 @@ export const postOrdenes= async (data) => {
     console.log(data)
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/`,data)
+        console.log(response);
          return response.data;
     } catch (error) {
         console.log(error);
