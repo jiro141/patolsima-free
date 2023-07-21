@@ -21,8 +21,10 @@ export const getMedicosDetail = async (id) => {
 }
 //guardar pacietes metodo post
 export const postMedicos = async (formData) => {
+    console.log(formData);
     try {
         const response = await Axios.post(`/v1/core/medicos/`,formData)
+        console.log(response.data);
         return response.data
        
     } catch (error) {

@@ -49,7 +49,7 @@ const SidebarContent = ({ logoText, routes }) => {
     // Chakra Color Mode
     const activeBg = useColorModeValue("#89bbcc", "gray.700");
     const inactiveBg = useColorModeValue("transparet");
-    const activeColor = useColorModeValue("#2B6CB0", "#137798");
+    const activeColor = useColorModeValue("#137798");
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
     const colorIcon = useColorModeValue("gray.400");
 
@@ -96,7 +96,7 @@ const SidebarContent = ({ logoText, routes }) => {
                     ) : (
                       <IconBox
                         bg={"none"}
-                        color={activeColor}
+                        color={'#137798'}
                         h="30px"
                         w="30px"
                         me="12px"
@@ -104,7 +104,7 @@ const SidebarContent = ({ logoText, routes }) => {
                         {prop.icon}
                       </IconBox>
                     )}
-                    <Text color={activeColor} my="auto" fontSize="sm">
+                    <Text color={"#137798"} my="auto" fontSize="sm">
                       {prop.name}
                     </Text>
                   </Flex>
@@ -168,7 +168,7 @@ const SidebarContent = ({ logoText, routes }) => {
     // Chakra Color Mode
     const activeBg = useColorModeValue("#89bbcc", "gray.700");
     const inactiveBg = useColorModeValue("transparet");
-    const activeColor = useColorModeValue("#2B6CB0", "white");
+    const activeColor = useColorModeValue("#137798", "white");
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
     const colorIcon = useColorModeValue("gray.400");
 
@@ -288,7 +288,7 @@ const SidebarContent = ({ logoText, routes }) => {
     // Chakra Color Mode
     const activeBg = useColorModeValue("#89bbcc", "gray.700");
     const inactiveBg = useColorModeValue("transparet");
-    const activeColor = useColorModeValue("#2B6CB0", "white");
+    const activeColor = useColorModeValue("#137798", "white");
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
     const colorIcon = useColorModeValue("gray.400");
 
@@ -411,30 +411,31 @@ const SidebarContent = ({ logoText, routes }) => {
 
   return (
     <Box maxW={"200px"}>
-      <Box w="70%" h="5px" m=" 5px 10px 150px 10px">
-        <Link href="/admin/Home">
-          <Image src={Logo} alt="Logo palmosima" />
-        </Link>
-        <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
-          <Grid templateColumns={"1fr 2fr"}>
-            <TimeIcon boxSize={6} />
+      <Box w="100%" h="5px" m=" 5px 10px 150px 10px">
+        <Box w={'70%'} marginRight={'-25px'} display={'flex'} justifyContent={'start'}>
+          <Link href="/admin/Home">
+            <Image src={Logo} alt="Logo palmosima" />
+          </Link>
+        </Box>
+        <Box color={"#137797"} fontWeight="bold">
+          <Box marginRight={'10px'} display={'flex'} justifyContent={'center'}>
             <Box>
-              <Box w={"100px"} m={"0px 10px"}>
+              <Box w={"100px"} >
                 <Reloj />
               </Box>
-              <Box m={"0 -8px"}>
+              <Box >
                 <Fecha />
               </Box>
             </Box>
-          </Grid>
+          </Box>
         </Box>
       </Box>
       {loading ? (
         <Box margin={"50px 0 20px 0"}>
-           <Separator></Separator>
-<div className="centerLoader">
-          <CircularProgress value={20} size="30px" color="#137797"  />
-        </div>
+          <Separator></Separator>
+          <div className="centerLoader">
+            <CircularProgress value={20} size="30px" color="#137797" />
+          </div>
         </Box>
 
       ) : (
@@ -446,13 +447,13 @@ const SidebarContent = ({ logoText, routes }) => {
                 {arrGroup === "administracion"
                   ? `Administración`
                   : arrGroup === "patologo"
-                  ? "Patologia"
-                  : ""}
+                    ? "Patologia"
+                    : ""}
               </Text>
             </Box>
           </Box>
           <Stack direction="column" mb="40px">
-           {/* <Box>
+            {/* <Box>
               {arrGroup === "patologo"
                 ? linksPatology
                 : arrGroup === "administracion"
@@ -460,12 +461,12 @@ const SidebarContent = ({ logoText, routes }) => {
                 : linksAll}
               <Separator></Separator>
             </Box> */}
-             <Box>
+            <Box>
               {arrGroup === "patologo"
                 ? linksPatology
                 : arrGroup === "administracion"
-                ? linksAdmin
-                : linksAll}
+                  ? linksAdmin
+                  : linksAll}
               <Separator></Separator>
             </Box>
           </Stack>

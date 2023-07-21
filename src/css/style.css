@@ -4,7 +4,7 @@
    width: 100%;
     height: 100%;
     max-width: 100%;
-    padding: 10px;
+    padding: 6px;
     background: white;
     border: 3px solid #137797;
     line-height: 1.125em;
@@ -84,7 +84,7 @@
   .wrapbtnClose {
     display: flex;
     justify-content: flex-end;
-    width: 80%;
+    width: 85%;
     position: absolute;
     margin-top: 7px;
     padding-right: 15px;
@@ -143,11 +143,13 @@
     background-color: #e6e6e6;
   }
   .react-calendar__tile--now {
-    background: #ffff76;
+    background: #1376975e;
+    color: #FFF;
   }
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus {
-    background: #ffffa9;
+    background: #1376975e;
+    color: #FFF;
   }
   .react-calendar__tile--hasActive {
     background: #1376975e;
@@ -188,9 +190,6 @@
     
     
   
-  }
-  .scrollTableStyle{
-    
   }
   .btnPrint{
     width: 50%;
@@ -233,7 +232,7 @@
     background-color: #9BC5D3;
     color: #000000;
     border-radius:6px;
-    padding:3.5px;
+    /* padding:3.5px; */
   }
   .WrapAlignRow{
     display:flex;

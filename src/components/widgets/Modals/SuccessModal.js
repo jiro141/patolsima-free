@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { BsFillCheckCircleFill, BsFolderPlus } from "react-icons/bs";
 import MainContext from "context/mainContext/MainContext";
 
-export default function SuccessModal({ isOpen, setOpenModal,type }) {
+export default function SuccessModal({ isOpen, setOpenModal, type }) {
   const {
     activeTab,
     setActiveTab,
@@ -27,8 +27,8 @@ export default function SuccessModal({ isOpen, setOpenModal,type }) {
     window.location.reload();
   };
   const handleClose = () => {
-    if(type==='muestra2'){
-      //logica para resetear el form y agregar otra muestra
+    if (type === 'muestra2') {
+      // logica para resetear el form y agregar otra muestra
     }
     setActiveTab(activeTab + 1)
     setOpenModal(false);
@@ -43,19 +43,21 @@ export default function SuccessModal({ isOpen, setOpenModal,type }) {
       <ModalOverlay />
       <ModalContent padding={'10px'} marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
         <ModalBody>
-          <Box  width={'auto'} marginTop={"20px"} flexDirection={'column'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+          <Box width={'auto'} marginTop={"20px"} flexDirection={'column'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
             <Text fontSize={'20px'} textAlign={"center"}>{`¡Registro completado con exito!`}</Text>
-           <div style={{alignItems:'center',marginTop:'20px'}}>
-           <BsFillCheckCircleFill color="#137797" size={'50px'} />
-           </div>
-            <Grid justifyContent={'center'} templateColumns={"repeat(2,1fr)"}>
-            <GeneralButton
-                text="Crear otro estudio"
-                type="outline"
-                handleClick={handleClose}
-              />
-              <GeneralButton text="Salir de registro" handleClick={handleConfirmClose} />
-              
+            <div style={{ alignItems: 'center', marginTop: '20px' }}>
+              <BsFillCheckCircleFill color="#137797" size={'50px'} />
+            </div>
+            <Grid justifyContent={'center'} templateColumns={activeTab === 3 ? "1fr" : "repeat(2,1fr)"}>
+              {/* Condición para mostrar el botón "Crear otro estudio" solo cuando activeTab no sea igual a 3 */}
+              {activeTab !== 3 && (
+                <GeneralButton
+                  text="Crear otro estudio"
+                  type="outline"
+                  handleClick={handleClose}
+                />
+              )}
+              <GeneralButton  text="Salir de registro" handleClick={handleConfirmClose} />
             </Grid>
           </Box>
         </ModalBody>
