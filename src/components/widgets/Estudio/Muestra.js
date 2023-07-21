@@ -221,7 +221,7 @@ console.log(muestraID);
             <subTitleBold marginBottom={"15px"} >
               Paciente
             </subTitleBold>
-            <Text>
+            <Text marginBottom={'15px'}>
               <Badge>
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
@@ -229,7 +229,7 @@ console.log(muestraID);
             <subTitleBold marginBottom={"15px"}>
               Cédula de Identidad
             </subTitleBold>
-            <Text>
+            <Text marginBottom={'15px'}>
               <Badge>{dataPaciente.ci}</Badge>
             </Text>
           </Box>
