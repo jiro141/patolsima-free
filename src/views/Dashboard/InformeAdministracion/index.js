@@ -43,6 +43,7 @@ const Dashboard = () => {
     const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
 
     const [Busqueda, setBusqueda] = useState("");
+    const [idInforme, setIdInforme] = useState("");
   const colorA = '#137797';
 
   const sinProcesarStudies = [
@@ -247,7 +248,11 @@ const Dashboard = () => {
       </Box>
     ));
   };
-
+  const handleSelectInforme=(id)=>{
+    console.log(id);
+    setIdInforme(id)
+  }
+//console.log(informes.estudio)
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
@@ -281,7 +286,7 @@ const Dashboard = () => {
                 toggleModal={toggleModal}
                 colorA={colorA}
                 loading={loading}
-                
+                handleSelectInforme={handleSelectInforme}
               />
 
               <CardOverall_Infor
@@ -290,6 +295,7 @@ const Dashboard = () => {
                 toggleModal={toggleModal}
                 colorA={colorA}
                 loading={loading}
+                handleSelectInforme={handleSelectInforme}
                 type='informes'
               />
             </>
@@ -300,6 +306,7 @@ const Dashboard = () => {
               toggleModal={toggleModal}
               colorA={colorA}
               loading={loading}
+              handleSelectInforme={handleSelectInforme}
               type="search"
             />
           )}
@@ -310,7 +317,7 @@ const Dashboard = () => {
 
 
         <Modal
-          size={'4xl'}
+          size={'3xl'}
           maxWidth='100%'
           isOpen={showModal}
           onClose={toggleModal}>

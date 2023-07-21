@@ -90,12 +90,13 @@ const renderStudies = (content, toggleModal, colorA, type) => {
  
 };
 
-const renderInformes = (content, toggleModal, colorA,type) => {
+const renderInformes = (content, toggleModal, colorA,type,handleSelectInforme) => {
  
     return content.map((study) => (
       <Link
         onClick={() => {
           toggleModal(study);
+          handleSelectInforme(study.estudio_id)
         }}
       >
         <Box
@@ -371,6 +372,7 @@ export function CardOverall_Infor({
   toggleModal,
   loading,
   colorA,
+  handleSelectInforme,
 }) {
   const containerRef = useRef(null);
   const [startX, setStartX] = useState(0);
@@ -461,7 +463,7 @@ export function CardOverall_Infor({
                 sm: "repeat(1,1fr)",
               }}
             >
-              { renderInformes(content, toggleModal, colorA,type)
+              { renderInformes(content, toggleModal, colorA,type,handleSelectInforme)
                }
                
             </Grid>

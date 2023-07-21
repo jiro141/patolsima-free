@@ -320,8 +320,6 @@ useEffect(() => {
   if(formik.values.ci === '' && oneState=='post'){
     formik.setFieldValue("nombres", "");  
   }
-   
-    
     console.log(formik.values)
     return () => {
      
