@@ -36,6 +36,15 @@ export const selectorOptionsGenders = [
     { value: 'Monto(Bs)'},
   
   ];
+  export const thValuesInformsSimples = [
+
+    { value: '# MUESTRA'},
+    { value: 'PACIENTE'},
+    { value: 'RIF/CI'},
+    { value: 'TIPO DE ESTUDIO'},
+    { value: 'PATÓLOGO'},
+  
+  ];
 
 
 

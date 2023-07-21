@@ -279,33 +279,7 @@ const Dashboard = () => {
 
 />
 
-      {/* <Modal
-          size={sizeView}
-          maxWidth='100%'
-          isOpen={showModalList}
-          onClose={toggleModalList}>
-          <ModalOverlay />
-          <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
-            <ModalHeader>
-              <Button
-                borderRadius={'50%'}
-                colorScheme="blue"
-                width="40px"
-                height="40px"
-                marginLeft={'95%'}
-                marginTop={'-60px'}
-                bgColor={'#137797'}
-                color='#ffff'
-                onClick={toggleModalList}>
-                <CloseButton />
-              </Button>
-            </ModalHeader>
-            <ModalBody marginTop={'-5%'}>
-              <ListaInformes />
-            </ModalBody>
-          </ModalContent>
-        </Modal>*/}
-
+     
 
       </>
     ) : (<ModoLista />)

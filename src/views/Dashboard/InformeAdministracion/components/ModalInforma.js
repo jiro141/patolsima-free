@@ -27,11 +27,28 @@ import ModalCreateNotes from "./ModalCreateNotes";
 
 const ModalInforme = ({informeDetail,detailEstudio}) => {
     const [showModal, setShowModal] = useState(false);
+    const [showModalMacro, setShowModalMacro] = useState(false);
+    const [showModalDiag, setShowModalDiag] = useState(false);
+    const [showModalNotas, setShowModalNotas] = useState(false);
+    const [showModalBibli, setShowModalBibli] = useState(false);
+   
     const toggleModal = () => {
         setShowModal(!showModal);
     };
-    console.log(informeDetail)
-    console.log(detailEstudio)
+    const toggleModalM = () => {
+        setShowModalMacro(!showModalMacro);
+    };
+    const toggleModalD = () => {
+        setShowModalDiag(!showModalDiag);
+    };
+    const toggleModalN = () => {
+        setShowModalNotas(!showModalNotas);
+    };
+
+    const toggleModalB = () => {
+        setShowModalBibli(!showModalBibli);
+    };
+    
     
     //tamaños de modal
     const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -49,7 +66,13 @@ const ModalInforme = ({informeDetail,detailEstudio}) => {
                                 <SubTitlelight title={'Paciente'} color={'#000'} />
                                 {detailEstudio ?
                             <Badge> 
-                            <Text >{`${detailEstudio?.paciente?.nombres} ${detailEstudio?.paciente?.apellidos}`}</Text>
+                            <Text >{`${detailEstudio?.paciente?.nombres} 
+                            ${detailEstudio?.paciente?.apellidos.length > 10
+                                ? detailEstudio?.paciente?.apellidos.substring(0, 10) + "..."
+                                : detailEstudio?.paciente?.apellidos}`}
+                            
+                       
+                            </Text>
                             </Badge>:
                             <Badge> 
                             <Text >Cargando</Text>
@@ -225,20 +248,20 @@ const ModalInforme = ({informeDetail,detailEstudio}) => {
                             handleClick={toggleModal}
                             />
                         <OutlineBtnModal text={'Descripción macroscópica'} 
-                            handleClick={toggleModal}
+                            handleClick={toggleModalM}
                             />
                             <OutlineBtnModal text={'Diagnóstico'} 
-                            handleClick={toggleModal}
+                            handleClick={toggleModalD}
                             />
                              <OutlineBtnModal text={'Notas'} 
-                            handleClick={toggleModal}
+                            handleClick={toggleModalN}
                             />
                        
                        
                         
                        
                              <OutlineBtnModal text={'Biblografía'} 
-                            handleClick={toggleModal}
+                            handleClick={toggleModalB}
                             />
                        
                     </Box>
@@ -274,10 +297,26 @@ const ModalInforme = ({informeDetail,detailEstudio}) => {
                         <ModalDescripcion />
                     </ModalBody>
                 </ModalContent>
-            </Modal>*/}
+            </Modal>*/} 
             <ModalCreateNotes
             setShowModal={setShowModal}
             titulo={'Descripción microscópica'} toggleModal={toggleModal} showModal={showModal} informeDetail={informeDetail} idStudy={detailEstudio.id} type='micro' />
+
+            <ModalCreateNotes
+            setShowModal={setShowModalMacro}
+            titulo={'Descripción macroscópica'} toggleModal={toggleModalM} showModal={showModalMacro} informeDetail={informeDetail} idStudy={detailEstudio.id} type='macro' />
+
+            <ModalCreateNotes
+            setShowModal={setShowModalDiag}
+            titulo={'Descripción diagnóstico'} toggleModal={toggleModalD} showModal={showModalDiag} informeDetail={informeDetail} idStudy={detailEstudio.id} type='diag' />
+           
+            <ModalCreateNotes
+            setShowModal={setShowModalNotas}
+            titulo={'Notas'} toggleModal={toggleModalN} showModal={showModalNotas} informeDetail={informeDetail} idStudy={detailEstudio.id} type='notas' />
+
+        <ModalCreateNotes
+            setShowModal={setShowModalBibli}
+            titulo={'Biblografía'} toggleModal={toggleModalB} showModal={showModalBibli} informeDetail={informeDetail} idStudy={detailEstudio.id} type='bibli' />
         </>
     );
 }
