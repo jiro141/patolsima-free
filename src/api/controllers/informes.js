@@ -29,19 +29,19 @@ export const updateInforme= async (id,formData) => {
         const response = await Axios.put(`/v1/core/informes/${id}/`, formData);
 
         console.log(response.data);
-        // return response;
+         return response.data;
     } catch (error) {
         console.log(error);
     }
 }
 //informe detail 
-export const getInformeDetail= async (id) => {
+export const getInformesDetail= async (id) => {
 
     try {
-        const response = await Axios.put(`/v1/core/informes/${id}/`);
+        const response = await Axios.get(`/v1/core/informes/${id}/`);
 
         console.log(response.data);
-        // return response;
+         return response.data;
     } catch (error) {
         console.log(error);
     }

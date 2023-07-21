@@ -20,13 +20,19 @@ import { Titlelight } from "components/widgets/Texts";
 import { SubTitlelight } from "components/widgets/Texts";
 import { Separator } from "components/Separator/Separator";
 import GeneralButton from "components/widgets/Buttons/GeneralButton";
+import { formatDate } from "helpers";
+import OutlineBtnModal from "components/widgets/Buttons/OutlineBtnModal";
+import ModalCreateNotes from "./ModalCreateNotes";
 
 
-const ModalInforme = () => {
+const ModalInforme = ({informeDetail,detailEstudio}) => {
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => {
         setShowModal(!showModal);
     };
+    console.log(informeDetail)
+    console.log(detailEstudio)
+    
     //tamaños de modal
     const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
     return (
@@ -41,110 +47,164 @@ const ModalInforme = () => {
                             <Box margin={'10px'}>
                                 
                                 <SubTitlelight title={'Paciente'} color={'#000'} />
-                                <Badge>
-                                <Text >Amelia Amigo Jordan</Text>
-                                </Badge>
+                                {detailEstudio ?
+                            <Badge> 
+                            <Text >{`${detailEstudio?.paciente?.nombres} ${detailEstudio?.paciente?.apellidos}`}</Text>
+                            </Badge>:
+                            <Badge> 
+                            <Text >Cargando</Text>
+                            </Badge>
+                            }
                                
                             </Box>
                             <Box margin={'10px'}>
                             <SubTitlelight title={'Fecha'} color={'#000'} />
-                            <Badge>
-                            <Text >15/03/1986</Text>
-                            </Badge>
+                            {detailEstudio.lenght>0 ?
+                            <Badge> 
+                            <Text>{formatDate(detailEstudio?.created_at)}</Text>
+                            </Badge>:
+                            <Badge> 
+                            <Text >Cargando</Text>
+                            </Badge>}
                                 
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                            <SubTitlelight title={'Cedula de Identidad'} color={'#000'} />
-                            <Badge>
-                            <Text >26651254</Text>
+                            <SubTitlelight title={'CI/RIF'} color={'#000'} />
+                            {detailEstudio ?
+                            <Badge> 
+                            <Text >{`${detailEstudio?.paciente?.ci}`}</Text>
+                            </Badge>:
+                            <Badge> 
+                            <Text >Cargando</Text>
                             </Badge>
+                            }
                                
                             </Box>
                             <Box margin={'10px'}>
                             <SubTitlelight title={'Medico Tratante'} color={'#000'} />
+                            {detailEstudio?
                             <Badge> 
-                            <Text >Jose Salmeron</Text>
-                            </Badge>
+                            <Text >{`${detailEstudio?.medico_tratante?.nombres} ${detailEstudio?.medico_tratante?.apellidos}`}</Text>
+                            </Badge>:
+                            <Badge> 
+                            <Text >Cargando</Text>
+                            </Badge>}
                                 
                             </Box>
                         </Box>
-                        <Box>
+                        <Box pb={'10px'}>
+                        <Box margin={'10px'}>
+                           
+                                
                             <Box margin={'10px'}>
-                            <SubTitlelight title={'Telefono Fijo'} color={'#000'} />
+                            <SubTitlelight title={'Telefono '} color={'#000'} />
+                                
+                            {detailEstudio ?
                             <Badge> 
-                            <Text color={'gray.600'}>26651254</Text>
-                            </Badge>
+                            <Text >{`${detailEstudio?.paciente?.telefono_celular}`}</Text>
+                            </Badge>  :
+                            <Badge> 
+                            <Text >Cargando</Text>
+                            </Badge>}
+                            </Box>
+                            </Box>
+                            <Box margin={'10px'}>
+                            <SubTitlelight title={'Especialidad'} color={'#000'} />
+                            {detailEstudio ?
+                            <Badge> 
+                            <Text >{`${detailEstudio?.medico_tratante?.especialidad}`}</Text>
+                            </Badge>:
+                            <Badge> 
+                            <Text >Cargando</Text>
+                            </Badge>}
                                
                             </Box>
-                            <Box margin={'10px'}>
-                            <SubTitlelight title={'Telefono Personal'} color={'#000'} />
-                                
-                                <Badge> 
-                            <Text color={'gray.600'}>26651254</Text>
-                            </Badge>
-                            </Box>
+                           
                         </Box>
                     </Grid>
+                    <Box margin={'8px'} />
                     <Titlelight title={'Información de estudio'} color={'#000'} />
                     <Separator marginTop={'8px'} width={'70%'} backgroundColor={'#89bbcc'} color={'#89bbcc'}></Separator>
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                            <SubTitlelight title={'Numero de estudio'} color={'#000'} />
+                            <SubTitlelight title={'Estudio #'} color={'#000'} />
+                            {detailEstudio ?
                             <Badge> 
-                            <Text>B:aa-nnn</Text>
+                            <Text >{`${detailEstudio?.codigo}`}</Text>
+                            </Badge> :
+                            
+                            <Badge> 
+                            <Text >Cargando</Text>
                             </Badge>
+                            }
+                            
                                
                             </Box>
                             <Box margin={'10px'} >
-                            <SubTitlelight title={'Tipo de muestra'} color={'#000'} />
-                            <Badge> 
-                            <Text>Estomado</Text>
-                            </Badge>
-                            </Box>
-                        </Box>
-                        <Box>
-                            <Box margin={'10px'}>
                             <SubTitlelight title={'Tipo de estudio'} color={'#000'} />
+                            {detailEstudio ?
                             <Badge> 
-                            <Text>Bipsia</Text>
-                            </Badge>
-                            </Box>
-                            <Box margin={'10px'}>
-                            <SubTitlelight title={'Tipo de muestra 2'} color={'#000'} />
+                            <Text >{`${detailEstudio?.tipo}`}</Text>
+                            </Badge> :
+                            
                             <Badge> 
-                            <Text>Estomago parte alta</Text>
+                            <Text >Cargando</Text>
                             </Badge>
+                            }
                             </Box>
                         </Box>
+                       
                         <Box>
                             <Box margin={'10px'}>
                             <SubTitlelight title={'Patologo'} color={'#000'} />
+                            {detailEstudio ?
                             <Badge> 
-                            <Text>simoncito</Text>
+                            <Text >{`${detailEstudio?.patologo?.nombres} ${detailEstudio?.patologo?.apellidos}`}</Text>
+                            </Badge> :
+                            
+                            <Badge> 
+                            <Text >Cargando</Text>
                             </Badge>
+                            }
                             </Box>
+                            <Box margin={'10px'}>
+                            <SubTitlelight title={'Prioridad'} color={'#000'} />
+                            {detailEstudio ?
+                            <Badge> 
+                            <Text >{`${detailEstudio?.prioridad} `}</Text>
+                            </Badge> :
+                            
+                            <Badge> 
+                            <Text >Cargando</Text>
+                            </Badge>
+                            }
+                            </Box>
+                            
                           
                         </Box>
+                      
                     </Grid>
-                    <Grid margin={'60px 10px 20px 10px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
-                        <Select color="gray.400" defaultValue="Informes anteriores">
+                    <Grid margin={'50px 10px 20px 10px'} templateColumns={'repeat(2,1fr)'} gap={'20px'}>
+                        
+                        <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
-                            <option value=""></option>
-                            <option value=""></option>
+                           { /*<option value=""></option>
+                            <option value=""></option>*/}
                         </Select>
+           
                         <Select color="gray.400" defaultValue="Anexos">
                             <option hidden colorScheme="gray.400">Anexos</option>
-                            <option value=""></option>
-                            <option value=""></option>
+                            {/*<option value=""></option>
+                            <option value=""></option>*/}
                         </Select>
-                        <Input
+                        {/*<Input
                             placeholder='Notas'
                             type="text"
                             name="notas"
-                        />
+                        />*/}
                     </Grid>
                 </Box>
                 <Box marginTop={'-55%'}  height={'100%'}>
@@ -160,60 +220,27 @@ const ModalInforme = () => {
                             background={'none'}
                             borderRadius={'10px'}
                             onClick={toggleModal}>Registro de cambios</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={toggleModal}>Descripción microscópica</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={toggleModal}>Descripción microscópica</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={toggleModal}>Diagnóstico</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={toggleModal}>Notas</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={toggleModal}>Anexos</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={toggleModal}>Biblografía</Button>
+                            
+                            <OutlineBtnModal text={'Descripción microscópica'} 
+                            handleClick={toggleModal}
+                            />
+                        <OutlineBtnModal text={'Descripción macroscópica'} 
+                            handleClick={toggleModal}
+                            />
+                            <OutlineBtnModal text={'Diagnóstico'} 
+                            handleClick={toggleModal}
+                            />
+                             <OutlineBtnModal text={'Notas'} 
+                            handleClick={toggleModal}
+                            />
+                       
+                       
+                        
+                       
+                             <OutlineBtnModal text={'Biblografía'} 
+                            handleClick={toggleModal}
+                            />
+                       
                     </Box>
                     <Box style={{display:'flex', alignItems:'center', justifyContent:'flex-end'}}> 
                     <GeneralButton text={'Procesar'} />
@@ -221,16 +248,9 @@ const ModalInforme = () => {
 
                 </Box>
             </Grid>
-            {/*<Button
-                marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
-                marginLeft={{ lg: '88%', md: '70%', sm: '77%' }}
-                borderRadius={'20px'}
-                bgColor={'#137797'}
-                color='#ffff'>
-                Procesar
-            </Button>*/}
-            <Modal
-                size={'sm'}
+           
+           {/* <Modal
+                size={'lg'}
                 maxWidth='100%'
                 isOpen={showModal}
                 onClose={toggleModal}>
@@ -254,7 +274,10 @@ const ModalInforme = () => {
                         <ModalDescripcion />
                     </ModalBody>
                 </ModalContent>
-            </Modal>
+            </Modal>*/}
+            <ModalCreateNotes
+            setShowModal={setShowModal}
+            titulo={'Descripción microscópica'} toggleModal={toggleModal} showModal={showModal} informeDetail={informeDetail} idStudy={detailEstudio.id} type='micro' />
         </>
     );
 }

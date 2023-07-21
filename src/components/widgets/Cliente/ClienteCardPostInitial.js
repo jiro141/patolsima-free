@@ -133,23 +133,27 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           id: formData.id
         }
         try {
-          const pacientePost = await putPacientes(id, Obj);
-          setFormValues(Obj, 'paciente');
-          setPacienteID(pacientePost.id);
+          if(pacientsByCi){
+            const pacientePost = await putPacientes(pacientsByCi[0].id, Obj);
+            setFormValues(Obj, 'paciente');
+           // setPacienteID(pacientePost.id);
+            if (pacientePost) {
+              toast.success("¡El paciente fue guardado correctamente!", {
+                autoClose: 1000,
+              });
+              setActiveTab(activeTab + 1)
+              setTwoState('post')
+            }
+            else {
+              toast.error("¡Hubo un error al guardar el paciente!", {
+                autoClose: 1000,
+              });
+              formik.resetForm()
+            }
+          }
+         
 
-          if (pacientePost) {
-            toast.success("¡El paciente fue guardado correctamente!", {
-              autoClose: 1000,
-            });
-            setActiveTab(activeTab + 1)
-            setTwoState('post')
-          }
-          else {
-            toast.error("¡Hubo un error al guardar el paciente!", {
-              autoClose: 1000,
-            });
-            formik.resetForm()
-          }
+          
           getPacients();
         } catch (error) {
           toast.error(error.message, { autoClose: 1000 });
@@ -162,20 +166,15 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   });
 
- 
+// console.log(pacientsByCi[0].id)
   useEffect(() => {
-  // if(searchci === ''){
-  //  // setOneState('post')
-  //   //formik.resetForm()
-  // }
   if(!searchci){
-  // formik.resetForm()
     setOneState('post')
-    console.log('no se encontraron resuladoa')
+    
   }
   if(value){
     formik.resetForm()
-    console.log('no se encontracdddron resuladoa')
+    
   }
     //seterrorci("");
   }, [formik.values]);
@@ -219,8 +218,6 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     if (query.startsWith(" ")) return;
     if(query=== ''){
       setvalue(true)
-      //console.log('vcampos vacios')
-      //formik.resetForm()
     }
     setBusqueda(query);
     filtrar(query);
@@ -314,41 +311,21 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
 
-    if (newQuery === "") {
-      formik.setValues({
-        ci: "algo",
-        nombres: "algo",
-        apellidos: "algo",
-        email: "algo",
-        telefono_celular: "algo",
-        email:"",
-        sexo: "",
-        direccion: ""
-      });
-      // resetFormValues();
-    }
+ 
   };
-  const newValues={
-    ci:'',
-    nombres:'mariaa'
-  }
+ 
 useEffect(() => {
   if(formik.values.ci === '' ){
     setOneState('post') 
   }
   if(formik.values.ci === '' && oneState=='post'){
-    formik.setFieldValue("nombres", "");  
+   // formik.setFieldValue("nombres", "");  
   }
     console.log(formik.values)
     return () => {
      
     }
   }, [formik.values])
-  
-  console.log(formik.values)
-
-
- console.log(formik.values);
 
 
 

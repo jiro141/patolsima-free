@@ -6,7 +6,7 @@ export function useSearchPacients(){
 
     useEffect(() => {
       if(searchci === ''){
-        seterrorci('La cedula es obligatoria')
+       // seterrorci('La cedula es obligatoria')
         return
       }
       if(searchci.length < 3){

@@ -32,104 +32,26 @@ import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 import { CardOverall_Infor } from "components/widgets/Cards/CardOverall";
 import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
 import { thValuesInformes } from "mocks";
+import { useInformeDetail } from "hooks/Informes/useInformeDetail";
+import { getInformesDetail } from "api/controllers/informes";
+import { getStudiesDetail } from "api/controllers/estudios";
 
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const {  
-    
-    hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
+  const {   hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
     const {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error,setInformes}=useInformes()
+    
     const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
 
     const [Busqueda, setBusqueda] = useState("");
     const [idInforme, setIdInforme] = useState("");
+    const [detailInforme, setInformeDetail] = useState([]);
+    const [detailEstudio, setdetailEstudio] = useState([]);
+   
   const colorA = '#137797';
 
-  const sinProcesarStudies = [
-    {
-      id: 1,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Juan Pedro Perez Colmenares",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 2,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Juan Pedro del carmen Perez Colmenares",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 3,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 7,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 8,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 9,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 10,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    }
-  ];
-  const pendientesStudies = [
-    {
-      id: 4,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 5,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    },
-    {
-      id: 6,
-      nestudio: "E:010-2023",
-      fecha: "15/10/2023",
-      paciente: "Pedro Perez",
-      ci: "2558764",
-      estudio: "Citologia"
-    }
-  ];
+
   //modal 
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => {
@@ -146,6 +68,8 @@ const Dashboard = () => {
     getInformes();
    
   }, []);
+ 
+  
 
   const toggleModalConfirmacion = (paciente) => {
     setShowModalConfirmacion(!showModalConfirmacion);
@@ -248,9 +172,12 @@ const Dashboard = () => {
       </Box>
     ));
   };
-  const handleSelectInforme=(id)=>{
-    console.log(id);
+  const handleSelectInforme=async(id)=>{
+ const res= await getInformesDetail(id)
+    setInformeDetail(res)
     setIdInforme(id)
+    const resStudyDetail= await getStudiesDetail(id)
+    setdetailEstudio(resStudyDetail)
   }
 //console.log(informes.estudio)
   return (
@@ -338,7 +265,7 @@ const Dashboard = () => {
               </Button>
             </ModalHeader>
             <ModalBody>
-              <ModalInforme />
+              <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme} />
             </ModalBody>
           </ModalContent>
         </Modal>

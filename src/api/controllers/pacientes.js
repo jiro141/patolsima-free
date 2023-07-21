@@ -45,7 +45,7 @@ export const postPacientes = async (data) => {
 //guardar pacietes metodo put
 export const putPacientes = async (id, registro) => {
     try {
-        const response = await Axios.put(`/v1/core/pacientes/${id.id}/`, registro);
+        const response = await Axios.put(`/v1/core/pacientes/${id}/`, registro);
         console.log(response.data);
         return response.data;
     } catch (error) {
