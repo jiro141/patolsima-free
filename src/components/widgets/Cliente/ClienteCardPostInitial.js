@@ -136,7 +136,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           // if (pacientsByCi) {
           const pacientePost = await putPacientes(id, Obj);
           setFormValues(Obj, 'paciente');
-          // setPacienteID(pacientePost.id);
+          setPacienteID(pacientePost.id);
           if (pacientePost) {
             toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
