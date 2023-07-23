@@ -1,6 +1,6 @@
 import { useState, useContext, useCallback } from "react";
 import { Text, Grid, Box } from "@chakra-ui/react";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { getPacientesDetail } from "api/controllers/pacientes";
 import { postPacientes } from "api/controllers/pacientes";
@@ -189,6 +189,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         sexo: data.sexo,
         direccion: data.direccion
       }));
+      console.log(mapped);
 
       formik.setValues({
         ci: mapped[0].ci,
@@ -288,6 +289,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         formik.setFieldValue("apellidos", "");
         formik.setFieldValue("email", "");
         formik.setFieldValue("telefono_celular", "");
+        formik.setFieldValue("direccion","");
+        Formik.setFieldValue("sexo","");
         setsearchci("");
         //formik.resetForm('')
         return;

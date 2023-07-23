@@ -420,10 +420,10 @@ const SidebarContent = ({ logoText, routes }) => {
         <Box color={"#137797"} fontWeight="bold">
           <Box marginRight={'10px'} display={'flex'} justifyContent={'center'}>
             <Box>
-              <Box w={"100px"} >
+              <Box marginLeft={'-10px'} w={"100px"} >
                 <Reloj />
               </Box>
-              <Box >
+              <Box marginLeft={'-15px'} >
                 <Fecha />
               </Box>
             </Box>
