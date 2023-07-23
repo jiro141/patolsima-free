@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { BsFillCheckCircleFill, BsFolderPlus } from "react-icons/bs";
 import MainContext from "context/mainContext/MainContext";
 
-export default function SuccessModal({ isOpen, setOpenModal, type }) {
+export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,confirm }) {
   const {
     activeTab,
     setActiveTab,
@@ -25,6 +25,9 @@ export default function SuccessModal({ isOpen, setOpenModal, type }) {
   const handleConfirmClose = () => {
     setOpenModal(false);
     window.location.reload();
+    if (activeTab !== 3) {
+      setConfirm(true);
+    }
   };
   const handleClose = () => {
     if (type === 'muestra2') {
@@ -57,7 +60,7 @@ export default function SuccessModal({ isOpen, setOpenModal, type }) {
                   handleClick={handleClose}
                 />
               )}
-              <GeneralButton  text="Salir de registro" handleClick={handleConfirmClose} />
+              <GeneralButton text="Salir de registro" handleClick={handleConfirmClose} />
             </Grid>
           </Box>
         </ModalBody>

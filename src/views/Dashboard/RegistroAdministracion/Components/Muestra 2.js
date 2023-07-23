@@ -58,7 +58,7 @@ const Muestra2 = () => {
     medicoID,
     setEstudioId2,
   } = useContext(ModoVisualizacionContext);
-  console.log(estudioId2);
+  // console.log(estudioId2);
 
   //definicion de los valores a cargar
   const [openModal, setOpenModal] = useState(false);
@@ -105,7 +105,7 @@ const Muestra2 = () => {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
           });
-          console.log(estudioPost);
+          // console.log(estudioPost);
           setStudyData(estudioPost);
           setEstudioId2(estudioPost.id);
 
@@ -126,10 +126,10 @@ const Muestra2 = () => {
     const sendOrden = async () => {
       if (estudioId2 && muestraID && !estudioID) {
         const newOrden = {
-          estudio_ids: [estudioId2]
+          estudio_ids: [estudioId2,estudioID]
         }
         const postOrden = await postOrdenes(newOrden)
-        console.log(postOrden)
+        // console.log(postOrden)
 
       }
       /* if(estudioId2){

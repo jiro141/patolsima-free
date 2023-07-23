@@ -87,8 +87,7 @@ const MedicoCardPostInitial = ({
       // telefono_celular: Yup.string().required("el telefono es obligatorio"),
       // direccion: Yup.string().required("La direccion es obligatoria"),
       // sexo: Yup.string().required("el sexo es obligatorio"),
-      email: Yup.string()
-        .email("direccion de correo no valida")
+      // email: Yup.string().email("direccion de correo no valida")
       // .required("el correo es obligatorio"),
     }),
     validateOnChange: false,
@@ -284,7 +283,7 @@ const MedicoCardPostInitial = ({
         >
           <InputOverall
             name="email"
-            // type={'email'}
+            type={'email'}
             value={formik.values.email}
             placeholder="Email:"
             onChange={(e) => formik.setFieldValue("email", e.target.value)}
