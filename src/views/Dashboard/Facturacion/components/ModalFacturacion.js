@@ -359,7 +359,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                     ) : factClientTerceros ?
                                         <Text fontSize={'14px'}>
                                             <Badge>{factClientTerceros.direccion}</Badge>
-                                        </Text> : null
+                                      </Text> : null
                                 }
                             </Box>
 
