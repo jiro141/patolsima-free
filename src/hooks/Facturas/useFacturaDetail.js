@@ -6,8 +6,7 @@ import MainContext from "context/mainContext/MainContext";
 import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
 
-export function useFacturaDetail({studyId}) {
- 
+export function useFacturaDetail({ studyId }) {
   const [facturasDetail, setFacturasDetail] = useState(null);
   const [studyDetail, setStudyDetail] = useState(null);
   const [itemOrden, setItemOrden] = useState();
@@ -18,29 +17,43 @@ export function useFacturaDetail({studyId}) {
 
   const getFacturasDetails = useCallback(async () => {
     try {
+      setloadingDetailFact(true);
+      seterror(false);
       const facturasDetail = await getFacturasDetail(studyId);
       setFacturasDetail(facturasDetail);
+
+      // Actualizar archived a true si por_pagar_usd es igual a 0
+      if (facturasDetail.por_pagar_usd === 0) {
+        setFacturasDetail((prevState) => ({
+          ...prevState,
+          archived: true,
+        }));
+      }
+
       const itemsOrden = facturasDetail.items_orden;
-      console.log(itemsOrden)
+      console.log(itemsOrden);
       if (itemsOrden && itemsOrden.length > 0) {
         setItemOrden(itemsOrden[0].estudio);
       }
-      
     } catch (error) {
       console.log(error);
+      seterror(true);
     } finally {
-        setloadingDetailFact(false);
+      setloadingDetailFact(false);
     }
-  }, []);
+  }, [studyId]);
 
   const getStudyDetail = useCallback(async () => {
     try {
+      setloadingStudy(true);
+      seterror(false);
       const study = await studiesDetail(24);
       setStudyDetail(study);
     } catch (error) {
       console.log(error);
+      seterror(true);
     } finally {
-    setloadingStudy(false);
+      setloadingStudy(false);
     }
   }, []);
 
@@ -53,6 +66,6 @@ export function useFacturaDetail({studyId}) {
     loadingDetailFact,
     loadingStudy,
     itemOrden,
-    setFacturasDetail
+    setFacturasDetail,
   };
 }

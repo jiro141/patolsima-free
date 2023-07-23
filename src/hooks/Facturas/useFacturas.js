@@ -35,13 +35,11 @@ export function useFacturas() {
   const getFacturasConfirm = useCallback(async () => {
     try {
       const facturasListConfirm = await getFacturasListConfirm();
-      if (archived) {
-        const archivedFacts = facturasListConfirm.filter((item) => item.archived === true);
+      // console.log(facturasListConfirm);
+      if (facturasListConfirm) {
+        const archivedFacts = facturasListConfirm.filter((item) => item.archived === false);
         setFacturasConfirmadas(archivedFacts);
-
-      } else {
-        setFacturasConfirmadas(facturasListConfirm);
-      }
+      } 
       // console.log(facturasList);
     } catch (error) {
       //seterror(error.message);

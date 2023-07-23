@@ -40,7 +40,7 @@ export const getFacturasDetail= async (id) => {
 }
 //post ordenes
 export const postOrdenes= async (data) => {
-    console.log(data)
+    console.log(data);
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/`,data)
         console.log(response);
@@ -52,6 +52,8 @@ export const postOrdenes= async (data) => {
 
 //factura a terceros
 export const putFacturaTerceros= async (id,data) => {
+    console.log(data, "data de factura a tercero");
+    console.log(id,"id de el cliente");
     try {
         const response = await Axios.put(`/v1/facturacion/clientes/${id}/`,data)
          return response.data;

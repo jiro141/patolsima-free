@@ -54,7 +54,7 @@ const Muestra = () => {
   const history = useHistory();
   const [studyData, setStudyData] = useState();
   const [finish, setFinish] = useState(false);
-
+  const [confirm, setConfirm] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
@@ -94,7 +94,7 @@ const Muestra = () => {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
           });
-          console.log(estudioPost);
+          // console.log(estudioPost);
           setStudyData(estudioPost);
           setEstudioID(estudioPost.id);
 
@@ -134,29 +134,20 @@ const Muestra = () => {
 
   }, [estudioID])
 
-  useEffect(() => {
-    const sendOrden = async () => {
+  console.log('confirmacion', confirm);
+  if (confirm) {
+    useEffect(() => {
+      const sendOrden = async () => {
+        const newOrden = {
+          estudio_ids: [estudioID]
+        };
+        const postOrden = await postOrdenes(newOrden);
+        // console.log(postOrden);
+      };
+      sendOrden();
+    }, [confirm, estudioID]);
+  }
 
-      const newOrden = {
-        estudio_ids: [estudioID]
-      }
-      const postOrden = await postOrdenes(newOrden)
-      console.log(postOrden)
-      /* if(estudioId2){
-        const newOrden={
-          estudio_ids: [estudioID,estudioId2]
-        }
-        const postOrden =await postOrdenes(newOrden)
-        console.log(postOrden)
-        
-       }*/
-    }
-
-    sendOrden()
-    return () => {
-
-    }
-  }, [])
 
 
 
@@ -169,7 +160,7 @@ const Muestra = () => {
 
         try {
           const resAdjunto = await postMuestraAdjunto(estudioID, formData)
-          console.log(resAdjunto)
+          // console.log(resAdjunto)
         } catch (error) {
           console.log(error)
         }
@@ -180,8 +171,8 @@ const Muestra = () => {
   }, [estudioID])
 
 
-console.log(finish);
-console.log(muestraID);
+  // console.log(finish);
+  // console.log(muestraID);
   const uniqueId = generateUniqueId();
   const handleSubmit = () => {
     formik.handleSubmit();
@@ -195,7 +186,7 @@ console.log(muestraID);
             Información General
           </Text>
           <Box display={'flex'}>
-            <Text Text fontSize={'17px'} fontWeight={'bold'} 
+            <Text Text fontSize={'17px'} fontWeight={'bold'}
             >
               {`Estudio N°: `}
             </Text>
@@ -316,9 +307,9 @@ console.log(muestraID);
         />
 
         {estudioID && <AddMuestraForm muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} />}
-        {finish && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
+        {finish && <SuccessModal confirm={confirm} setConfirm={setConfirm} isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
       </form>
-            
+
       {!estudioID && (
         <Box marginTop={'20px'} w={"100%"} textAlign="end">
           <SaveButton handleSubmit={handleSubmit} />

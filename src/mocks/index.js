@@ -8,6 +8,7 @@ export const selectorOptionsGenders = [
     { value: 'RIF/Cédula'},
     { value: 'Teléfono'},
     { value: 'Correo'},
+    { value: ' '},
   ];
   export const thValuesMedicos = [
     { value: 'Nombres' },
@@ -15,10 +16,11 @@ export const selectorOptionsGenders = [
     { value: 'Especialidad'},
     { value: 'Teléfono'},
     { value: 'Correo'},
+    { value: ' '},
   ];
 
   export const thValuesFacturas = [
-    { value: '#' },
+    // { value: '#' },
     { value: 'Recibida'},
     { value: 'Impresa'},
     { value: 'Cliente'},
