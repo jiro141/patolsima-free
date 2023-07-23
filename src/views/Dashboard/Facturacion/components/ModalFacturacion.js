@@ -102,7 +102,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
     console.log(itemOrden)
 
-   
+
 
 
     const confirmar = async () => {
@@ -244,7 +244,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         <Text margin={'5px'} color={'gray.900'} fontSize={'20px'} >Datos de factura</Text>
                         <Text margin={'18px'} textAlign={{ lg: 'right', sm: 'left' }} color={'gray.500'} fontSize={'20px'} >
 
-                            Recibo N {`${newId}`}
+                            Número de Orden:
+                            {/* {`${newId}`} */}
 
                         </Text>
                     </Grid>
@@ -334,27 +335,32 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         <Box>
                             <Box margin={'5px'}>
                                 <Text fontSize={'16px'} >Télefono</Text>
-                                {facturasDetail ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>{facturasDetail.cliente.telefono_celular}</Badge>
+                                {
+                                    facturasDetail && !factClientTerceros ? (
+                                        <Text fontSize={'14px'}>
+                                            <Badge>{facturasDetail.cliente.telefono_celular}</Badge>
 
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
+                                        </Text>
+                                    ) : factClientTerceros ?
+                                        <Text fontSize={'14px'}>
+                                            <Badge>{factClientTerceros.telefono_celular}</Badge>
+                                        </Text> : null
+                                }
                             </Box>
                         </Box>
                         <Box>
                             <Box margin={'5px'}>
                                 <Text fontSize={'16px'} >Dirección</Text>
-                                {facturasDetail ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>{facturasDetail.cliente.direccion}</Badge>
-
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
+                                {
+                                    facturasDetail && !factClientTerceros ? (
+                                        <Text fontSize={'14px'}>
+                                            <Badge>{facturasDetail.cliente.direccion}</Badge>
+                                        </Text>
+                                    ) : factClientTerceros ?
+                                        <Text fontSize={'14px'}>
+                                            <Badge>{factClientTerceros.direccion}</Badge>
+                                      </Text> : null
+                                }
                             </Box>
 
                         </Box>
