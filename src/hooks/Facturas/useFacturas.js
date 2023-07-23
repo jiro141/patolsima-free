@@ -7,9 +7,9 @@ import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
 
 export function useFacturas() {
- // const [facturas, setFacturas] = useState([]);
- const {facturas, setFacturas, setfilteredFact,archived }= useContext(MainContext)
-  
+  // const [facturas, setFacturas] = useState([]);
+  const { facturas, setFacturas, setfilteredFact, archived } = useContext(MainContext)
+
   const [facturasConfirmadas, setFacturasConfirmadas] = useState([]);
   const [facturasNoConfirmadas, setFacturasNoConfirmadas] = useState([]);
   const [cambioDelDia, setCambioDelDia] = useState('');
@@ -24,7 +24,7 @@ export function useFacturas() {
       setloading(true);
       seterror(null);
       const facturasList = await getFacturasList();
-      setFacturas(facturasList);  
+      setFacturas(facturasList);
       setfilteredFact(facturasList)
     } catch (error) {
       seterror(error.message);
@@ -34,42 +34,36 @@ export function useFacturas() {
   }, []);
   const getFacturasConfirm = useCallback(async () => {
     try {
-      //setloading(true);
-      //seterror(null);
       const facturasListConfirm = await getFacturasListConfirm();
-      if(archived){
-        const archivedFacts=facturasListConfirm.filter((item) => item.archived === true);
-        setFacturasConfirmadas(archivedFacts);  
-       
+      if (archived) {
+        const archivedFacts = facturasListConfirm.filter((item) => item.archived === true);
+        setFacturasConfirmadas(archivedFacts);
+
+      } else {
+        setFacturasConfirmadas(facturasListConfirm);
       }
-      setFacturasConfirmadas(facturasListConfirm);  
-     
-     
-     
-     // const confirmadas = facturasList.filter((item) => item.confirmada === true);
-      //setFacturasConfirmadas(confirmadas)
-      //const Noconfirmadas = facturasList.filter((item) => item.confirmada === false);
-      //setFacturasNoConfirmadas(Noconfirmadas)
-   
-     // console.log(facturasList);
+      // console.log(facturasList);
     } catch (error) {
       //seterror(error.message);
     } finally {
-     // setloading(false);
+      // setloading(false);
     }
   }, []);
   const getFacturasNotConfirm = useCallback(async () => {
     try {
       const facturasListNotConfirm = await getFacturasListNoConfirm();
-      if(archived){
-        const archivedFacts=facturasListNotConfirm.filter((item) => item.archived === true);
-        setFacturasNoConfirmadas(archivedFacts);  
-       }
-      setFacturasNoConfirmadas(facturasListNotConfirm);  
+      if (facturasListNotConfirm) {
+        const archivedFacts = facturasListNotConfirm.filter((item) => item.archived === false);
+        // console.log();
+        setFacturasNoConfirmadas(archivedFacts);
+      }
+      // } else {
+      //   setFacturasNoConfirmadas(facturasListNotConfirm);
+      // }
     } catch (error) {
       //seterror(error.message);
     } finally {
-     // setloading(false);
+      // setloading(false);
     }
   }, []);
 
@@ -85,7 +79,7 @@ export function useFacturas() {
       setloadingCambio(false);
     }
   }, []);
- 
 
-  return {facturas,getFacturas,facturasConfirmadas,facturasNoConfirmadas,loading,error,getCambios,cambioDelDia,loadingCambio,errorC,getFacturasConfirm,getFacturasNotConfirm,setFacturasConfirmadas,setFacturasNoConfirmadas };
+
+  return { facturas, getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas };
 }

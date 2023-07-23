@@ -51,7 +51,7 @@ import {
     {
       groupName:"patologia",
       path: "/RegistroPatologo",
-      name: "Registro patologo",
+      name: "Registro",
       icon: <HomeIcon color="inherit" />,
       component: RegistroPatologo,
       layout: "/admin",
@@ -59,7 +59,7 @@ import {
     {
       groupName:"patologia",
       path: "/Informe",
-      name: "Informe patologo",
+      name: "Informe",
       icon: <BsFillClipboardPlusFill color="inherit" />,
       secondaryNavbar: true,
       component: Informe,

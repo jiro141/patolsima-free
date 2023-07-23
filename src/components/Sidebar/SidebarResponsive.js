@@ -57,7 +57,7 @@ function SidebarResponsive(props) {
         st[prop["state"]] = !state[prop.state];
         return (
           <div key={prop.name}>
-             <Separator></Separator>
+            <Separator></Separator>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -198,20 +198,23 @@ function SidebarResponsive(props) {
   }
   var brand = (
     <Box pt={"0"} mb="8px">
-      <Box w="70%" h="5px" mb="150px" ml={"30px"}>
-        <Image src={Logo} alt="Logo palmosima" />
-        <Box m={"0px 30px"} color={"#137797"} fontWeight="bold">
-          <Grid templateColumns={"1fr 2fr"}>
-            <TimeIcon boxSize={6} />
+      <Box w="100%" h="5px" m=" 5px 10px 150px 10px">
+        <Box w={'70%'} marginRight={'-25px'} display={'flex'} justifyContent={'start'}>
+          <Link href="/admin/Home">
+            <Image src={Logo} alt="Logo palmosima" />
+          </Link>
+        </Box>
+        <Box color={"#137797"} fontWeight="bold">
+          <Box marginRight={'10px'} display={'flex'} justifyContent={'center'}>
             <Box>
-              <Box w={'100px'} m={"0px 5px"}>
+              <Box marginLeft={'-15px'} w={"100px"} >
                 <Reloj />
               </Box>
-              <Box m={'0px -15px'}>
+              <Box marginLeft={'-20px'} >
                 <Fecha />
               </Box>
             </Box>
-          </Grid>
+          </Box>
         </Box>
       </Box>
       <Link
