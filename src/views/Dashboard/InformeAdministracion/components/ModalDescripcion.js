@@ -15,10 +15,15 @@ import GeneralButton from "components/widgets/Buttons/GeneralButton";
 import { updateInforme } from "api/controllers/informes";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getInformesDetail } from "api/controllers/informes";
+import { useEffect } from "react";
 
 
-const ModalDescripcion = ({ titulo, idStudy,informeDetail,setShowModal,type }) => {
+const ModalDescripcion = ({ titulo, idStudy,informeDetail,setShowModal,type,setInformeDetail,setShowModalGeneral }) => {
 const [data, setdata] = useState([])
+const [dataResmicro, setdataResmicro] = useState('')
+
+
 const handleSubmitData=async()=>{
   if(type==='micro'){
     const newObj={
@@ -30,7 +35,13 @@ const handleSubmitData=async()=>{
         toast.success("¡El informe se ha actualizado con exito!", {
             autoClose: 1000,
           });
-          setShowModal(false)
+          setdataResmicro(res?.descripcion_microscopica)
+          //setdata(res?.descripcion_microscopica)
+         // setInformeDetail('')
+         setShowModalGeneral(false)
+         // setShowModal(false)
+          
+
       }else{
         toast.error("¡Hubo un error al actualizar el informe!", {
             autoClose: 1000,
@@ -47,7 +58,8 @@ const handleSubmitData=async()=>{
         toast.success("¡El informe se ha actualizado con exito!", {
             autoClose: 1000,
           });
-          setShowModal(false)
+          setShowModalGeneral(false)
+          //setShowModal(false)
       }else{
         toast.error("¡Hubo un error al actualizar el informe!", {
             autoClose: 1000,
@@ -64,7 +76,8 @@ const handleSubmitData=async()=>{
         toast.success("¡El informe se ha actualizado con exito!", {
             autoClose: 1000,
           });
-          setShowModal(false)
+          setShowModalGeneral(false)
+         // setShowModal(false)
       }else{
         toast.error("¡Hubo un error al actualizar el informe!", {
             autoClose: 1000,
@@ -81,7 +94,8 @@ const handleSubmitData=async()=>{
         toast.success("¡El informe se ha actualizado con exito!", {
             autoClose: 1000,
           });
-          setShowModal(false)
+          setShowModalGeneral(false)
+          //setShowModal(false)
       }else{
         toast.error("¡Hubo un error al actualizar el informe!", {
             autoClose: 1000,
@@ -94,11 +108,14 @@ const handleSubmitData=async()=>{
         bibliografia:data.data
        }
        const res=await updateInforme(idStudy,newObj)
+       console.log('res bibli ->')
+       console.log(res)
       if(res){
         toast.success("¡El informe se ha actualizado con exito!", {
             autoClose: 1000,
           });
-          setShowModal(false)
+          setShowModalGeneral(false)
+          //setShowModal(false)
       }else{
         toast.error("¡Hubo un error al actualizar el informe!", {
             autoClose: 1000,
@@ -107,6 +124,21 @@ const handleSubmitData=async()=>{
   }
 
 }
+
+useEffect(() => {
+  //setInformeDetail('')
+const getDta=async()=>{
+  const res =await getInformesDetail(idStudy)
+  setdataResmicro(res.descripcion_macroscopica
+    );
+ }
+ getDta()
+  return () => {}
+}, [data])
+
+//console.log(dataResmicro);
+
+  
     return (
         <>
             <Box marginTop={'-50px'}  >
@@ -131,21 +163,29 @@ const handleSubmitData=async()=>{
                     overflowY="scroll">
                         {
                             type==='micro' ?
+                            <>
                             <CKEditor
                             editor={Editor}
-                            config={{...{patolsima_informe_id: idStudy}, ...CKEditorDefaultConfig}}
+                         
+                           config={{...{patolsima_informe_id: idStudy}, ...CKEditorDefaultConfig}}
                             data={
-                                informeDetail?.descripcion_microscopica===null ? ' ' :informeDetail?.descripcion_microscopica
+                                informeDetail?.descripcion_microscopica===null ? ' ' :
+                                informeDetail?.descripcion_microscopica || dataResmicro 
                             }
                             onReady={(editor) => {
                                 console.log("CKEditor5 React Component is ready to use!", editor);
                             }}
                             onChange={(event, editor) => {
                                 const data = editor.getData();
-                                console.log({  data });
+                                console.log(  data );
                                 setdata({data})
                             }}
-                        /> : type==='macro' ?
+                        /> 
+                        
+                        </>
+                       
+                        
+                        : type==='macro' ?
                         <CKEditor
                         editor={Editor}
                         config={{...{patolsima_informe_id: idStudy}, ...CKEditorDefaultConfig}}

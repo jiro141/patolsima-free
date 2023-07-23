@@ -7,7 +7,7 @@ export function usePacients() {
   const [error, seterror] = useState(false);
   const [pacientesEstatico, setPacientesEstatico] = useState([]);
   const [pacientsID, setPacientsID]=useState('')
-  //aqui no es
+
 
   const getPacients = useCallback(async () => {
     try {
