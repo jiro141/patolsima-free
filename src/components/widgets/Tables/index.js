@@ -326,10 +326,10 @@ export function TRI({
   // handleClickItem
   // title = "pruebas",
 }) {
-  const { setidSelectItem, setEnablefactModalDetails } = useContext(MainContext)
+  const { setidSelectId, setEnableInfoModalDetails } = useContext(MainContext)
   const handleClickItem = (bills) => {
-    setidSelectItem(bills)
-    setEnablefactModalDetails(true)
+    setidSelectId(bills)
+    setEnableInfoModalDetails(true)
   }
   return (
     <Tbody >
