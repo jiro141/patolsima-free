@@ -23,16 +23,25 @@ import GeneralButton from "components/widgets/Buttons/GeneralButton";
 import { formatDate } from "helpers";
 import OutlineBtnModal from "components/widgets/Buttons/OutlineBtnModal";
 import ModalCreateNotes from "./ModalCreateNotes";
+import { getInformesDetail } from "api/controllers/informes";
+import { aprobarInforme } from "api/controllers/informes";
+import { completeInforme } from "api/controllers/informes";
+import { useInformes } from "hooks/Informes/useInformes";
+import { useEffect } from "react";
+import { getInformePreview } from "api/controllers/informes";
 
 
-const ModalInforme = ({informeDetail,detailEstudio}) => {
+const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModalGeneral}) => {
     const [showModal, setShowModal] = useState(false);
     const [showModalMacro, setShowModalMacro] = useState(false);
     const [showModalDiag, setShowModalDiag] = useState(false);
     const [showModalNotas, setShowModalNotas] = useState(false);
     const [showModalBibli, setShowModalBibli] = useState(false);
+    const {setInformesCompletados,setInformesNoCompletados,informes,getInformes}=useInformes()
+    
    
-    const toggleModal = () => {
+    const toggleModal = async() => {
+     
         setShowModal(!showModal);
     };
     const toggleModalM = () => {
@@ -49,7 +58,24 @@ const ModalInforme = ({informeDetail,detailEstudio}) => {
         setShowModalBibli(!showModalBibli);
     };
     
+    const handleSubmitGenerateInfor=async()=>{
+        const res=await completeInforme(detailEstudio.id)
+        if(res){
+            window.location.reload();
+            setShowModalGeneral(false)
+        
+        }
+       
+    }
+    const generarPdf=async()=>{
+       const res= await getInformePreview(detailEstudio.id)
+       window.open(res, "_blank");
+       //console.log(res)
+    }
+   
+  
     
+    console.log(detailEstudio)
     //tamaños de modal
     const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
     return (
@@ -266,7 +292,9 @@ const ModalInforme = ({informeDetail,detailEstudio}) => {
                        
                     </Box>
                     <Box style={{display:'flex', alignItems:'center', justifyContent:'flex-end'}}> 
-                    <GeneralButton text={'Procesar'} />
+                    <GeneralButton text={'Vista previa'} handleClick={generarPdf} />
+              
+                    <GeneralButton text={'Generar'} handleClick={handleSubmitGenerateInfor} />
                     </Box>
 
                 </Box>
@@ -300,23 +328,32 @@ const ModalInforme = ({informeDetail,detailEstudio}) => {
             </Modal>*/} 
             <ModalCreateNotes
             setShowModal={setShowModal}
-            titulo={'Descripción microscópica'} toggleModal={toggleModal} showModal={showModal} informeDetail={informeDetail} idStudy={detailEstudio.id} type='micro' />
+            titulo={'Descripción microscópica'} toggleModal={toggleModal} showModal={showModal} informeDetail={informeDetail} idStudy={detailEstudio.id} type='micro'setInformeDetail={setInformeDetail} 
+            setShowModalGeneral={setShowModalGeneral}
+            />
 
             <ModalCreateNotes
             setShowModal={setShowModalMacro}
-            titulo={'Descripción macroscópica'} toggleModal={toggleModalM} showModal={showModalMacro} informeDetail={informeDetail} idStudy={detailEstudio.id} type='macro' />
+            titulo={'Descripción macroscópica'} toggleModal={toggleModalM} showModal={showModalMacro} informeDetail={informeDetail} idStudy={detailEstudio.id} type='macro'
+            setShowModalGeneral={setShowModalGeneral}
+            />
 
             <ModalCreateNotes
             setShowModal={setShowModalDiag}
-            titulo={'Descripción diagnóstico'} toggleModal={toggleModalD} showModal={showModalDiag} informeDetail={informeDetail} idStudy={detailEstudio.id} type='diag' />
+            titulo={'Descripción diagnóstico'} toggleModal={toggleModalD} showModal={showModalDiag} informeDetail={informeDetail} idStudy={detailEstudio.id} type='diag'
+            setShowModalGeneral={setShowModalGeneral} />
            
             <ModalCreateNotes
             setShowModal={setShowModalNotas}
-            titulo={'Notas'} toggleModal={toggleModalN} showModal={showModalNotas} informeDetail={informeDetail} idStudy={detailEstudio.id} type='notas' />
+            titulo={'Notas'} toggleModal={toggleModalN} showModal={showModalNotas} informeDetail={informeDetail} idStudy={detailEstudio.id} type='notas'
+            setShowModalGeneral={setShowModalGeneral}
+            />
 
         <ModalCreateNotes
             setShowModal={setShowModalBibli}
-            titulo={'Biblografía'} toggleModal={toggleModalB} showModal={showModalBibli} informeDetail={informeDetail} idStudy={detailEstudio.id} type='bibli' />
+            titulo={'Biblografía'} toggleModal={toggleModalB} showModal={showModalBibli} informeDetail={informeDetail} idStudy={detailEstudio.id} type='bibli'
+            setShowModalGeneral={setShowModalGeneral}
+            />
         </>
     );
 }

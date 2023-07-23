@@ -265,7 +265,10 @@ const Dashboard = () => {
               </Button>
             </ModalHeader>
             <ModalBody>
-              <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme} />
+              <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme} 
+              setInformeDetail={setInformeDetail}
+              setShowModalGeneral={setShowModal}
+              />
             </ModalBody>
           </ModalContent>
         </Modal>
