@@ -37,7 +37,7 @@ const FacturaTerceros = ({ study, setShowModal }) => {
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       try {
-        const resPost = await putFacturaTerceros(study.id, formData)
+        const resPost = await postFacturaTerceros(formData)
         if (resPost) {
           setfactClientTerceros(resPost)
           //console.log(resPost)
