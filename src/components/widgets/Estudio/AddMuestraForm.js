@@ -76,7 +76,7 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
         textAlign={"left"}
         fontSize={"17px"}
         fontWeight={'bold'}
-        margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
+        margin={{ lg: "15px auto 15px 5px", sm: "0px auto 0px auto" }}
         color={"gray.600"}
       >
         Agregar muestra

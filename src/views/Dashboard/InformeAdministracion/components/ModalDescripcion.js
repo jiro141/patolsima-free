@@ -143,7 +143,7 @@ const getDta=async()=>{
         <>
             <Box marginTop={'-50px'}  >
                 <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>{titulo}</Text>
-                <Box height={'sm'}>
+                <Box height={'md'} minW={'400px'}>
                     <Box minH={'400px'} maxH={'200px'} 
                     sx={{
                         "&::-webkit-scrollbar": {

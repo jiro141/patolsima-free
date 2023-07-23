@@ -80,13 +80,13 @@ const Muestra2 = () => {
   //carga de los datos del formulario
   const formik = useFormik({
     initialValues: {
-      notas: " ",
+      notas: "" || null,
       urgente: false,
       envio_digital: false,
       tipo: "",
     },
     validationSchema: Yup.object({
-      notas: Yup.string().required("El campo es obligatorio"),
+      // notas: Yup.string().required("El campo es obligatorio"),
       tipo: Yup.string().required("El campo es obligatorio"),
     }),
     validateOnChange: false,
@@ -159,7 +159,7 @@ const Muestra2 = () => {
       <NextStation />
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
-          <Text marginBottom={'15px'} fontSize={'17px'} fontWeight={'bold'} >
+          <Text  fontSize={'17px'} fontWeight={'bold'} >
             Información General
           </Text>
           <Box display={'flex'}>
@@ -189,7 +189,7 @@ const Muestra2 = () => {
             <subTitleBold marginBottom={"1.5%"} >
               Paciente
             </subTitleBold>
-            <Text>
+            <Text marginBottom={"15px"}>
               <Badge>
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
@@ -197,7 +197,7 @@ const Muestra2 = () => {
             <subTitleBold marginBottom={"15px"}>
               Cédula de Identidad
             </subTitleBold>
-            <Text>
+            <Text marginBottom={"15px"}>
               <Badge>{dataPaciente.ci}</Badge>
             </Text>
           </Box>
@@ -288,7 +288,7 @@ const Muestra2 = () => {
         {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
       </form>
       {!estudioId2 && (
-        <Box w={"100%"} textAlign="end">
+        <Box marginTop={'20px'} w={"100%"} textAlign="end">
           <SaveButton handleSubmit={handleSubmit} />
         </Box>
       )}

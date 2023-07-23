@@ -17,52 +17,56 @@ export function MainContextProvider({ children }) {
   const [facturas, setFacturas] = useState([]);
   const [filteredFact, setfilteredFact] = useState([]);
   const [hiddenFactssort, sethiddenFactssort] = useState(true);
-   //--------------------------------------------------------
+  //--------------------------------------------------------
   const [informes, setInformes] = useState([]);
   const [filteredInforme, setfilteredInforme] = useState([]);
   const [hiddenInformessort, sethiddenInformessort] = useState(true);
 
- //--------------------------------------------------------
- const [muestrasPatologo, setMuestrasPatologo] = useState([]);
- const [filteredMuestrasPatologo, setfilteredMuestrasPatologo] = useState([]);
- const [hiddenmuestrasPatologosort, sethiddenmuestrasPatologosort] = useState(true);
- //--------------------------------------------------------
+  //--------------------------------------------------------
+  const [muestrasPatologo, setMuestrasPatologo] = useState([]);
+  const [filteredMuestrasPatologo, setfilteredMuestrasPatologo] = useState([]);
+  const [hiddenmuestrasPatologosort, sethiddenmuestrasPatologosort] = useState(true);
+  //--------------------------------------------------------
 
- //factura terceros
- const [factClientTerceros, setfactClientTerceros] = useState(null);
- //enable factura archivada
- const [archived, setArchived] = useState(false);
- //--------------------------------------------------------
-//factura detail from facts tables
-const [enablefactModalDetails, setEnablefactModalDetails] = useState(false);
- const [idSelectItem, setidSelectItem] = useState([]);
+  //factura terceros
+  const [factClientTerceros, setfactClientTerceros] = useState(null);
+  //enable factura archivada
+  const [archived, setArchived] = useState(false);
+  //--------------------------------------------------------
+  //factura detail from facts tables
+  const [enablefactModalDetails, setEnablefactModalDetails] = useState(false);
+  const [idSelectItem, setidSelectItem] = useState([]);
+  //informe detail from tables
+  const [enableInfoModalDetails, setEnableInfoModalDetails] = useState(false);
+  const [idSelectId, setidSelectId] = useState([]);
 
-   useEffect(() => {
-  
-     const fetchRefreshToken= async () => {
-       const refresh =  window.localStorage.getItem("refresh");
-       try {
-         const response = await Axios.post('/token/refresh/',{refresh}); 
-         //console.log(response.data.access)
-          window.localStorage.setItem('newAcessToken', response.data.access);     
-       } catch (error) {
-         console.log(error);
-       }
-     };
-     fetchRefreshToken();
-     const interval = setInterval(() => {
-      
-       fetchRefreshToken();
-       window.localStorage.removeItem('access')
+
+  useEffect(() => {
+
+    const fetchRefreshToken = async () => {
+      const refresh = window.localStorage.getItem("refresh");
+      try {
+        const response = await Axios.post('/token/refresh/', { refresh });
+        //console.log(response.data.access)
+        window.localStorage.setItem('newAcessToken', response.data.access);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRefreshToken();
+    const interval = setInterval(() => {
+
+      fetchRefreshToken();
+      window.localStorage.removeItem('access')
       window.localStorage.removeItem('refresh')
-     },2 * 60 * 60 * 1000);
-     
-    
-     return () => clearInterval(interval);
-   
-     
-   }, [])
-   
+    }, 2 * 60 * 60 * 1000);
+
+
+    return () => clearInterval(interval);
+
+
+  }, [])
+
 
   return (
     <MainContext.Provider
@@ -86,8 +90,9 @@ const [enablefactModalDetails, setEnablefactModalDetails] = useState(false);
         factClientTerceros, setfactClientTerceros,
         archived, setArchived,
         idSelectItem, setidSelectItem,
-        enablefactModalDetails, setEnablefactModalDetails
-
+        enablefactModalDetails, setEnablefactModalDetails,
+        enableInfoModalDetails, setEnableInfoModalDetails,
+        idSelectId, setidSelectId
       }}
     >
       {children}

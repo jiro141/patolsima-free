@@ -1,4 +1,4 @@
-import { getPacientesList } from "api/controllers/pacientes";
+import { getPacientesList,getPacientesDetail } from "api/controllers/pacientes";
 import { useCallback, useMemo, useState } from "react";
 
 export function usePacients() {
@@ -6,6 +6,8 @@ export function usePacients() {
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
   const [pacientesEstatico, setPacientesEstatico] = useState([]);
+  const [pacientsID, setPacientsID]=useState('')
+
 
   const getPacients = useCallback(async () => {
     try {

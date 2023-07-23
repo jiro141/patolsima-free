@@ -18,7 +18,6 @@ export function TH({ thData }) {
     <Tr>
       {thData.map((item, index) => (
         <Th borderRadius="none"
-
           borderBottom="3px solid"
           borderBottomColor={"gray.500"}
           textAlign="center"
@@ -202,121 +201,121 @@ export function TRF({
   tBodyData,
   handleSelectTBody,
   handleSelectIcon,
- // title = "pruebas",
+  // title = "pruebas",
 }) {
- const{setidSelectItem,  setEnablefactModalDetails}= useContext(MainContext)
- const handleClickItem=(bills)=>{
-  setidSelectItem(bills)
-  setEnablefactModalDetails(true)
- }
- return (
+  const { setidSelectItem, setEnablefactModalDetails } = useContext(MainContext)
+  const handleClickItem = (bills) => {
+    setidSelectItem(bills)
+    setEnablefactModalDetails(true)
+  }
+  return (
     <Tbody >
-    {tBodyData &&
-      tBodyData?.map((bills) => (
-        <Tr key={bills.id}>
-          <Link
-            paddingX={"10px"}
-            as="td"
-           // margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleClickItem(bills)}
-          >
-            {bills.id}
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            style={{fontSize:'13px'}}
-           // margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleClickItem(bills)}
-          >
-             {formatDate(bills.fecha_recepcion)}
-           
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            style={{fontSize:'13px'}}
-           // margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleClickItem(bills)}
-          >
-             {bills.fecha_impresion ? formatDate(bills.fecha_impresion) : ''}
-          </Link>
-          <Link
-            //paddingX={"10px"}
-            as="td"
-           // margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleClickItem(bills)}
-          >
-            
-            {  bills.cliente.razon_social.length > 17 ? bills.cliente.razon_social.substring(0, 17) + '...': bills.cliente.razon_social }
-          </Link>
-          <Link
-           // paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleClickItem(bills)}
-          >
-           {bills.cliente.ci_rif}
-          </Link>
-         
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleClickItem(bills)}
-          >
-            {bills.total_usd}
-            
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => 
-              handleClickItem(bills)
-              //handleSelectTBody(bills)
-          }
-          >
-           {bills.total_bs}
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() =>
-              
-              handleSelectIcon(bills)
-            }
-          >
-            <BsFillTrashFill color="#137797" />
-          </Link>
-        </Tr>
-      ))}
-  </Tbody>
+      {tBodyData &&
+        tBodyData?.map((bills) => (
+          <Tr key={bills.id}>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              // margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.id}
+            </Link>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              style={{ fontSize: '13px' }}
+              // margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {formatDate(bills.fecha_recepcion)}
+
+            </Link>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              style={{ fontSize: '13px' }}
+              // margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.fecha_impresion ? formatDate(bills.fecha_impresion) : ''}
+            </Link>
+            <Link
+              //paddingX={"10px"}
+              as="td"
+              // margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+
+              {bills.cliente.razon_social.length > 17 ? bills.cliente.razon_social.substring(0, 17) + '...' : bills.cliente.razon_social}
+            </Link>
+            <Link
+              // paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.cliente.ci_rif}
+            </Link>
+
+            <Link
+              paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.total_usd}
+
+            </Link>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() =>
+                handleClickItem(bills)
+                //handleSelectTBody(bills)
+              }
+            >
+              {bills.total_bs}
+            </Link>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() =>
+
+                handleSelectIcon(bills)
+              }
+            >
+              <BsFillTrashFill color="#137797" />
+            </Link>
+          </Tr>
+        ))}
+    </Tbody>
   );
 }
 
@@ -324,101 +323,107 @@ export function TRI({
   tBodyData,
   handleSelectTBody,
   handleSelectIcon,
- // title = "pruebas",
+  // handleClickItem
+  // title = "pruebas",
 }) {
+  const { setidSelectItem, setEnablefactModalDetails } = useContext(MainContext)
+  const handleClickItem = (bills) => {
+    setidSelectItem(bills)
+    setEnablefactModalDetails(true)
+  }
   return (
     <Tbody >
-    {tBodyData &&
-      tBodyData?.map((bills) => (
-        <Tr key={bills.id}>
-          <Link
-            paddingX={"10px"}
-            as="td"
-           // margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-            {bills.estudio_id}
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            style={{fontSize:'13px'}}
-           // margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-             {formatDate(bills.created_at)}
-           
-          </Link>
-          
-          <Link
-            //paddingX={"10px"}
-            as="td"
-           // margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-            
-            {bills.estudio_patologo_name}
-          </Link>
-          <Link
-           // paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-            {bills.estudio_paciente_ci}
-          </Link>
-         
-         
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-           {bills.estudio_tipo}
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() => handleSelectTBody(bills)}
-          >
-           {bills.estudio_patologo_name}
-          </Link>
-          <Link
-            paddingX={"10px"}
-            as="td"
-            margin={"10px"}
-            borderRadius="none"
-            borderBottom="1px solid"
-            borderBottomColor="gray.500"
-            onClick={() =>
-              handleSelectIcon(bills)
-            }
-          >
-            <BsFillTrashFill color="#137797" />
-          </Link>
-        </Tr>
-      ))}
-  </Tbody>
+      {tBodyData &&
+        tBodyData?.map((bills) => (
+          <Tr key={bills.id}>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              // margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.estudio_id}
+            </Link>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              style={{ fontSize: '13px' }}
+              // margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {formatDate(bills.created_at)}
+
+            </Link>
+
+            <Link
+              //paddingX={"10px"}
+              as="td"
+              // margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+
+              {bills.estudio_patologo_name}
+            </Link>
+            <Link
+              // paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.estudio_paciente_ci}
+            </Link>
+
+
+            <Link
+              paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.estudio_tipo}
+            </Link>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() => handleClickItem(bills)}
+            >
+              {bills.estudio_patologo_name}
+            </Link>
+            <Link
+              paddingX={"10px"}
+              as="td"
+              margin={"10px"}
+              borderRadius="none"
+              borderBottom="1px solid"
+              borderBottomColor="gray.500"
+              onClick={() =>
+                handleClickItem(bills)
+              }
+            >
+              <BsFillTrashFill color="#137797" />
+            </Link>
+          </Tr>
+        ))}
+    </Tbody>
   );
 }
 
@@ -477,12 +482,12 @@ export function TABLE_FACTURAS({
     <Table variant="simple">
       <Thead>
         <TH thData={thData} />
-      </Thead>     
-        <TRF
-          tBodyData={tBodyData}
-          handleSelectTBody={handleSelectTBody}
-          handleSelectIcon={handleSelectIcon}
-        />    
+      </Thead>
+      <TRF
+        tBodyData={tBodyData}
+        handleSelectTBody={handleSelectTBody}
+        handleSelectIcon={handleSelectIcon}
+      />
     </Table>
   );
 }
@@ -497,12 +502,12 @@ export function TABLE_INFORMES({
     <Table variant="simple">
       <Thead>
         <TH thData={thData} />
-      </Thead>     
-        <TRI
-          tBodyData={tBodyData}
-          handleSelectTBody={handleSelectTBody}
-          handleSelectIcon={handleSelectIcon}
-        />    
+      </Thead>
+      <TRI
+        tBodyData={tBodyData}
+        handleSelectTBody={handleSelectTBody}
+        handleSelectIcon={handleSelectIcon}
+      />
     </Table>
   );
 }

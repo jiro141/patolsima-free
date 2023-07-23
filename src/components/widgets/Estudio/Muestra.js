@@ -68,13 +68,13 @@ const Muestra = () => {
   //carga de los datos del formulario
   const formik = useFormik({
     initialValues: {
-      notas: null,
+      notas: '' || null,
       urgente: false,
       envio_digital: false,
       tipo: "",
     },
     validationSchema: Yup.object({
-      notas: Yup.string().required("El campo es obligatorio"),
+      // notas: Yup.string().required("El campo es obligatorio"),
       tipo: Yup.string().required("El campo es obligatorio"),
     }),
     validateOnChange: false,
@@ -221,7 +221,7 @@ console.log(muestraID);
             <subTitleBold marginBottom={"15px"} >
               Paciente
             </subTitleBold>
-            <Text>
+            <Text marginBottom={'15px'}>
               <Badge>
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
@@ -229,7 +229,7 @@ console.log(muestraID);
             <subTitleBold marginBottom={"15px"}>
               Cédula de Identidad
             </subTitleBold>
-            <Text>
+            <Text marginBottom={'15px'}>
               <Badge>{dataPaciente.ci}</Badge>
             </Text>
           </Box>
