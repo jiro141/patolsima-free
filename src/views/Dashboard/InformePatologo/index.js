@@ -29,6 +29,11 @@ import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualiza
 import ListaInformes from "./components/ListaInformes";
 import { getListInforme } from "api/controllers/informes";
 import { getStudiesList } from "api/controllers/estudios";
+import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
+import CardOverall_ from "components/widgets/Cards/CardOverall";
+import MainContext from "context/mainContext/MainContext";
+import { useMuestrasPatologo } from "hooks/MuestrasPatologo/useMuestrasPatologo";
+import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
@@ -39,6 +44,8 @@ const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalList, setShowModalList] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+  const { hiddenmuestrasPatologosort} = useContext(MainContext);
+  const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB}= useMuestrasPatologo()
 
   /*const highPriorityStudies = [];
   const mediumPriorityStudies = [];
@@ -76,6 +83,11 @@ const Dashboard = () => {
   useEffect(() => {
     peticionGet();
   }, []);
+  useEffect(() => {
+    getMuestrasPatologoAlta()
+    getMuestrasPatologoMedia()
+    getMuestrasPatologoBaja()
+  }, [])
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -164,19 +176,59 @@ const Dashboard = () => {
     modoVisualizacion === 'tarjeta' ? (
       <>
         <Box
-          margin={{ lg: '50px 0px 0px 30px', sm: '60px 0px 10% 0px' }}
-          padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-          backgroundColor={'gray.100'}
-          borderRadius={'20px'}
-          backgroundSize="cover"
-          backgroundPosition="center"
-          overflowY="hidden"
-          overflowX="hidden"
-          height={'auto'}
+           margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
+           w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
+           height={'auto'}
+           //pb={'50px'}
+           //py={'5px'}
+         // border={'1px'}
+        // pb={'60px'}
+           padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
+           backgroundColor={"gray.100"}
+           borderTopLeftRadius={"20px"}
+           backgroundSize="cover"
+           backgroundPosition="center"
+           overflowY="hidden"
+           overflowX={{ lg: "hidden", sm: "auto" }}
+           //width={'95%'}
           //maxH={'40em'}
         >
+            <Box  marginTop={"30px"} width={'100%'}
+        pl={'5px'} >
+          
+            <>
+              <CardOverall_Muestra
+                title={"Prioridad Alta"}
+                content={muestraALTA}
+                toggleModal={toggleModal}
+                colorA={highPriorityColor}
+                loading={loadingA}
+                type="other"
+              />
+
+              <CardOverall_Muestra
+                title={"Prioridad Media"}
+                content={muestraMEDIA}
+                toggleModal={toggleModal}
+                colorA={mediumPriorityColor}
+                loading={loadingM}
+                type="other"
+              />
+               <CardOverall_Muestra
+                title={"Prioridad Baja"}
+                content={muestraBAJA}
+                toggleModal={toggleModal}
+                colorA={lowPriorityColor}
+                loading={loadingB}
+                type="other"
+              />
+            </>
+          
+<ShowMoreButton handleClick={toggleModalList} />
+        
+        </Box>
           <Box padding={'2%'}>
-            <Heading
+         { /*  <Heading
               size="md"
             >
               Informes en proceso
@@ -219,7 +271,7 @@ const Dashboard = () => {
                       Prioridad Alta
                     </Heading>
                     <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {/*renderStudies(highPriorityStudies, highPriorityColor)*/}
+                      {/*renderStudies(highPriorityStudies, highPriorityColor)
                     </Grid>
                   </Box>
                 </SimpleGrid>
@@ -234,7 +286,7 @@ const Dashboard = () => {
                       Prioridad Media
                     </Heading>
                     <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {/*renderStudies(mediumPriorityStudies, mediumPriorityColor)*/}
+                      {/*renderStudies(mediumPriorityStudies, mediumPriorityColor)
                     </Grid>
                   </Box>
                 </SimpleGrid>
@@ -249,7 +301,7 @@ const Dashboard = () => {
                       Prioridad Baja
                     </Heading>
                     <Grid gap={"20px"} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(1,1fr)" }}>
-                      {/*renderStudies(lowPriorityStudies, lowPriorityColor)*/}
+                      {/*renderStudies(lowPriorityStudies, lowPriorityColor)
                     </Grid>
                   </Box>
                 </SimpleGrid>
@@ -262,7 +314,7 @@ const Dashboard = () => {
               color='#ffff'
               onClick={toggleModalList}
             >
-              Ver más</Button>
+              Ver más</Button>*/}
           </Box>
         </Box>
        <Modal

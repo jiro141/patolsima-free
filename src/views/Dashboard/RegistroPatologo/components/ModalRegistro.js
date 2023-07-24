@@ -17,11 +17,16 @@ import GeneralButton from "components/widgets/Buttons/GeneralButton";
 import { useMuestraDetail } from "hooks/MuestrasPatologo/useMuestraDetail";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { formatDate } from "helpers";
+import { lastInformes } from "api/controllers/informes";
+import { completeInforme } from "api/controllers/informes";
 //import { putInformes } from "api/controllers/informes";
 
 const ModalRegistro = ({ study, close }) => {
     const [studiesDetail, setStudiesDetail] = useState()
   const {detailMuestra,getMuestraDetail,loading,error} = useMuestraDetail({studyId:study.id})
+  const [historyMap, setHistoryMap] = useState([]);
+
    /* const StudiesDetailGet = async () => {
         try {
             const estudiosDetail = await getStudiesDetail(study.id)
@@ -35,15 +40,29 @@ const ModalRegistro = ({ study, close }) => {
         StudiesDetailGet();
     }, []);*/
     useEffect(() => {
-      const res=  getMuestraDetail()
-      console.log(res)
+     getMuestraDetail()
+      
     }, [])
     
+    useEffect(() => {
+        const historyInformes=async()=>{
+            if(detailMuestra){
+                const res= await lastInformes(detailMuestra?.paciente?.id)
+                setHistoryMap(res);
+            }
+        
+        }
+        historyInformes()
+      return () => {
 
+      }
+    }, [])
+
+    console.log(detailMuestra.notas);
     const formik = useFormik({
         initialValues: {
             //estudio: study.id,
-            notas: null,
+            notas: detailMuestra.notas,
             descripcion_macroscopica:null,
             descripcion_microscopica:null,
             diagnostico:null,
@@ -77,6 +96,16 @@ const ModalRegistro = ({ study, close }) => {
             return;
         },
     });
+
+    const handleProcesar=async()=>{
+        const res= await completeInforme(detailMuestra?.id)
+        console.log(res);
+        if(res){
+            window.location.reload();
+           // setShowModalGeneral(false)
+        
+        }
+    }
     //const fechaHora = studiesDetail?.created_at;
    // const fecha = fechaHora ? fechaHora.split("T")[0] : "";
    //console.log(detailMuestra)
@@ -104,7 +133,7 @@ const ModalRegistro = ({ study, close }) => {
                     <Box margin={'10px'}>
                         <Text fontSize={'17px'}>Fecha</Text>
                         <Badge>
-                        <Text >07/03/1198</Text>
+                        <Text >{detailMuestra ? '07/03/1998' : ''}</Text>
                         </Badge>
                         
                     </Box>
@@ -174,18 +203,16 @@ const ModalRegistro = ({ study, close }) => {
                
             </Grid>
             <Grid margin={'30px 10px 20px 10px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
-                <Select color="gray.400" defaultValue="Informes anteriores">
-                    <option hidden >Informes anteriores</option>
-                    {/*studiesDetail ? (
-                        studiesDetail.muestras.map((muestra, index) => (
-                            <option key={index} value={muestra}>
-                                {muestra}
-                            </option>
-                        ))
-                    ) : (
-                        <option disabled>Loading...</option>
-                    )*/}
-                </Select>
+            <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
+                            <option hidden colorScheme="gray.400">Informes anteriores</option>
+                            {historyMap.map((estudio, index) => (
+        <option key={index} value={estudio.estudio_id}>
+          {estudio.estudio_tipo} - {estudio.estudio_codigo}
+        </option>
+      ))}
+                            { /*<option value=""></option>
+                            <option value=""></option>*/}
+                        </Select>
                 <Select color="gray.400" defaultValue="Informes anteriores">
                     <option hidden>Anexos</option>
                     {/*studiesDetail ? (
@@ -198,19 +225,20 @@ const ModalRegistro = ({ study, close }) => {
                         <option disabled>Loading...</option>
                     )*/}
                 </Select>
-                <Input
-                    placeholder='Notas'
+              {detailMuestra && <Input
+                    //placeholder='Notas'
                     type="text"
                     name="notas"
-                    value={formik.values.notas}
+                    value={detailMuestra?.notas}
                     onChange={(e) =>
                         formik.setFieldValue("notas", e.target.value)
                       }
                     //value={studiesDetail?.notas}
-                />
+                />}
+               
             </Grid>
             <Box display={'flex'} justifyContent={'flex-end'} my={'-27px'}>
-            <GeneralButton  text='Procesar' handleClick={formik.handleSubmit} />
+            <GeneralButton  text='Procesar' handleClick={handleProcesar} />
             </Box>
            
            </>}

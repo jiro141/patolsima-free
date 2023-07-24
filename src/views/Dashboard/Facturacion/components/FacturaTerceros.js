@@ -15,17 +15,18 @@ import { postFacturaTerceros } from "api/controllers/facturas";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainContext from "context/mainContext/MainContext";
+import { putClientFactura } from "api/controllers/facturas";
 
 const FacturaTerceros = ({ study, setShowModal }) => {
   const { setfactClientTerceros } = useContext(MainContext)
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: study?.cliente?.email,
       direccion: '',
       telefono_fijo: null,
-      telefono_celular: "",
-      razon_social: "",
-      ci_rif: ""
+      telefono_celular: study?.cliente?.telefono_celular,
+      razon_social: study?.cliente?.razon_social,
+      ci_rif: study?.cliente?.ci_rif
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Ingrese un correo electrónico válido').required('El campo es obligatorio'),
@@ -37,14 +38,16 @@ const FacturaTerceros = ({ study, setShowModal }) => {
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       try {
-        const resPost = await postFacturaTerceros(formData)
+        const resPost = await putClientFactura(study?.cliente?.id,formData)
         if (resPost) {
           setfactClientTerceros(resPost)
           //console.log(resPost)
           toast.success("¡Se creo la factura correctamente!", {
             autoClose: 1000,
           });
+
           setShowModal(false)
+          window.location.reload();
         }
       } catch (error) {
         toast.success("¡Ocurrio un error para crear la factura!", {
@@ -56,7 +59,7 @@ const FacturaTerceros = ({ study, setShowModal }) => {
     },
   });
 
-
+console.log(study)
   return (
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
