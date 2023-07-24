@@ -72,7 +72,7 @@ const FacturaTerceros = ({ study, setShowModal }) => {
            // window.location.reload();
           }
         } catch (error) {
-          toast.error("¡Ocurrio un error para actualizar el cliente de la factura!", {
+          toast.error("¡Ocurrio un error para crear el cliente de la factura!", {
             autoClose: 1000,
           });
         }
@@ -113,9 +113,7 @@ const FacturaTerceros = ({ study, setShowModal }) => {
      return () => { }
    }, [])
 
-   const handleSubmit=async()=>{
-
-   }
+  
 //console.log(study)
   return (
     <Box>

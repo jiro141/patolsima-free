@@ -97,7 +97,7 @@ const Muestra = () => {
           // console.log(estudioPost);
           setStudyData(estudioPost);
           setEstudioID(estudioPost.id);
-
+          setOpenModalSuccess(true)
           // console.log(studyData);
           //setOpenModal(true);
         } else {

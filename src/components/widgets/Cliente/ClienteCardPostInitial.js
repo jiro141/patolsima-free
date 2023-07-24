@@ -118,7 +118,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             toast.error("¡Hubo un error al guardar el paciente!", {
               autoClose: 1000,
             });
-            formik.resetForm()
+           // formik.resetForm()
           }
           getPacients();
         } catch (error) {
@@ -149,7 +149,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             toast.error("¡Hubo un error al guardar el paciente!", {
               autoClose: 1000,
             });
-            formik.resetForm()
+           // formik.resetForm()
           }
           // }
 
@@ -167,7 +167,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   useEffect(() => {
     if (value) {
-      formik.resetForm()
+     // formik.resetForm()
 
     }
   }, [formik.values]);
@@ -278,9 +278,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       console.log(searchci)
       if (searchci === "") {      
         formik.resetForm('')
+        onChange(new Date())
        // setsearchci("");
       
-      }if(searchci.length > 1){
+      }if(searchci.length > 0){
         getPacientsByCi({searchci})
         setSelectSearch(false);
       }
@@ -290,7 +291,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     []
   );
   const resetFormValues = () => {
-    formik.resetForm();
+    //formik.resetForm();
     onChange(formatDate(new Date())); // También reseteamos el valor del calendario
   };
 
@@ -307,12 +308,12 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
  
   useEffect(() => {
     if (formik.values.ci === '') {
-      formik.resetForm('')
+      //formik.resetForm('')
      setOneState('post')
     }
    
     return () => {
-      setsearchci("");
+      //setsearchci("");
     }
   }, [formik.values])
 
