@@ -29,6 +29,8 @@ import { completeInforme } from "api/controllers/informes";
 import { useInformes } from "hooks/Informes/useInformes";
 import { useEffect } from "react";
 import { getInformePreview } from "api/controllers/informes";
+import { lastInformes } from "api/controllers/informes";
+import ModalSendWp from "components/widgets/Modals/ModalSendWp";
 
 
 const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModalGeneral}) => {
@@ -37,6 +39,9 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
     const [showModalDiag, setShowModalDiag] = useState(false);
     const [showModalNotas, setShowModalNotas] = useState(false);
     const [showModalBibli, setShowModalBibli] = useState(false);
+    const [showModalRegister, setShowModalRegister] = useState(false);
+    const [showModalSendWp, setShowModalSendWp] = useState(false);
+    const [historyMap, setHistoryMap] = useState([]);
     const {setInformesCompletados,setInformesNoCompletados,informes,getInformes}=useInformes()
     
    
@@ -57,14 +62,38 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
     const toggleModalB = () => {
         setShowModalBibli(!showModalBibli);
     };
-    
-    const handleSubmitGenerateInfor=async()=>{
-        const res=await completeInforme(detailEstudio.id)
-        if(res){
-            window.location.reload();
-            setShowModalGeneral(false)
+    const toggleModalR= () => {
+        setShowModalRegister(!showModalRegister);
+    };
+    //console.log(informeDetail.paciente.id);
+    useEffect(() => {
+        const historyInformes=async()=>{
+            if(informeDetail){
+                const res= await lastInformes(informeDetail?.paciente?.id)
+                setHistoryMap(res);
+            }
         
         }
+        historyInformes()
+      return () => {
+
+      }
+    }, [])
+    
+    const handleSubmitGenerateInfor=async()=>{
+        if(detailEstudio.envio_digital){
+            setShowModalSendWp(true)
+        }else{
+            const res=await completeInforme(detailEstudio.id)
+            if(res){
+                window.location.reload();
+                setShowModalGeneral(false)
+            
+            }
+
+        }
+
+       
        
     }
     const generarPdf=async()=>{
@@ -75,7 +104,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
    
   
     
-    console.log(detailEstudio)
+    console.log(detailEstudio.envio_digital)
     //tamaños de modal
     const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
     return (
@@ -236,6 +265,11 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
 
                         <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
+                            {historyMap.map((estudio, index) => (
+        <option key={index} value={estudio.estudio_id}>
+          {estudio.estudio_tipo} - {estudio.estudio_codigo}
+        </option>
+      ))}
                             { /*<option value=""></option>
                             <option value=""></option>*/}
                         </Select>
@@ -264,7 +298,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                             w={'80%'}
                             background={'none'}
                             borderRadius={'10px'}
-                            onClick={toggleModal}>Registro de cambios</Button>
+                            onClick={toggleModalR}>Registro de cambios</Button>
 
                         <OutlineBtnModal text={'Descripción microscópica'}
                             handleClick={toggleModal}
@@ -350,6 +384,14 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
             titulo={'Biblografía'} toggleModal={toggleModalB} showModal={showModalBibli} informeDetail={informeDetail} idStudy={detailEstudio.id} type='bibli'
             setShowModalGeneral={setShowModalGeneral}
             />
+
+<ModalCreateNotes
+            setShowModal={setShowModalRegister}
+            titulo={'Registro de cambios'} toggleModal={toggleModalB} showModal={showModalRegister} informeDetail={informeDetail} idStudy={detailEstudio.id} type='register'
+            //setShowModalGeneral={setShowModalGeneral}
+            />
+<ModalSendWp isOpen={showModalSendWp} setOpenModal={setShowModalSendWp} />
+           
         </>
     );
 }

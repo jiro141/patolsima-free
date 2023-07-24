@@ -93,6 +93,17 @@ export const historyInforme= async (id) => {
     }
 }
 
+//informes anteriores
+export const lastInformes= async (id) => {
+
+    try {
+        const response = await Axios.get(`/v1/core/informes/?estudio_paciente_id=${id}`);
+        console.log(response.data);
+         return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const deleteInforme = async () => {
     const token = localStorage.getItem("access");

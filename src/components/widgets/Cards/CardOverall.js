@@ -176,13 +176,12 @@ const renderMuestras = (content, toggleModal, colorA,type) => {
       }}
     >
       <Box
-      width={'210px'}
-        height={"231px"}
-        margin={"5px auto 5px auto"}
-        boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-        borderRadius={"16px"}
-        key={study.id}
-        padding={"0"}
+      width={'185px'}
+      height={"200px"}
+    
+      margin={"20px 0px 20px 13px"}
+      boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
+      borderRadius={"16px"}
       >
         <Box
           borderTopLeftRadius={"16px"}
@@ -533,40 +532,46 @@ export function CardOverall_Muestra({
     </Heading>*/}
      <Title title={content.length === 0 ? " " : title} />
      <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
-      <Box
-      ref={containerRef}
-      width={"100%"}
-      m={"20px 30px 30px 20px"}
-      backgroundColor={"#FFFF"}
+     <Box 
       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-      //py={'25px'}
-     px={'10px'}
-      py={"25px"}
+      backgroundColor={"#FFFF"} 
       borderRadius="20px"
-      minH={"300px"}
-      maxH={"300px"}
-      overflowY="auto"
-      overflowX="auto"
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      border="1px solid #ccc"
-      sx={{
-              "&::-webkit-scrollbar": {
-                width: "6px",
-                height:"6px",
-                borderRadius: "8px",
-                backgroundColor: "#f5f5f5",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: "#888",
-                borderRadius: "5px",
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                background: "#555",
-              },
-            }}
+      mt={'25px'}
+       mb={'20px'}
+       p={'6px'}
+      
+      > 
+      <Box
+        ref={containerRef}
+        width={"100%"}
+        height={'auto'}
+       px={'15px'}
+       py={"25px"}
+        borderRadius="20px"
+        minH={"280px"}
+        maxH={"280px"}
+        overflowY="auto"
+        overflowX="auto"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+       // border="1px solid #ccc"
+        sx={{
+         "&::-webkit-scrollbar": {
+           width: "6px",
+           height:"6px",
+           borderRadius: "8px",
+           backgroundColor: "#f5f5f5",
+         },
+         "&::-webkit-scrollbar-thumb": {
+           background: "#888",
+           borderRadius: "5px",
+         },
+         "&::-webkit-scrollbar-thumb:hover": {
+           background: "#555",
+         },
+       }}
 >
         <Box padding={{ lg: "0px", md: "0px", sm: "0%" }}>
           {loading ? (
@@ -600,6 +605,8 @@ export function CardOverall_Muestra({
           )}
         </Box>
       </Box>
+      </Box>
+      
     </div>
   );
 }

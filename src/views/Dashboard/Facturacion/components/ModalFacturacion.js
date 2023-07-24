@@ -211,12 +211,13 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
 
     const handleArchivar = async () => {
-        const resSendArchived = await postArchivar(study.id)
+       if(study){
+        const resSendArchived = await postArchivar(study?.id)
         if (resSendArchived) {
             toast.success("¡Se archivo la factura correctamente!", {
                 autoClose: 1000,
             });
-            handleArchivarConfirmFacts(facturasDetail.id)
+            handleArchivarConfirmFacts(facturasDetail?.id)
             //setSearchFacturas(informeList.filter((item) => item.completado === true));
             setShowModalG(false)
             setArchived(true)
@@ -225,6 +226,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 autoClose: 1000,
             });
         }
+       }
         //console.log(resSendArchived)
     }
 
@@ -232,10 +234,10 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         setfactClientTerceros(null)
     }, [])
 
-    console.log(facturasDetail)
-    console.log(studyDetail)
-    console.log('factClientTerceros->')
-    console.log(factClientTerceros);
+   // console.log(facturasDetail)
+   // console.log(studyDetail)
+   // console.log('factClientTerceros->')
+    //console.log(factClientTerceros);
     return (
         <>
             {loadingDetailFact ?
@@ -244,7 +246,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         <Text margin={'5px'} color={'gray.900'} fontSize={'20px'} >Datos de factura</Text>
                         <Text margin={'18px'} textAlign={{ lg: 'right', sm: 'left' }} color={'gray.500'} fontSize={'20px'} >
 
-                            Número de Orden:
+                            Número de Orden { facturasDetail && facturasDetail?.id}
                             {/* {`${newId}`} */}
 
                         </Text>
@@ -388,7 +390,9 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                     </Grid>
 
 
-                    <Button
+                 {facturasDetail && facturasDetail.pagada ?
+                 <></> :
+                 <Button
                         marginTop={'15px'}
                         marginBottom={'10px'}
                         // marginLeft={{ lg: '70%', md: '60%', sm: '40%' }}
@@ -397,7 +401,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         color='#ffff'
                         onClick={() => toggleModal(study)}>
                         Factura para un tercero
-                    </Button>
+                    </Button>}
 
                     <Separator></Separator>
                     <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>
@@ -693,7 +697,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 </ModalContent>
             </Modal>
 
-            <AddAbonarModal openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={'facturasDetail?.id'} setPdfContent={setPdfContentNotaPago} />
+            <AddAbonarModal openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={facturasDetail?.id} setPdfContent={setPdfContentNotaPago} />
 
 
         </>

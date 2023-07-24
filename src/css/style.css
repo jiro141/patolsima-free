@@ -258,3 +258,21 @@
       gap: 0.5px;
     }
   }
+
+  .chakra-input-style {
+    border: 1px solid #cbd5e0;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 16px;
+    color: #2d3748;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    outline: none;
+  
+    /* Puedes agregar más estilos según tus necesidades */
+  }
+  
+  .chakra-input-style:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+  }

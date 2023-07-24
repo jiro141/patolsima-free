@@ -74,7 +74,7 @@ const Dashboard = () => {
     <>
       <Box 
       margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 0px 0px' }}
-border={'1px solid'}
+
         padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
         backgroundColor={'gray.100'}
         borderRadius={'20px'}

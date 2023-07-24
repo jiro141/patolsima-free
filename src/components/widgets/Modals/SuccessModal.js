@@ -25,9 +25,9 @@ export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,co
   const handleConfirmClose = () => {
     setOpenModal(false);
     window.location.reload();
-    if (activeTab !== 3) {
+   /* if (activeTab !== 3) {
       setConfirm(true);
-    }
+    }*/
   };
   const handleClose = () => {
     if (type === 'muestra2') {
