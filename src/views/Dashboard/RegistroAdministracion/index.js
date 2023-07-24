@@ -93,9 +93,9 @@ function Registro() {
           color={isActive ? "#137798" : "transpared"}
           borderRadius={isActive ? "40px" : "45%"}
           padding={
-            isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "15px" }
+            isActive ? { sm: "5px 80px", lg: "20px 220px" } : { lg: "25px" }
           }
-          fontSize={isActive ? "20px" : "30px"}
+          fontSize={isActive ? "19px" : "30px"}
           width="50px"
           height="50px"
           whileHover={{ scale: 1.1 }}

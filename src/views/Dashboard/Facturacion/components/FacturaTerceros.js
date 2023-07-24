@@ -1,4 +1,4 @@
-import { React, useContext, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -16,17 +16,22 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainContext from "context/mainContext/MainContext";
 import { putClientFactura } from "api/controllers/facturas";
+import { getOrdenesByCi } from "api/controllers/facturas";
+import { getFacturasDetail } from "api/controllers/facturas";
 
 const FacturaTerceros = ({ study, setShowModal }) => {
   const { setfactClientTerceros } = useContext(MainContext)
+  const [searchResult, setsearchResult] = useState(false)
+
+  
   const formik = useFormik({
     initialValues: {
-      email: study?.cliente?.email,
+      email: '',
       direccion: '',
       telefono_fijo: null,
-      telefono_celular: study?.cliente?.telefono_celular,
-      razon_social: study?.cliente?.razon_social,
-      ci_rif: study?.cliente?.ci_rif
+      telefono_celular: '',
+      razon_social: '',
+      ci_rif: ''
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Ingrese un correo electrónico válido').required('El campo es obligatorio'),
@@ -37,29 +42,81 @@ const FacturaTerceros = ({ study, setShowModal }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      try {
-        const resPost = await putClientFactura(study?.cliente?.id,formData)
-        if (resPost) {
-          setfactClientTerceros(resPost)
-          //console.log(resPost)
-          toast.success("¡Se creo la factura correctamente!", {
+      if(searchResult){
+        try {
+          const resPost = await putClientFactura(study?.cliente?.id,formData)
+          if (resPost) {
+            setfactClientTerceros(resPost)
+            //console.log(resPost)
+            toast.success("¡Se actualizo el cliente con exito en la factura!", {
+              autoClose: 1000,
+            });
+  
+            setShowModal(false)
+           // window.location.reload();
+          }
+        } catch (error) {
+          toast.error("¡Ocurrio un error para actualizar el cliente de la factura!", {
             autoClose: 1000,
           });
-
-          setShowModal(false)
-          window.location.reload();
         }
-      } catch (error) {
-        toast.success("¡Ocurrio un error para crear la factura!", {
-          autoClose: 1000,
-        });
+      }else{
+        try {
+          const resPostClient = await postFacturaTerceros(formData)
+          if (resPostClient) {
+            toast.success("¡Se creo el cliente con exito en la factura!", {
+              autoClose: 1000,
+            });
+  
+            setShowModal(false)
+           // window.location.reload();
+          }
+        } catch (error) {
+          toast.error("¡Ocurrio un error para actualizar el cliente de la factura!", {
+            autoClose: 1000,
+          });
+        }
       }
+     
 
 
     },
   });
 
-console.log(study)
+  useEffect(() => {
+    if(study){
+   const searchByCi=async()=>{
+   const res= await getOrdenesByCi(study?.cliente?.ci_rif)
+   if(res){
+     //setsearchResult(res[0].cliente)
+    
+     console.log(res[0].cliente);
+     const resDetail = await getFacturasDetail(res[0].id)
+     console.log(resDetail);
+    formik.setValues({
+      ci_rif: resDetail.cliente.ci_rif,
+      direccion:resDetail.cliente.direccion,
+      razon_social: resDetail.cliente.razon_social,
+      telefono_celular:resDetail.cliente.telefono_celular,
+      telefono_fijo:resDetail.cliente.telefono_fijo,
+      email:resDetail?.cliente?.email,
+    })
+    setsearchResult(true)
+     //console.log('ya existe la ci');
+   }else{
+    setsearchResult(false)
+   }
+   
+   }
+   searchByCi()
+    }
+     return () => { }
+   }, [])
+
+   const handleSubmit=async()=>{
+
+   }
+//console.log(study)
   return (
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
@@ -67,6 +124,7 @@ console.log(study)
 
         <InputOverall
           placeholder='CI/RIF'
+          defaultValue={'searchResult?.ci_rif'}
           name={'ci_rif'}
           value={formik.values.ci_rif}
           onChange={e => formik.setFieldValue('ci_rif', e.target.value)}
@@ -86,12 +144,14 @@ console.log(study)
         <InputOverall
           placeholder='Telefono Celular'
           name={'telefono_celular'}
+          defaultValue={searchResult.telefono_celular}
           value={formik.values.telefono_celular}
           onChange={e => formik.setFieldValue('telefono_celular', e.target.value)}
           errors={formik.errors.telefono_celular}
         />
         <InputOverall
           placeholder='Telefono Fijo'
+          defaultValue={searchResult.telefono_fijo}
           name={'telefono_fijo'}
           value={formik.values.telefono_fijo}
           onChange={e => formik.setFieldValue('telefono_fijo', e.target.value)}

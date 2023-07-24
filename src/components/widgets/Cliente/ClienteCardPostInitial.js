@@ -26,6 +26,7 @@ import { formatDate } from "helpers";
 import InputCalendar from "../Inputs/InputCalendar";
 import { putPacientes } from "api/controllers/pacientes";
 import { NextStation } from "../Buttons/NextStation";
+import { getPacientesListByCi } from "api/controllers/pacientes";
 
 const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
@@ -65,7 +66,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   } = usePacientsListCi({ searchci });
 
   const formik = useFormik({
-    initialValues: {
+  initialValues: {
       ci: "",
       nombres: "",
       apellidos: "",
@@ -130,15 +131,14 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           ...formData,
           fecha_nacimiento: dateNew,
         }
-        const id = {
-          id: formData.id || pacientsByCi[0].id
-        }
+       
         try {
           // if (pacientsByCi) {
-          const pacientePost = await putPacientes(id, Obj);
+          const pacientePut = await putPacientes(formData.id || pacientsByCi[0].id, Obj);
           setFormValues(Obj, 'paciente');
-          setPacienteID(pacientePost.id);
-          if (pacientePost) {
+          console.log(pacientePut);
+          setPacienteID(pacientePut.id);
+          if (pacientePut) {
             toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
@@ -191,6 +191,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         telefono_celular:data.telefono_celular
 
       })
+      onChange(data.fecha_nacimiento)
       setSelectSearch(true);
       setOneState('put')
     }
@@ -274,18 +275,17 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   };
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
-      if (searchci === "") {
-        formik.setFieldValue("nombres", "");
-        formik.setFieldValue("apellidos", "");
-        formik.setFieldValue("email", "");
-        formik.setFieldValue("telefono_celular", "");
-        formik.setFieldValue("direccion","");
-        Formik.setFieldValue("sexo","");
-        setsearchci("");
-        //formik.resetForm('')
-        return;
+      console.log(searchci)
+      if (searchci === "") {      
+        formik.resetForm('')
+       // setsearchci("");
+      
+      }if(searchci.length > 1){
+        getPacientsByCi({searchci})
+        setSelectSearch(false);
       }
-      getPacientsByCi({ searchci });
+     // setSelectSearch(false);
+     
     }, 500),
     []
   );
@@ -299,20 +299,20 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
-
+  
+  
 
   };
 
+ 
   useEffect(() => {
     if (formik.values.ci === '') {
-      setOneState('post')
+      formik.resetForm('')
+     setOneState('post')
     }
-    if (formik.values.ci === '' && oneState == 'post') {
-      // formik.setFieldValue("nombres", "");  
-    }
-    console.log(formik.values)
+   
     return () => {
-
+      setsearchci("");
     }
   }, [formik.values])
 
@@ -326,7 +326,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       borderRadius="20px"
       m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
     >
-      <NextStation />
+     
       {
         <form>
           <Text
@@ -483,9 +483,14 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         eliminar={eliminarPaciente}
         nombres={pacienteName}
       />
-      <Box marginTop={'10px'} display={'flex'} alignItems={'end'} justifyContent={'space-between'}>
+      <Box  marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+       
         <ShowMoreButton handleClick={toggleModal} />
+        
         <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
+       
+       
+      {  <NextStation />}
       </Box>
 
 

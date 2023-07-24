@@ -69,7 +69,6 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     );
     const getStudyDetail = async () => {
         try {
-
             const study = await getStudiesDetail(itemOrden);
             setStudyDetail(study);
         } catch (error) {
@@ -81,34 +80,25 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     useEffect(() => {
         setAbonarSend(false)
         getFacturasDetails()
-
         return () => { setAbonarSend(false) }
     }, [])
     useEffect(() => {
         if(abonarSend){
             getFacturasDetails()
         }
-       
-
         return () => { }
     }, [abonarSend])
     //
-
+    useEffect(() => {
+        getStudyDetail()
+        return () => { }
+    }, [itemOrden])
     useEffect(() => {
         getStudyDetail()
         return () => { }
     }, [abonarSend])
 
 
-console.log(facturasDetail);
-
-    /*  useEffect(() => {
-        if(facturasDetail){
-            getStudyDetail()  
-        }
-         
-      return () => {  }
-    }, [])*/
 
 
     console.log(itemOrden)
@@ -316,7 +306,7 @@ console.log(facturasDetail);
                                     </Text> : null
 
                                 }
-                            </Box>
+                        </Box>
                         </Box>
                         <Box>
                             <Box margin={'5px'}>

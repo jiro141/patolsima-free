@@ -10,6 +10,8 @@ import {
   FormControl,
   Button,
   FormLabel,
+  CloseButton,
+  ModalHeader,
 } from "@chakra-ui/react";
 import GeneralButton from "../Buttons/GeneralButton";
 import { useContext } from "react";
@@ -20,11 +22,17 @@ export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,co
   const {
     activeTab,
     setActiveTab,
+    ordenId,
   } = useContext(MainContext);
 
   const handleConfirmClose = () => {
+    console.log(ordenId);
     setOpenModal(false);
-    window.location.reload();
+     const param1 = ordenId.toString();
+    const url = `/admin/Facturacion`;
+
+    window.location.href = url
+    //window.location.reload();
    /* if (activeTab !== 3) {
       setConfirm(true);
     }*/
@@ -44,9 +52,24 @@ export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,co
       isOpen={isOpen}
     >
       <ModalOverlay />
-      <ModalContent padding={'10px'} marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
+      <ModalContent padding={'5px'} marginTop={"10%"} bg="#ffff" borderRadius={"20px"}>
+      <ModalHeader>
+            <Button
+              borderRadius={"50%"}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={"95%"}
+              marginTop={"-60px"}
+              bgColor={"#137797"}
+              color="#ffff"
+              onClick={()=>setOpenModal(false)}
+            >
+              <CloseButton />
+            </Button>
+          </ModalHeader>
         <ModalBody>
-          <Box width={'auto'} marginTop={"20px"} flexDirection={'column'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+          <Box width={'auto'} marginTop={"0px"} flexDirection={'column'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
             <Text fontSize={'20px'} textAlign={"center"}>{`¡Registro completado con exito!`}</Text>
             <div style={{ alignItems: 'center', marginTop: '20px' }}>
               <BsFillCheckCircleFill color="#137797" size={'50px'} />
@@ -60,7 +83,7 @@ export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,co
                   handleClick={handleClose}
                 />
               )}
-              <GeneralButton text="Salir de registro" handleClick={handleConfirmClose} />
+              <GeneralButton text="Ir a Facturación" handleClick={handleConfirmClose} />
             </Grid>
           </Box>
         </ModalBody>

@@ -40,7 +40,7 @@ import FilteredDataModal from "../Modals/FilteredDataModal";
 import { thValuesMedicos } from "mocks";
 import MainContext from "context/mainContext/MainContext";
 import { putMedicos } from "api/controllers/medicos";
-import { NextStation } from "../Buttons/NextStation";
+import { BackStation, NextStation } from "../Buttons/NextStation";
 import { useMedicos } from "hooks/Medicos/useMedicos";
 
 // iconname-->BsArrowRightCircle 
@@ -83,12 +83,7 @@ const MedicoCardPostInitial = ({
       nombres: Yup.string().required("Los nombres son obligatorios"),
       apellidos: Yup.string().required("Los apellidos son obligatorios"),
       especialidad: Yup.string().required("Los apellidos son obligatorios"),
-      //ci: Yup.string().required("La cedula es obligatoria"),
-      // telefono_celular: Yup.string().required("el telefono es obligatorio"),
-      // direccion: Yup.string().required("La direccion es obligatoria"),
-      // sexo: Yup.string().required("el sexo es obligatorio"),
-      // email: Yup.string().email("direccion de correo no valida")
-      // .required("el correo es obligatorio"),
+       email: Yup.string().email("Correo electrónico invalido")
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
@@ -235,7 +230,7 @@ const MedicoCardPostInitial = ({
       borderRadius="20px"
       m={"1% 13% 5% 13%"}
     >
-      <NextStation />
+      
       <form>
         <Text fontSize={"20px"} margin="15px auto 30px auto" color={"gray.600"}>
           Información Personal
@@ -302,10 +297,15 @@ const MedicoCardPostInitial = ({
         </Grid>
       </form>
 
-      <Box marginTop={'10px'} display={'flex'} alignItems={'end'} justifyContent={'space-between'}>
-        <ShowMoreButton handleClick={toggleModal} />
+      <Box marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+        
 
-        <FilteredDataModal
+       <BackStation />
+       <ShowMoreButton handleClick={toggleModal} />
+        <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
+        <NextStation  errors={formik.values.email} />
+      </Box>
+      <FilteredDataModal
           type={"medics"}
           isOpenModal={mostrarModal}
           isToggleModal={toggleModal}
@@ -317,9 +317,6 @@ const MedicoCardPostInitial = ({
           loading={loading}
           handleBusquedaChange={handleBusquedaChange}
         />
-
-        <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
-      </Box>
 
       <DeleteModal
         isOpen={showModalConfirmacion}

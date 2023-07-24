@@ -43,8 +43,19 @@ export const postOrdenes= async (data) => {
     console.log(data);
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/`,data)
-        console.log(response);
+        console.log(response.data);
          return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//search ci for terceros
+export const getOrdenesByCi= async (ci) => {
+    try {
+        const response = await Axios.get(`/v1/facturacion/ordenes/?ci=${ci}`)
+        //console.log(response.data);
+         return response.data.results;
     } catch (error) {
         console.log(error);
     }
@@ -52,8 +63,7 @@ export const postOrdenes= async (data) => {
 
 //factura a terceros
 export const putFacturaTerceros= async (id,data) => {
-    console.log(data, "data de factura a tercero");
-    console.log(id,"id de el cliente");
+
     try {
         const response = await Axios.put(`/v1/facturacion/clientes/${id}/`,data)
          return response.data;

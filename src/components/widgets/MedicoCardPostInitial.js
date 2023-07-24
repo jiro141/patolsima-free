@@ -23,6 +23,7 @@ import * as Yup from 'yup';
 import { postMedicos } from 'api/controllers/medicos';
 import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Confirmacion';
 import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
+import SaveButton from './Buttons/SaveButton';
 
 const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro }) => {
     const { setFormValues, setMedicoID } = useContext(ModoVisualizacionContext);
@@ -205,7 +206,7 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                     </FormControl>
                 </Grid>
             </form>
-            <Button
+          {/*  <Button
                 borderRadius={'20px'}
                 padding={'10px 60px'}
                 marginTop='20px'
@@ -213,7 +214,7 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                 bgColor={'#89bbcc'}
                 color='#ffff'
                 onClick={toggleModal}>
-                Ver más</Button>
+                Ver más</Button>*/}
             <Modal
                 size={'4xl'}
                 maxWidth='100%'
@@ -324,7 +325,8 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            <Button
+            <SaveButton handleSubmit={formik.handleSubmit} />
+          {/*  <Button
                 type='submit'
                 marginLeft={{ lg: '35em', md: '80%', sm: '30%' }}
                 marginBottom={{ lg: '-4.5em', md: '-5%', sm: '-20%' }}
@@ -334,7 +336,7 @@ const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro })
                 onClick={formik.handleSubmit}
             >
                 Guardar
-            </Button>
+            </Button>*/}
             <Modal
                 size={"xs"}
                 maxWidth='100%'

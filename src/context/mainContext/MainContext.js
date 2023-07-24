@@ -40,6 +40,8 @@ export function MainContextProvider({ children }) {
   const [enableInfoModalDetails, setEnableInfoModalDetails] = useState(false);
   const [idSelectId, setidSelectId] = useState([]);
 
+  const [ordenId, setOrdenId] = useState('');
+
 
   useEffect(() => {
 
@@ -92,7 +94,8 @@ export function MainContextProvider({ children }) {
         idSelectItem, setidSelectItem,
         enablefactModalDetails, setEnablefactModalDetails,
         enableInfoModalDetails, setEnableInfoModalDetails,
-        idSelectId, setidSelectId
+        idSelectId, setidSelectId,
+        ordenId, setOrdenId
       }}
     >
       {children}
