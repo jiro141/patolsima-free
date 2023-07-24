@@ -20,16 +20,12 @@ export function useInformes() {
       setloading(true);
       seterror(null);
       const informeList = await getListInforme();
-     
-     
       setInformes(informeList);  
       setfilteredInforme(informeList)
-
       const completados = informeList.filter((item) => item.completado === true);
-      setInformesCompletados(completados)
-      
+      setInformesCompletados(completados);
       const Nocompletados = informeList.filter((item) => item.completado === false);
-      setInformesNoCompletados(Nocompletados)
+      setInformesNoCompletados(Nocompletados);
    
      // console.log(facturasList);
     } catch (error) {
@@ -38,7 +34,7 @@ export function useInformes() {
       setloading(false);
     }
   }, []);
-
+  console.log(informesCompletados);
  /* const getCambios = useCallback(async () => {
     try {
       setloadingCambio(true);

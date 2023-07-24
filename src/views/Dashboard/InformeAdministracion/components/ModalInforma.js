@@ -34,6 +34,7 @@ import ModalSendWp from "components/widgets/Modals/ModalSendWp";
 
 
 const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModalGeneral}) => {
+    console.log(detailEstudio);
     const [showModal, setShowModal] = useState(false);
     const [showModalMacro, setShowModalMacro] = useState(false);
     const [showModalDiag, setShowModalDiag] = useState(false);
