@@ -449,9 +449,28 @@ const SidebarContent = ({ logoText, routes }) => {
             </Box>
           </Box>
         </Box>
+        <Box boxSize="initial"
+          justifyContent="flex-start"
+          alignItems="center"
+          bg={'#137797'}
+          my={{
+            xl: "5px",
+          }}
+          mx={{
+            xl: "auto",
+          }}
+          ps={{
+            sm: "10px",
+            xl: "16px",
+          }}
+          py="8px"
+          borderRadius="15px"
+          w="100%">
+          <Text fontWeight={'bold'} my="auto" fontSize="md" color={'#FFFF'}>BCV: {cambioDelDia}</Text>
+        </Box>
       </Box>
       {loading ? (
-        <Box margin={"50px 0 20px 0"}>
+        <Box margin={"80px 0 20px 0"}>
           <Separator></Separator>
           <div className="centerLoader">
             <CircularProgress value={20} size="30px" color="#137797" />
@@ -460,7 +479,7 @@ const SidebarContent = ({ logoText, routes }) => {
       ) : (
         <>
           <Box pt={"10px"} mb="5px">
-            <Box margin={"50px 0 20px 0"}>
+            <Box margin={"100px 0 20px 0"}>
               <Separator></Separator>
               <Text marginTop={"10px"} marginLeft={"13px"}>
                 {arrGroup === "administracion"
@@ -479,25 +498,6 @@ const SidebarContent = ({ logoText, routes }) => {
                   ? linksAdmin
                   : linksAll}
               <Separator></Separator>
-              <Box boxSize="initial"
-                justifyContent="flex-start"
-                alignItems="center"
-                bg={activeBg}
-                my={{
-                  xl: "5px",
-                }}
-                mx={{
-                  xl: "auto",
-                }}
-                ps={{
-                  sm: "10px",
-                  xl: "16px",
-                }}
-                py="8px"
-                borderRadius="15px"
-                w="100%">
-                <Text fontWeight={'bold'} my="auto" fontSize="md" color={activeColor}>BCV: {cambioDelDia}</Text>
-              </Box>
             </Box>
           </Stack>
         </>
