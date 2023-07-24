@@ -32,12 +32,14 @@ export default function AddAbonarModal({
   facturasDetail,
   setOpenModalPago,
   openModalPago,
-  setPdfContent
+  setPdfContent,
+  setAbonarSend
 }) {
   const [valueInput, setvalueInput] = useState([]);
   const [idPago, setIdPago] = useState('');
 
   const handleSubmit = async () => {
+   // 
     const newObj = {
       orden: facturasDetail.id,
       monto_usd: valueInput,
@@ -51,9 +53,11 @@ export default function AddAbonarModal({
           autoClose: 1000,
         });
         setIdPago(sendAbonar.id)
-        //onPagoIdChange(pacientePut);
+       
         setShowModal(false);
         setOpenModalPago(true)
+        setAbonarSend(true)
+        //getStudyDetail()
       } else {
         toast.error("¡Hubo un error al abonar la factura!", {
           autoClose: 1000,
