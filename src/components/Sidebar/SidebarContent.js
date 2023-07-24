@@ -22,8 +22,13 @@ import { Calendario } from "components/Sidebar/Calendario";
 import { useGroups } from "hooks/Groups/useGroups";
 import { useEffect } from "react";
 import "../../../src/css/style.css";
+import CardCambio from "components/widgets/Cards/CardCambio";
+import { useFacturas } from "hooks/Facturas/useFacturas";
 
 const SidebarContent = ({ logoText, routes }) => {
+  const {
+    cambioDelDia,
+  } = useFacturas();
   const { getGroups, groups, loading } = useGroups();
   useEffect(() => {
     const getUsersGroups = async () => {
@@ -41,6 +46,7 @@ const SidebarContent = ({ logoText, routes }) => {
     (route) => route.groupName === "patologia"
   );
   let location = useLocation();
+  console.log(cambioDelDia);
 
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
@@ -472,7 +478,7 @@ const SidebarContent = ({ logoText, routes }) => {
           </Stack>
         </>
       )}
-
+      <CardCambio cambioDelDia={cambioDelDia} />
       <Calendario />
     </Box>
   );

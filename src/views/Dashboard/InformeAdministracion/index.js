@@ -39,16 +39,16 @@ import { getStudiesDetail } from "api/controllers/estudios";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const {   hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
-    const {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error,setInformes}=useInformes()
-    
-    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+  const { hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
+  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes } = useInformes()
 
-    const [Busqueda, setBusqueda] = useState("");
-    const [idInforme, setIdInforme] = useState("");
-    const [detailInforme, setInformeDetail] = useState([]);
-    const [detailEstudio, setdetailEstudio] = useState([]);
-   
+  const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+
+  const [Busqueda, setBusqueda] = useState("");
+  const [idInforme, setIdInforme] = useState("");
+  const [detailInforme, setInformeDetail] = useState([]);
+  const [detailEstudio, setdetailEstudio] = useState([]);
+
   const colorA = '#137797';
 
 
@@ -66,15 +66,15 @@ const Dashboard = () => {
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   useEffect(() => {
     getInformes();
-   
+
   }, []);
- 
-  
+
+
 
   const toggleModalConfirmacion = (paciente) => {
     setShowModalConfirmacion(!showModalConfirmacion);
-   // setPacienteName(paciente.nombres);
-   // setPacienteIdDelete(paciente.id);
+    // setPacienteName(paciente.nombres);
+    // setPacienteIdDelete(paciente.id);
   };
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
@@ -91,15 +91,15 @@ const Dashboard = () => {
           .includes(terminoBusqueda.toLowerCase()) ||
         elemento.estudio_patologo_name
           .toLowerCase()
-          .includes(terminoBusqueda.toLowerCase()) 
-       
+          .includes(terminoBusqueda.toLowerCase())
+
       ) {
         return elemento;
       }
     });
     setInformes(resultadoBusqueda);
   };
- 
+
   const renderStudies = (studies) => {
     return studies.map((study) => (
       <Box>
@@ -172,77 +172,75 @@ const Dashboard = () => {
       </Box>
     ));
   };
-  const handleSelectInforme=async(id)=>{
- const res= await getInformesDetail(id)
+  const handleSelectInforme = async (id) => {
+    const res = await getInformesDetail(id)
     setInformeDetail(res)
     setIdInforme(id)
-    const resStudyDetail= await getStudiesDetail(id)
+    const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudio(resStudyDetail)
   }
-//console.log(informes.estudio)
+  //console.log(informes.estudio)
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-           <Box
-        margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
-        w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
-        height={'auto'}
-        //pb={'50px'}
-        //py={'5px'}
-      // border={'1px'}
-     // pb={'60px'}
-        padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
-        backgroundColor={"gray.100"}
-        borderTopLeftRadius={"20px"}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        overflowY="hidden"
-        overflowX={{ lg: "hidden", sm: "auto" }}
+        <Box
+          margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
+          w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
+          height={'auto'}
+          //pb={'50px'}
+          //py={'5px'}
+          // border={'1px'}
+          // pb={'60px'}
+          padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
+          backgroundColor={"gray.100"}
+          borderTopLeftRadius={"20px"}
+          backgroundSize="cover"
+          backgroundPosition="center"
+          overflowY="hidden"
+          overflowX={{ lg: "hidden", sm: "auto" }}
         // maxH={'40em'}
-      >
-       
+        >
 
-        <Box marginTop={"30px"} width={'100%'}
-        pl={'5px'}>
-          {hiddenInformessort ? (
-            <>
+
+          <Box marginTop={"30px"} width={'100%'}
+            pl={'5px'}>
+            {hiddenInformessort ? (
+              <>
+                <CardOverall_Infor
+                  type='informes'
+                  title={"Infomes sin completar"}
+                  content={informesNoCompletados}
+                  toggleModal={toggleModal}
+                  colorA={colorA}
+                  loading={loading}
+                  handleSelectInforme={handleSelectInforme}
+                />
+
+                <CardOverall_Infor
+                  title={"Infomes Completados"}
+                  content={informesCompletados}
+                  toggleModal={toggleModal}
+                  colorA={colorA}
+                  loading={loading}
+                  handleSelectInforme={handleSelectInforme}
+                  type='informes'
+                />
+              </>
+            ) : (
               <CardOverall_Infor
-              type='informes'
-                title={"Infomes sin completar"}
-                content={informesNoCompletados}
+                title={"Resultados"}
+                content={informes}
                 toggleModal={toggleModal}
                 colorA={colorA}
                 loading={loading}
                 handleSelectInforme={handleSelectInforme}
+                type="search"
               />
+            )}
 
-              <CardOverall_Infor
-                title={"Infomes Completados"}
-                content={informesCompletados}
-                toggleModal={toggleModal}
-                colorA={colorA}
-                loading={loading}
-                handleSelectInforme={handleSelectInforme}
-                type='informes'
-              />
-            </>
-          ) : (
-            <CardOverall_Infor
-              title={"Resultados"}
-              content={informes}
-              toggleModal={toggleModal}
-              colorA={colorA}
-              loading={loading}
-              handleSelectInforme={handleSelectInforme}
-              type="search"
-            />
-          )}
-
-          <ShowMoreButton handleClick={toggleModalList} />
+            <ShowMoreButton handleClick={toggleModalList} />
+          </Box>
         </Box>
-      </Box>
-
-
         <Modal
           size={'3xl'}
           maxWidth='100%'
@@ -265,24 +263,24 @@ const Dashboard = () => {
               </Button>
             </ModalHeader>
             <ModalBody>
-              <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme} 
-              setInformeDetail={setInformeDetail}
-              setShowModalGeneral={setShowModal}
+              <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme}
+                setInformeDetail={setInformeDetail}
+                setShowModalGeneral={setShowModal}
               />
             </ModalBody>
           </ModalContent>
         </Modal>
 
-<FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
- Busqueda={Busqueda}
- //handleSelectTBody={seleccionarRegistro}
- handleSelectIcon={toggleModalConfirmacion}
- loading={loading}
- handleBusquedaChange={handleBusquedaChange}
+        <FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
+          Busqueda={Busqueda}
+          //handleSelectTBody={seleccionarRegistro}
+          handleSelectIcon={toggleModalConfirmacion}
+          loading={loading}
+          handleBusquedaChange={handleBusquedaChange}
 
-/>
+        />
 
-     
+
 
       </>
     ) : (<ModoLista />)

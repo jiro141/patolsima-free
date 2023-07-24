@@ -148,7 +148,7 @@ const Dashboard = () => {
         overflowX={{ lg: "hidden", sm: "auto" }}
         // maxH={'40em'}
       >
-       <CardCambio cambioDelDia={cambioDelDia} />
+       {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
 
         <Box marginTop={"5px"} width={'100%'}
         pl={'5px'}
