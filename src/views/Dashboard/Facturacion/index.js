@@ -37,7 +37,7 @@ const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenFactssort, archived, setArchived,
     idSelectItem, setidSelectItem,
-    enablefactModalDetails, setEnablefactModalDetails
+    enablefactModalDetails, setEnablefactModalDetails,ordenId
   } = useContext(MainContext);
   const colorA = "#137797";
   const [Busqueda, setBusqueda] = useState("");
@@ -141,7 +141,17 @@ const Dashboard = () => {
     //setFacturasConfirmadas(facturasConfirmadas.filter((p) => p.id !== facturaIdDelete))
     setFacturasNoConfirmadas(facturasNoConfirmadas.filter((p) => p.id !== facturaIdDelete))
   }
-  //console.log(idSelectItem)
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);   
+    const param1Value = urlParams.get("param1");  
+    if(param1Value=== 'ordenId'){
+      setShowModal(true)
+    }
+    console.log(param1Value);
+
+  }, []);
+ //console.log(facturasNoConfirmadas)
   return modoVisualizacion === "tarjeta" ? (
     <>
       <Box
@@ -225,7 +235,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={study} abonarSend={abonarSend} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={study || ordenId} abonarSend={abonarSend} />
           </ModalBody>
         </ModalContent>
       </Modal>

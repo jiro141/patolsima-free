@@ -97,9 +97,9 @@ const Muestra = () => {
           // console.log(estudioPost);
           setStudyData(estudioPost);
           setEstudioID(estudioPost.id);
-
+          setOpenModalSuccess(true)
           // console.log(studyData);
-          setOpenModal(true);
+          //setOpenModal(true);
         } else {
           toast.error("¡Hubo un error al crear el estudio!", {
             autoClose: 1000,
@@ -134,19 +134,10 @@ const Muestra = () => {
 
   }, [estudioID])
 
-  console.log('confirmacion', confirm);
-  if (confirm) {
-    useEffect(() => {
-      const sendOrden = async () => {
-        const newOrden = {
-          estudio_ids: [estudioID]
-        };
-        const postOrden = await postOrdenes(newOrden);
-        // console.log(postOrden);
-      };
-      sendOrden();
-    }, [confirm, estudioID]);
-  }
+ // console.log('confirmacion', confirm);
+
+  
+  
 
 
 
@@ -179,7 +170,7 @@ const Muestra = () => {
   };
   return (
     <div style={{ height: "auto" }}>
-      {/* <NextStation /> */}
+      
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
           <Title
@@ -301,11 +292,12 @@ const Muestra = () => {
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {estudioID && <AddMuestraForm muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} />}
-        {finish && <SuccessModal confirm={confirm} setConfirm={setConfirm} isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
+        { estudioID &&  <AddMuestraForm muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} />}
+
+        { <SuccessModal confirm={confirm} setConfirm={setConfirm} isOpen={openModalSuccess} setOpenModal={setOpenModalSuccess} />}
       </form>
 
-      {!estudioID && (
+      {(
         <Box marginTop={'20px'} w={"100%"} textAlign="end">
           <SaveButton handleSubmit={handleSubmit} />
         </Box>

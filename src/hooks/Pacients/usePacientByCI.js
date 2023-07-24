@@ -44,5 +44,6 @@ export function usePacientsListCi({ searchci }) {
     getPacientsByCi,
     errorpacientsByCi,
     loadingpacientsByCi,
+    setpacientsByCi
   };
 }

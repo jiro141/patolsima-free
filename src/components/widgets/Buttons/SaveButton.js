@@ -19,7 +19,7 @@ const SaveButton = ({ handleSubmit, handleFinish, isLoading }) => {
     <Button
       // marginBottom={'-1%'}
       type='button' // Usa 'button' en lugar de 'submit'
-      paddingX={'20px'}
+      paddingX={'60px'}
       borderRadius={'20px'}
       bgColor={'#137797'}
       color='#ffff'

@@ -1,5 +1,5 @@
 import { Box, Grid, Input, Text, Textarea } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useFormik, validateYupSchema } from "formik";
 import { postMuestra } from "api/controllers/estudios";
 import { toast } from "react-toastify";
@@ -14,7 +14,7 @@ import FinishButton from "../Buttons/FinishButton";
 import { Title, subTitleBold, Titlelight } from "../Texts";
 
 export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish }) {
-  const { estudioId2, estudioID, setMuestraID, muestraID } = useContext(
+  const { estudioId2, estudioID, setMuestraID, muestraID,setOrdenId,setEstudioID } = useContext(
     ModoVisualizacionContext
   );
 
@@ -26,9 +26,9 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
     },
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      if (muestraID) {
-        formik.resetForm();
-      }
+      if(muestraID){
+        formik.resetForm()
+       }
       const newObj = {
         estudio: estudioID || estudioId2,
         ...formData,
@@ -38,17 +38,19 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
         if (muestraPost) {
           console.log(muestraPost);
           setMuestraID(muestraPost.id);
-          toast.success("¡La muestra fue creada con exito!", {
+          setEstudioID(muestraPost.estudio);
+          toast.success("¡La muestra fue guardada con exito!", {
             autoClose: 1000,
           });
-
-          const newOrden = {
+          setOpenModalSuccess(true);
+      /* const newOrden = {
             estudio_ids: [muestraPost.estudio],
           };
           const postOrden = await postOrdenes(newOrden);
           console.log(postOrden);
+         // setOrdenId(postOrden.id);
 
-          setOpenModalSuccess(true);
+          setOpenModalSuccess(true);*/
         } else {
           toast.error("¡Hubo un error al crear la muestra!", {
             autoClose: 1000,
@@ -61,16 +63,38 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
     },
   });
   const handleFinish = () => {
-    console.log('holi');
     if (muestraID) {
 
       setFinish(true);
     }
   };
+  
+  useEffect(() => {
+   if(muestraID){
+    //setOpenModalSuccess(true);
+   }
+    return () => {}
+  }, [muestraID])
 
-
-  console.log(finish);
-  console.log(muestraID);
+  useEffect(() => {
+      
+      
+   console.log('postOrden ->');
+   console.log(estudioID);
+    const sendOrden = async () => {
+      const newOrden = {
+        estudio_ids: [estudioID]
+      };
+      const postOrden = await postOrdenes(newOrden);
+      
+     console.log(postOrden);
+    };
+    sendOrden();
+  
+ 
+}, [ estudioID]);
+  
+  
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
       <Box marginY={'15px'}>
@@ -102,24 +126,20 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
         value={formik.values.notas}
         onChange={(e) => formik.setFieldValue("notas", e.target.value)}
       />
-      {muestraID && (
+      {/**muestraID && */}
+      { (
         <Box w={"100%"} textAlign={"center"}>
           <GeneralButton
-            text={"Agregar otra muestra"}
+            text={"Agregar muestra"}
             handleClick={formik.handleSubmit}
           />
         </Box>
       )}
-      {!finish ?
-        (
-          <Box marginTop={'20px'} w={"100%"} textAlign="end">
-            <SaveButton handleSubmit={formik.handleSubmit} handleFinish={handleFinish} />
-          </Box>
-        ) :
+      {/*
         <Box marginTop={'20px'} w={"100%"} textAlign="end">
           <FinishButton handleSubmit={formik.handleSubmit} />
         </Box>
-      }
+      */}
     </div>
   );
 }

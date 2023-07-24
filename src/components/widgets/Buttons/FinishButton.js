@@ -17,7 +17,7 @@ export default function FinishButton({ handleSubmit, isLoading }) {
       isLoading={isLoading}
       loadingText="Guardando..."
     >
-      Guardar
+      Guardar total
     </Button>
   )
 }

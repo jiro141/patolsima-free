@@ -201,7 +201,7 @@ const MedicoCardPut = ({ twoState, setTwoState, registro, setRegistro }) => {
                 bgColor={'#89bbcc'}
                 color='#ffff'
                 onClick={toggleModal}>
-                Ver más</Button>
+                Ver máds</Button>
             <Modal
                 size={'4xl'}
                 maxWidth='100%'
