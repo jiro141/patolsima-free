@@ -70,7 +70,8 @@ export function useFacturas() {
       setloadingCambio(true);
       seterrorC(null);
       const Cambio = await getCambio();
-      setCambioDelDia(Cambio)
+      console.log(Cambio);
+      setCambioDelDia(Cambio);
     } catch (error) {
       seterrorC(error.message);
     } finally {

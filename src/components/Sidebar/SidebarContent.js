@@ -25,15 +25,23 @@ import "../../../src/css/style.css";
 import CardCambio from "components/widgets/Cards/CardCambio";
 import { useFacturas } from "hooks/Facturas/useFacturas";
 import { useContext } from "react";
+import CardCambioSidebar from "components/widgets/Cards/CardCambioSidebar";
+// CardCambioSidebar
 
 const SidebarContent = ({ logoText, routes }) => {
   const {
+    getCambios,
     cambioDelDia,
   } = useFacturas();
+  console.log(cambioDelDia);
+  // useEffect(() => {
+
+  // }, []);
   const { getGroups, groups, loading } = useGroups();
   useEffect(() => {
     const getUsersGroups = async () => {
       getGroups();
+      getCambios();
     };
     getUsersGroups();
   }, []);
@@ -415,10 +423,15 @@ const SidebarContent = ({ logoText, routes }) => {
   const linksAdmin = <>{createLinksAdmin(routes)}</>;
   const linksPatology = <>{createLinks(routes)}</>;
   const linksAll = <>{createLinksAll(routes)}</>;
+  const activeBg = useColorModeValue("#89bbcc", "gray.700");
+  const inactiveBg = useColorModeValue("transparet");
+  const activeColor = useColorModeValue("#137798", "white");
+  const inactiveColor = useColorModeValue("gray.400", "gray.400");
+  const colorIcon = useColorModeValue("gray.400");
 
   return (
-    <Box maxW={"200px"}>
-      <Box w="100%" h="5px" m=" 5px 10px 150px 10px">
+    <Box marginTop={'-10px'} maxW={"200px"}>
+      <Box w="100%" h="5px" m="-15px 10px 130px 10px">
         <Box w={'70%'} marginRight={'-25px'} display={'flex'} justifyContent={'start'}>
           <Link href="/admin/Home">
             <Image src={Logo} alt="Logo palmosima" />
@@ -444,13 +457,11 @@ const SidebarContent = ({ logoText, routes }) => {
             <CircularProgress value={20} size="30px" color="#137797" />
           </div>
         </Box>
-
       ) : (
         <>
           <Box pt={"10px"} mb="5px">
             <Box margin={"50px 0 20px 0"}>
               <Separator></Separator>
-              <CardCambio cambioDelDia={cambioDelDia} />
               <Text marginTop={"10px"} marginLeft={"13px"}>
                 {arrGroup === "administracion"
                   ? `Administración`
@@ -461,14 +472,6 @@ const SidebarContent = ({ logoText, routes }) => {
             </Box>
           </Box>
           <Stack direction="column" mb="40px">
-            {/* <Box>
-              {arrGroup === "patologo"
-                ? linksPatology
-                : arrGroup === "administracion"
-                ? linksAdmin
-                : linksAll}
-              <Separator></Separator>
-            </Box> */}
             <Box>
               {arrGroup === "patologo"
                 ? linksPatology
@@ -476,12 +479,32 @@ const SidebarContent = ({ logoText, routes }) => {
                   ? linksAdmin
                   : linksAll}
               <Separator></Separator>
+              <Box boxSize="initial"
+                justifyContent="flex-start"
+                alignItems="center"
+                bg={activeBg}
+                my={{
+                  xl: "5px",
+                }}
+                mx={{
+                  xl: "auto",
+                }}
+                ps={{
+                  sm: "10px",
+                  xl: "16px",
+                }}
+                py="8px"
+                borderRadius="15px"
+                w="100%">
+                <Text fontWeight={'bold'} my="auto" fontSize="md" color={activeColor}>BCV: {cambioDelDia}</Text>
+              </Box>
             </Box>
           </Stack>
         </>
       )}
-      
-      <Calendario />
+      <Box marginTop={'-35px'}>
+        <Calendario />
+      </Box>
     </Box>
   );
 };

@@ -126,7 +126,7 @@ const Muestra2 = () => {
     const sendOrden = async () => {
       if (estudioId2 && muestraID && !estudioID) {
         const newOrden = {
-          estudio_ids: [estudioId2,estudioID]
+          estudio_ids: [estudioId2, estudioID]
         }
         const postOrden = await postOrdenes(newOrden)
         // console.log(postOrden)
@@ -156,17 +156,18 @@ const Muestra2 = () => {
 
   return (
     <div style={{ height: "auto" }}>
-      <NextStation />
+      {/* <NextStation /> */}
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
-          <Text  fontSize={'17px'} fontWeight={'bold'} >
-            Información General
-          </Text>
+          <Title
+            title={'Información General'}
+          >
+          </Title>
           <Box display={'flex'}>
-            <Text  Text fontSize={'17px'} fontWeight={'bold'} 
+            <Title
+              title={'Estudio N°:'}
             >
-              {`Estudio N°: `}
-            </Text>
+            </Title>
             {
               studyData ? (
                 <Box>
@@ -186,25 +187,22 @@ const Muestra2 = () => {
         </Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
-            <subTitleBold marginBottom={"1.5%"} >
-              Paciente
-            </subTitleBold>
+            <Titlelight title={'Paciente:'} marginBottom={"15px"} >
+            </Titlelight>
             <Text marginBottom={"15px"}>
               <Badge>
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
             </Text>
-            <subTitleBold marginBottom={"15px"}>
-              Cédula de Identidad
-            </subTitleBold>
+            <Titlelight title={'Cédula de Identidad:'} marginBottom={"15px"} >
+            </Titlelight>
             <Text marginBottom={"15px"}>
               <Badge>{dataPaciente.ci}</Badge>
             </Text>
           </Box>
           <Box>
-            <subTitleBold marginBottom={"15px"} fontSize={"17px"}>
-              Médico tratante
-            </subTitleBold>
+            <Titlelight title={'Médico tratante:'} marginBottom={"15px"} >
+            </Titlelight>
             <Text>
               <Badge>
                 {dataMedico.nombres} {dataMedico.apellidos}
@@ -217,13 +215,10 @@ const Muestra2 = () => {
           gap="20px"
         ></Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
-          <Box>
+          <Box marginBottom={'15px'}>
             <Title
-              textAlign={"left"}
-              margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
-              color={"gray.600"}
+              title={'Datos de estudio'}
             >
-              Datos de Estudio
             </Title>
           </Box>
 

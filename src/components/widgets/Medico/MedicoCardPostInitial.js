@@ -42,6 +42,7 @@ import MainContext from "context/mainContext/MainContext";
 import { putMedicos } from "api/controllers/medicos";
 import { NextStation } from "../Buttons/NextStation";
 import { useMedicos } from "hooks/Medicos/useMedicos";
+import { Title, Titlelight, SubTitlelight } from "../Texts";
 
 // iconname-->BsArrowRightCircle 
 //nombre del label  saltar etapa
@@ -82,13 +83,12 @@ const MedicoCardPostInitial = ({
     validationSchema: Yup.object({
       nombres: Yup.string().required("Los nombres son obligatorios"),
       apellidos: Yup.string().required("Los apellidos son obligatorios"),
-      especialidad: Yup.string().required("Los apellidos son obligatorios"),
+      especialidad: Yup.string().required("La especialidad es obligatoria"),
       //ci: Yup.string().required("La cedula es obligatoria"),
       // telefono_celular: Yup.string().required("el telefono es obligatorio"),
       // direccion: Yup.string().required("La direccion es obligatoria"),
       // sexo: Yup.string().required("el sexo es obligatorio"),
-      // email: Yup.string().email("direccion de correo no valida")
-      // .required("el correo es obligatorio"),
+      email: Yup.string().email("Dirección de correo no válida").nullable(),
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
@@ -235,11 +235,14 @@ const MedicoCardPostInitial = ({
       borderRadius="20px"
       m={"1% 13% 5% 13%"}
     >
-      <NextStation />
+      {/* <NextStation /> */}
       <form>
-        <Text fontSize={"20px"} margin="15px auto 30px auto" color={"gray.600"}>
-          Información Personal
-        </Text>
+        <Box margin={'5px'} padding={'5px'}>
+          <Title
+            title={'Información personal'}
+          >
+          </Title>
+        </Box>
         <Grid
           templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
           gap={{ lg: "20px", sm: "5px" }}
@@ -274,9 +277,12 @@ const MedicoCardPostInitial = ({
             errors={formik.errors.especialidad}
           />
         </Grid>
-        <Text fontSize={"20px"} margin="15px auto 30px auto" color={"gray.600"}>
-          Información de Contacto
-        </Text>
+        <Box margin={'5px'} padding={'5px'}>
+          <Title
+            title={'Información de contacto'}
+          >
+          </Title>
+        </Box>
         <Grid
           templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
           gap={{ lg: "20px", sm: "5px" }}

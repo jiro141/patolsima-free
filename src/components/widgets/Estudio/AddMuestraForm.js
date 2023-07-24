@@ -11,6 +11,7 @@ import SaveButton from "../Buttons/SaveButton";
 import GeneralButton from "../Buttons/GeneralButton";
 import { postOrdenes } from "api/controllers/facturas";
 import FinishButton from "../Buttons/FinishButton";
+import { Title, subTitleBold, Titlelight } from "../Texts";
 
 export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish }) {
   const { estudioId2, estudioID, setMuestraID, muestraID } = useContext(
@@ -62,26 +63,22 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
   const handleFinish = () => {
     console.log('holi');
     if (muestraID) {
-     
+
       setFinish(true);
     }
   };
-  
+
 
   console.log(finish);
-  console.log(muestraID);   
+  console.log(muestraID);
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
-      <Text
-        textAlign={"left"}
-        fontSize={"17px"}
-        fontWeight={'bold'}
-        margin={{ lg: "15px auto 15px 5px", sm: "0px auto 0px auto" }}
-        color={"gray.600"}
-      >
-        Agregar muestra
-      </Text>
-
+      <Box marginY={'15px'}>
+        <Title
+          title={'Agregar muestra'}
+        >
+        </Title>
+      </Box>
       <InputOverall
         placeholder="Tipo de muestra"
         name={"tipo_de_muestra"}
@@ -116,7 +113,7 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
       {!finish ?
         (
           <Box marginTop={'20px'} w={"100%"} textAlign="end">
-           <SaveButton handleSubmit={formik.handleSubmit} handleFinish={handleFinish}/>
+            <SaveButton handleSubmit={formik.handleSubmit} handleFinish={handleFinish} />
           </Box>
         ) :
         <Box marginTop={'20px'} w={"100%"} textAlign="end">

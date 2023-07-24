@@ -35,7 +35,7 @@ import CardCambio from "components/widgets/Cards/CardCambio";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenFactssort,archived, setArchived,
+  const { hiddenFactssort, archived, setArchived,
     idSelectItem, setidSelectItem,
     enablefactModalDetails, setEnablefactModalDetails
   } = useContext(MainContext);
@@ -47,7 +47,7 @@ const Dashboard = () => {
   const [abonarSend, setAbonarSend] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
- // const [archived, setArchived] = useState(false);
+  // const [archived, setArchived] = useState(false);
   const {
     facturas,
     getFacturas,
@@ -56,7 +56,7 @@ const Dashboard = () => {
     facturasConfirmadas,
     facturasNoConfirmadas,
     loading,
-    getFacturasConfirm,getFacturasNotConfirm,
+    getFacturasConfirm, getFacturasNotConfirm,
     setFacturasNoConfirmadas
   } = useFacturas();
   const {
@@ -90,24 +90,24 @@ const Dashboard = () => {
     setPacienteName(factura?.cliente?.razon_social);
   };
   const [showModal, setShowModal] = useState(false);
- const toggleModal = (study) => {
+  const toggleModal = (study) => {
     setShowModal(!showModal);
     setStudy(study);
   };
   useEffect(() => {
-    if(archived){
-      setShowModal(false)    
+    if (archived) {
+      setShowModal(false)
     }
-  
+
   }, [archived])
-  const  handleSelectTBody=(id)=>{}
+  const handleSelectTBody = (id) => { }
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
     getSearchFacturas();
     setShowModalList(!showModalList);
   };
   //tamaños de modal
-  const size = useBreakpointValue({ base: "sm", lg: "3xl", md: "2xl" }); 
+  const size = useBreakpointValue({ base: "sm", lg: "3xl", md: "2xl" });
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
@@ -136,7 +136,7 @@ const Dashboard = () => {
       //toast.error(error.message, { autoClose: 1000 });
     }
   };
-  const handleArchivarConfirmFacts=(facturaIdDelete)=>{
+  const handleArchivarConfirmFacts = (facturaIdDelete) => {
     console.log(facturaIdDelete)
     //setFacturasConfirmadas(facturasConfirmadas.filter((p) => p.id !== facturaIdDelete))
     setFacturasNoConfirmadas(facturasNoConfirmadas.filter((p) => p.id !== facturaIdDelete))
@@ -145,23 +145,27 @@ const Dashboard = () => {
   return modoVisualizacion === "tarjeta" ? (
     <>
       <Box
-        margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
+        margin={{
+          lg: "50px 0px 0px 30px",
+          md: "60px 0px 0px 0px",
+          sm: "30px 0px 10% 0px",
+        }}
         w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
         height={'auto'}
-        padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
+        padding={{ lg: "0 25px 50px 25px", md: "10px", sm: "0px 0 10% 0"  }}
         backgroundColor={"gray.100"}
-        borderTopLeftRadius={"20px"}
+        borderRadius={"20px"}
         backgroundSize="cover"
         backgroundPosition="center"
         overflowY="hidden"
         overflowX={{ lg: "hidden", sm: "auto" }}
-        // maxH={'40em'}
+      // maxH={'40em'}
       >
-       {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
+        {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
 
         <Box marginTop={"5px"} width={'100%'}
-        pl={'5px'}
-        
+          pl={'5px'}
+
         >
           {hiddenFactssort ? (
             <>
@@ -230,7 +234,7 @@ const Dashboard = () => {
         size={size}
         maxWidth="100%"
         isOpen={enablefactModalDetails}
-        onClose={()=>setEnablefactModalDetails(false)}
+        onClose={() => setEnablefactModalDetails(false)}
       >
         <ModalOverlay />
         <ModalContent borderRadius={"20px"} bg="#ffff">
@@ -244,7 +248,7 @@ const Dashboard = () => {
               marginTop={"-60px"}
               bgColor={"#137797"}
               color="#ffff"
-              onClick={()=>setEnablefactModalDetails(false)}
+              onClick={() => setEnablefactModalDetails(false)}
             >
               <CloseButton />
             </Button>

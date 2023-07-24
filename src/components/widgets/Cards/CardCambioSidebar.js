@@ -2,7 +2,7 @@ import { Box, Text } from '@chakra-ui/react'
 import React from 'react'
 import { Titlelight } from '../Texts'
 
-export default function CardCambio({ cambioDelDia }) {
+export default function CardCambioSidebar({ cambioDelDia }) {
   console.log(cambioDelDia);
   return (
     <Box
@@ -18,7 +18,7 @@ export default function CardCambio({ cambioDelDia }) {
         textAlign={"center"}
         padding="10px" >
 
-        <Text color={'blackAlpha.900'} title={`Dolar BCV: ${cambioDelDia}`}  />
+        <Text fontSize={'20px'} fontWeight={'bold'} color={'#000'} title={`Dolar BCV: ${cambioDelDia}`}  />
       </Box>
     </Box>
   )
