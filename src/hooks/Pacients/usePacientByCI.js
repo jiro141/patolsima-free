@@ -16,14 +16,15 @@ export function usePacientsListCi({ searchci }) {
       setLoadingpacientsByCi(true);
       setErrorpacientsByCi(null);
       previousSearch.current = searchci;
-      const newMovies = await getPacientesListByCi({ searchci });
-      setpacientsByCi(newMovies);
+      const newPacients = await getPacientesListByCi({ searchci });
+      setpacientsByCi(newPacients);
     } catch (e) {
       setErrorpacientsByCi(e.message);
     } finally {
       setLoadingpacientsByCi(false);
     }
   }, []);
+ 
   // const getPacientsByCi = useCallback(async ({ pacienteID }) => {
   //   try {
   //     setLoadingpacientsByCi(true);

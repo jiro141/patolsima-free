@@ -35,6 +35,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   const { activeTab, setActiveTab, setTwoState, setOneState, oneState } = useContext(MainContext)
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [showPrincipalIn, setShowPrincipalIn] = useState(false);
   const [Busqueda, setBusqueda] = useState("");
   const [pacienteName, setPacienteName] = useState("");
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
@@ -164,48 +165,35 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   });
 
-  // console.log(pacientsByCi[0].id)
   useEffect(() => {
-    if (!searchci) {
-      setOneState('post')
-
-    }
     if (value) {
       formik.resetForm()
 
     }
-    //seterrorci("");
   }, [formik.values]);
 
-  const handleSelectSearch = () => {
+ 
+  
+
+  const handleSelectSearch = async() => {
     if (pacientsByCi.length > 0) {
-      const mapped = pacientsByCi.map((data, i) => ({
-        id: data.id,
+     const data= await getPacientesDetail(pacientsByCi[0]?.id)
+       formik.setValues({
         ci: data.ci,
         nombres: data.nombres,
         apellidos: data.apellidos,
         email: data.email,
-        tlf: data.telefono_celular,
+        telefono_celular: data.tlf,
+        email: data.email,
         sexo: data.sexo,
-        direccion: data.direccion
-      }));
-      console.log(mapped);
+        direccion: data.direccion,
+        fecha_nacimiento:data.fecha_nacimiento,
+        telefono_celular:data.telefono_celular
 
-      formik.setValues({
-        ci: mapped[0].ci,
-        nombres: mapped[0].nombres,
-        apellidos: mapped[0].apellidos,
-        email: mapped[0].email,
-        telefono_celular: mapped[0].tlf,
-        email: mapped[0].email,
-        sexo: mapped[0].sexo
       })
       setSelectSearch(true);
       setOneState('put')
     }
-
-
-    //setSelectSearch(false);
   };
 
   const toggleModal = () => {
@@ -222,6 +210,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
+    setOneState("put");
     console.log(paciente)
 
     try {
@@ -230,7 +219,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       setPacienteID(paciente.id)
       setRegistro(pacienteDetail);
       toggleModal(true);
-      setOneState("put");
+      setShowPrincipalIn(true)
+      
       formik.setValues({
         id: pacienteDetail.id,
         ci: pacienteDetail.ci,
@@ -354,18 +344,18 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             gap={{ lg: "20px", sm: "5px" }}
 
           >
-            {oneState === 'put' &&
+            { oneState === 'put' && 
               <InputOverall
                 name="ci"
                 value={formik.values.ci}
-                placeholder="Cedula de identidad"
+                placeholder="Cedula de identidad:"
                 onChange={(e) =>
                   formik.setFieldValue("ci", e.target.value)
                 }
                 errors={formik.errors.ci}
               />
             }
-            {oneState === 'post' &&
+            {oneState === 'post'  &&
               <InputAutoComplete
                 // name={"ci"}
                 searchValue={searchci}
