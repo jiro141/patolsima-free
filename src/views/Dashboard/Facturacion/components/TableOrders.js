@@ -6,37 +6,37 @@ import { thValuesFacturasSimples } from 'mocks'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export  function TableOrders_Pendientes({children}) {
+export function TableOrders_Pendientes({ children }) {
   return (
-   <div>
-  <Title title={'Ordenes sin confirmar'} />
-          <Box
-            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            backgroundColor={"#FFFF"} 
-            borderRadius="20px"
-            mt={'25px'}
-            mb={'20px'}
-            p={'6px'}
-            width={"100%"}
-            height={'auto'}
-           
-           // m={"20px 30px 30px 20px"}
-           // backgroundColor={"#FFFF"}
-           // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            //py={'25px'}
-            px={'10px'}
-          py={"25px"}
-           
-          
-            >
-            <Box 
-            overflow={'auto'}
-            minH={"280px"}
-           maxH={"280px"}
-           sx={{
+    <div>
+      <Title title={'Ordenes sin confirmar'} />
+      <Box
+        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        backgroundColor={"#FFFF"}
+        borderRadius="20px"
+        mt={'25px'}
+        mb={'20px'}
+        p={'6px'}
+        width={"100%"}
+        height={'auto'}
+
+        // m={"20px 30px 30px 20px"}
+        // backgroundColor={"#FFFF"}
+        // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        //py={'25px'}
+        px={'10px'}
+        py={"25px"}
+
+
+      >
+        <Box
+          overflow={'auto'}
+          minH={"280px"}
+          maxH={"280px"}
+          sx={{
             "&::-webkit-scrollbar": {
               width: "6px",
-              height:"6px",
+              height: "6px",
               borderRadius: "8px",
               backgroundColor: "#f5f5f5",
             },
@@ -48,48 +48,48 @@ export  function TableOrders_Pendientes({children}) {
               background: "#555",
             },
           }}>
-              <Table >
-                <Thead style={{width:'100%'}}>
-                 <TH thData={thValuesFacturasSimples} />
-                </Thead>
-               {children}
-              </Table>
-            </Box>
-          </Box>
-   </div>
+          <Table >
+            <Thead style={{ width: '100%' }}>
+              <TH thData={thValuesFacturasSimples} />
+            </Thead>
+            {children}
+          </Table>
+        </Box>
+      </Box>
+    </div>
   )
 }
-export  function TableInforms_Pendientes({children}) {
+export function TableInforms_Pendientes({ children }) {
   return (
-   <div>
-  <Title title={'Informes sin confirmar'} />
-          <Box
-            boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            backgroundColor={"#FFFF"} 
-            borderRadius="20px"
-            mt={'25px'}
-            mb={'20px'}
-            p={'6px'}
-            width={"100%"}
-            height={'auto'}
-           
-           // m={"20px 30px 30px 20px"}
-           // backgroundColor={"#FFFF"}
-           // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-            //py={'25px'}
-            px={'10px'}
-          py={"25px"}
-           
-          
-            >
-            <Box 
-            overflow={'auto'}
-            minH={"280px"}
-           maxH={"280px"}
-           sx={{
+    <div>
+      <Title title={'Informes sin confirmar'} />
+      <Box
+        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        backgroundColor={"#FFFF"}
+        borderRadius="20px"
+        mt={'25px'}
+        mb={'20px'}
+        p={'6px'}
+        width={"100%"}
+        height={'auto'}
+
+        // m={"20px 30px 30px 20px"}
+        // backgroundColor={"#FFFF"}
+        // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        //py={'25px'}
+        px={'10px'}
+        py={"25px"}
+
+
+      >
+        <Box
+          overflow={'auto'}
+          minH={"280px"}
+          maxH={"280px"}
+          sx={{
             "&::-webkit-scrollbar": {
               width: "6px",
-              height:"6px",
+              height: "6px",
               borderRadius: "8px",
               backgroundColor: "#f5f5f5",
             },
@@ -101,65 +101,118 @@ export  function TableInforms_Pendientes({children}) {
               background: "#555",
             },
           }}>
-              <Table >
-                <Thead style={{width:'100%'}}>
-                 <TH thData={thValuesInformsSimples} />
-                </Thead>
-               {children}
-              </Table>
-            </Box>
-          </Box>
-   </div>
+          <Table >
+            <Thead style={{ width: '100%' }}>
+              <TH thData={thValuesInformsSimples} />
+            </Thead>
+            {children}
+          </Table>
+        </Box>
+      </Box>
+    </div>
+  )
+}
+export function TableInforms_Confirmados({ children }) {
+  return (
+    <div>
+      <Title title={'Informes confirmados'} />
+      <Box
+        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        backgroundColor={"#FFFF"}
+        borderRadius="20px"
+        mt={'25px'}
+        mb={'20px'}
+        p={'6px'}
+        width={"100%"}
+        height={'auto'}
+
+        // m={"20px 30px 30px 20px"}
+        // backgroundColor={"#FFFF"}
+        // boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        //py={'25px'}
+        px={'10px'}
+        py={"25px"}
+
+
+      >
+        <Box
+          overflow={'auto'}
+          minH={"280px"}
+          maxH={"280px"}
+          sx={{
+            "&::-webkit-scrollbar": {
+              width: "6px",
+              height: "6px",
+              borderRadius: "8px",
+              backgroundColor: "#f5f5f5",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#555",
+            },
+          }}>
+          <Table >
+            <Thead style={{ width: '100%' }}>
+              <TH thData={thValuesInformsSimples} />
+            </Thead>
+            {children}
+          </Table>
+        </Box>
+      </Box>
+    </div>
   )
 }
 
-export  function TableOrders_Confirmadas({children}) {
-    return (
-     <div>
-    
-            <Title title={'Ordenes confirmadas'} />
-            <Box
-              boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
-              backgroundColor={"#FFFF"} 
-              borderRadius="20px"
-              mt={'25px'}
-              mb={'20px'}
-              p={'6px'}
-              width={"100%"}
-              height={'auto'}
+export function TableOrders_Confirmadas({ children }) {
+  return (
+    <div>
 
-              px={'10px'}
-            py={"25px"}
-             
-            
-              >
-              <Box 
-              overflow={'auto'}
-              minH={"280px"}
-             maxH={"280px"}
-             sx={{
-              "&::-webkit-scrollbar": {
-                width: "6px",
-                height:"6px",
-                borderRadius: "8px",
-                backgroundColor: "#f5f5f5",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: "#888",
-                borderRadius: "5px",
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                background: "#555",
-              },
-            }}>
-                <Table >
-                  <Thead style={{width:'100%'}}>
-                   <TH thData={thValuesFacturasSimples} />
-                  </Thead>
-                 {children}
-                </Table>
-              </Box>
-            </Box>
-     </div>
-    )
-  }
+      <Title title={'Ordenes confirmadas'} />
+      <Box
+        boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
+        backgroundColor={"#FFFF"}
+        borderRadius="20px"
+        mt={'25px'}
+        mb={'20px'}
+        p={'6px'}
+        width={"100%"}
+        height={'auto'}
+
+        px={'10px'}
+        py={"25px"}
+
+
+      >
+        <Box
+          overflow={'auto'}
+          minH={"280px"}
+          maxH={"280px"}
+          sx={{
+            "&::-webkit-scrollbar": {
+              width: "6px",
+              height: "6px",
+              borderRadius: "8px",
+              backgroundColor: "#f5f5f5",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#555",
+            },
+          }}>
+          <Table >
+            <Thead style={{ width: '100%' }}>
+              <TH thData={thValuesFacturasSimples} />
+            </Thead>
+            {children}
+          </Table>
+        </Box>
+      </Box>
+    </div>
+  )
+}

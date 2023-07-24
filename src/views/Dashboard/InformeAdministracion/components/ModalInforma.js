@@ -32,6 +32,7 @@ import { getInformePreview } from "api/controllers/informes";
 
 
 const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModalGeneral}) => {
+    console.log(detailEstudio);
     const [showModal, setShowModal] = useState(false);
     const [showModalMacro, setShowModalMacro] = useState(false);
     const [showModalDiag, setShowModalDiag] = useState(false);
