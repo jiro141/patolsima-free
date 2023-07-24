@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import "../../../src/css/style.css";
 import CardCambio from "components/widgets/Cards/CardCambio";
 import { useFacturas } from "hooks/Facturas/useFacturas";
+import { useContext } from "react";
 
 const SidebarContent = ({ logoText, routes }) => {
   const {
@@ -449,6 +450,7 @@ const SidebarContent = ({ logoText, routes }) => {
           <Box pt={"10px"} mb="5px">
             <Box margin={"50px 0 20px 0"}>
               <Separator></Separator>
+              <CardCambio cambioDelDia={cambioDelDia} />
               <Text marginTop={"10px"} marginLeft={"13px"}>
                 {arrGroup === "administracion"
                   ? `Administración`
@@ -478,7 +480,7 @@ const SidebarContent = ({ logoText, routes }) => {
           </Stack>
         </>
       )}
-      <CardCambio cambioDelDia={cambioDelDia} />
+      
       <Calendario />
     </Box>
   );
