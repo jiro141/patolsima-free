@@ -40,8 +40,9 @@ import { formatDate } from "helpers";
 import { generarNumeroAleatorio } from "helpers";
 
 
-const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG }) => {
-    //console.log(study)
+const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG,setShowModalConfirmacdion,setAbonarSend,abonarSend }) => {
+   
+  
     const {
         getFacturasDetails,
         facturasDetail,
@@ -78,18 +79,28 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     };
     useEffect(() => {
+        setAbonarSend(false)
         getFacturasDetails()
 
-        return () => { }
+        return () => { setAbonarSend(false) }
     }, [])
+    useEffect(() => {
+        if(abonarSend){
+            getFacturasDetails()
+        }
+       
+
+        return () => { }
+    }, [abonarSend])
+    //
 
     useEffect(() => {
         getStudyDetail()
         return () => { }
-    }, [itemOrden])
+    }, [abonarSend])
 
 
-
+console.log(facturasDetail);
 
     /*  useEffect(() => {
         if(facturasDetail){
@@ -130,7 +141,9 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 toast.success("¡Se envio el monto correctamente!", {
                     autoClose: 1000,
                 });
-                window.location.reload();
+               getFacturasDetails()
+               setShowModalConfirmacdion(true)
+              
             } else {
                 toast.error("¡Hubo un error al crear el monto!", {
                     autoClose: 1000,
@@ -697,7 +710,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 </ModalContent>
             </Modal>
 
-            <AddAbonarModal openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={facturasDetail?.id} setPdfContent={setPdfContentNotaPago} />
+            <AddAbonarModal setAbonarSend={setAbonarSend} openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={facturasDetail?.id} setPdfContent={setPdfContentNotaPago} />
 
 
         </>

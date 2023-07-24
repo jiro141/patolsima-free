@@ -43,6 +43,8 @@ const Dashboard = () => {
   const [Busqueda, setBusqueda] = useState("");
   const [study, setStudy] = useState([]);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+  const [showModalConfirmaciodn, setShowModalConfirmacdion] = useState(false);
+  const [abonarSend, setAbonarSend] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
  // const [archived, setArchived] = useState(false);
@@ -72,8 +74,15 @@ const Dashboard = () => {
     getFacturasConfirm()
     getFacturasNotConfirm()
     getCambios();
-    setArchived(false)
-  }, []);
+    //setArchived(false)
+  }, [showModalConfirmaciodn]);
+  useEffect(() => {
+    getFacturas();
+    getFacturasConfirm()
+    getFacturasNotConfirm()
+    getCambios();
+    //setArchived(false)
+  }, [abonarSend]);
 
   const toggleModalConfirmacion = (factura) => {
     setShowModalConfirmacion(!showModalConfirmacion);
@@ -212,7 +221,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={study} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={study} abonarSend={abonarSend} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -241,7 +250,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem} />
+            <ModalFacturacion abonarSend={abonarSend} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem} />
           </ModalBody>
         </ModalContent>
       </Modal>
