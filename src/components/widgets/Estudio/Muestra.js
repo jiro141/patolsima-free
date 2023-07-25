@@ -195,14 +195,15 @@ const Muestra = () => {
       
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
-          <Text fontSize={'17px'} fontWeight={'bold'} >
-            Información General
-          </Text>
+          <Title
+            title={'Información General'}
+          >
+          </Title>
           <Box display={'flex'}>
-            <Text Text fontSize={'17px'} fontWeight={'bold'}
+            <Title
+              title={'Estudio N°:'}
             >
-              {`Estudio N°: `}
-            </Text>
+            </Title>
             {
               studyData ? (
                 <Box>
@@ -222,25 +223,22 @@ const Muestra = () => {
         </Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box>
-            <subTitleBold marginBottom={"15px"} >
-              Paciente
-            </subTitleBold>
+            <Titlelight title={'Paciente:'} marginBottom={"15px"} >
+            </Titlelight>
             <Text marginBottom={'15px'}>
               <Badge>
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
             </Text>
-            <subTitleBold marginBottom={"15px"}>
-              Cédula de Identidad
-            </subTitleBold>
+            <Titlelight title={'Cédula de Identidad:'} marginBottom={"15px"} >
+            </Titlelight>
             <Text marginBottom={'15px'}>
               <Badge>{dataPaciente.ci}</Badge>
             </Text>
           </Box>
           <Box>
-            <subTitleBold marginBottom={"15px"} fontSize={"17px"}>
-              Médico tratante
-            </subTitleBold>
+            <Titlelight title={'Médico tratante:'} marginBottom={"15px"} >
+            </Titlelight>
             <Text>
               <Badge>
                 {dataMedico.nombres} {dataMedico.apellidos}
@@ -253,14 +251,11 @@ const Muestra = () => {
           gap="20px"
         ></Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
-          <Box>
-            <Title
-              textAlign={"left"}
-              margin={{ lg: "15px auto 0 5px", sm: "0px auto 0px auto" }}
-              color={"gray.600"}
-            >
-              Datos de Estudio
-            </Title>
+          <Box marginBottom={'15px'}>
+          <Title
+            title={'Datos de estudio'}
+          >
+          </Title>
           </Box>
 
         </Grid>

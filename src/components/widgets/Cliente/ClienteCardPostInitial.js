@@ -27,6 +27,7 @@ import InputCalendar from "../Inputs/InputCalendar";
 import { putPacientes } from "api/controllers/pacientes";
 import { NextStation } from "../Buttons/NextStation";
 import { getPacientesListByCi } from "api/controllers/pacientes";
+import { Title } from "../Texts";
 
 const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
@@ -45,7 +46,6 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const [onOpenCalendar, setOpenCalendar] = useState(false);
   const [value, setvalue] = useState(false);
   const [date, onChange] = useState(formatDate(new Date()));
-
   const handleDateChange = (date) => {
     onChange(date);
   };
@@ -172,13 +172,13 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     }
   }, [formik.values]);
 
- 
-  
 
-  const handleSelectSearch = async() => {
+
+
+  const handleSelectSearch = async () => {
     if (pacientsByCi.length > 0) {
-     const data= await getPacientesDetail(pacientsByCi[0]?.id)
-       formik.setValues({
+      const data = await getPacientesDetail(pacientsByCi[0]?.id)
+      formik.setValues({
         ci: data.ci,
         nombres: data.nombres,
         apellidos: data.apellidos,
@@ -187,8 +187,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         email: data.email,
         sexo: data.sexo,
         direccion: data.direccion,
-        fecha_nacimiento:data.fecha_nacimiento,
-        telefono_celular:data.telefono_celular
+        fecha_nacimiento: data.fecha_nacimiento,
+        telefono_celular: data.telefono_celular
 
       })
       onChange(data.fecha_nacimiento)
@@ -221,7 +221,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       setRegistro(pacienteDetail);
       toggleModal(true);
       setShowPrincipalIn(true)
-      
+
       formik.setValues({
         id: pacienteDetail.id,
         ci: pacienteDetail.ci,
@@ -330,22 +330,18 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
      
       {
         <form>
-          <Text
-            fontSize={"20px"}
-            textAlign={'left'}
-
-            margin={'5px'}
-            padding={'5px'}
-            color={"gray.600"}
-          >
-            Información Personal
-          </Text>
+          <Box margin={'5px'} padding={'5px'}>
+            <Title
+              title={'Información personal'}
+            >
+            </Title>
+          </Box>
           <Grid
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}
 
           >
-            { oneState === 'put' && 
+            {oneState === 'put' &&
               <InputOverall
                 name="ci"
                 value={formik.values.ci}
@@ -356,7 +352,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
                 errors={formik.errors.ci}
               />
             }
-            {oneState === 'post'  &&
+            {oneState === 'post' &&
               <InputAutoComplete
                 // name={"ci"}
                 searchValue={searchci}
@@ -430,16 +426,12 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
               errors={formik.errors.direccion}
             />
           </Grid>
-          <Text
-            textAlign={'left'}
-            fontSize={"20px"}
-            margin={'5px'}
-            padding={'5px'}
-            //margin="15px 30px 30px 30px"
-            color={"gray.600"}
-          >
-            Información de Contacto
-          </Text>
+          <Box margin={'5px'} padding={'5px'}>
+            <Title
+              title={'Información de contacto'}
+            >
+            </Title>
+          </Box>
           <Grid
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}

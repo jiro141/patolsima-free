@@ -14,7 +14,7 @@ export const getFacturasList= async () => {
 export const getFacturasListConfirm= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/facturacion/ordenes/?pagada=true&confirmada=true`)
+        const response = await Axios.get(`/v1/facturacion/ordenes/?confirmada=true`)
         return response.data.results;
     } catch (error) {
         console.log(error);

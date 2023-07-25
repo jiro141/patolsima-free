@@ -473,7 +473,20 @@ export default function HeaderLinks(props) {
           }
          
          
+<<<<<<< HEAD
+      {/* { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
+      _hover={{ backgroundColor: "#EDF2F7" }}  >
+         <a style={{display:'flex', alignItems:'center'}} href="https://patolsima-api-19f65176eefa.herokuapp.com/admin/login/?next=/admin/">
+         <BiSolidCog
+                size={"20px"}
+                style={{ color: "#137798" }}
+              />
+          </a>
+         
+          </Button>} */}
+=======
      
+>>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
 
          <Button onClick={handleLogout} colorScheme="#89bbcc" 
       _hover={{ backgroundColor: "#EDF2F7" }} >

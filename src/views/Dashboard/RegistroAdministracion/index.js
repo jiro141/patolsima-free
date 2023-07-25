@@ -147,7 +147,7 @@ function Registro() {
       }}
       padding={{ lg: "0 25px 50px 25px", md: "10px", sm: "0px 0 10% 0" }}
       backgroundColor={{ lg: "gray.100", md: "gray.100", sm: "none" }}
-      borderTopLeftRadius={"20px"}
+      borderRadius={"20px"}
       backgroundSize="cover"
       backgroundPosition="center"
       overflowX="hidden"
@@ -177,7 +177,7 @@ function Registro() {
                 isDisabled={activeTab != 2}
               />
               <CustomStudy2
-                title="Estudio2"
+                title="Estudio 2"
                 isActive={activeTab === 3}
                 isDisabled={activeTab != 3}
               />

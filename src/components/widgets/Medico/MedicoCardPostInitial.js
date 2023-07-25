@@ -42,6 +42,7 @@ import MainContext from "context/mainContext/MainContext";
 import { putMedicos } from "api/controllers/medicos";
 import { BackStation, NextStation } from "../Buttons/NextStation";
 import { useMedicos } from "hooks/Medicos/useMedicos";
+import { Title, Titlelight, SubTitlelight } from "../Texts";
 
 // iconname-->BsArrowRightCircle 
 //nombre del label  saltar etapa
@@ -232,9 +233,12 @@ const MedicoCardPostInitial = ({
     >
       
       <form>
-        <Text fontSize={"20px"} margin="15px auto 30px auto" color={"gray.600"}>
-          Información Personal
-        </Text>
+        <Box margin={'5px'} padding={'5px'}>
+          <Title
+            title={'Información personal'}
+          >
+          </Title>
+        </Box>
         <Grid
           templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
           gap={{ lg: "20px", sm: "5px" }}
@@ -269,9 +273,12 @@ const MedicoCardPostInitial = ({
             errors={formik.errors.especialidad}
           />
         </Grid>
-        <Text fontSize={"20px"} margin="15px auto 30px auto" color={"gray.600"}>
-          Información de Contacto
-        </Text>
+        <Box margin={'5px'} padding={'5px'}>
+          <Title
+            title={'Información de contacto'}
+          >
+          </Title>
+        </Box>
         <Grid
           templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
           gap={{ lg: "20px", sm: "5px" }}
