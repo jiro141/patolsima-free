@@ -18,7 +18,6 @@ export default function AddMuestraForm({ formikMuestra }) {
     ModoVisualizacionContext
   );
 
-<<<<<<< HEAD
   const formik = useFormik({
     initialValues: {
       tipo_de_muestra: "",
@@ -69,9 +68,6 @@ export default function AddMuestraForm({ formikMuestra }) {
       setFinish(true);
     }
   };
-=======
- 
->>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
   
 
   useEffect(() => {
@@ -95,14 +91,6 @@ export default function AddMuestraForm({ formikMuestra }) {
   
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
-<<<<<<< HEAD
-      <Box marginY={'15px'}>
-        <Title
-          title={'Agregar muestra'}
-        >
-        </Title>
-      </Box>
-=======
       <Tooltip label={'Debes guardar el estudio para agregar una muestra.'}>
       <Text
         textAlign={"left"}
@@ -115,7 +103,6 @@ export default function AddMuestraForm({ formikMuestra }) {
       </Text>
       </Tooltip>
 
->>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
       <InputOverall
         placeholder="Tipo de muestra"
         disabled={estudioID ? false : true}

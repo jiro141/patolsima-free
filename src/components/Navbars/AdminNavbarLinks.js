@@ -66,7 +66,7 @@ export default function HeaderLinks(props) {
   const authContext = useContext(AuthContext);
 
   const handleLogout = () => {
-  
+
     window.localStorage.removeItem('access') // Elimina  de acceso
     window.localStorage.removeItem('refresh')
     window.localStorage.removeItem('newAcessToken')
@@ -74,26 +74,26 @@ export default function HeaderLinks(props) {
     //groups
     history.push("/Auth/SignIn");
   };
-  
 
-   async function handleTokenRefresh() {
+
+  async function handleTokenRefresh() {
     // Verificar si hay un token de acceso almacenado en el LocalStorage
     const access_token = localStorage.getItem("access");
-  //   console.log(access_token);
-  
+    //   console.log(access_token);
+
     if (access_token) {
       // Obtener la fecha de expiración del token de acceso almacenada en el LocalStorage
       const expirationTime = localStorage.getItem("accessExpiration");
-  
+
       if (expirationTime && Date.now() < Number(expirationTime)) {
         // El token de acceso todavía es válido, no es necesario hacer nada
-      //   console.log("Token de acceso válido");
+        //   console.log("Token de acceso válido");
       } else {
         // El token de acceso ha expirado, intentar obtener un nuevo token de refresco
-      //   console.log("Token de acceso expirado");
-  
+        //   console.log("Token de acceso expirado");
+
         const refresh_token = localStorage.getItem("refresh");
-  
+
         if (refresh_token) {
           try {
             // Enviar una solicitud al endpoint '/token/refresh' para obtener un nuevo token de acceso
@@ -101,14 +101,14 @@ export default function HeaderLinks(props) {
               refresh_token,
             });
             console.log(response);
-  
+
             const new_access_token = response.data.access_token;
             const new_refresh_token = response.data.refresh_token;
-  
+
             // Guardar el nuevo token de acceso y el nuevo token de refresco en el LocalStorage
             localStorage.setItem("access", new_access_token);
             localStorage.setItem("refresh", new_refresh_token);
-  
+
             // Calcular y guardar la nueva fecha de expiración del token de acceso en el LocalStorage
             const new_access_expiration =
               Date.now() + 2 * 60 * 60 * 1000; // Tiempo actual + 2 horas
@@ -116,7 +116,7 @@ export default function HeaderLinks(props) {
               "accessExpiration",
               new_access_expiration.toString()
             );
-  
+
             console.log("Nuevo token de acceso obtenido");
           } catch (error) {
             console.error(
@@ -154,9 +154,9 @@ export default function HeaderLinks(props) {
   //constex para cambian de visualizacion de tarjeta a lista
   //default tarjeta
   const { modoVisualizacion, cambiarModoVisualizacion } = useContext(ModoVisualizacionContext);
-  const {setInformes, setFacturas, filteredFact,sethiddenInformessort, sethiddenFactssort,filteredInforme, setfilteredInforme }= useContext(MainContext)
-  
-  
+  const { setInformes, setFacturas, filteredFact, sethiddenInformessort, sethiddenFactssort, filteredInforme, setfilteredInforme } = useContext(MainContext)
+
+
   const cambiarModo = (nuevoModo) => {
     cambiarModoVisualizacion(nuevoModo);
   };
@@ -176,81 +176,81 @@ export default function HeaderLinks(props) {
     sethiddenInformessort(false)
     sethiddenFactssort(false)
     filterFacts(query);
-    if(query === ''){
+    if (query === '') {
       sethiddenFactssort(true)
       sethiddenInformessort(true)
     }
     //setBusqueda(query);
-   
+
   };
   //const [filterInfor, setFilterInfor] = useState('');
 
- 
+
   const handleBusquedaChangeInformes = (event) => {
     console.log('informe')
     setfilteredInforme(event.target.value);
     const query = event.target.value;
     console.log(query)
-   if (query.startsWith(" ")) return;
-   
+    if (query.startsWith(" ")) return;
+
     sethiddenInformessort(false)
     //filterInfor(query);
-    if(query === ''){
+    if (query === '') {
       sethiddenInformessort(true)
     }
     //setBusqueda(query);
-   
+
   };
- // console.log(filteredInforme)
-  const filterFacts=(searchTearm)=>{
-    if(location.pathname === "/admin/Facturacion"){
+  // console.log(filteredInforme)
+  const filterFacts = (searchTearm) => {
+    if (location.pathname === "/admin/Facturacion") {
       let resultadoBusqueda = filteredFact.filter((elemento) => {
         if (
           elemento.cliente.razon_social
             .toLowerCase()
             .includes(searchTearm.toLowerCase()) ||
-            elemento.cliente.ci_rif
+          elemento.cliente.ci_rif
             .toLowerCase()
-            .includes(searchTearm.toLowerCase()) 
+            .includes(searchTearm.toLowerCase())
         ) {
           return elemento;
         }
       });
       setFacturas(resultadoBusqueda);
-    }else{
-     // console.log(filteredInforme)
+    } else {
+      // console.log(filteredInforme)
       let resultadoBusqueda = filteredInforme.filter((elemento) => {
         if (
           elemento.estudio_tipo
             .toLowerCase()
             .includes(searchTearm.toLowerCase()) ||
-            elemento.estudio_codigo
+          elemento.estudio_codigo
             .toLowerCase()
-            .includes(searchTearm.toLowerCase()) 
+            .includes(searchTearm.toLowerCase())
         ) {
           return elemento;
         }
       });
       setInformes(resultadoBusqueda);
     }
-   
+
   }
 
-  const filterInfor=(searchTearm)=>{
-   //console.log(filteredInforme)
-  /*  let resultadoBusqueda = filteredInforme.filter((elemento) => {
-      if (
-        elemento.estudio_patologo_name
-          .toLowerCase()
-          .includes(searchTearm.toLowerCase()) ||
-          elemento.estudio_paciente_ci
-          .toLowerCase()
-          .includes(searchTearm.toLowerCase()) 
-      ) {
-        return elemento;
-      }
-    });
-    setInformes(resultadoBusqueda);*/
+  const filterInfor = (searchTearm) => {
+    //console.log(filteredInforme)
+    /*  let resultadoBusqueda = filteredInforme.filter((elemento) => {
+        if (
+          elemento.estudio_patologo_name
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) ||
+            elemento.estudio_paciente_ci
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) 
+        ) {
+          return elemento;
+        }
+      });
+      setInformes(resultadoBusqueda);*/
   }
   return (
     <Flex
@@ -259,16 +259,16 @@ export default function HeaderLinks(props) {
       display={'flex'}
 
       justifyContent="space-between"
-      
+
       alignItems={'center'}
-   
+
     // gap={"5px"} ?param1=ordenId
     >
-      {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion"  ? (
+      {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion" ? (
         <InputOverallSearch
-        locale={location.pathname}
-        onChangeInformes={handleBusquedaChangeInformes}
-        onChangeFacturas={handleBusquedaChange}
+          locale={location.pathname}
+          onChangeInformes={handleBusquedaChangeInformes}
+          onChangeFacturas={handleBusquedaChange}
         />
       ) :
         <InputGroup
@@ -306,10 +306,10 @@ export default function HeaderLinks(props) {
               ></IconButton>
             }
           />
-         
+
         </InputGroup>}
 
-        {/*location.pathname === "/admin/InformeAdministracion"  && (
+      {/*location.pathname === "/admin/InformeAdministracion"  && (
         <InputGroup
       border={'1px'}
         //marginRight={'10px'}
@@ -369,7 +369,7 @@ export default function HeaderLinks(props) {
 
       ) */}
 
-       {/*location.pathname === "/admin/InformeAdministracion"  && (
+      {/*location.pathname === "/admin/InformeAdministracion"  && (
        <InputGroup
        cursor="pointer"
        bg="none"
@@ -425,7 +425,7 @@ export default function HeaderLinks(props) {
          
 
       ) */}
-  
+
 
       {/*location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
         <Box display={{ base: "none", md: "flex" }}>
@@ -442,8 +442,8 @@ export default function HeaderLinks(props) {
 
 
 
-      {<Box  display={"flex"} justifyContent="flex-end">
-    
+      {<Box display={"flex"} justifyContent="flex-end">
+
 
         <Box
           backgroundColor={"#89bbcc"}
@@ -452,7 +452,7 @@ export default function HeaderLinks(props) {
           display={"flex"}
           justifyContent={"space-between"}
         >
-        
+
           <SidebarResponsive
             logoText={props.logoText}
             secondary={props.secondary}
@@ -460,21 +460,20 @@ export default function HeaderLinks(props) {
             routes={routes}
             {...rest}
           />
-      { 
-      <>
-      
-      <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
-            <BsListTask size="20px" color="#137797" />
-          </Button>
-          <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion === 'tarjeta' ? "#89bbcc" : 'none'}>
-            <BsGrid3X3GapFill size="18px" color="#137797" />
-          </Button>
-          </>
+          {
+            <>
+
+              <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
+                <BsListTask size="20px" color="#137797" />
+              </Button>
+              <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion === 'tarjeta' ? "#89bbcc" : 'none'}>
+                <BsGrid3X3GapFill size="18px" color="#137797" />
+              </Button>
+            </>
           }
-         
-         
-<<<<<<< HEAD
-      {/* { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
+
+
+          {/* { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
       _hover={{ backgroundColor: "#EDF2F7" }}  >
          <a style={{display:'flex', alignItems:'center'}} href="https://patolsima-api-19f65176eefa.herokuapp.com/admin/login/?next=/admin/">
          <BiSolidCog
@@ -484,19 +483,16 @@ export default function HeaderLinks(props) {
           </a>
          
           </Button>} */}
-=======
-     
->>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
 
-         <Button onClick={handleLogout} colorScheme="#89bbcc" 
-      _hover={{ backgroundColor: "#EDF2F7" }} >
-         <BiLogOut
-                size={"20px"}
-                style={{ color: "#137798" }}
-              />
+          <Button onClick={handleLogout} colorScheme="#89bbcc"
+            _hover={{ backgroundColor: "#EDF2F7" }} >
+            <BiLogOut
+              size={"20px"}
+              style={{ color: "#137798" }}
+            />
           </Button>
-         
-          
+
+
         </Box>
       </Box>}
     </Flex>

@@ -199,11 +199,7 @@ const Muestra2 = () => {
   }
   return (
     <div style={{ height: "auto" }}>
-<<<<<<< HEAD
-      {/* <NextStation /> */}
-=======
       
->>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
           <Title

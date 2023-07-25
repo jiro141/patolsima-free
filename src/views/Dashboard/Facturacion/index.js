@@ -50,12 +50,8 @@ const Dashboard = () => {
   const [abonarSend, setAbonarSend] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
-<<<<<<< HEAD
-  // const [archived, setArchived] = useState(false);
-=======
   const [newIdOrder, setNewIdOrder] = useState([]);
  // const [archived, setArchived] = useState(false);
->>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
   const {
     facturas,
     getFacturas,
@@ -64,15 +60,10 @@ const Dashboard = () => {
     facturasConfirmadas,
     facturasNoConfirmadas,
     loading,
-<<<<<<< HEAD
-    getFacturasConfirm, getFacturasNotConfirm,
-    setFacturasNoConfirmadas
-=======
     getFacturasConfirm,getFacturasNotConfirm,
     setFacturasNoConfirmadas,
     facturasNoConfirmadasFirstId,
 
->>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
   } = useFacturas();
   const {
     getSearchFacturas,
@@ -105,12 +96,8 @@ const Dashboard = () => {
     setPacienteName(factura?.cliente?.razon_social);
   };
   const [showModal, setShowModal] = useState(false);
-<<<<<<< HEAD
-  const toggleModal = (study) => {
-=======
   const [showModalFromRe, setShowModalFromRe] = useState(false);
  const toggleModal = (study) => {
->>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
     setShowModal(!showModal);
     setStudy(study);
   };
