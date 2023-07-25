@@ -80,9 +80,9 @@ const MedicoCardPostInitial = ({
       email: "" || null,
     },
     validationSchema: Yup.object({
-      nombres: Yup.string().required("Los nombres son obligatorios"),
-      apellidos: Yup.string().required("Los apellidos son obligatorios"),
-      especialidad: Yup.string().required("Los apellidos son obligatorios"),
+      //nombres: Yup.string().required("Los nombres son obligatorios"),
+     // apellidos: Yup.string().required("Los apellidos son obligatorios"),
+      //especialidad: Yup.string().required("Los apellidos son obligatorios"),
        email: Yup.string().email("Correo electrónico invalido")
     }),
     validateOnChange: false,
@@ -95,7 +95,7 @@ const MedicoCardPostInitial = ({
             toast.success("¡El medico fue guardado correctamente!", {
               autoClose: 1500,
             });
-            setActiveTab(activeTab + 1)
+            //setActiveTab(activeTab + 1)
           } else {
             toast.error("¡Hubo un error al guardar el medico!", {
               autoClose: 1500,
@@ -116,7 +116,7 @@ const MedicoCardPostInitial = ({
             toast.success("¡El medico fue guardado correctamente!", {
               autoClose: 1500,
             });
-            setActiveTab(activeTab + 1)
+           // setActiveTab(activeTab + 1)
           } else {
             toast.error("¡Hubo un error al guardar el medico!", {
               autoClose: 1500,
@@ -303,7 +303,7 @@ const MedicoCardPostInitial = ({
        <BackStation />
        <ShowMoreButton handleClick={toggleModal} />
         <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
-        <NextStation  errors={formik.values.email} />
+        <NextStation  errors={formik.values.email} handleNextSubmit={formik.handleSubmit} />
       </Box>
       <FilteredDataModal
           type={"medics"}

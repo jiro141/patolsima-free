@@ -71,6 +71,18 @@ export const putFacturaTerceros= async (id,data) => {
         console.log(error);
     }
 }
+
+//put orden update before orden pagada=== true
+export const putChangeIdOrdenClient= async (id,data) => {
+
+    try {
+        const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`,data)
+         return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const postFacturaTerceros= async (data) => {
     console.log(data)
     try {

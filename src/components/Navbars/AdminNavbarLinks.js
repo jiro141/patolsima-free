@@ -262,7 +262,7 @@ export default function HeaderLinks(props) {
       
       alignItems={'center'}
    
-    // gap={"5px"}
+    // gap={"5px"} ?param1=ordenId
     >
       {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion"  ? (
         <InputOverallSearch
@@ -473,16 +473,7 @@ export default function HeaderLinks(props) {
           }
          
          
-      { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
-      _hover={{ backgroundColor: "#EDF2F7" }}  >
-         <a style={{display:'flex', alignItems:'center'}} href="https://patolsima-api-19f65176eefa.herokuapp.com/admin/login/?next=/admin/">
-         <BiSolidCog
-                size={"20px"}
-                style={{ color: "#137798" }}
-              />
-          </a>
-         
-          </Button>}
+     
 
          <Button onClick={handleLogout} colorScheme="#89bbcc" 
       _hover={{ backgroundColor: "#EDF2F7" }} >

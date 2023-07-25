@@ -12,7 +12,7 @@ export default function Switch_({ id, name, checked, onChange, label }) {
         checked={checked}
         onChange={onChange}
       />
-      <FormLabel htmlFor={id} mb="0" ms="1" fontWeight="normal">
+      <FormLabel htmlFor={id} mb="0" ms="1" fontWeight="normal" fontSize={'15px'}>
         {label}
       </FormLabel>
     </FormControl>

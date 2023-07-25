@@ -32,6 +32,8 @@ import { thValuesFacturas } from "mocks";
 import DeleteModal from "components/widgets/Modals/DeleteModal";
 import { deleteOrden } from "api/controllers/facturas";
 import CardCambio from "components/widgets/Cards/CardCambio";
+import { getFacturasListNoConfirm } from "api/controllers/facturas";
+import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
@@ -39,6 +41,7 @@ const Dashboard = () => {
     idSelectItem, setidSelectItem,
     enablefactModalDetails, setEnablefactModalDetails,ordenId
   } = useContext(MainContext);
+  const history = useHistory();
   const colorA = "#137797";
   const [Busqueda, setBusqueda] = useState("");
   const [study, setStudy] = useState([]);
@@ -47,6 +50,7 @@ const Dashboard = () => {
   const [abonarSend, setAbonarSend] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
+  const [newIdOrder, setNewIdOrder] = useState([]);
  // const [archived, setArchived] = useState(false);
   const {
     facturas,
@@ -57,7 +61,9 @@ const Dashboard = () => {
     facturasNoConfirmadas,
     loading,
     getFacturasConfirm,getFacturasNotConfirm,
-    setFacturasNoConfirmadas
+    setFacturasNoConfirmadas,
+    facturasNoConfirmadasFirstId,
+
   } = useFacturas();
   const {
     getSearchFacturas,
@@ -90,6 +96,7 @@ const Dashboard = () => {
     setPacienteName(factura?.cliente?.razon_social);
   };
   const [showModal, setShowModal] = useState(false);
+  const [showModalFromRe, setShowModalFromRe] = useState(false);
  const toggleModal = (study) => {
     setShowModal(!showModal);
     setStudy(study);
@@ -146,12 +153,25 @@ const Dashboard = () => {
     const urlParams = new URLSearchParams(window.location.search);   
     const param1Value = urlParams.get("param1");  
     if(param1Value=== 'ordenId'){
-      setShowModal(true)
+      const sendIds=async()=>{
+       const res= await  getFacturasListNoConfirm();
+       if(res){
+       setNewIdOrder(res[0]);
+       setShowModalFromRe(true)
+       }
+      }    
+      sendIds()   
     }
-    console.log(param1Value);
+    
 
   }, []);
- //console.log(facturasNoConfirmadas)
+
+  const handleCloseFromR=()=>{
+    history.push('/admin/Facturacion');
+    setShowModalFromRe(false)
+    //window.location.reload();
+  }
+ 
   return modoVisualizacion === "tarjeta" ? (
     <>
       <Box
@@ -204,7 +224,7 @@ const Dashboard = () => {
             />
           )}
 
-          <ShowMoreButton handleClick={toggleModalList} />
+          <ShowMoreButton setAbonarSend={setAbonarSend} handleClick={toggleModalList} />
         </Box>
       </Box>
       <Modal
@@ -231,7 +251,36 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={study || ordenId} abonarSend={abonarSend} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ study } abonarSend={abonarSend} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        size={size}
+        maxWidth="100%"
+        isOpen={showModalFromRe}
+        onClose={() => setShowModalFromRe(false)}
+      >
+        <ModalOverlay />
+        <ModalContent borderRadius={"20px"} bg="#ffff">
+          <ModalHeader>
+            <Button
+              borderRadius={"50%"}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={"95%"}
+              marginTop={"-60px"}
+              bgColor={"#137797"}
+              color="#ffff"
+              onClick={handleCloseFromR}
+            >
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody>
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModalFromRe} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ newIdOrder } abonarSend={abonarSend} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -260,11 +309,13 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion abonarSend={abonarSend} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem} />
+            <ModalFacturacion abonarSend={abonarSend} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem } />
           </ModalBody>
         </ModalContent>
       </Modal>
 
+
+     
       <DeleteModal
         isOpen={showModalConfirmacion}
         onClose={toggleModalConfirmacion}

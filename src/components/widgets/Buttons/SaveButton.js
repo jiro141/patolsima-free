@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@chakra-ui/react';
 
-const SaveButton = ({ handleSubmit, handleFinish, isLoading }) => {
+const SaveButton = ({ handleSubmit, handleFinish, isLoading,type }) => {
   const handleClick = (event) => {
     event.preventDefault(); // Evita el envío del formulario
     // Primero, ejecutamos la función handleSubmit
@@ -25,9 +25,10 @@ const SaveButton = ({ handleSubmit, handleFinish, isLoading }) => {
       color='#ffff'
       onClick={handleClick}
       isLoading={isLoading}
+     // _hover={{ bg: 'blue.500', color: 'white' }}
       loadingText="Guardando..."
     >
-      Guardar
+   {  'Guardar'}
     </Button>
   );
 };
