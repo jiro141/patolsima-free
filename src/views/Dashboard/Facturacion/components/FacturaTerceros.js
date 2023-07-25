@@ -19,7 +19,7 @@ import { putClientFactura } from "api/controllers/facturas";
 import { getOrdenesByCi } from "api/controllers/facturas";
 import { getFacturasDetail } from "api/controllers/facturas";
 
-const FacturaTerceros = ({ study, setShowModal }) => {
+const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
   const { setfactClientTerceros } = useContext(MainContext)
   const [searchResult, setsearchResult] = useState(false)
 
@@ -78,7 +78,7 @@ const FacturaTerceros = ({ study, setShowModal }) => {
         }
       }
      
-
+      setFinishFactTerceros(true)
 
     },
   });

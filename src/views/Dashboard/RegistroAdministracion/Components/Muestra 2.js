@@ -47,6 +47,8 @@ import { postOrdenes } from "api/controllers/facturas";
 import { NextStation } from "components/widgets/Buttons/NextStation";
 import SaveButton from "components/widgets/Buttons/SaveButton";
 import { Title, subTitleBold, Titlelight } from "components/widgets/Texts";
+import GeneralButton from "components/widgets/Buttons/GeneralButton";
+import { postMuestra } from "api/controllers/estudios";
 const Muestra2 = () => {
   const {
     estudioID,
@@ -57,6 +59,7 @@ const Muestra2 = () => {
     estudioId2,
     medicoID,
     setEstudioId2,
+    muestraID2, setMuestraID2
   } = useContext(ModoVisualizacionContext);
   // console.log(estudioId2);
 
@@ -109,7 +112,7 @@ const Muestra2 = () => {
           setStudyData(estudioPost);
           setEstudioId2(estudioPost.id);
 
-          setOpenModal(true);
+          //setOpenModal(true);
         } else {
           toast.error("¡Hubo un error al crear el estudio!", {
             autoClose: 1000,
@@ -123,7 +126,7 @@ const Muestra2 = () => {
   });
 
   useEffect(() => {
-    const sendOrden = async () => {
+   /*  const sendOrden = async () => {
       if (estudioId2 && muestraID && !estudioID) {
         const newOrden = {
           estudio_ids: [estudioId2, estudioID]
@@ -132,20 +135,20 @@ const Muestra2 = () => {
         // console.log(postOrden)
 
       }
-      /* if(estudioId2){
+     if(estudioId2){
         const newOrden={
           estudio_ids: [estudioID,estudioId2]
         }
         const postOrden =await postOrdenes(newOrden)
         console.log(postOrden)
         
-       }*/
+       }
     }
 
     sendOrden()
     return () => {
 
-    }
+    }*/
   }, [estudioId2])
 
   const uniqueId = generateUniqueId();
@@ -154,9 +157,53 @@ const Muestra2 = () => {
     formik.handleSubmit();
   };
 
+  const formikMuestra = useFormik({
+    initialValues: {
+      tipo_de_muestra: "",
+      descripcion: null,
+      notas: "",
+    },
+    validateOnChange: false,
+    onSubmit: async (formData, { resetForm }) => {
+      if(muestraID){
+        formikMuestra.resetForm()
+       }
+      const newObj = {
+        estudio: estudioId2 ,
+        ...formData,
+      };
+      try {
+        const muestraPost = await postMuestra(newObj);
+        if (muestraPost) {
+          //console.log(muestraPost);
+          setMuestraID2(muestraPost.id);
+          //setEstudioID(muestraPost.estudio);
+          toast.success("¡La muestra fue guardada con exito!", {
+            autoClose: 1000,
+          });
+         
+        } else {
+          toast.error("¡Hubo un error al crear la muestra!", {
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    },
+  });
+
+  const handleFinishRegister=()=>{
+    setOpenModalSuccess(true);
+  }
   return (
     <div style={{ height: "auto" }}>
+<<<<<<< HEAD
       {/* <NextStation /> */}
+=======
+      
+>>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
           <Title
@@ -262,7 +309,7 @@ const Muestra2 = () => {
           {<FormControl display="flex" alignItems="center" justifyContent={'left'} marginTop={"5px"}>
             <input type="file" accept=".pdf" onChange={handleFileChange}
               style={{ display: 'none' }} ref={fileInputRef} />
-            <FormLabel>{selectedFile ? selectedFile.name : 'Sube un archivo'}</FormLabel>
+            <Text style={{fontSize:'15px',marginRight:'8px'}}>{selectedFile ? selectedFile.name : 'Subir archivo'}</Text>
             <Button type="button" onClick={handleUpload}>
               <BsFolderPlus color="#137797" />
             </Button>
@@ -273,18 +320,41 @@ const Muestra2 = () => {
           size="lg"
           name="notas"
           borderRadius="md"
-          placeholder="Notas:"
+          placeholder="Notas de estudio:"
           value={formik.values.notas}
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {estudioId2 &&
-          <AddMuestraForm muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} />}
-        {openModalSuccess && <SuccessModal isOpen={openModalSuccess} setOpenModal={setOpenModal} />}
+        {
+          <AddMuestraForm muestraID={muestraID2} setOpenModalSuccess={setOpenModalSuccess} 
+          formikMuestra={formikMuestra}
+          />}
+        { <SuccessModal type={'muestra2'} isOpen={openModalSuccess} setOpenModal={setOpenModalSuccess} />}
       </form>
-      {!estudioId2 && (
-        <Box marginTop={'20px'} w={"100%"} textAlign="end">
-          <SaveButton handleSubmit={handleSubmit} />
+      {(
+        <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
+          
+           <GeneralButton
+           //type={'withTooltip'}
+          // label={'Debes crear un estudio'}
+            text={"Agregar muestra"}
+            disabled={estudioId2 ? false : true}
+            handleClick={formikMuestra.handleSubmit}
+          />
+       
+          
+          
+         
+           {estudioId2 && muestraID2 ?<GeneralButton
+            text={"Finalizar registro "}
+            handleClick={handleFinishRegister}
+          />:
+          <GeneralButton
+            text={"Guardar estudio"}
+            handleClick={handleSubmit}
+          />
+          }
+         {/* <SaveButton type='studio' handleSubmit={handleSubmit} />*/}
         </Box>
       )}
     </div>

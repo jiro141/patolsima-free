@@ -1,4 +1,4 @@
-import { Box, Grid, Input, Text, Textarea } from "@chakra-ui/react";
+import { Box, Grid, Input, Text, Textarea, Tooltip } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import { useFormik, validateYupSchema } from "formik";
 import { postMuestra } from "api/controllers/estudios";
@@ -13,11 +13,12 @@ import { postOrdenes } from "api/controllers/facturas";
 import FinishButton from "../Buttons/FinishButton";
 import { Title, subTitleBold, Titlelight } from "../Texts";
 
-export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish }) {
+export default function AddMuestraForm({ formikMuestra }) {
   const { estudioId2, estudioID, setMuestraID, muestraID,setOrdenId,setEstudioID } = useContext(
     ModoVisualizacionContext
   );
 
+<<<<<<< HEAD
   const formik = useFormik({
     initialValues: {
       tipo_de_muestra: "",
@@ -68,18 +69,15 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
       setFinish(true);
     }
   };
+=======
+ 
+>>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
   
-  useEffect(() => {
-   if(muestraID){
-    //setOpenModalSuccess(true);
-   }
-    return () => {}
-  }, [muestraID])
 
   useEffect(() => {
       
       
-   console.log('postOrden ->');
+ /*  console.log('postOrden ->');
    console.log(estudioID);
     const sendOrden = async () => {
       const newOrden = {
@@ -90,25 +88,41 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
      console.log(postOrden);
     };
     sendOrden();
-  
+  */
  
 }, [ estudioID]);
   
   
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
+<<<<<<< HEAD
       <Box marginY={'15px'}>
         <Title
           title={'Agregar muestra'}
         >
         </Title>
       </Box>
+=======
+      <Tooltip label={'Debes guardar el estudio para agregar una muestra.'}>
+      <Text
+        textAlign={"left"}
+        fontSize={"17px"}
+        fontWeight={'bold'}
+        margin={{ lg: "15px auto 15px 5px", sm: "0px auto 0px auto" }}
+        color={"gray.600"}
+      >
+        Agregar muestra
+      </Text>
+      </Tooltip>
+
+>>>>>>> d09b60e0b4cf7d8f7637a79ef7ec4650264881ec
       <InputOverall
         placeholder="Tipo de muestra"
+        disabled={estudioID ? false : true}
         name={"tipo_de_muestra"}
-        value={formik.values.tipo_de_muestra}
+        value={formikMuestra.values.tipo_de_muestra}
         onChange={(e) =>
-          formik.setFieldValue("tipo_de_muestra", e.target.value)
+          formikMuestra.setFieldValue("tipo_de_muestra", e.target.value)
         }
       />
       {/* <InputOverall
@@ -119,22 +133,23 @@ export default function AddMuestraForm({ setOpenModalSuccess, finish, setFinish 
       /> */}
       <Textarea
         marginTop={"10px"}
+        disabled={estudioID ? false : true}
         size="lg"
         name="notas"
         borderRadius="md"
-        placeholder="Notas:"
-        value={formik.values.notas}
-        onChange={(e) => formik.setFieldValue("notas", e.target.value)}
+        placeholder="Notas de muestra:"
+        value={formikMuestra.values.notas}
+        onChange={(e) => formikMuestra.setFieldValue("notas", e.target.value)}
       />
       {/**muestraID && */}
-      { (
+      {/* (
         <Box w={"100%"} textAlign={"center"}>
           <GeneralButton
             text={"Agregar muestra"}
             handleClick={formik.handleSubmit}
           />
         </Box>
-      )}
+      )*/}
       {/*
         <Box marginTop={'20px'} w={"100%"} textAlign="end">
           <FinishButton handleSubmit={formik.handleSubmit} />

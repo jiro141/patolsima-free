@@ -2,7 +2,7 @@ import { Button, CloseButton, Modal, ModalBody, ModalContent, ModalHeader, Modal
 import React from 'react'
 import FacturaTerceros from 'views/Dashboard/Facturacion/components/FacturaTerceros'
 
-export default function ModalFctTerceros({study,showModal,toggleModal,setShowModal}) {
+export default function ModalFctTerceros({study,showModal,toggleModal,setShowModal,setFinishFactTerceros}) {
   return (
     <Modal
     size={"lg"}
@@ -27,7 +27,7 @@ export default function ModalFctTerceros({study,showModal,toggleModal,setShowMod
             </Button>
         </ModalHeader>
         <ModalBody>
-            <FacturaTerceros study={study} setShowModal={setShowModal} />
+            <FacturaTerceros study={study} setShowModal={setShowModal} setFinishFactTerceros={setFinishFactTerceros}/>
         </ModalBody>
     </ModalContent>
 </Modal>

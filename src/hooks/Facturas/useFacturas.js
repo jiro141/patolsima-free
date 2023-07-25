@@ -12,6 +12,7 @@ export function useFacturas() {
 
   const [facturasConfirmadas, setFacturasConfirmadas] = useState([]);
   const [facturasNoConfirmadas, setFacturasNoConfirmadas] = useState([]);
+  const [facturasNoConfirmadasFirstId, setFacturasNoConfirmadasFirstId] = useState([]);
   const [cambioDelDia, setCambioDelDia] = useState('');
   const [loadingCambio, setloadingCambio] = useState(false);
   const [errorC, seterrorC] = useState(false);
@@ -54,6 +55,8 @@ export function useFacturas() {
         const archivedFacts = facturasListNotConfirm.filter((item) => item.archived === false);
         // console.log();
         setFacturasNoConfirmadas(archivedFacts);
+       
+        //setFacturasNoConfirmadasFirstId(primerId)
       }
       // } else {
       //   setFacturasNoConfirmadas(facturasListNotConfirm);
@@ -80,5 +83,5 @@ export function useFacturas() {
   }, []);
 
 
-  return { facturas, getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas };
+  return { facturas, getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas,facturasNoConfirmadasFirstId };
 }

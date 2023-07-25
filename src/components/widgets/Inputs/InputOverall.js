@@ -10,7 +10,7 @@ export default function InputOverall({
   placeholder,
   name,
   defaultValue,
-  
+  disabled
 
 }) {
 
@@ -26,6 +26,7 @@ export default function InputOverall({
        name={name}
        value={value}
        onChange={onChange}
+       disabled={disabled ? true : false}
        //onClick={handleClick}
      />
       {errors && (

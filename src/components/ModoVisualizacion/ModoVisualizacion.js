@@ -11,6 +11,7 @@ export function ModoVisualizacionProvider({ children }) {
   const [estudioID, setEstudioID] = useState('');
   const [estudioId2, setEstudioId2] = useState('');
   const [muestraID, setMuestraID] = useState('');
+  const [muestraID2, setMuestraID2] = useState('');
 
   const setFormEstudioIds=(values)=>{
     setEstudioID((prevValues) => ({
@@ -53,7 +54,10 @@ export function ModoVisualizacionProvider({ children }) {
         muestraID,
         setMuestraID,
         setFormEstudioIds,
-        estudioId2, setEstudioId2
+        estudioId2, setEstudioId2,
+        setDataPaciente,
+        setDataMedico,
+        muestraID2, setMuestraID2
       }}
     >
       {children}

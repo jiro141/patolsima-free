@@ -17,6 +17,8 @@ import GeneralButton from "../Buttons/GeneralButton";
 import { useContext } from "react";
 import { BsFillCheckCircleFill, BsFolderPlus } from "react-icons/bs";
 import MainContext from "context/mainContext/MainContext";
+import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import { postOrdenes } from "api/controllers/facturas";
 
 export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,confirm }) {
   const {
@@ -24,18 +26,33 @@ export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,co
     setActiveTab,
     ordenId,
   } = useContext(MainContext);
+  const { estudioID,muestraID,estudioId2 } = useContext(ModoVisualizacionContext);
 
-  const handleConfirmClose = () => {
+
+  const handleConfirmClose = async() => {
     console.log(ordenId);
-    setOpenModal(false);
-     const param1 = ordenId.toString();
-    const url = `/admin/Facturacion`;
+      if (muestraID && estudioID ) {
+        const newOrden = {
+          estudio_ids: [estudioID]
+        }
+        const postOrden = await postOrdenes(newOrden)
+        console.log(postOrden)
 
-    window.location.href = url
-    //window.location.reload();
-   /* if (activeTab !== 3) {
-      setConfirm(true);
-    }*/
+      }
+      if(type==='muestra2'){
+        const newOrden = {
+          estudio_ids: [estudioID,estudioId2]
+        }
+        const postOrden = await postOrdenes(newOrden)
+        console.log(postOrden)
+      }
+     
+    
+    setOpenModal(false);
+     const param1 = 'ordenId';
+    const url = `/admin/Facturacion/?param1=${param1}`;
+     window.location.href = url
+  
   };
   const handleClose = () => {
     if (type === 'muestra2') {

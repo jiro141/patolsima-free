@@ -38,6 +38,7 @@ import { getStudiesDetail } from "api/controllers/estudios";
 import MainContext from "context/mainContext/MainContext";
 import { formatDate } from "helpers";
 import { generarNumeroAleatorio } from "helpers";
+import { putChangeIdOrdenClient } from "api/controllers/facturas";
 
 
 const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG,setShowModalConfirmacdion,setAbonarSend,abonarSend }) => {
@@ -60,6 +61,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     const [openModalFact2, setOpenModalFact2] = useState(false);
     const [openModalPago, setOpenModalPago] = useState(false);
     const { factClientTerceros, setfactClientTerceros } = useContext(MainContext)
+    const [finishFactTerceros, setFinishFactTerceros] = useState(false);
 
     const [pagoId, setPagoId] = useState();
     const [data, setData] = useState(
@@ -78,9 +80,15 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     };
     useEffect(() => {
-        setAbonarSend(false)
-        getFacturasDetails()
-        return () => { setAbonarSend(false) }
+        if(setAbonarSend){
+            setAbonarSend(false)
+            getFacturasDetails()
+            return () => { setAbonarSend(false) }
+        }
+       
+    }, [])
+    useEffect(() => {     
+            getFacturasDetails() 
     }, [])
     useEffect(() => {
         if(abonarSend){
@@ -100,9 +108,23 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
 
 
-
-    console.log(itemOrden)
-
+//sconsole.log('studyy');
+    
+useEffect(() => {     
+        const changeClientByOrder=async()=>{
+            if(study){ 
+                if(study.pagada===false){ 
+                    const res=await putChangeIdOrdenClient(study.id,{
+                        cliente_id:study?.cliente?.id
+                    })
+                    console.log(res);
+                }
+            }           
+        }
+        changeClientByOrder()
+         return () => {
+  }
+}, [finishFactTerceros])
 
 
 
@@ -685,7 +707,10 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
             }
 
 
-            <ModalFctTerceros study={study} toggleModal={toggleModal} showModal={showModal} setShowModal={setShowModal} />
+            <ModalFctTerceros 
+           
+            setFinishFactTerceros={setFinishFactTerceros}
+            study={study} toggleModal={toggleModal} showModal={showModal} setShowModal={setShowModal} />
 
             <Modal
                 size={"xs"}

@@ -6,6 +6,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Text,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Muestra2 from "./Components/Muestra 2";
@@ -17,7 +18,19 @@ import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualiza
 
 function Registro() {
   const { activeTab, twoState, setTwoState, setActiveTab } = useContext(MainContext);
-  const { estudioID } = useContext(ModoVisualizacionContext);
+  const { setMuestraID,setFormEstudioIds,setEstudioID,setPacienteID,setMedicoID,setDataPaciente,setDataMedico } = useContext(ModoVisualizacionContext);
+
+  useEffect(() => {
+    setMuestraID(''),
+    setFormEstudioIds(''),
+    setEstudioID(''),
+    setPacienteID(''),
+    setMedicoID('')
+    setDataPaciente({})
+    setDataMedico({})
+    return () => { }
+  }, [])
+  
 
   const MotionTab = motion(Tab);
 
@@ -62,8 +75,9 @@ function Registro() {
         }}
         margin="30px 5px 0 5px"
         border="none"
+        
         bg={isActive ? "#9BC5D3" : "#9BC5D3"}
-        color={isActive ? "#137798" : "transpared"}
+        color={isActive ? "#3289A6" : "transpared"}
         borderRadius={isActive ? "40px" : "45%"}
         padding={
           isActive
@@ -78,7 +92,7 @@ function Registro() {
         isDisabled={isDisabled}
         fontWeight="bold"
       >
-        {title}
+      <Text style={{color:'#137798'}}>{title} </Text>  
       </MotionTab>
     );
   });
@@ -87,13 +101,14 @@ function Registro() {
     return (
       <div >
         <MotionTab
+        display={'flex'}
           margin="30px 5px 0 5px"
           border="none"
           bg={isActive ? "#9BC5D3" : "#9BC5D3"}
-          color={isActive ? "#137798" : "transpared"}
+         color={isActive ? "#137798" : "transpared"}
           borderRadius={isActive ? "40px" : "45%"}
           padding={
-            isActive ? { sm: "5px 80px", lg: "20px 220px" } : { lg: "25px" }
+            isActive ? { sm: "5px 80px", lg: "20px 200px" } : { lg: "25px" }
           }
           fontSize={isActive ? "19px" : "30px"}
           width="50px"
@@ -102,8 +117,9 @@ function Registro() {
           whileTap={{ scale: 1 }}
           isDisabled={isDisabled}
           fontWeight="bold"
+         // border={'1px'}
         >
-          {isActive ? title : activeTab == 2 ? "+" : null}
+       <Text style={{color:'#137798',fontSize:'15px'}}>{isActive ? title : activeTab == 2 ? "+" : null}  </Text>     
         </MotionTab>
       </div>
     );
@@ -143,7 +159,7 @@ function Registro() {
           width={{ lg: "90%", md: "100%", sm: "100%" }}
         >
           <Tabs>
-            <TabList color={"#137798"} isDisabled display={"flex"} justifyContent={"center"} border={"none"}>
+            <TabList isDisabled display={"flex"} justifyContent={"center"} border={"none"}>
               <CustomTab
               
                 title="Paciente"

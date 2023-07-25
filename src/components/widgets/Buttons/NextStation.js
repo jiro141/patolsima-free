@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
 import { Box, Button, FormLabel } from '@chakra-ui/react';
-import { BsFillArrowRightCircleFill, BsArrowLeftCircleFill } from 'react-icons/bs';
+import { BsFillArrowRightCircleFill, BsArrowLeftCircleFill, BsChevronRight } from 'react-icons/bs';
 import MainContext from 'context/mainContext/MainContext';
+import { CiCircleChevRight,CiCircleChevLeft } from "react-icons/ci";
+import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
 
-export const NextStation = ({errors}) => {
-  const { activeTab, setActiveTab,pacienteID } = useContext(MainContext);
- 
+
+export const NextStation = ({errors,handleNextSubmit}) => {
+  const { activeTab, setActiveTab } = useContext(MainContext);
+  const {medicoID,pacienteID } = useContext(ModoVisualizacionContext);
 
   const handleIncrement = () => {
     console.log(errors);
@@ -16,7 +19,16 @@ export const NextStation = ({errors}) => {
     }     
     }else{
       setActiveTab(activeTab + 1);
+      
     }
+    if(handleNextSubmit){
+      if(medicoID){
+        handleNextSubmit()
+      }else{
+        handleNextSubmit()
+      }      
+    }
+  
     
   };
 
@@ -42,9 +54,9 @@ export const NextStation = ({errors}) => {
           color='#ffff'
           onClick={handleIncrement}
           cursor='pointer'
-          _hover={{ opacity: 0.8 }}
+          _hover={{ opacity: 0.8}}
         >
-          <BsFillArrowRightCircleFill size={'25px'} color={'#137797'} />
+          <CiCircleChevRight size={'50px'} color={'#137797'} />
         </Box>
       
       
@@ -67,8 +79,9 @@ export const BackStation = () => {
           onClick={handleDeincrement}
           cursor='pointer'
           _hover={{ opacity: 0.8 }}
+          style={{height:'50px'}}
         >
-          <BsArrowLeftCircleFill size={'25px'} color={'#137797' } />
+           <CiCircleChevLeft size={'50px'} color={'#137797'} />
 
         </Box>
       )}

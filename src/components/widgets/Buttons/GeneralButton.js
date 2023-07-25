@@ -1,8 +1,8 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 import React from "react";
 import '../../../css/style.css'
 
-export default function GeneralButton({ type, text, handleClick,pdfContent }) {
+export default function GeneralButton({ type, text, handleClick,pdfContent,disabled,label }) {
   return (
     <>
       {type === "outline" ? (
@@ -39,21 +39,43 @@ export default function GeneralButton({ type, text, handleClick,pdfContent }) {
  </div>
            
         
-      : (
-        <Button
-        size="auto"
-        padding={'10px'}
-          marginX={"10px"}
-          marginY={"30px"}
-          color={"whiteAlpha.900"}
-          borderColor={"gray.400"}
-          background={"#137797"}
-          borderRadius={"20px"}
-          onClick={handleClick}
-        >
-           {text}
-        </Button>
-      )}
+      :  type ==='withTooltip'?
+    
+      <Tooltip label={label}>
+      <Button
+             size="auto"
+             padding={'10px'}
+               marginX={"10px"}
+               marginY={"30px"}
+               color={"whiteAlpha.900"}
+               borderColor={"gray.400"}
+               background={"#137797"}
+               borderRadius={"20px"}
+               onClick={handleClick}
+              // _hover={{ bg: '#C4DCE5', color: 'white' }}
+               disabled={ disabled ? true : false}
+             >
+                {text}
+             </Button>
+     
+             </Tooltip>:
+ <Button
+ size="auto"
+ padding={'10px'}
+   marginX={"10px"}
+   marginY={"30px"}
+   color={"whiteAlpha.900"}
+   borderColor={"gray.400"}
+   background={"#137797"}
+   borderRadius={"20px"}
+   onClick={handleClick}
+  // _hover={{ bg: '#C4DCE5', color: 'white' }}
+   disabled={ disabled ? true : false}
+ >
+    {text}
+ </Button>
+
+    }
     </>
   );
 }

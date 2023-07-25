@@ -109,7 +109,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
-            setActiveTab(activeTab + 1)
+            //setActiveTab(activeTab + 1)
             //console.log(activeTab)
             //setActiveTab(1)
             setTwoState('post')
@@ -142,7 +142,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
-            setActiveTab(activeTab + 1)
+           // setActiveTab(activeTab + 1)
             setTwoState('post')
           }
           else {
@@ -476,14 +476,20 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         eliminar={eliminarPaciente}
         nombres={pacienteName}
       />
-      <Box  marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-       
-        <ShowMoreButton handleClick={toggleModal} />
+      <Box  marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'} w={'100%'}>
+      <div style={{width:"50px"}}>
+
+      </div>
+       <ShowMoreButton handleClick={toggleModal} />
         
         <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
+
+      
+
        
        
-      {  <NextStation />}
+       
+      {  <NextStation  handleNextSubmit={formik.handleSubmit}/>}
       </Box>
 
 
