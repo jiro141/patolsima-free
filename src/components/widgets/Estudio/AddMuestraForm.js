@@ -91,18 +91,12 @@ export default function AddMuestraForm({ formikMuestra }) {
   
   return (
     <div style={{ paddingLeft: "10px", paddingRight: "10px", width: "100%" }}>
-      <Tooltip label={'Debes guardar el estudio para agregar una muestra.'}>
-      <Text
-        textAlign={"left"}
-        fontSize={"17px"}
-        fontWeight={'bold'}
-        margin={{ lg: "15px auto 15px 5px", sm: "0px auto 0px auto" }}
-        color={"gray.600"}
-      >
-        Agregar muestra
-      </Text>
-      </Tooltip>
-
+      <Box marginY={'15px'}>
+        <Title
+          title={'Agregar muestra'}
+        >
+        </Title>
+      </Box>
       <InputOverall
         placeholder="Tipo de muestra"
         disabled={estudioID ? false : true}

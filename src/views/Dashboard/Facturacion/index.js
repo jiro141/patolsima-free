@@ -50,8 +50,7 @@ const Dashboard = () => {
   const [abonarSend, setAbonarSend] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
-  const [newIdOrder, setNewIdOrder] = useState([]);
- // const [archived, setArchived] = useState(false);
+  // const [archived, setArchived] = useState(false);
   const {
     facturas,
     getFacturas,
@@ -60,10 +59,8 @@ const Dashboard = () => {
     facturasConfirmadas,
     facturasNoConfirmadas,
     loading,
-    getFacturasConfirm,getFacturasNotConfirm,
-    setFacturasNoConfirmadas,
-    facturasNoConfirmadasFirstId,
-
+    getFacturasConfirm, getFacturasNotConfirm,
+    setFacturasNoConfirmadas
   } = useFacturas();
   const {
     getSearchFacturas,
@@ -97,7 +94,10 @@ const Dashboard = () => {
   };
   const [showModal, setShowModal] = useState(false);
   const [showModalFromRe, setShowModalFromRe] = useState(false);
- const toggleModal = (study) => {
+  const [newIdOrder, setNewIdOrder] = useState([]);
+  //setNewIdOrder
+ 
+  const toggleModal = (study) => {
     setShowModal(!showModal);
     setStudy(study);
   };

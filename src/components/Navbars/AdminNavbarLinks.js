@@ -471,9 +471,9 @@ export default function HeaderLinks(props) {
               </Button>
             </>
           }
-
-
-          {/* { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
+         
+         
+      {/* { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
       _hover={{ backgroundColor: "#EDF2F7" }}  >
          <a style={{display:'flex', alignItems:'center'}} href="https://patolsima-api-19f65176eefa.herokuapp.com/admin/login/?next=/admin/">
          <BiSolidCog
