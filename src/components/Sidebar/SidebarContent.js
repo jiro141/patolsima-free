@@ -432,39 +432,43 @@ const SidebarContent = ({ logoText, routes }) => {
   return (
     <Box marginTop={'-10px'} maxW={"200px"}>
       <Box w="100%" h="5px" m="-15px 10px 130px 10px">
-        <Box w={'70%'} marginRight={'-25px'} display={'flex'} justifyContent={'start'}>
-          <Link href="/admin/Home">
-            <Image src={Logo} alt="Logo palmosima" />
-          </Link>
-        </Box>
-        <Box color={"#137797"} fontWeight="bold">
-          <Box marginRight={'10px'} display={'flex'} justifyContent={'center'}>
-            <Box>
-              <Box marginLeft={'-10px'} w={"100px"} >
-                <Reloj />
-              </Box>
-              <Box marginLeft={'-15px'} >
-                <Fecha />
+        <Box display={'flex'} justifyContent={'center'} w={'100%'}>
+          <Box w={'70%'}>
+            <Link href="/admin/Home">
+              <Image src={Logo} alt="Logo palmosima" />
+            </Link>
+            <Box textAlign={'center'} color={"#137797"} fontWeight="bold">
+              <Box  >
+                <Box>
+                  <Box>
+                    <Reloj />
+                  </Box>
+                  <Box  >
+                    <Fecha />
+                  </Box>
+                </Box>
               </Box>
             </Box>
+            <Box
+              boxSize="initial"
+              justifyContent="center"
+              alignItems="center"
+              bg={'#137797'}
+              my={{
+                xl: "5px",
+              }}
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              py="8px"
+              borderRadius="15px"
+              // w="100%"
+              >
+              <Text fontWeight={'bold'} my="auto" fontSize="md" color={'#FFFF'}>BCV: {cambioDelDia}</Text>
+            </Box>
           </Box>
-        </Box>
-        <Box
-          boxSize="initial"
-          justifyContent="center"
-          alignItems="center"
-          bg={'#137797'}
-          my={{
-            xl: "5px",
-          }}
-          ps={{
-            sm: "10px",
-            xl: "16px",
-          }}
-          py="8px"
-          borderRadius="15px"
-          w="100%">
-          <Text fontWeight={'bold'} my="auto" fontSize="md" color={'#FFFF'}>BCV: {cambioDelDia}</Text>
+
         </Box>
       </Box>
       {loading ? (
