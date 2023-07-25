@@ -24,6 +24,7 @@ import { postMedicos } from 'api/controllers/medicos';
 import Confirmacion from 'views/Dashboard/RegistroAdministracion/Components/Confirmacion';
 import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
 import SaveButton from './Buttons/SaveButton';
+import { Title } from './Texts';
 
 const MedicoCardPostInitial = ({ twoState, setTwoState, registro, setRegistro }) => {
     const { setFormValues, setMedicoID } = useContext(ModoVisualizacionContext);
