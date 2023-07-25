@@ -27,6 +27,7 @@ import InputCalendar from "../Inputs/InputCalendar";
 import { putPacientes } from "api/controllers/pacientes";
 import { NextStation } from "../Buttons/NextStation";
 import { getPacientesListByCi } from "api/controllers/pacientes";
+import { Title } from "../Texts";
 
 const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(

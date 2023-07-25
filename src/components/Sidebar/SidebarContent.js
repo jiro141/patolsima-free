@@ -449,15 +449,13 @@ const SidebarContent = ({ logoText, routes }) => {
             </Box>
           </Box>
         </Box>
-        <Box boxSize="initial"
-          justifyContent="flex-start"
+        <Box
+          boxSize="initial"
+          justifyContent="center"
           alignItems="center"
           bg={'#137797'}
           my={{
             xl: "5px",
-          }}
-          mx={{
-            xl: "auto",
           }}
           ps={{
             sm: "10px",
