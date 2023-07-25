@@ -483,13 +483,13 @@ const SidebarContent = ({ logoText, routes }) => {
           <Box pt={"10px"} mb="5px">
             <Box margin={"100px 0 20px 0"}>
               <Separator></Separator>
-              <Text marginTop={"10px"} marginLeft={"13px"}>
+             {/* <Text marginTop={"10px"} marginLeft={"13px"}>
                 {arrGroup === "administracion"
                   ? `Administración`
                   : arrGroup === "patologo"
                     ? "Patologia"
                     : ""}
-              </Text>
+              </Text>*/}
             </Box>
           </Box>
           <Stack direction="column" mb="40px">
