@@ -165,9 +165,10 @@ const Muestra2 = () => {
     },
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      if(muestraID){
+      formikMuestra.resetForm()
+     /* if(muestraID){
         formikMuestra.resetForm()
-       }
+       }*/
       const newObj = {
         estudio: estudioId2 ,
         ...formData,
@@ -286,6 +287,7 @@ const Muestra2 = () => {
         >
           <Switch_
             id="envio_digital"
+            disabled={estudioId2 ? true :false}
             checked={formik.values.envio_digital}
             onChange={(e) =>
               formik.setFieldValue("envio_digital", e.target.checked)
@@ -295,6 +297,7 @@ const Muestra2 = () => {
           />
 
           <Switch_
+           disabled={estudioId2 ? true :false}
             id="urgente"
             name="urgente"
             checked={formik.values.urgente}
@@ -312,6 +315,7 @@ const Muestra2 = () => {
           </FormControl>}
         </Grid>
         <Textarea
+         disabled={estudioId2 ? true :false}
           marginTop={"10px"}
           size="lg"
           name="notas"
@@ -331,8 +335,6 @@ const Muestra2 = () => {
         <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
           
            <GeneralButton
-           //type={'withTooltip'}
-          // label={'Debes crear un estudio'}
             text={"Agregar muestra"}
             disabled={estudioId2 ? false : true}
             handleClick={formikMuestra.handleSubmit}

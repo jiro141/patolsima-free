@@ -113,9 +113,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             //console.log(activeTab)
             //setActiveTab(1)
             setTwoState('post')
+            return null
           }
           else {
-            toast.error("¡Hubo un error al guardar el paciente!", {
+           toast.error("¡Hubo un error al guardar el paciente!", {
               autoClose: 1000,
             });
            // formik.resetForm()
@@ -139,7 +140,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           console.log(pacientePut);
           setPacienteID(pacientePut.id);
           if (pacientePut) {
-            toast.success("¡El paciente fue guardado correctamente!", {
+           toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
            // setActiveTab(activeTab + 1)
@@ -489,7 +490,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
        
        
        
-      {  <NextStation  handleNextSubmit={formik.handleSubmit}/>}
+      {  <NextStation  handleNextSubmit={formik.handleSubmit}  searchci={searchci} />}
       </Box>
 
 

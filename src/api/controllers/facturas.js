@@ -53,7 +53,7 @@ export const postOrdenes= async (data) => {
 //search ci for terceros
 export const getOrdenesByCi= async (ci) => {
     try {
-        const response = await Axios.get(`/v1/facturacion/ordenes/?ci=${ci}`)
+        const response = await Axios.get(`/v1/facturacion/ordenes/?&archived=false&ci=${ci}&confirmada=false`)
         //console.log(response.data);
          return response.data.results;
     } catch (error) {
@@ -95,13 +95,13 @@ export const postFacturaTerceros= async (data) => {
 }
 //factura terceros put client->
 export const putClientFactura= async (id,data) => {
-    console.log(data)
+    console.log(id,data)
     try {
         const response = await Axios.put(`/v1/facturacion/clientes/${id}/`,data)
         console.log( response.data)
          return response.data;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 

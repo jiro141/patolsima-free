@@ -60,7 +60,8 @@ const Dashboard = () => {
     facturasNoConfirmadas,
     loading,
     getFacturasConfirm, getFacturasNotConfirm,
-    setFacturasNoConfirmadas
+    setFacturasNoConfirmadas,
+    setFacturasConfirmadas
   } = useFacturas();
   const {
     getSearchFacturas,
@@ -145,7 +146,7 @@ const Dashboard = () => {
   };
   const handleArchivarConfirmFacts = (facturaIdDelete) => {
     console.log(facturaIdDelete)
-    //setFacturasConfirmadas(facturasConfirmadas.filter((p) => p.id !== facturaIdDelete))
+    setFacturasConfirmadas(facturasConfirmadas.filter((p) => p.id !== facturaIdDelete))
     setFacturasNoConfirmadas(facturasNoConfirmadas.filter((p) => p.id !== facturaIdDelete))
   }
 
