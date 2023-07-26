@@ -554,7 +554,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                             </Box>
                         </Box>}
                         <Box>
-                            <Box margin={'5px'}>
+                           {/* <Box margin={'5px'}>
                                 <Text fontSize={'16px'} >Monto(Bs)</Text>
                                 {facturasDetail ? (
                                     <Text fontSize={'14px'}>
@@ -567,7 +567,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
-                            </Box>
+                            </Box>*/}
                         </Box>
                     </Grid>
 
