@@ -432,8 +432,8 @@ const SidebarContent = ({ logoText, routes }) => {
   return (
     <Box marginTop={'-10px'} maxW={"200px"}>
       <Box w="100%" h="5px" m="-15px 10px 130px 10px">
-        <Box display={'flex'} justifyContent={'center'} w={'100%'}>
-          <Box w={'70%'}>
+        <Box display={'flex'} justifyContent={'center'} w={'100%'} paddingRight={'20px'}>
+          <Box w={'75%'}>
             <Link href="/admin/Home">
               <Image src={Logo} alt="Logo palmosima" />
             </Link>
@@ -504,7 +504,7 @@ const SidebarContent = ({ logoText, routes }) => {
           </Stack>
         </>
       )}
-      <Box marginTop={'-35px'}>
+      <Box marginTop={'-25px'}>
         <Calendario />
       </Box>
     </Box>

@@ -329,8 +329,8 @@ function SidebarResponsive(props) {
   var brand = (
     <Box marginTop={'-10px'} maxW={"200px"}>
       <Box w="100%" h="5px" m="-15px 10px 130px 10px">
-        <Box display={'flex'} justifyContent={'center'} w={'100%'}>
-          <Box w={'70%'}>
+        <Box display={'flex'} justifyContent={'center'} w={'100%'} paddingRight={'10px'}>
+          <Box w={'75%'}>
             <Link href="/admin/Home">
               <Image src={Logo} alt="Logo palmosima" />
             </Link>
@@ -384,11 +384,11 @@ function SidebarResponsive(props) {
       alignItems="center"
     >
       <HamburgerIcon
-        color={"#FFFF"}
+        color={"#137797"}
         w="18px"
         h="18px"
         ref={btnRef}
-        colorscheme="#FFFF"
+        colorscheme="#137797"
         onClick={onOpen}
       />
       <Drawer
@@ -413,8 +413,22 @@ function SidebarResponsive(props) {
             _focus={{ boxShadow: "none" }}
             _hover={{ boxShadow: "none" }}
           />
-          <DrawerBody maxW="250px" px="1rem">
-            <Box maxW="100%" h="100vh">
+          <DrawerBody maxW="250px" px="1rem" overflow={'auto'} sx={{
+            "&::-webkit-scrollbar": {
+              width: "8px",
+              borderRadius: "8px",
+              backgroundColor: "#f5f5f5",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#555",
+            },
+            zIndex: 100
+          }} >
+            <Box maxW="100%" h="100vh" >
               <Box>{brand}</Box>
               <Stack direction="column" mb="40px">
                 {loading ? (
@@ -424,13 +438,13 @@ function SidebarResponsive(props) {
                     </div>
                   </Box>
                 ) : (
-                  <>
-                    <Box pt={"10px"} mb="5px">
-                      <Box margin={"100px 0 20px 0"}>
+                  <Box marginTop={'100px'}>
+                    <Box pt={"10px"}>
+                      <Box>
                         <Separator></Separator>
                       </Box>
                     </Box>
-                    <Stack direction="column" mt={'-50px'} mb="40px">
+                    <Stack direction="column" >
                       <Box>
                         {arrGroup === "patologo"
                           ? linksPatology
@@ -440,10 +454,10 @@ function SidebarResponsive(props) {
                       </Box>
                       <Separator></Separator>
                     </Stack>
-                  </>
+                  </Box>
                 )}
               </Stack>
-              <Box marginTop={"60px"}>
+              <Box marginTop={"30px"}>
                 <Calendario></Calendario>
               </Box>
             </Box>

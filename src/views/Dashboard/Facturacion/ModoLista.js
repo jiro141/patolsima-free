@@ -43,7 +43,7 @@ import { formatDate } from "helpers";
 
 
 const Dashboard = () => {
- // const [cambioDelDia, setCambioDelDia] = useState('');
+  // const [cambioDelDia, setCambioDelDia] = useState('');
   //const [facturas, setFacturas] = useState([]);
   const [study, setStudy] = useState([]);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
@@ -63,7 +63,7 @@ const Dashboard = () => {
     facturasConfirmadas,
     facturasNoConfirmadas,
     loading,
-    getFacturasConfirm,getFacturasNotConfirm,
+    getFacturasConfirm, getFacturasNotConfirm,
     setFacturasNoConfirmadas
   } = useFacturas();
 
@@ -72,9 +72,9 @@ const Dashboard = () => {
     getFacturasConfirm()
     getFacturasNotConfirm()
     getCambios();
-    
+
   }, []);
- 
+
 
   const toggleModalConfirmacion = (factura) => {
     setShowModalConfirmacion(!showModalConfirmacion);
@@ -82,7 +82,7 @@ const Dashboard = () => {
     setPacienteName(factura?.cliente?.razon_social);
   };
 
- 
+
 
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (study) => {
@@ -129,76 +129,88 @@ const Dashboard = () => {
       //toast.error(error.message, { autoClose: 1000 });
     }
   };
-console.log(facturasNoConfirmadas)
+  console.log(facturasNoConfirmadas)
   return (
     <>
-      <Box 
-     margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
-     w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
-     height={'auto'}
-     padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
-     backgroundColor={"gray.100"}
-     borderTopLeftRadius={"20px"}
-     backgroundSize="cover"
-     backgroundPosition="center"
-     overflowY="hidden"
-     overflowX={{ lg: "hidden", sm: "auto" }}
+      <Box
+        margin={{
+          lg: "50px 0px 0px 30px",
+          md: "60px 0px 0px 0px",
+          sm: "30px 0px 10% 0px",
+        }}
+        padding={{ lg: "0 25px 50px 25px", md: "10px", sm: "0px 0 10% 0" }}
+        backgroundColor={{ lg: "gray.100", md: "gray.100", sm: "none" }}
+        borderRadius={"20px"}
+        backgroundSize="cover"
+        backgroundPosition="center"
+        overflowX="hidden"
+        overflowY={"hidden"}
       >
-     
-         {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
+
+        {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
         <Box marginTop={'-15px'} padding={'2%'}>
-       
-         <TableOrders_Pendientes> 
 
-         <Tbody>
-                  {facturasNoConfirmadas.map((study) => (
-                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                      <Td style={{width:'20%'}}>
-                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion) }</Link>
-                      </Td>
-                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {   study.cliente?.razon_social.length > 10
-                ? study.cliente?.razon_social.substring(0, 10) + "..."
-                : study.cliente?.razon_social}</Link></Td>
-                      <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
-                      </Td>
-                      <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.total_usd} $ </Link>
-                      </Td>
-                      <Td><Link style={{fontSize:'13.5px'}}  onClick={() => toggleModal(study)}>{study.total_bs} Bs </Link></Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-         </TableOrders_Pendientes>
+          <TableOrders_Pendientes>
 
-         <TableOrders_Confirmadas> 
+            <Tbody>
+              {facturasNoConfirmadas.map((study) => (
+                <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
+                  </Td>
+                  <Td textAlign={'center'}><Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
+                    ? study.cliente?.razon_social.substring(0, 40) + "..."
+                    : study.cliente?.razon_social}</Link></Td>
+                  <Td textAlign={'center'}>
+                    <Link style={{ width: '15%' }} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
+                  </Td>
+                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Link onClick={() => toggleModal(study)}>
+                      {study?.total_usd} $
+                    </Link>
+                  </Td>
+                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Link textAlign={'center'} onClick={() => toggleModal(study)}>
+                      {study.total_bs} Bs
+                    </Link>
+                  </Td>
 
-         <Tbody>
-                  {facturasConfirmadas.map((study) => (
-                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                      <Td style={{width:'20%'}}>
-                        <Link  style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}> {formatDate(study?.fecha_recepcion) }</Link>
-                      </Td>
-                      <Td><Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>
-                         
-                     {   study.cliente?.razon_social.length > 10
-                ? study.cliente?.razon_social.substring(0, 10) + "..."
-                : study.cliente?.razon_social}
-                        
-                        </Link></Td>
-                      <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
-                      </Td>
-                      <Td>
-                        <Link style={{fontSize:'13.5px'}} onClick={() => toggleModal(study)}>{study?.total_usd} $</Link>
-                      </Td>
-                      <Td><Link style={{fontSize:'13.5px'}}  onClick={() => toggleModal(study)}>{study.total_bs} Bs </Link></Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-         </TableOrders_Confirmadas>
-         
-            <ShowMoreButton handleClick={toggleModalList} />
+                </Tr>
+              ))}
+            </Tbody>
+          </TableOrders_Pendientes>
+
+          <TableOrders_Confirmadas>
+
+            <Tbody>
+              {facturasConfirmadas.map((study) => (
+                <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
+                  </Td>
+                  <Td textAlign={'center'}><Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
+                    ? study.cliente?.razon_social.substring(0, 40) + "..."
+                    : study.cliente?.razon_social}</Link></Td>
+                  <Td textAlign={'center'}>
+                    <Link style={{ width: '15%' }} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
+                  </Td>
+                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Link onClick={() => toggleModal(study)}>
+                      {study?.total_usd} $
+                    </Link>
+                  </Td>
+                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Link textAlign={'center'} onClick={() => toggleModal(study)}>
+                      {study.total_bs} Bs
+                    </Link>
+                  </Td>
+
+                </Tr>
+              ))}
+            </Tbody>
+          </TableOrders_Confirmadas>
+
+          <ShowMoreButton handleClick={toggleModalList} />
         </Box>
       </Box>
       <Modal
@@ -245,7 +257,7 @@ console.log(facturasNoConfirmadas)
         eliminar={handleDeleteFact}
         nombres={pacienteName}
       />
-    
+
     </>
   );
 };

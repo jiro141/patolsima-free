@@ -214,25 +214,15 @@ export function TRF({
       {tBodyData &&
         tBodyData?.map((bills) => (
           <Tr key={bills.id}>
-            {/* <Link
-              paddingX={"10px"}
-              as="td"
-              // margin={"10px"}
-              borderRadius="none"
-              borderBottom="1px solid"
-              borderBottomColor="gray.500"
-              onClick={() => handleClickItem(bills)}
-            >
-              {bills.codigo}
-            </Link> */}
             <Link
               paddingX={"10px"}
               as="td"
-              style={{ fontSize: '13px' }}
+              style={{ width: '15%' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
+              textAlign={'center'}
               onClick={() => handleClickItem(bills)}
             >
               {formatDate(bills.fecha_recepcion)}
@@ -241,11 +231,12 @@ export function TRF({
             <Link
               paddingX={"10px"}
               as="td"
-              style={{ fontSize: '13px' }}
+              style={{ width: '15%' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
+              textAlign={'center'}
               onClick={() => handleClickItem(bills)}
             >
               {bills.fecha_impresion ? formatDate(bills.fecha_impresion) : ''}
@@ -259,16 +250,17 @@ export function TRF({
               borderBottomColor="gray.500"
               onClick={() => handleClickItem(bills)}
             >
-
               {bills.cliente.razon_social.length > 17 ? bills.cliente.razon_social.substring(0, 17) + '...' : bills.cliente.razon_social}
             </Link>
             <Link
               // paddingX={"10px"}
               as="td"
-              margin={"10px"}
+              // style={{ width: '15%' }}
+              // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
+              textAlign={'center'}
               onClick={() => handleClickItem(bills)}
             >
               {bills.cliente.ci_rif}
@@ -277,10 +269,12 @@ export function TRF({
             <Link
               paddingX={"10px"}
               as="td"
-              margin={"10px"}
+              style={{ width: '15%' }}
+              // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
+              textAlign={'center'}
               onClick={() => handleClickItem(bills)}
             >
               {bills.total_usd}
@@ -289,14 +283,13 @@ export function TRF({
             <Link
               paddingX={"10px"}
               as="td"
-              margin={"10px"}
+              style={{ width:'15%' }}
+              // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() =>
-                handleClickItem(bills)
-                //handleSelectTBody(bills)
-              }
+              textAlign={'center'}
+              onClick={() => handleClickItem(bills)}
             >
               {bills.total_bs}
             </Link>
@@ -364,7 +357,6 @@ export function TRI({
               {formatDate(bills.created_at)}
 
             </Link>
-
             <Link
               //paddingX={"10px"}
               as="td"
