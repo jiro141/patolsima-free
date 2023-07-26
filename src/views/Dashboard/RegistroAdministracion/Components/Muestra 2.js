@@ -49,6 +49,7 @@ import SaveButton from "components/widgets/Buttons/SaveButton";
 import { Title, subTitleBold, Titlelight } from "components/widgets/Texts";
 import GeneralButton from "components/widgets/Buttons/GeneralButton";
 import { postMuestra } from "api/controllers/estudios";
+import { TitleBig } from "components/widgets/Texts";
 const Muestra2 = () => {
   const {
     estudioID,
@@ -64,7 +65,7 @@ const Muestra2 = () => {
   // console.log(estudioId2);
 
   //definicion de los valores a cargar
-  const [openModal, setOpenModal] = useState(false);
+  const [createSuccess, setCreateSuccess] = useState(false);
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [studyData, setStudyData] = useState();
@@ -182,6 +183,7 @@ const Muestra2 = () => {
           toast.success("¡La muestra fue guardada con exito!", {
             autoClose: 1000,
           });
+          setCreateSuccess(true)
          
         } else {
           toast.error("¡Hubo un error al crear la muestra!", {
@@ -200,7 +202,11 @@ const Muestra2 = () => {
   }
   return (
     <div style={{ height: "auto" }}>
-      {/* <NextStation /> */}
+     <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
+      <TitleBig
+            title={'Estudio #2'}
+          />
+      </Box>
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
           <Title
@@ -320,7 +326,7 @@ const Muestra2 = () => {
           size="lg"
           name="notas"
           borderRadius="md"
-          placeholder="Notas de estudio:"
+          placeholder="Notas de estudio 2:"
           value={formik.values.notas}
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
@@ -335,7 +341,7 @@ const Muestra2 = () => {
         <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
           
            <GeneralButton
-            text={"Agregar muestra"}
+            text={ muestraID2 ?"Agregar otra muestra" : "Agregar muestra"}
             disabled={estudioId2 ? false : true}
             handleClick={formikMuestra.handleSubmit}
           />
@@ -348,7 +354,8 @@ const Muestra2 = () => {
             handleClick={handleFinishRegister}
           />:
           <GeneralButton
-            text={"Guardar estudio"}
+            text={"Guardar estudio 2"}
+            disabled={createSuccess ? true : false}
             handleClick={handleSubmit}
           />
           }
