@@ -1,12 +1,17 @@
-import { Button, CloseButton, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/react'
-import React from 'react'
+import { Button, CloseButton, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay,Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import ModalDescripcion from './ModalDescripcion'
+import { HistoryInformes } from 'api/controllers/informes'
 
 export default function ModalCreateNotes({ showModal, toggleModal, titulo, informeDetail, idStudy, type, setInformeDetail, setShowModalGeneral }) {
+
+  
+    
     return (
         <Modal
-            size={'lg'}
-            minW={'900px'}
+        size={'2xl'}
+           // size={'lg'}
+            //minW={'900px'}
             isOpen={showModal}
             onClose={toggleModal}>
             <ModalOverlay />

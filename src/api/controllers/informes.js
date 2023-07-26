@@ -64,12 +64,24 @@ export const completeInforme= async (id) => {
 
     try {
         const response = await Axios.put(`/v1/core/informes/${id}/completado/`);
-        console.log(response.data);
+        console.log(response);
          return response.data;
     } catch (error) {
         console.log(error);
     }
 }
+//generate informe complete (send wp)
+export const generateInformeCompletePdf= async (id) => {
+
+    try {
+        const response = await Axios.get(`/v1/core/informes/${id}/generate_pdf/`);
+        console.log(response);
+         return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 //aprobar informe (admin)
 export const aprobarInforme= async (id) => {
 
@@ -104,6 +116,20 @@ export const lastInformes= async (id) => {
         console.log(error);
     }
 }
+
+//history informes
+export const HistoryInformes= async (id) => {
+    console.log(id);
+
+    try {
+        const response = await Axios.get(`/v1/core/informes/${id}/history/`);
+        console.log(response.data);
+         return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 export const deleteInforme = async () => {
     const token = localStorage.getItem("access");

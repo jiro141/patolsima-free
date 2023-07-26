@@ -173,12 +173,12 @@ function Registro() {
                 isDisabled={activeTab != 1}
               />
               <CustomTab
-                title="Primero"
+                title="Estudio"
                 isActive={activeTab === 2}
                 isDisabled={activeTab != 2}
               />
               <CustomStudy2
-                title="Segundo"
+                title="Estudio"
                 isActive={activeTab === 3}
                 isDisabled={activeTab != 3}
               />

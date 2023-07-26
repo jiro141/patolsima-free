@@ -5,7 +5,8 @@ import {
   Grid,
   Select,
   Input,
-  Button
+  Button,
+  Table, Thead, Tbody, Tr, Th, Td
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
@@ -17,12 +18,22 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getInformesDetail } from "api/controllers/informes";
 import { useEffect } from "react";
+import { HistoryInformes } from "api/controllers/informes";
 
 
 const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral }) => {
   const [data, setdata] = useState([])
   const [dataResmicro, setdataResmicro] = useState('')
-
+  const [History, setgetHistory] = useState([])
+   
+  useEffect(() => {
+     const getHistory=async()=>{
+      const getData= await HistoryInformes(idStudy)
+      console.log(getData);
+      setgetHistory(getData)
+     }
+     getHistory()
+    }, [])
 
   const handleSubmitData = async () => {
     if (type === 'micro') {
@@ -139,9 +150,9 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
 
   return (
     <>
-      <Box marginTop={'-50px'} minW={'900px'} >
+      <Box marginTop={'-50px'}  >
         <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>{titulo}</Text>
-        <Box height={'md'} minW={'900px'}>
+        <Box height={'md'} >
           <Box minH={'400px'} maxH={'200px'}
             sx={{
               "&::-webkit-scrollbar": {
@@ -243,13 +254,36 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             console.log('from other');
                             setdata({ data })
                           }}
-                        /> : ''
+                        /> : 
+
+                        <Table variant="striped" colorScheme="teal">
+                        <Thead>
+                          <Tr>
+                            <Th>ID</Th>
+                            <Th>Fecha</Th>
+                            <Th>Usuario</Th>
+                            <Th>Tipo</Th>
+                            <Th>Descripción</Th>
+                          </Tr>
+                        </Thead>
+                       {History && <Tbody>
+                          {History.map((item) => (
+                            <Tr key={item?.history_id}>
+                              <Td >{item?.history_id}</Td>
+                              <Td>{new Date(item?.history_date).toLocaleString()}+</Td>
+                              <Td>{item?.history_user}</Td>
+                              <Td>{item?.history_type}</Td>
+                              <Td>{item?.history_change_reason}</Td>
+                            </Tr>
+                          ))}
+                        </Tbody>}
+                      </Table>
             }
           </Box>
         </Box>
       </Box>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '0px solid', width: '95%' }}>
-        <GeneralButton text={'Descartar'} handleClick={() => setShowModal(false)} />
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', border: '0px solid', width: '95%',marginBottom:'20px' }}>
+        {/*<GeneralButton text={'Descartar'} handleClick={() => setShowModal(false)} />*/}
         <SaveButton handleSubmit={handleSubmitData} />
       </div>
     </>

@@ -11,7 +11,7 @@ export const NextStation = ({errors,handleNextSubmit,searchci}) => {
   const {medicoID,pacienteID } = useContext(ModoVisualizacionContext);
 
   const handleIncrement = () => {
-    console.log(errors);
+   // console.log(errors);
     if(errors){
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if(emailRegex.test(errors)){

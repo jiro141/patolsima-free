@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -13,18 +13,35 @@ import {
 } from "@chakra-ui/react";
 import GeneralButton from "../Buttons/GeneralButton";
 import { useContext } from "react";
-import { BsBoxArrowInDown } from "react-icons/bs";
+import { BsWhatsapp} from "react-icons/bs";
 import MainContext from "context/mainContext/MainContext";
+import { Title } from "../Texts";
+import '../../../css/style.css'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { generateInformeCompletePdf } from "api/controllers/informes";
 
-export default function ModalSendWp({ isOpen, setOpenModal, type, text,pdfContent }) {
-  const handleConfirmClose = () => {
-    if(pdfContent){
-
-    }
-    //setOpenModal(false);
-    // window.location.reload();
+export default function ModalSendWp({ isOpen, setOpenModal, type, text,pdfContent,detailEstudio }) {
+  console.log(detailEstudio);
+ 
+ 
+  const handleSendMessage = async() => {
+  const res=await  generateInformeCompletePdf(detailEstudio?.id)
+  
+  if(res){
+    const phoneNumber = '+584247423183'; 
+    const message = `Desde Laboratorios Patolsima le informamos que el estudio ${detailEstudio?.codigo} del paciente ${detailEstudio?.paciente?.nombres} ${detailEstudio?.paciente?.apellidos}, CI ${detailEstudio?.paciente?.ci
+    } , ha sido completado, y puede acceder a él a través del siguiente link:${res.uri} `; 
+    const url = `https://api.whatsapp.com/send?phone=${encodeURIComponent(phoneNumber)}&text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }else{
+    toast.error("¡Hubo un error al generar el informe digital!", {
+      autoClose: 1000,
+    });
+  }
+    
   };
-  const handleClose = () => {};
+
 
   return (
     <Modal size={"sm"}  isOpen={isOpen}>
@@ -44,15 +61,23 @@ export default function ModalSendWp({ isOpen, setOpenModal, type, text,pdfConten
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Text fontSize={"20px"} textAlign={"center"}>
-              {text}
-            </Text>
+           <Box display={'flex'} justifyContent={'center'}>
+           <Title title={'¿Deseas enviarlo por Whatsapp?'} />
+           </Box>
+           
+
+
             <div style={{ alignItems: "center", marginTop: "20px" }}>
-              <BsBoxArrowInDown color="#137797" size={"50px"} />
+              <BsWhatsapp color="#137797" size={"50px"} />
             </div>
             <Box style={{display:'flex',  width:'100%'}}>
-          
-            <GeneralButton text="Si" type="download" pdfContent={pdfContent}  />
+            <div
+  className="btnPrint"
+ onClick={handleSendMessage}
+> 
+<Text>Si</Text>
+</div>
+           {/* <GeneralButton text="Si"  handleClick={handleSendMessage} />*/}
             <GeneralButton text="No" type="downloadOutline" handleClick={()=>setOpenModal(false)} />
               
             </Box>

@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react";
 
 export const Title = ({ title }) => {
-  console.log(title);
+
   return (
     <>
       <Text style={{ fontSize: '1.1rem', fontWeight: "bold", color: "#000" }}>
@@ -11,7 +11,7 @@ export const Title = ({ title }) => {
   );
 };
 export const TitleBig = ({ title }) => {
-  console.log(title);
+
   return (
     <>
       <Text style={{ fontSize: '1.5rem', fontWeight: "bold", color: "#000" }}>

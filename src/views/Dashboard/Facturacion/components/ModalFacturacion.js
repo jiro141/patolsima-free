@@ -51,11 +51,13 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         getFacturasDetails,
         facturasDetail,
         itemOrden,
+        itemOrden2,
         loadingDetailFact,
         setloadingStudy,
         setFacturasDetail,
         loadingStudy } = useFacturaDetail({ studyId: study.id })
     const [studyDetail, setStudyDetail] = useState(null);
+    const [studyDetail2, setStudyDetail2] = useState(null);
     const [editing, setEditing] = useState(false);
     const [pdfContent, setPdfContent] = useState(null);
     const [pdfContentFact, setPdfContentFact] = useState(null);
@@ -74,8 +76,16 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     );
     const getStudyDetail = async () => {
         try {
-            const study = await getStudiesDetail(itemOrden);
-            setStudyDetail(study);
+            if(itemOrden){
+                const study = await getStudiesDetail(itemOrden);
+                setStudyDetail(study);
+            }
+            if(itemOrden2){
+                console.log('study2-->');
+                const study = await getStudiesDetail(itemOrden2);
+                setStudyDetail2(study);
+            }
+            
         } catch (error) {
             console.log(error);
         } finally {
@@ -103,7 +113,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     useEffect(() => {
         getStudyDetail()
         return () => { }
-    }, [itemOrden])
+    }, [itemOrden,itemOrden2])
     useEffect(() => {
         getStudyDetail()
         return () => { }
@@ -267,7 +277,8 @@ useEffect(() => {
 
     console.log(facturasDetail)
     console.log(studyDetail)
-   // console.log('factClientTerceros->')
+    console.log('study detail2->');
+    console.log(studyDetail2)
     //console.log(factClientTerceros);
     return (
         <>
@@ -439,10 +450,10 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                     <Separator mb={'15px'}></Separator>
                    {/* <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>*/}
                    <Title title={'Descripción'} />
-                    <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
+                   {studyDetail&& <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                         <Box>
                             <Box margin={'5px'} >
-                                <Text fontSize={'16px'} ># Estudio</Text>
+                                <Text fontSize={'16px'} > Estudio # 1</Text>
                                 {studyDetail ? (
                                     <Text fontSize={'14px'}>
                                         <Badge>{studyDetail?.codigo}</Badge>
@@ -487,6 +498,23 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                             </Box>
                         </Box>
                        
+                       
+                       { <Box>
+                            <Box margin={' 5px '}>
+                                <Text fontSize={'16px'} >Muestras</Text>
+                                {studyDetail ? (
+                                    <Select style={{height:'30px'}} >
+                                    {studyDetail?.muestras.map((muestra, index) => (
+                                      <option key={index} value={muestra.tipo_de_muestra}>
+                                        {muestra.tipo_de_muestra}
+                                      </option>
+                                    ))}
+                                  </Select>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>}
                         <Box>
                             <Box margin={' 5px'}>
                                 <Text fontSize={'16px'} >Monto($)</Text>
@@ -537,12 +565,49 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                 )}
                             </Box>
                         </Box>
+                        <Box>
+                          
+                        </Box>
+                    </Grid>
+}
+{studyDetail2 && <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
+                        <Box>
+                            <Box margin={'5px'} >
+                                <Text fontSize={'16px'} > Estudio # 2</Text>
+                                {studyDetail2 ? (
+                                    <Text fontSize={'14px'}>
+                                        <Badge>{studyDetail2?.codigo}</Badge>
+                                    </Text>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>
+                        
+                        <Box>
+                            <Box margin={' 5px '}>
+                                <Text fontSize={'16px'} >Tipo de estudio </Text>
+                                {studyDetail2 ? (
+                                    <Text fontSize={'14px'}>
+                                        <Badge>
+                                            {studyDetail2.tipo}
+                                        </Badge>
+
+
+                                    </Text>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>
+                       
+                        
                        { <Box>
                             <Box margin={' 5px '}>
-                                <Text fontSize={'16px'} >Muestras</Text>
-                                {studyDetail ? (
+                                <Text fontSize={'16px'} >Muestras </Text>
+                                {studyDetail2 ? (
                                     <Select style={{height:'30px'}} >
-                                    {studyDetail?.muestras.map((muestra, index) => (
+                                    {studyDetail2?.muestras.map((muestra, index) => (
                                       <option key={index} value={muestra.tipo_de_muestra}>
                                         {muestra.tipo_de_muestra}
                                       </option>
@@ -553,24 +618,12 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                 )}
                             </Box>
                         </Box>}
+                       
                         <Box>
-                           {/* <Box margin={'5px'}>
-                                <Text fontSize={'16px'} >Monto(Bs)</Text>
-                                {facturasDetail ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>
-                                            {facturasDetail.balance.total_bs} Bs
-                                        </Badge>
-
-
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>*/}
+                          
                         </Box>
                     </Grid>
-
+}
                     <Grid marginTop={'5px'} marginBottom={'3px'} marginLeft={'5px'} marginRight={'18px'} templateColumns={{ lg: "repeat(4,1fr)", md: "repeat(4,1fr)", sm: "repeat(2,1fr)" }} >
                         <Box >
                             <Box margin={'5px'}>
@@ -701,7 +754,8 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                     color='#ffff'>
                                     Archivar
                                 </Button>
-                                <Button
+                               { <Button
+                              
                                     // marginBottom={{ lg: '-10.5%', md: '-13%', sm: '-25%' }}
                                     // marginLeft={{ lg: '50%', md: '52%', sm: '12%' }}
                                     borderRadius={'20px'}
@@ -709,7 +763,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                     color='#ffff'
                                     onClick={() => setShowModalAbonar(true)}>
                                     Abonar
-                                </Button>
+                                </Button>}
 
                                 {facturasDetail?.confirmada === false ?
                                     <div style={{ width: '80%', display: 'flex', justifyContent: 'flex-end' }}>

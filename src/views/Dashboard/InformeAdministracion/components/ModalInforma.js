@@ -31,7 +31,9 @@ import { useEffect } from "react";
 import { getInformePreview } from "api/controllers/informes";
 import { lastInformes } from "api/controllers/informes";
 import ModalSendWp from "components/widgets/Modals/ModalSendWp";
-
+import { Title } from "components/widgets/Texts";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModalGeneral}) => {
     console.log(detailEstudio);
@@ -84,14 +86,19 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
     const handleSubmitGenerateInfor=async()=>{
         if(detailEstudio.envio_digital){
             setShowModalSendWp(true)
-        }else{
             const res=await completeInforme(detailEstudio.id)
+            console.log('res complete informe -->');
+            console.log(res);
             if(res){
-                window.location.reload();
-                setShowModalGeneral(false)
+               // window.location.reload();
+               // setShowModalGeneral(false)
             
             }
-
+        }else{
+          /*  */
+            toast.error("¡No tienes la opcion de envio digital!", {
+                autoClose: 1000,
+            });
         }
 
        
@@ -104,8 +111,8 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
     }
    
   
-    
-    console.log(detailEstudio.envio_digital)
+    console.log(detailEstudio.id)
+    //console.log(detailEstudio.envio_digital)
     //tamaños de modal
     const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
     return (
@@ -113,7 +120,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
             <Grid templateColumns={'2fr 1fr'}>
                 <Box marginTop={'-20px'}>
 
-                    <Titlelight title={'Información General'} color={'#000'} />
+                    <Title title={'Información General'} color={'#000'} />
                     <Separator marginTop={'8px'} width={'70%'} backgroundColor={'#89bbcc'} color={'#89bbcc'}></Separator>
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
@@ -140,18 +147,23 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
 
                             </Box>
                             <Box margin={'10px'}>
-                                <SubTitlelight title={'Fecha'} color={'#000'} />
-                                {detailEstudio.lenght > 0 ?
-                                    <Badge>
-                                        <Text>{formatDate(detailEstudio?.created_at)}</Text>
+                                <SubTitlelight title={'Prioridad'} color={'#000'} />
+                                {detailEstudio ?
+                                    <Badge colorScheme={detailEstudio?.prioridad === 'ALTA' ? 'red'
+                                : detailEstudio?.prioridad === 'MEDIA' ? 'purple' : ''
+                                }>
+                                        <Text >{`${detailEstudio?.prioridad} `}</Text>
                                     </Badge> :
+
                                     <Badge>
                                         <Text >Cargando</Text>
-                                    </Badge>}
-
+                                    </Badge>
+                                }
                             </Box>
+                        
                         </Box>
                         <Box>
+                            
                             <Box margin={'10px'}>
                                 <SubTitlelight title={'CI/RIF'} color={'#000'} />
                                 {detailEstudio ?
@@ -164,46 +176,47 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                                 }
 
                             </Box>
-                            <Box margin={'10px'}>
+                           {detailEstudio?.medico_tratante && <Box margin={'10px'}>
                                 <SubTitlelight title={'Medico Tratante'} color={'#000'} />
-                                {detailEstudio ?
+                                {detailEstudio?.medico_tratante ?
                                     <Badge>
                                         <Text >{`${detailEstudio?.medico_tratante?.nombres} ${detailEstudio?.medico_tratante?.apellidos}`}</Text>
                                     </Badge> :
-                                    <Badge>
-                                        <Text >Cargando</Text>
-                                    </Badge>}
-                            </Box>
+                                    <>
+                                        
+                                    </>}
+                            </Box>}
+                            
                         </Box>
                         <Box pb={'10px'}>
                             <Box margin={'10px'}>
-                                <Box margin={'10px'}>
+                                {detailEstudio ?<Box margin={'10px'}>
                                     <SubTitlelight title={'Telefono '} color={'#000'} />
-                                    {detailEstudio ?
+                                    {detailEstudio?.paciente?.telefono_celular ?
                                         <Badge>
                                             <Text >{`${detailEstudio?.paciente?.telefono_celular}`}</Text>
                                         </Badge> :
-                                        <Badge>
-                                            <Text >Cargando</Text>
-                                        </Badge>}
-                                </Box>
+                                        <>
+                                            
+                                        </>}
+                                </Box> : ''}
                             </Box>
-                            <Box margin={'10px'}>
+                        { detailEstudio && detailEstudio?.medico_tratante && <Box margin={'10px'}>
                                 <Box margin={'10px'}>
                                     <SubTitlelight title={'Telefono'} color={'#000'} />
-                                    {detailEstudio ?
+                                    {detailEstudio?.medico_tratante?.telefono_celular ?
                                         <Badge>
                                             <Text >{`${detailEstudio?.medico_tratante?.telefono_celular}`}</Text>
                                         </Badge> :
-                                        <Badge>
-                                            <Text >Cargando</Text>
-                                        </Badge>}
+                                        <>
+                                           
+                                        </>}
                                 </Box>
-                            </Box>
+                            </Box>}
                         </Box>
                     </Grid>
                     <Box margin={'8px'} />
-                    <Titlelight title={'Información de estudio'} color={'#000'} />
+                    <Title title={'Información de estudio'} color={'#000'} />
                     <Separator marginTop={'8px'} width={'70%'} backgroundColor={'#89bbcc'} color={'#89bbcc'}></Separator>
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
@@ -248,18 +261,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                                     </Badge>
                                 }
                             </Box>
-                            <Box margin={'10px'}>
-                                <SubTitlelight title={'Prioridad'} color={'#000'} />
-                                {detailEstudio ?
-                                    <Badge>
-                                        <Text >{`${detailEstudio?.prioridad} `}</Text>
-                                    </Badge> :
-
-                                    <Badge>
-                                        <Text >Cargando</Text>
-                                    </Badge>
-                                }
-                            </Box>
+                           
 
 
                         </Box>
@@ -267,14 +269,14 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                     </Grid>
                     <Grid margin={'50px 10px 20px 10px'} templateColumns={'repeat(2,1fr)'} gap={'20px'}>
 
-                        <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
+                     { historyMap &&  <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
                             {historyMap.map((estudio, index) => (
         <option key={index} value={estudio.estudio_id}>
           {estudio.estudio_tipo} - {estudio.estudio_codigo}
         </option>
       ))}                          
-                        </Select>
+                        </Select>}
 
                        
                     </Grid>
@@ -314,7 +316,11 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                         />
                         <GeneralButton text={'Vista previa'} handleClick={generarPdf} />
               
-              <GeneralButton text={'Generar'} handleClick={handleSubmitGenerateInfor} />
+            {  <GeneralButton 
+              type={'withTooltip'}
+              
+              disabled={detailEstudio.envio_digital ? false :true}
+               text={'Generar'} handleClick={handleSubmitGenerateInfor} />}
                         
 
                     </Box>
@@ -383,7 +389,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
             titulo={'Registro de cambios'} toggleModal={toggleModalR} showModal={showModalRegister} informeDetail={informeDetail} idStudy={detailEstudio.id} type='register'
             //setShowModalGeneral={setShowModalGeneral}
             />
-<ModalSendWp isOpen={showModalSendWp} setOpenModal={setShowModalSendWp} />
+<ModalSendWp detailEstudio={detailEstudio} isOpen={showModalSendWp} setOpenModal={setShowModalSendWp} />
            
         </>
     );

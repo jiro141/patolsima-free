@@ -24,6 +24,8 @@ import { postAbonar } from "api/controllers/facturas";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getNotadePago } from "api/controllers/facturas";
+import { Title } from "../Texts";
+import { useFacturas } from "hooks/Facturas/useFacturas";
 
 export default function AddAbonarModal({
   isOpen,
@@ -36,38 +38,90 @@ export default function AddAbonarModal({
   setAbonarSend
 }) {
   const [valueInput, setvalueInput] = useState([]);
+  const [valueInputBs, setvalueInputBs] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('dolar');
+  const {
+    getCambios,
+    cambioDelDia,
+  } = useFacturas();
+ 
+  useEffect(() => { 
+      getCambios();
+  }, []);
+
   const [idPago, setIdPago] = useState('');
 
   const handleSubmit = async () => {
    // 
-    const newObj = {
-      orden: facturasDetail.id,
-      monto_usd: valueInput,
-    };
-   
-    try {
-      const sendAbonar = await postAbonar(newObj);
-      //console.log(sendAbonar);
-      if (sendAbonar) {
-        toast.success("¡El abono fue guardado correctamente!", {
-          autoClose: 1000,
-        });
-        setIdPago(sendAbonar.id)
-       
-        setShowModal(false);
-        setOpenModalPago(true)
-        setAbonarSend(true)
-        //getStudyDetail()
-      } else {
-        toast.error("¡Hubo un error al abonar la factura!", {
-          autoClose: 1000,
-        });
-      }
-    } catch (error) {
-      toast.error(error.menssage, {
+if(selectedOption === 'dolar'){
+  const newObj = {
+    orden: facturasDetail.id,
+    monto_usd: valueInput,
+  };
+ 
+  try {
+    const sendAbonar = await postAbonar(newObj);
+    //console.log(sendAbonar);
+    if (sendAbonar) {
+      toast.success("¡El abono fue guardado correctamente!", {
+        autoClose: 1000,
+      });
+      setIdPago(sendAbonar.id)
+     
+      setShowModal(false);
+      setOpenModalPago(true)
+      setAbonarSend(true)
+      //getStudyDetail()
+    } else {
+      toast.error("¡Hubo un error al abonar la factura!", {
         autoClose: 1000,
       });
     }
+  } catch (error) {
+    toast.error(error.menssage, {
+      autoClose: 1000,
+    });
+  }
+
+
+}else{
+
+
+  ///bolivares
+let dolarValue= valueInputBs/cambioDelDia
+
+  const newObj = {
+    orden: facturasDetail.id,
+    monto_usd:parseInt(dolarValue),
+  };
+ 
+  try {
+    const sendAbonar = await postAbonar(newObj);
+    //console.log(sendAbonar);
+    if (sendAbonar) {
+      toast.success("¡El abono fue guardado correctamente!", {
+        autoClose: 1000,
+      });
+      setIdPago(sendAbonar.id)
+     
+      setShowModal(false);
+      setOpenModalPago(true)
+      setAbonarSend(true)
+      //getStudyDetail()
+    } else {
+      toast.error("¡Hubo un error al abonar la factura!", {
+        autoClose: 1000,
+      });
+    }
+  } catch (error) {
+    toast.error(error.menssage, {
+      autoClose: 1000,
+    });
+  }
+
+}
+    
+
   };
   const generarReciboPago=async()=>{
     const resPago= await  getNotadePago(idPago)
@@ -78,7 +132,11 @@ export default function AddAbonarModal({
         return
        }
   }
-
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+  console.log(selectedOption);
+  
   useEffect(() => {
     if(openModalPago){
       generarReciboPago()
@@ -113,10 +171,11 @@ export default function AddAbonarModal({
                         </Button>
                     </ModalHeader>
         <ModalBody>
-          <Box marginTop={"-50px"}>
-            <Text margin={"10px 0 20px 0"} textAlign={"center"}>
-              ¿Cuánto desea abonar?
-            </Text>
+          <Box marginTop={"-50px"} >
+           
+            <Box display={'flex'} width={'100%'} justifyContent={'center'}>
+            <Title title={'¿Cuánto desea abonar?'} />
+            </Box>
             <Grid
               margin={"10px 0 10px 0"}
               gap={"2px"}
@@ -137,20 +196,31 @@ export default function AddAbonarModal({
             </Grid>
             <Grid gap={"3px"} templateColumns={"1.5fr 2fr"}>
               <Box width={"100%"}>
-                <Text textAlign={"left"}>Monto a abonar:</Text>
+               { <Text textAlign={"left"}>Monto a abonar:</Text>}
               </Box>
               <Grid
                 margin={"10px 0 10px 0"}
                 gap={"5px"}
                 templateColumns={"1fr 1fr"}
               >
+             
+               {selectedOption === 'dolar'?
                 <Input
                   marginTop={"-5px"}
                   maxH={"60%"}
                   value={valueInput}
                   onChange={(e) => setvalueInput(e.target.value)}
-                />
+                /> : 
+                
+                <Input
+                marginTop={"-5px"}
+                maxH={"60%"}
+                value={valueInputBs}
+                onChange={(e) => setvalueInputBs(e.target.value)}
+              />
+                }
                 <Select
+                value={selectedOption}
                   width={"100px"}
                   style={{ border: "1px solid" }}
                   marginTop={"-8px"}
@@ -159,9 +229,10 @@ export default function AddAbonarModal({
                   fontSize="16px"
                   backgroundColor="#137798"
                   color="whiteAlpha.900"
+                  onChange={handleSelectChange}
                 >
-                  <option style={{ color: "black" }}>Dólar</option>
-                  <option style={{ color: "black" }}>Bolivar</option>
+                  <option value={'dolar'}   style={{ color: "black" }}>Dólar</option>
+                  <option value={'bolivar'}  style={{ color: "black" }}>Bolivar</option>
                 </Select>
               </Grid>
             </Grid>

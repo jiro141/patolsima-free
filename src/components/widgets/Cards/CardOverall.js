@@ -129,9 +129,9 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
           <RowCard
             headTitle={"Paciente"}
             data={
-              study.estudio_patologo_name.length > 10
-                ? study.estudio_patologo_name.substring(0, 10) + "..."
-                : study.estudio_patologo_name
+              study.estudio_paciente_name.length > 10
+                ? study.estudio_paciente_name.substring(0, 10) + "..."
+                : study.estudio_paciente_name
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />

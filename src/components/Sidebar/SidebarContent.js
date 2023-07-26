@@ -33,10 +33,7 @@ const SidebarContent = ({ logoText, routes }) => {
     getCambios,
     cambioDelDia,
   } = useFacturas();
-  console.log(cambioDelDia);
-  // useEffect(() => {
 
-  // }, []);
   const { getGroups, groups, loading } = useGroups();
   useEffect(() => {
     const getUsersGroups = async () => {

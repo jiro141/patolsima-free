@@ -9,7 +9,8 @@ import { useCallback, useMemo, useState } from "react";
 export function useFacturaDetail({ studyId }) {
   const [facturasDetail, setFacturasDetail] = useState(null);
   const [studyDetail, setStudyDetail] = useState(null);
-  const [itemOrden, setItemOrden] = useState();
+  const [itemOrden, setItemOrden] = useState(null);
+  const [itemOrden2, setItemOrden2] = useState(null);
   const [loadingDetailFact, setloadingDetailFact] = useState(false);
   const [errorC, seterrorC] = useState(false);
   const [loadingStudy, setloadingStudy] = useState(false);
@@ -34,7 +35,15 @@ export function useFacturaDetail({ studyId }) {
       console.log(itemsOrden);
       if (itemsOrden && itemsOrden.length > 0) {
         setItemOrden(itemsOrden[0].estudio);
+        
       }
+      if (itemsOrden && itemsOrden.length > 1) {
+        //setItemOrden(itemsOrden[0].estudio);
+        setItemOrden2(itemsOrden[1].estudio)
+        
+      }
+
+      //setItemOrden2()
     } catch (error) {
       console.log(error);
       seterror(true);
@@ -66,6 +75,7 @@ export function useFacturaDetail({ studyId }) {
     loadingDetailFact,
     loadingStudy,
     itemOrden,
+    itemOrden2,
     setFacturasDetail,
   };
 }

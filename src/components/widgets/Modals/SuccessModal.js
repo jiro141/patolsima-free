@@ -26,28 +26,22 @@ export default function SuccessModal({ isOpen, setOpenModal, type, setConfirm,co
     setActiveTab,
     ordenId,
   } = useContext(MainContext);
-  const { estudioID,muestraID,estudioId2 } = useContext(ModoVisualizacionContext);
+  const { estudioID,muestraID,estudioId2,muestraID2 } = useContext(ModoVisualizacionContext);
 
 
-  const handleConfirmClose = async() => {
-    console.log(ordenId);
-      if (muestraID && estudioID ) {
+  const handleConfirmClose = async() => {    
+      if(estudioId2){
+        const newOrden2 = {
+          estudio_ids: [estudioID,estudioId2]
+        }
+        const postOrden = await postOrdenes(newOrden2)
+      }else{
         const newOrden = {
           estudio_ids: [estudioID]
         }
         const postOrden = await postOrdenes(newOrden)
-        console.log(postOrden)
 
-      }
-      if(type==='muestra2'){
-        const newOrden = {
-          estudio_ids: [estudioID,estudioId2]
-        }
-        const postOrden = await postOrdenes(newOrden)
-        console.log(postOrden)
-      }
-     
-    
+      } 
     setOpenModal(false);
      const param1 = 'ordenId';
     const url = `/admin/Facturacion/?param1=${param1}`;

@@ -102,6 +102,8 @@ const Muestra2 = () => {
         patologo_id: null,
         ...formData,
       };
+      console.log(newObj);
+      console.log('crear estudio 2 -->>');
       try {
         const estudioPost = await postStudies(newObj);
 
@@ -109,10 +111,10 @@ const Muestra2 = () => {
           toast.success("¡El estudio fue creado con exito!", {
             autoClose: 1000,
           });
-          // console.log(estudioPost);
+          console.log(estudioPost);
           setStudyData(estudioPost);
           setEstudioId2(estudioPost.id);
-
+          setCreateSuccess(true)
           //setOpenModal(true);
         } else {
           toast.error("¡Hubo un error al crear el estudio!", {
@@ -183,7 +185,7 @@ const Muestra2 = () => {
           toast.success("¡La muestra fue guardada con exito!", {
             autoClose: 1000,
           });
-          setCreateSuccess(true)
+         
          
         } else {
           toast.error("¡Hubo un error al crear la muestra!", {
