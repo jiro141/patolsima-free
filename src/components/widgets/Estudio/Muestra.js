@@ -39,7 +39,7 @@ import { postMuestraAdjunto } from "api/controllers/estudios";
 import { useHistory } from "react-router-dom";
 import SuccessModal from "../Modals/SuccessModal";
 import { NextStation } from "../Buttons/NextStation";
-import { Title, subTitleBold, Titlelight } from "../Texts";
+import { Title, subTitleBold, Titlelight, TitleBig } from "../Texts";
 import FinishButton from "../Buttons/FinishButton";
 import GeneralButton from "../Buttons/GeneralButton";
 import { postMuestra } from "api/controllers/estudios";
@@ -59,13 +59,14 @@ const Muestra = () => {
   } = useContext(ModoVisualizacionContext);
 
   //definicion de los valores a cargar
-  const [openModal, setOpenModal] = useState(false);
+  const [createSuccess, setCreateSuccess] = useState(false);
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
   const [studyData, setStudyData] = useState();
   const [finish, setFinish] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [confirmOtherMuestra, setConfirmOtherMuestra] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
@@ -108,6 +109,7 @@ const Muestra = () => {
           // console.log(estudioPost);
           setStudyData(estudioPost);
           setEstudioID(estudioPost.id);
+          setCreateSuccess(true)
         } else {
           toast.error("¡Hubo un error al crear el estudio!", {
             autoClose: 1000,
@@ -170,7 +172,7 @@ const Muestra = () => {
           toast.success("¡La muestra fue guardada con exito!", {
             autoClose: 1000,
           });
-         
+          
         } else {
           toast.error("¡Hubo un error al crear la muestra!", {
             autoClose: 1000,
@@ -186,10 +188,17 @@ const Muestra = () => {
   const handleFinishRegister=()=>{
     setOpenModalSuccess(true);
   }
-  
+  const handleEnableNewMuestra=()=>{
+    setConfirmOtherMuestra(true)
+    formikMuestra.handleSubmit()
+  }
   return (
     <div style={{ height: "auto" }}>
-      
+      <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
+      <TitleBig
+            title={'Estudio #1'}
+          />
+      </Box>
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
           <Title
@@ -314,7 +323,7 @@ const Muestra = () => {
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {  <AddMuestraForm muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} formikMuestra={formikMuestra} />}
+        {  <AddMuestraForm type={'muestra1'} muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} formikMuestra={formikMuestra} confirmOtherMuestra={confirmOtherMuestra} />}
 
         { <SuccessModal confirm={confirm} setConfirm={setConfirm} isOpen={openModalSuccess} setOpenModal={setOpenModalSuccess} />}
       </form>
@@ -322,11 +331,18 @@ const Muestra = () => {
       {(
         <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
           
-           <GeneralButton
-            text={"Agregar muestra"}
+         { muestraID ? 
+         <GeneralButton
+            text={ "Agregar otra muestra"}
+            disabled={estudioID ? false : true}
+            handleClick={handleEnableNewMuestra}
+          />:
+          <GeneralButton
+            text={ "Agregar muestra"}
             disabled={estudioID ? false : true}
             handleClick={formikMuestra.handleSubmit}
           />
+          }
            {estudioID && muestraID ?<GeneralButton
             text={"Finalizar registro "}
             handleClick={handleFinishRegister}
@@ -334,6 +350,7 @@ const Muestra = () => {
           <GeneralButton
             text={"Guardar estudio"}
             handleClick={handleSubmit}
+            disabled={createSuccess ? true : false}
           />
           }
         </Box>

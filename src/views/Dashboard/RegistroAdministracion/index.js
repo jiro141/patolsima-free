@@ -18,12 +18,13 @@ import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualiza
 
 function Registro() {
   const { activeTab, twoState, setTwoState, setActiveTab } = useContext(MainContext);
-  const { setMuestraID,setFormEstudioIds,setEstudioID,setPacienteID,setMedicoID,setDataPaciente,setDataMedico } = useContext(ModoVisualizacionContext);
+  const { setMuestraID,setFormEstudioIds,setEstudioID,setPacienteID,setMedicoID,setDataPaciente,setDataMedico,setEstudioId2 } = useContext(ModoVisualizacionContext);
 
   useEffect(() => {
     setMuestraID(''),
     setFormEstudioIds(''),
     setEstudioID(''),
+    setEstudioId2(''),
     setPacienteID(''),
     setMedicoID('')
     setDataPaciente({})
@@ -119,7 +120,7 @@ function Registro() {
           fontWeight="bold"
          // border={'1px'}
         >
-       <Text style={{color:'#137798',fontSize:'15px'}}>{isActive ? title : activeTab == 2 ? "+" : null}  </Text>     
+       <Text style={{color:'#137798'}}>{isActive ? title : activeTab == 2 ? "+" : null}  </Text>     
         </MotionTab>
       </div>
     );
@@ -172,12 +173,12 @@ function Registro() {
                 isDisabled={activeTab != 1}
               />
               <CustomTab
-                title="Estudio"
+                title="Primero"
                 isActive={activeTab === 2}
                 isDisabled={activeTab != 2}
               />
               <CustomStudy2
-                title="Estudio 2"
+                title="Segundo"
                 isActive={activeTab === 3}
                 isDisabled={activeTab != 3}
               />

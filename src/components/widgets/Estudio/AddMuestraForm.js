@@ -13,7 +13,7 @@ import { postOrdenes } from "api/controllers/facturas";
 import FinishButton from "../Buttons/FinishButton";
 import { Title, subTitleBold, Titlelight } from "../Texts";
 
-export default function AddMuestraForm({ formikMuestra }) {
+export default function AddMuestraForm({ formikMuestra,confirmOtherMuestra,type }) {
   const { estudioId2, estudioID, setMuestraID, muestraID,setOrdenId,setEstudioID,muestraID2 } = useContext(
     ModoVisualizacionContext
   );
@@ -97,24 +97,20 @@ export default function AddMuestraForm({ formikMuestra }) {
         >
         </Title>
       </Box>
+     {type==='muestra1'? <>
       <InputOverall
         placeholder="Tipo de muestra"
-        disabled={estudioID || estudioId2 ? false : true}
+        disabled={estudioID  ? false : true}
         name={"tipo_de_muestra"}
         value={formikMuestra.values.tipo_de_muestra}
         onChange={(e) =>
           formikMuestra.setFieldValue("tipo_de_muestra", e.target.value)
         }
       />
-      {/* <InputOverall
-        placeholder="Descripcion"
-        name={"descripcion"}
-        value={formik.values.descripcion}
-        onChange={(e) => formik.setFieldValue("descripcion", e.target.value)}
-      /> */}
+   
       <Textarea
         marginTop={"10px"}
-        disabled={estudioID || estudioId2 ? false : true}
+        disabled={estudioID ? false : true}
         size="lg"
         name="notas"
         borderRadius="md"
@@ -122,20 +118,34 @@ export default function AddMuestraForm({ formikMuestra }) {
         value={formikMuestra.values.notas}
         onChange={(e) => formikMuestra.setFieldValue("notas", e.target.value)}
       />
-      {/**muestraID && */}
-      {/* (
-        <Box w={"100%"} textAlign={"center"}>
-          <GeneralButton
-            text={"Agregar muestra"}
-            handleClick={formik.handleSubmit}
-          />
-        </Box>
-      )*/}
-      {/*
-        <Box marginTop={'20px'} w={"100%"} textAlign="end">
-          <FinishButton handleSubmit={formik.handleSubmit} />
-        </Box>
-      */}
+      </>
+    :
+    <>
+      <InputOverall
+        placeholder="Tipo de muestra 2:"
+        disabled={estudioId2  ? false : true}
+        name={"tipo_de_muestra"}
+        value={formikMuestra.values.tipo_de_muestra}
+        onChange={(e) =>
+          formikMuestra.setFieldValue("tipo_de_muestra", e.target.value)
+        }
+      />
+   
+      <Textarea
+        marginTop={"10px"}
+        disabled={estudioId2 ? false : true}
+        size="lg"
+        name="notas"
+        borderRadius="md"
+        placeholder="Notas de muestra 2:"
+        value={formikMuestra.values.notas}
+        onChange={(e) => formikMuestra.setFieldValue("notas", e.target.value)}
+      />
+      </>
+    
+    }
+      
+     
     </div>
   );
 }
