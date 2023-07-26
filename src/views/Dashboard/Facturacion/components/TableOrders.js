@@ -49,7 +49,7 @@ export function TableOrders_Pendientes({ children }) {
             },
           }}>
           <Table >
-            <Thead style={{ width: '100%' }}>
+            <Thead style={{ width: '70%' }}>
               <TH thData={thValuesFacturasSimples} />
             </Thead>
             {children}
