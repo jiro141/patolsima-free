@@ -145,7 +145,7 @@ console.log(facturasNoConfirmadas)
      overflowX={{ lg: "hidden", sm: "auto" }}
       >
      
-         <CardCambio cambioDelDia={cambioDelDia} />
+         {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
         <Box marginTop={'-15px'} padding={'2%'}>
        
          <TableOrders_Pendientes> 

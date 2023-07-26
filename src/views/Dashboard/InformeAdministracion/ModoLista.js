@@ -118,11 +118,11 @@ const Dashboard = () => {
                       <Link style={{ fontSize: '13.5px' }} onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
                     <Td>
-                      {/* <Link style={{ fontSize: '13.5px' }} onClick={() => toggleModal(study)}>
-          {study?.paciente?.nombres.length > 5 && study?.paciente?.apellidos.length > 5
-            ? study?.paciente?.nombres + " " + study?.paciente?.apellidos.substring(0, 4) + "..."
-            : study?.paciente?.nombres + ' ' + study?.paciente?.apellidos}
-        </Link> */}
+                      <Link style={{ fontSize: '13.5px' }} onClick={() => toggleModal(study)}>
+                        {study?.estudio_paciente_name.length > 10
+                          ? study?.estudio_paciente_name.substring(0, 15) + "..."
+                          : study?.estudio_paciente_name}
+                      </Link>
                     </Td>
                     <Td style={{ width: '20%' }}>
                       <Link style={{ fontSize: '13.5px' }} onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
@@ -156,11 +156,11 @@ const Dashboard = () => {
                       <Link style={{ fontSize: '13.5px' }} onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
                     <Td>
-                      {/* <Link style={{ fontSize: '13.5px' }} onClick={() => toggleModal(study)}>
-          {study?.paciente?.nombres.length > 5 && study?.paciente?.apellidos.length > 5
-            ? study?.paciente?.nombres + " " + study?.paciente?.apellidos.substring(0, 4) + "..."
-            : study?.paciente?.nombres + ' ' + study?.paciente?.apellidos}
-        </Link> */}
+                      <Link style={{ fontSize: '13.5px' }} onClick={() => toggleModal(study)}>
+                        {study?.estudio_paciente_name.length > 10
+                          ? study?.estudio_paciente_name.substring(0, 15) + "..."
+                          : study?.estudio_paciente_name}
+                      </Link>
                     </Td>
                     <Td style={{ width: '20%' }}>
                       <Link style={{ fontSize: '13.5px' }} onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
