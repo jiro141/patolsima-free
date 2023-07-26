@@ -17,6 +17,7 @@ import {
   useDisclosure,
   Image,
   Grid,
+  CircularProgress,
 } from "@chakra-ui/react";
 import { TimeIcon } from "@chakra-ui/icons";
 import IconBox from "components/Icons/IconBox";
@@ -28,8 +29,37 @@ import Fecha from "./Fecha";
 import Reloj from "./Reloj";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import "../../../src/css/style.css";
+import CardCambio from "components/widgets/Cards/CardCambio";
+import { useFacturas } from "hooks/Facturas/useFacturas";
+import { useContext } from "react";
+import CardCambioSidebar from "components/widgets/Cards/CardCambioSidebar";
+import { useGroups } from "hooks/Groups/useGroups";
+import { useEffect } from "react";
 
 function SidebarResponsive(props) {
+  console.log(props.routes);
+  const {
+    getCambios,
+    cambioDelDia,
+  } = useFacturas();
+  console.log(cambioDelDia);
+  const { getGroups, groups, loading } = useGroups();
+  useEffect(() => {
+    const getUsersGroups = async () => {
+      getGroups();
+      getCambios();
+    };
+    getUsersGroups();
+  }, []);
+  const arrGroup = groups ? groups[0] : '';
+
+  const adminRoutes = props.routes.filter(
+    (route) => route.groupName === "administracion"
+  );
+  const patologiaRoutes = props.routes.filter(
+    (route) => route.groupName === "patologia"
+  );
   // to check for active links and opened collapses
   let location = useLocation();
   // this is for the rest of the collapses
@@ -44,152 +74,252 @@ function SidebarResponsive(props) {
     // Chakra Color Mode
     const activeBg = useColorModeValue("#89bbcc", "gray.700");
     const inactiveBg = useColorModeValue("transparet");
-    const activeColor = useColorModeValue("gray.700", "white");
+    const activeColor = useColorModeValue("#137798");
     const inactiveColor = useColorModeValue("gray.400", "gray.400");
     const colorIcon = useColorModeValue("gray.400");
 
-    return routes.map((prop, key) => {
+    return patologiaRoutes.map((prop, key) => {
       if (prop.hide) {
         return null;
       }
-      if (prop.category) {
-        var st = {};
-        st[prop["state"]] = !state[prop.state];
-        return (
-          <div key={prop.name}>
-            <Separator></Separator>
-            <Text
-              color={activeColor}
-              fontWeight="bold"
-              mb={{
-                xl: "12px",
-              }}
-              mx="auto"
-              ps={{
-                sm: "10px",
-                xl: "16px",
-              }}
-              py="12px"
-            >
-              {document.documentElement.dir === "rtl"
-                ? prop.rtlName
-                : prop.name}
-            </Text>
-            {createLinks(prop.views)}
-            <Separator></Separator>
-          </div>
-        );
-      }
       return (
-        <NavLink to={prop.layout + prop.path} key={prop.name}>
-          {activeRoute(prop.layout + prop.path) === "active" ? (
-            <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
-              bg={activeBg}
-              mb={{
-                xl: "12px",
-              }}
-              mx={{
-                xl: "auto",
-              }}
-              ps={{
-                sm: "10px",
-                xl: "16px",
-              }}
-              py="12px"
-              borderRadius="15px"
-              _hover="none"
-              w="100%"
-              _active={{
-                bg: "inherit",
-                transform: "none",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                boxShadow: "none",
-              }}
-            >
-              <Flex>
-                {typeof prop.icon === "string" ? (
-                  <Icon>{prop.icon}</Icon>
-                ) : (
-                  <IconBox
-                    color="white"
-                    h="30px"
-                    w="30px"
-                    me="12px"
-                  >
-                    {prop.icon}
-                  </IconBox>
-                )}
-                <Text color={activeColor} my="auto" fontSize="sm">
-                  {document.documentElement.dir === "rtl"
-                    ? prop.rtlName
-                    : prop.name}
-                </Text>
-              </Flex>
-            </Button>
-          ) : (
-            <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
-              bg="transparent"
-              mb={{
-                xl: "12px",
-              }}
-              mx={{
-                xl: "auto",
-              }}
-              py="12px"
-              ps={{
-                sm: "10px",
-                xl: "16px",
-              }}
-              borderRadius="15px"
-              _hover="none"
-              w="100%"
-              _active={{
-                bg: "inherit",
-                transform: "none",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                boxShadow: "none",
-              }}
-            >
-              <Flex>
-                {typeof prop.icon === "string" ? (
-                  <Icon>{prop.icon}</Icon>
-                ) : (
-                  <IconBox
-                    bg={inactiveBg}
-                    color={colorIcon}
-                    h="30px"
-                    w="30px"
-                    me="12px"
-                  >
-                    {prop.icon}
-                  </IconBox>
-                )}
-                <Text color={inactiveColor} my="auto" fontSize="sm">
-                  {document.documentElement.dir === "rtl"
-                    ? prop.rtlName
-                    : prop.name}
-                </Text>
-              </Flex>
-            </Button>
-          )}
-        </NavLink>
+        <>
+          {
+            <NavLink to={prop.layout + prop.path} key={prop.name}>
+              {activeRoute(prop.layout + prop.path) === "active" ? (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg={activeBg}
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  py="8px"
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={"none"}
+                        color={'#137798'}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={"#137798"} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              ) : (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg="transparent"
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  py="8px"
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={inactiveBg}
+                        color={colorIcon}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={inactiveColor} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              )}
+            </NavLink>
+          }
+        </>
+      );
+    });
+  };
+  const createLinksAdmin = (routes) => {
+    // Chakra Color Mode
+    const activeBg = useColorModeValue("#89bbcc", "gray.700");
+    const inactiveBg = useColorModeValue("transparet");
+    const activeColor = useColorModeValue("#137798", "white");
+    const inactiveColor = useColorModeValue("gray.400", "gray.400");
+    const colorIcon = useColorModeValue("gray.400");
+
+    return adminRoutes.map((prop, key) => {
+      if (prop.hide) {
+        return null;
+      }
+
+      return (
+        <>
+          {
+            <NavLink to={prop.layout + prop.path} key={prop.name}>
+              {activeRoute(prop.layout + prop.path) === "active" ? (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg={activeBg}
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  py="8px"
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={"none"}
+                        color={activeColor}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={activeColor} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              ) : (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg="transparent"
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  py="8px"
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={inactiveBg}
+                        color={colorIcon}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={inactiveColor} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              )}
+            </NavLink>
+          }
+        </>
       );
     });
   };
 
+
   const { logoText, routes, ...rest } = props;
 
-  var links = <>{createLinks(routes)}</>;
+  const linksAdmin = <>{createLinksAdmin(routes)}</>;
+  const linksPatology = <>{createLinks(routes)}</>;
+  const activeBg = useColorModeValue("#89bbcc", "gray.700");
+  const inactiveBg = useColorModeValue("transparet");
+  const activeColor = useColorModeValue("#137798", "white");
+  const inactiveColor = useColorModeValue("gray.400", "gray.400");
+  const colorIcon = useColorModeValue("gray.400");
   //  BRAND
   //  Chakra Color Mode
   let hamburgerColor = useColorModeValue("gray.500", "gray.200");
@@ -197,40 +327,48 @@ function SidebarResponsive(props) {
     hamburgerColor = "white";
   }
   var brand = (
-    <Box pt={"0"} mb="8px">
-      <Box w="100%" h="5px" m=" 5px 10px 150px 10px">
-        <Box w={'70%'} marginRight={'-25px'} display={'flex'} justifyContent={'start'}>
-          <Link href="/admin/Home">
-            <Image src={Logo} alt="Logo palmosima" />
-          </Link>
-        </Box>
-        <Box color={"#137797"} fontWeight="bold">
-          <Box marginRight={'10px'} display={'flex'} justifyContent={'center'}>
-            <Box>
-              <Box marginLeft={'-15px'} w={"100px"} >
-                <Reloj />
+    <Box marginTop={'-10px'} maxW={"200px"}>
+      <Box w="100%" h="5px" m="-15px 10px 130px 10px">
+        <Box display={'flex'} justifyContent={'center'} w={'100%'}>
+          <Box w={'70%'}>
+            <Link href="/admin/Home">
+              <Image src={Logo} alt="Logo palmosima" />
+            </Link>
+            <Box textAlign={'center'} color={"#137797"} fontWeight="bold">
+              <Box  >
+                <Box>
+                  <Box>
+                    <Reloj />
+                  </Box>
+                  <Box  >
+                    <Fecha />
+                  </Box>
+                </Box>
               </Box>
-              <Box marginLeft={'-20px'} >
-                <Fecha />
-              </Box>
+            </Box>
+            <Box
+              boxSize="initial"
+              justifyContent="center"
+              alignItems="center"
+              bg={'#137797'}
+              my={{
+                xl: "5px",
+              }}
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              py="8px"
+              borderRadius="15px"
+            // w="100%"
+            >
+              <Text fontWeight={'bold'} my="auto" fontSize="md" color={'#FFFF'}>BCV: {cambioDelDia}</Text>
             </Box>
           </Box>
         </Box>
       </Box>
-      <Link
-        href={`#`}
-        target="_blank"
-        display="flex"
-        lineHeight="100%"
-        mb="30px"
-        fontWeight="bold"
-        justifyContent="center"
-        alignItems="center"
-        fontSize="11px"
-      ></Link>
       <Box margin={'50px 0 20px 0'}>
-        <Separator></Separator>
-        <Text marginTop={'10px'} marginLeft={'13px'} fontWeight={'bold'}>Administración</Text>
+        {/* <Separator></Separator> */}
       </Box>
     </Box>
   );
@@ -279,7 +417,31 @@ function SidebarResponsive(props) {
             <Box maxW="100%" h="100vh">
               <Box>{brand}</Box>
               <Stack direction="column" mb="40px">
-                <Box>{links}</Box>
+                {loading ? (
+                  <Box margin={"80px 0 20px 0"}>
+                    <div className="centerLoader">
+                      <CircularProgress value={20} size="30px" color="#137797" />
+                    </div>
+                  </Box>
+                ) : (
+                  <>
+                    <Box pt={"10px"} mb="5px">
+                      <Box margin={"100px 0 20px 0"}>
+                        <Separator></Separator>
+                      </Box>
+                    </Box>
+                    <Stack direction="column" mt={'-50px'} mb="40px">
+                      <Box>
+                        {arrGroup === "patologo"
+                          ? linksPatology
+                          : arrGroup === "administracion"
+                            ? linksAdmin
+                            : null}
+                      </Box>
+                      <Separator></Separator>
+                    </Stack>
+                  </>
+                )}
               </Stack>
               <Box marginTop={"60px"}>
                 <Calendario></Calendario>
