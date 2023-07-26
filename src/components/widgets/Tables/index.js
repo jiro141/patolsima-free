@@ -376,7 +376,9 @@ export function TRI({
               fontSize={'14px'}
             >
 
-              {bills.estudio_patologo_name}
+              {bills?.estudio_paciente_name.length > 10
+                ? bills?.estudio_paciente_name.substring(0, 15) + "..."
+                : bills?.estudio_paciente_name}
             </Link>
             <Link
               // paddingX={"10px"}
