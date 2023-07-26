@@ -12,7 +12,8 @@ import {
     CloseButton,
     useBreakpointValue,
     Input,
-    Badge
+    Badge,
+    Select
 } from "@chakra-ui/react";
 import { BsFillPencilFill, BsFillFileCheckFill } from "react-icons/bs";
 import FacturaTerceros from "./FacturaTerceros";
@@ -39,6 +40,8 @@ import MainContext from "context/mainContext/MainContext";
 import { formatDate } from "helpers";
 import { generarNumeroAleatorio } from "helpers";
 import { putChangeIdOrdenClient } from "api/controllers/facturas";
+import ModalNumFactura from "components/widgets/Modals/ModalNumFactura";
+import { Title } from "components/widgets/Texts";
 
 
 const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG,setShowModalConfirmacdion,setAbonarSend,abonarSend }) => {
@@ -108,7 +111,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
 
 
-//sconsole.log('studyy');
+console.log(study);
     
 useEffect(() => {     
         const changeClientByOrder=async()=>{
@@ -184,6 +187,8 @@ useEffect(() => {
 
     //modal
     const [showModal, setShowModal] = useState(false);
+    const [showModalRegisterFact, setShowModalRegisterFact] = useState(false);
+   
     const toggleModal = () => {
         setShowModal(!showModal);
     };
@@ -197,9 +202,10 @@ useEffect(() => {
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId = generateUniqueId()
-    const numeroAleatorio = generarNumeroAleatorio(1, 10000000000);
+   // const numeroAleatorio = generarNumeroAleatorio(1, 10000000000);
     const generarFactura = async () => {
-        const fact = {
+        setShowModalRegisterFact(true)
+      /*  const fact = {
             n_factura: numeroAleatorio
         }
         console.log('study id->')
@@ -213,7 +219,7 @@ useEffect(() => {
             toast.error("¡Ocurrio un error al generar la factura!", {
                 autoClose: 1000,
             });
-        }
+        }*/
         //console.log(resFact)
 
     }
@@ -259,23 +265,25 @@ useEffect(() => {
         setfactClientTerceros(null)
     }, [])
 
-   // console.log(facturasDetail)
-   // console.log(studyDetail)
+    console.log(facturasDetail)
+    console.log(studyDetail)
    // console.log('factClientTerceros->')
     //console.log(factClientTerceros);
     return (
         <>
             {loadingDetailFact ?
                 <p>cargando</p> : <Box marginTop={'-50px'}  >
-                    <Grid templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
-                        <Text margin={'5px'} color={'gray.900'} fontSize={'20px'} >Datos de factura</Text>
-                        <Text margin={'18px'} textAlign={{ lg: 'right', sm: 'left' }} color={'gray.500'} fontSize={'20px'} >
+                    <Box display={'flex'} width={'100%'} justifyContent={'space-between'} padding={'5px'}>
+                    <Title
+            title={'Datos de factura'}
+          />
+          <Text   color={'gray.500'} fontSize={'17px'} mr={'20px'} >
 
-                            Número de Orden { facturasDetail && facturasDetail?.id}
-                            {/* {`${newId}`} */}
+Número de Orden { facturasDetail && facturasDetail?.id}
+{/* {`${newId}`} */}
 
-                        </Text>
-                    </Grid>
+</Text>
+                    </Box>
                     <Grid templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                         <Box>
                             <Box margin={'5px'}>
@@ -377,7 +385,7 @@ useEffect(() => {
                         </Box>
                         <Box>
                             <Box margin={'5px'}>
-                                <Text fontSize={'16px'} >Dirección</Text>
+                               { <Text fontSize={'16px'} >Dirección</Text>}
                                 {
                                     facturasDetail && !factClientTerceros ? (
                                         <Text fontSize={'14px'}>
@@ -415,7 +423,7 @@ useEffect(() => {
                     </Grid>
 
 
-                 {facturasDetail && facturasDetail.pagada ?
+                 {facturasDetail && facturasDetail.pagada || abonarSend ?
                  <></> :
                  <Button
                         marginTop={'15px'}
@@ -428,9 +436,10 @@ useEffect(() => {
                         Factura para un tercero
                     </Button>}
 
-                    <Separator></Separator>
-                    <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>
-                    <Grid templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
+                    <Separator mb={'15px'}></Separator>
+                   {/* <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>*/}
+                   <Title title={'Descripción'} />
+                    <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                         <Box>
                             <Box margin={'5px'} >
                                 <Text fontSize={'16px'} ># Estudio</Text>
@@ -449,7 +458,9 @@ useEffect(() => {
                                 {studyDetail ? (
                                     <Text fontSize={'14px'}>
                                         <Badge>
-                                            {studyDetail?.paciente.nombres} {studyDetail?.paciente.apellidos}
+                                        {studyDetail?.paciente.nombres?.length > 15 ? studyDetail?.paciente.nombres.substring(0, 15) + '...' :studyDetail?.paciente.nombres}
+                                        {studyDetail?.paciente.apellidos?.length > 10 ? studyDetail?.paciente.apellidos.substring(0, 5) + '...' :studyDetail?.paciente.apellidos}
+                                         
                                         </Badge>
 
 
@@ -475,6 +486,7 @@ useEffect(() => {
                                 )}
                             </Box>
                         </Box>
+                       
                         <Box>
                             <Box margin={' 5px'}>
                                 <Text fontSize={'16px'} >Monto($)</Text>
@@ -525,6 +537,22 @@ useEffect(() => {
                                 )}
                             </Box>
                         </Box>
+                       { <Box>
+                            <Box margin={' 5px '}>
+                                <Text fontSize={'16px'} >Muestras</Text>
+                                {studyDetail ? (
+                                    <Select style={{height:'30px'}} >
+                                    {studyDetail?.muestras.map((muestra, index) => (
+                                      <option key={index} value={muestra.tipo_de_muestra}>
+                                        {muestra.tipo_de_muestra}
+                                      </option>
+                                    ))}
+                                  </Select>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>}
                         <Box>
                             <Box margin={'5px'}>
                                 <Text fontSize={'16px'} >Monto(Bs)</Text>
@@ -698,7 +726,7 @@ useEffect(() => {
                     }
 
                     <ModalPrint text={'¿Desea descargar el recibo ?'} isOpen={openModalFact} setOpenModal={setOpenModalFact} pdfContent={pdfContent} />
-                    <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />
+                   {/* <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />*/}
                     <ModalPrint text={'¿Desea descargar la nota de pago ?'} isOpen={openModalPago} setOpenModal={setOpenModalPago} pdfContent={pdfContentNotaPago} type={'nota'} />
 
                     {/** */}
@@ -724,6 +752,15 @@ useEffect(() => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
+            <ModalNumFactura
+            study={study}
+            setPdfContentFact={setPdfContentFact}
+             setShowModal={setShowModalRegisterFact} 
+             isOpen={showModalRegisterFact}
+             pdfContentFact={pdfContentFact}
+             setOpenModalFact2={setOpenModalFact2}
+             openModalFact2={openModalFact2}
+             />
 
             <AddAbonarModal setAbonarSend={setAbonarSend} openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={facturasDetail?.id} setPdfContent={setPdfContentNotaPago} />
 

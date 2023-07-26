@@ -14,7 +14,7 @@ import FinishButton from "../Buttons/FinishButton";
 import { Title, subTitleBold, Titlelight } from "../Texts";
 
 export default function AddMuestraForm({ formikMuestra }) {
-  const { estudioId2, estudioID, setMuestraID, muestraID,setOrdenId,setEstudioID } = useContext(
+  const { estudioId2, estudioID, setMuestraID, muestraID,setOrdenId,setEstudioID,muestraID2 } = useContext(
     ModoVisualizacionContext
   );
 
@@ -26,7 +26,7 @@ export default function AddMuestraForm({ formikMuestra }) {
     },
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      if(muestraID){
+      if(muestraID || muestraID2 ){
         formik.resetForm()
        }
       const newObj = {
@@ -99,7 +99,7 @@ export default function AddMuestraForm({ formikMuestra }) {
       </Box>
       <InputOverall
         placeholder="Tipo de muestra"
-        disabled={estudioID ? false : true}
+        disabled={estudioID || estudioId2 ? false : true}
         name={"tipo_de_muestra"}
         value={formikMuestra.values.tipo_de_muestra}
         onChange={(e) =>
@@ -114,7 +114,7 @@ export default function AddMuestraForm({ formikMuestra }) {
       /> */}
       <Textarea
         marginTop={"10px"}
-        disabled={estudioID ? false : true}
+        disabled={estudioID || estudioId2 ? false : true}
         size="lg"
         name="notas"
         borderRadius="md"

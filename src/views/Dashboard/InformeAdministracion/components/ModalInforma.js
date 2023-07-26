@@ -122,7 +122,10 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                                 <SubTitlelight title={'Paciente'} color={'#000'} />
                                 {detailEstudio ?
                                     <Badge>
-                                        <Text >{`${detailEstudio?.paciente?.nombres} 
+                                        <Text >{` ${detailEstudio?.paciente?.nombres.length > 9
+                                                ? detailEstudio?.paciente?.nombres.substring(0, 9) + "..."
+                                                : detailEstudio?.paciente?.nombres}
+
                             ${detailEstudio?.paciente?.apellidos.length > 10
                                                 ? detailEstudio?.paciente?.apellidos.substring(0, 10) + "..."
                                                 : detailEstudio?.paciente?.apellidos}`}
@@ -270,25 +273,14 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
         <option key={index} value={estudio.estudio_id}>
           {estudio.estudio_tipo} - {estudio.estudio_codigo}
         </option>
-      ))}
-                            { /*<option value=""></option>
-                            <option value=""></option>*/}
+      ))}                          
                         </Select>
 
-                        <Select color="gray.400" defaultValue="Anexos">
-                            <option hidden colorScheme="gray.400">Anexos</option>
-                            {/*<option value=""></option>
-                            <option value=""></option>*/}
-                        </Select>
-                        {/*<Input
-                            placeholder='Notas'
-                            type="text"
-                            name="notas"
-                        />*/}
+                       
                     </Grid>
                 </Box>
-                <Box marginTop={'-55%'} height={'100%'}>
-                    <Box height='80%' marginTop={'60%'} borderLeft={'c'}>
+                <Box  height={'100%'}  display={'flex'} flexDirection={'column'} alignItems={'flex-start'} >
+                    <Box height='50%' marginTop={'6%'} borderLeft={'c'}>
                         <Button
                             margin={'10px'}
                             marginBottom={'30px'}
@@ -320,13 +312,13 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                         <OutlineBtnModal text={'Biblografía'}
                             handleClick={toggleModalB}
                         />
+                        <GeneralButton text={'Vista previa'} handleClick={generarPdf} />
+              
+              <GeneralButton text={'Generar'} handleClick={handleSubmitGenerateInfor} />
+                        
 
                     </Box>
-                    <Box style={{display:'flex', alignItems:'center', justifyContent:'flex-end'}}> 
-                    <GeneralButton text={'Vista previa'} handleClick={generarPdf} />
-              
-                    <GeneralButton text={'Generar'} handleClick={handleSubmitGenerateInfor} />
-                    </Box>
+                    
 
                 </Box>
             </Grid>
@@ -388,7 +380,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
 
 <ModalCreateNotes
             setShowModal={setShowModalRegister}
-            titulo={'Registro de cambios'} toggleModal={toggleModalB} showModal={showModalRegister} informeDetail={informeDetail} idStudy={detailEstudio.id} type='register'
+            titulo={'Registro de cambios'} toggleModal={toggleModalR} showModal={showModalRegister} informeDetail={informeDetail} idStudy={detailEstudio.id} type='register'
             //setShowModalGeneral={setShowModalGeneral}
             />
 <ModalSendWp isOpen={showModalSendWp} setOpenModal={setShowModalSendWp} />

@@ -6,8 +6,8 @@ import { CiCircleChevRight,CiCircleChevLeft } from "react-icons/ci";
 import ModoVisualizacionContext from 'components/ModoVisualizacion/ModoVisualizacion';
 
 
-export const NextStation = ({errors,handleNextSubmit}) => {
-  const { activeTab, setActiveTab } = useContext(MainContext);
+export const NextStation = ({errors,handleNextSubmit,searchci}) => {
+  const { activeTab, setActiveTab,oneState,twoState } = useContext(MainContext);
   const {medicoID,pacienteID } = useContext(ModoVisualizacionContext);
 
   const handleIncrement = () => {
@@ -18,15 +18,23 @@ export const NextStation = ({errors,handleNextSubmit}) => {
       setActiveTab(activeTab + 1);
     }     
     }else{
-      setActiveTab(activeTab + 1);
+    // setActiveTab(activeTab + 1);
       
     }
     if(handleNextSubmit){
       if(medicoID){
         handleNextSubmit()
-      }else{
+      }else if(searchci || pacienteID){
         handleNextSubmit()
-      }      
+       
+      }else if(oneState==='put' || twoState==='put'){
+      handleNextSubmit()
+      }
+       
+      
+      //
+     //handleNextSubmit()
+        setActiveTab(activeTab + 1);  
     }
   
     

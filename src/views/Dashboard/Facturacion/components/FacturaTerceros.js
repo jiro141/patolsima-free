@@ -42,6 +42,7 @@ const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
+      console.log(formData);
       if(searchResult){
         try {
           const resPost = await putClientFactura(study?.cliente?.id,formData)
@@ -82,16 +83,16 @@ const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
 
     },
   });
-
+console.log(study.cliente.id);
   useEffect(() => {
     if(study){
    const searchByCi=async()=>{
-   const res= await getOrdenesByCi(study?.cliente?.ci_rif)
+   const res= await getOrdenesByCi('V465456')
    if(res){
      //setsearchResult(res[0].cliente)
-    
+     setsearchResult(true)
      console.log(res[0].cliente);
-     const resDetail = await getFacturasDetail(res[0].id)
+     const resDetail = await getFacturasDetail(study.id)
      console.log(resDetail);
     formik.setValues({
       ci_rif: resDetail.cliente.ci_rif,
@@ -101,9 +102,13 @@ const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
       telefono_fijo:resDetail.cliente.telefono_fijo,
       email:resDetail?.cliente?.email,
     })
-    setsearchResult(true)
+    
      //console.log('ya existe la ci');
    }else{
+    console.log('no existe la ci');
+    toast.error("¡No esta el cliente en registro!", {
+      autoClose: 1000,
+    });
     setsearchResult(false)
    }
    
@@ -111,10 +116,10 @@ const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
    searchByCi()
     }
      return () => { }
-   }, [])
+   }, [study])
 
   
-//console.log(study)
+console.log(study)
   return (
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>

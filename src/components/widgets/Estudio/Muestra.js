@@ -119,11 +119,7 @@ const Muestra = () => {
       return;
     },
   });
-  useEffect(() => {
-    
-     // sendOrden()
-
-  }, [estudioID])
+  
 
  
   useEffect(() => {
@@ -157,8 +153,9 @@ const Muestra = () => {
     },
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
+      formikMuestra.resetForm()
       if(muestraID){
-        formikMuestra.resetForm()
+        //formikMuestra.resetForm()
        }
       const newObj = {
         estudio: estudioID ,
@@ -278,6 +275,7 @@ const Muestra = () => {
 
         >
           <Switch_
+           disabled={estudioID ? true :false}
             id="envio_digital"
             checked={formik.values.envio_digital}
             onChange={(e) =>
@@ -288,6 +286,7 @@ const Muestra = () => {
           />
 
           <Switch_
+           disabled={estudioID ? true :false}
             id="urgente"
             name="urgente"
             checked={formik.values.urgente}
@@ -309,6 +308,7 @@ const Muestra = () => {
           size="lg"
           name="notas"
           borderRadius="md"
+          disabled={estudioID ? true :false}
           placeholder="Notas de estudio:"
           value={formik.values.notas}
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
@@ -323,16 +323,10 @@ const Muestra = () => {
         <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
           
            <GeneralButton
-           //type={'withTooltip'}
-          // label={'Debes crear un estudio'}
             text={"Agregar muestra"}
             disabled={estudioID ? false : true}
             handleClick={formikMuestra.handleSubmit}
           />
-       
-          
-          
-         
            {estudioID && muestraID ?<GeneralButton
             text={"Finalizar registro "}
             handleClick={handleFinishRegister}
@@ -342,7 +336,6 @@ const Muestra = () => {
             handleClick={handleSubmit}
           />
           }
-         {/* <SaveButton type='studio' handleSubmit={handleSubmit} />*/}
         </Box>
       )}
 

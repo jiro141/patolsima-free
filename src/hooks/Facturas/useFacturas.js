@@ -38,7 +38,7 @@ export function useFacturas() {
       const facturasListConfirm = await getFacturasListConfirm();
       console.log(facturasListConfirm);
       if (facturasListConfirm) {
-        const archivedFacts = facturasListConfirm.filter((item) => item.pagada === false);
+        const archivedFacts = facturasListConfirm.filter((item) => item.pagada === false );
         setFacturasConfirmadas(archivedFacts);
       } 
       // console.log(facturasList);

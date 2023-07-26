@@ -5,8 +5,10 @@ import FacturaTerceros from 'views/Dashboard/Facturacion/components/FacturaTerce
 export default function ModalFctTerceros({study,showModal,toggleModal,setShowModal,setFinishFactTerceros}) {
   return (
     <Modal
-    size={"lg"}
+   size={"lg"}
+   
     maxWidth='100%'
+  // size='5xl'
     isOpen={showModal}
     onClose={toggleModal}
     >
