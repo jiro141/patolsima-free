@@ -284,7 +284,17 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         <>
             {loadingDetailFact ?
                 <p>cargando</p> : <Box marginTop={'-50px'}  >
-                    <Title title={'Descripción'} />
+                    <Box display={'flex'} width={'100%'} justifyContent={'space-between'} padding={'5px'}>
+                        <Title
+                            title={'Descripción'}
+                        />
+                        <Text color={'gray.500'} fontSize={'17px'} mr={'20px'} >
+
+                            Número de Orden {facturasDetail && facturasDetail?.id}
+                            {/* {`${newId}`} */}
+
+                        </Text>
+                    </Box>
                     {studyDetail && <>
                         <Box >
                             <Box margin={'5px'}  >
@@ -292,9 +302,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 {studyDetail ? (
                                     <Text fontSize={'14px'}>
                                         <Badge>
-                                            {studyDetail?.paciente.nombres?.length > 15 ? studyDetail?.paciente.nombres.substring(0, 15) + '...' : studyDetail?.paciente.nombres}
-                                            {studyDetail?.paciente.apellidos?.length > 10 ? studyDetail?.paciente.apellidos.substring(0, 5) + '...' : studyDetail?.paciente.apellidos}
-
+                                            {studyDetail?.paciente.apellidos} {studyDetail?.paciente.apellidos}
                                         </Badge>
 
 
@@ -304,7 +312,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 )}
                             </Box>
                         </Box>
-                        <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
+                        <Grid mt={'5px'} templateColumns={{ lg: "repeat(3,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                             <Box>
                                 <Box margin={'5px'} >
                                     <Text fontSize={'16px'} > Estudio # 1</Text>
@@ -356,7 +364,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                             </Box>
                         </Grid></>
                     }
-                    {studyDetail2 && <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
+                    {studyDetail2 && <Grid mt={'5px'} templateColumns={{ lg: "repeat(3,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
                         <Box>
                             <Box margin={'5px'} >
                                 <Text fontSize={'16px'} > Estudio # 2</Text>
@@ -415,15 +423,9 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         <Title
                             title={'Datos de factura'}
                         />
-                        <Text color={'gray.500'} fontSize={'17px'} mr={'20px'} >
-
-                            Número de Orden {facturasDetail && facturasDetail?.id}
-                            {/* {`${newId}`} */}
-
-                        </Text>
                     </Box>
                     <Grid templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
-                        <Box>
+                        <Box margin={'5px'}>
                             <Box margin={'5px'}>
                                 <Text fontSize={'16px'} >Cliente</Text>
                                 {facturasDetail && !factClientTerceros ? (
@@ -555,28 +557,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
                     <Separator mb={'15px'}></Separator>
                     {/* <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>*/}
-                    <Box display={'flex'} justifyContent={'space-around'}>
-                        <Box margin={'5px'}>
-                            <Text fontSize={'16px'} >Estado del pago</Text>
-                            {facturasDetail ? (
-                                <Text fontSize={'14px'}>
-
-                                    {facturasDetail.pagada ?
-                                        <Badge variant='subtle' colorScheme='green'>
-                                            Completado
-                                        </Badge>
-
-
-                                        :
-                                        <Badge variant='subtle' colorScheme={"orange"}>
-                                            Pendiente
-                                        </Badge>
-                                    }
-                                </Text>
-                            ) : (
-                                <Text fontSize={'14px'}>Loading...</Text>
-                            )}
-                        </Box>
+                    {/* <Box display={'flex'} justifyContent={'space-around'}>
                         <Box>
                             <Box margin={' 5px'}>
                                 <Text fontSize={'16px'} >Monto($)</Text>
@@ -627,28 +608,89 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 )}
                             </Box>
                         </Box>
-                    </Box>
-                    <Grid marginTop={'5px'} marginBottom={'3px'} marginLeft={'5px'} marginRight={'18px'} templateColumns={{ lg: "repeat(4,1fr)", md: "repeat(4,1fr)", sm: "repeat(2,1fr)" }} >
-                        <Box >
-                            <Box margin={'5px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Monto</Text>
-                                <Text fontSize={'14px'} marginTop={'5px'}>
-                                    <Badge>
-                                        Dolares ($)
-                                    </Badge>
+                    </Box> */}
+                    <Grid marginTop={'5px'} marginBottom={'3px'} marginLeft={'5px'} marginRight={'18px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }} >
+                        <Box margin={'5px'}>
+                            <Text margin={'5px'} fontSize={'16px'}>Estado</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>
 
-                                </Text>
-                                <Text fontSize={'14px'} marginTop={'5px'}>
-                                    <Badge>
-                                        Bolivares (Bs)
-                                    </Badge>
+                                    {facturasDetail.pagada ?
+                                        <Badge variant='subtle' colorScheme='green'>
+                                            Completado
+                                        </Badge>
 
+                                        :
+                                        <Badge variant='subtle' colorScheme={"orange"}>
+                                            Pendiente
+                                        </Badge>
+                                    }
                                 </Text>
-                            </Box>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
+                        <Box >
+                            <Box margin={'10px'}>
+                                <Text margin={'5px'} fontSize={'16px'}>Monto</Text>
+                                {facturasDetail ? (
+                                    facturasDetail.balance.total_usd !== 0 ? (
+                                        <Box>
+                                            <Text fontSize={'14px'}>
+                                                <Badge>
+                                                    Dolares ($)
+                                                </Badge>
+
+                                            </Text>
+                                            <Text fontSize={'14px'} marginTop={'5px'}>
+                                                <Badge>
+                                                    Bolivares (Bs)
+                                                </Badge>
+
+                                            </Text>
+                                        </Box>
+                                    ) : (
+                                        <>
+                                            {editing ? (
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <Input h={'60%'} type="number"
+                                                        style={{ marginRight: '8px' }}
+                                                        value={data?.monto_usd}
+                                                        onChange={e => cambiarValoresRegistro("monto_usd", e.target.value)} />
+                                                    <Button
+                                                        borderRadius={'10px'}
+                                                        colorScheme="blue"
+                                                        bgColor={'#137797'}
+                                                        color='#ffff'
+                                                        size="sm"
+                                                        onClick={aggMonto}
+                                                    >
+                                                        <BsFillFileCheckFill size={25} />
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <Button
+                                                    borderRadius={'10px'}
+                                                    colorScheme="blue"
+                                                    bgColor={'#137797'}
+                                                    color='#ffff'
+                                                    size="sm"
+                                                    onClick={handleEditClick}
+                                                >
+                                                    <BsFillPencilFill size={16} />
+                                                </Button>
+                                            )}
+                                        </>
+                                    )
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+
+                        </Box >
                         <Box>
                             <Box margin={'10px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Pendiente</Text>
+                                <Text margin={'5px'} fontSize={'16px'}>Pendiente</Text>
                                 {facturasDetail ? (
                                     <Text fontSize={'14px'} marginTop={'5px'}>
                                         <Badge>
@@ -671,7 +713,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Abonado</Text>
+                                <Text margin={'5px'} fontSize={'16px'}>Abonado</Text>
                                 {facturasDetail ? (
                                     <Text fontSize={'14px'} marginTop={'5px'}>
                                         <Badge>
@@ -694,7 +736,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Total</Text>
+                                <Text margin={'5px'} fontSize={'16px'}>Total</Text>
                                 {facturasDetail ? (
                                     <Text fontSize={'14px'}>
                                         <Badge>
@@ -717,7 +759,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 )}
                             </Box>
                         </Box>
-                    </Grid>
+                    </Grid >
                     {
                         facturasDetail && facturasDetail.pagada ?
                             <Box >
@@ -789,7 +831,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
                     {/** */}
 
-                </Box>
+                </Box >
             }
 
 
