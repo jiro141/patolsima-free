@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import {
     Box,
     Text,
@@ -13,200 +13,282 @@ import {
     ModalHeader,
     ModalBody,
     CloseButton,
-    Badge
+    Badge,
+    Tooltip
 } from "@chakra-ui/react";
-import ModalDescripcion from "./ModalDescripcion";
-import { getStudiesDetail } from "api/controllers/estudios";
-import { Separator } from "components/Separator/Separator";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useInformes } from "hooks/Informes/useInformes";
+import { lastInformes } from "api/controllers/informes";
+import { completeInforme } from "api/controllers/informes";
+import { getInformePreview } from "api/controllers/informes";
+import { Title } from "components/widgets/Texts";
+import { SubTitlelight } from "components/widgets/Texts";
+import OutlineBtnModal from "components/widgets/Buttons/OutlineBtnModal";
 import GeneralButton from "components/widgets/Buttons/GeneralButton";
+import ModalCreateNotes from "views/Dashboard/InformeAdministracion/components/ModalCreateNotes";
+import ModalSendWp from "components/widgets/Modals/ModalSendWp";
+import { useEffect } from "react";
+import { Separator } from "components/Separator/Separator";
 
-
-const ModalInforme = ({ id }) => {
-    const [studiesDetail, setStudiesDetail] = useState();
+const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModalGeneral}) => {
+    console.log(detailEstudio);
     const [showModal, setShowModal] = useState(false);
-    const [titulo, setTitulo] = useState('');
-    const StudiesDetailGet = async () => {
-        try {
-            const estudiosDetail = await getStudiesDetail(id);
-            setStudiesDetail(estudiosDetail)
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    useEffect(() => {
-        StudiesDetailGet();
-    }, []);
-    const toggleModal = () => {
+    const [showModalMacro, setShowModalMacro] = useState(false);
+    const [showModalDiag, setShowModalDiag] = useState(false);
+    const [showModalNotas, setShowModalNotas] = useState(false);
+    const [showModalBibli, setShowModalBibli] = useState(false);
+    const [showModalRegister, setShowModalRegister] = useState(false);
+    const [showModalSendWp, setShowModalSendWp] = useState(false);
+    const [historyMap, setHistoryMap] = useState([]);
+    const {setInformesCompletados,setInformesNoCompletados,informes,getInformes}=useInformes()
+    
+   
+    const toggleModal = async() => {
+     
         setShowModal(!showModal);
     };
+    const toggleModalM = () => {
+        setShowModalMacro(!showModalMacro);
+    };
+    const toggleModalD = () => {
+        setShowModalDiag(!showModalDiag);
+    };
+    const toggleModalN = () => {
+        setShowModalNotas(!showModalNotas);
+    };
+
+    const toggleModalB = () => {
+        setShowModalBibli(!showModalBibli);
+    };
+    const toggleModalR= () => {
+        setShowModalRegister(!showModalRegister);
+    };
+    //console.log(informeDetail.paciente.id);
+    useEffect(() => {
+        const historyInformes=async()=>{
+            if(informeDetail){
+                const res= await lastInformes(informeDetail?.paciente?.id)
+                setHistoryMap(res);
+            }
+        
+        }
+        historyInformes()
+      return () => {
+
+      }
+    }, [])
+    
+    const handleSubmitGenerateInfor=async()=>{
+      if(detailEstudio){
+        if(detailEstudio?.envio_digital){
+            setShowModalSendWp(true)
+            const res=await completeInforme(detailEstudio.id)
+            console.log('res complete informe -->');
+            console.log(res);
+            if(res){
+               // window.location.reload();
+               // setShowModalGeneral(false)
+            
+            }
+        }else{
+          /*  */
+            toast.error("¡No tienes la opcion de envio digital!", {
+                autoClose: 1000,
+            });
+        }
+      }
+
+       
+       
+    }
+    const generarPdf=async()=>{
+       const res= await getInformePreview(detailEstudio.id)
+       window.open(res, "_blank");
+       //console.log(res)
+    }
+   
+  
+    console.log(detailEstudio)
+    //console.log(detailEstudio.envio_digital)
     //tamaños de modal
     const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
-    const fechaHora = studiesDetail?.created_at;
-    const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     return (
         <>
             <Grid templateColumns={'2fr 1fr'}>
-                <Box marginTop={'-50px'}>
-                    <Text margin={'10px'} color={'gray.900'} fontSize={'20px'} >Información General</Text>
+                <Box marginTop={'-20px'}>
+
+                    <Title title={'Información General'} color={'#000'} />
+                    <Separator marginTop={'8px'} width={'70%'} backgroundColor={'#89bbcc'} color={'#89bbcc'}></Separator>
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'16px'} >Paciente</Text>
-                                {studiesDetail ? (
+
+                                <SubTitlelight title={'Paciente'} color={'#000'} />
+                                {detailEstudio ?
                                     <Badge>
-                                    <Text >{studiesDetail?.paciente?.nombres} {studiesDetail.paciente.apellidos}</Text>
+                                        <Text >{` ${detailEstudio?.paciente?.nombres.length > 9
+                                                ? detailEstudio?.paciente?.nombres.substring(0, 9) + "..."
+                                                : detailEstudio?.paciente?.nombres}
+
+                            ${detailEstudio?.paciente?.apellidos.length > 10
+                                                ? detailEstudio?.paciente?.apellidos.substring(0, 10) + "..."
+                                                : detailEstudio?.paciente?.apellidos}`}
+
+
+                                        </Text>
+                                    </Badge> :
+                                    <Badge>
+                                        <Text >Cargando</Text>
                                     </Badge>
-                                    
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
+                                }
+
                             </Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Fecha</Text>
-                                <Badge>
-                                <Text >{fecha}</Text>
-                                </Badge>
-                                
+                                <SubTitlelight title={'Prioridad'} color={'#000'} />
+                                {detailEstudio ?
+                                    <Badge colorScheme={detailEstudio?.prioridad === 'ALTA' ? 'red'
+                                : detailEstudio?.prioridad === 'MEDIA' ? 'purple' : ''
+                                }>
+                                        <Text >{`${detailEstudio?.prioridad} `}</Text>
+                                    </Badge> :
+
+                                    <Badge>
+                                        <Text >Cargando</Text>
+                                    </Badge>
+                                }
                             </Box>
+                        
                         </Box>
                         <Box>
+                            
                             <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Cedula de Identidad</Text>
-                                {studiesDetail ? (
+                                <SubTitlelight title={'CI/RIF'} color={'#000'} />
+                                {detailEstudio ?
                                     <Badge>
-                                    <Text >{studiesDetail?.paciente.ci}</Text>
-                                    </Badge>
-                                    
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                            <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Medico Tratante</Text>
-                                {studiesDetail ? (
+                                        <Text >{`${detailEstudio?.paciente?.ci}`}</Text>
+                                    </Badge> :
                                     <Badge>
-<Text >{studiesDetail.medico_tratante.nombres} {studiesDetail.medico_tratante.apellidos}</Text>
+                                        <Text >Cargando</Text>
                                     </Badge>
-                                    
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
+                                }
+
                             </Box>
+                           {detailEstudio?.medico_tratante && <Box margin={'10px'}>
+                                <SubTitlelight title={'Medico Tratante'} color={'#000'} />
+                                {detailEstudio?.medico_tratante ?
+                                    <Badge>
+                                        <Text >{`${detailEstudio?.medico_tratante?.nombres} ${detailEstudio?.medico_tratante?.apellidos}`}</Text>
+                                    </Badge> :
+                                    <>
+                                        
+                                    </>}
+                            </Box>}
+                            
                         </Box>
-                        <Box>
+                        <Box pb={'10px'}>
                             <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Telefono</Text>
-                                {studiesDetail ? (
-                                    <Badge>
-                                <Text color={'gray.600'}>{studiesDetail.paciente.telefono_celular}</Text>
-                                    </Badge>
-                                    
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
+                                {detailEstudio ?<Box margin={'10px'}>
+                                    <SubTitlelight title={'Telefono '} color={'#000'} />
+                                    {detailEstudio?.paciente?.telefono_celular ?
+                                        <Badge>
+                                            <Text >{`${detailEstudio?.paciente?.telefono_celular}`}</Text>
+                                        </Badge> :
+                                        <>
+                                            
+                                        </>}
+                                </Box> : ''}
                             </Box>
-                            <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Telefono</Text>
-                                {studiesDetail ? (
-                                    <Badge>
- <Text >{studiesDetail.medico_tratante.telefono_celular}</Text>
-                                    </Badge>
-                                   
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
+                        { detailEstudio && detailEstudio?.medico_tratante && <Box margin={'10px'}>
+                                <Box margin={'10px'}>
+                                    <SubTitlelight title={'Telefono'} color={'#000'} />
+                                    {detailEstudio?.medico_tratante?.telefono_celular ?
+                                        <Badge>
+                                            <Text >{`${detailEstudio?.medico_tratante?.telefono_celular}`}</Text>
+                                        </Badge> :
+                                        <>
+                                           
+                                        </>}
+                                </Box>
+                            </Box>}
                         </Box>
                     </Grid>
-                   
-                    <Text margin={'10px'} fontSize={'20px'}>Información de estudio</Text>
+                    <Box margin={'8px'} />
+                    <Title title={'Información de estudio'} color={'#000'} />
+                    <Separator marginTop={'8px'} width={'70%'} backgroundColor={'#89bbcc'} color={'#89bbcc'}></Separator>
                     <Grid templateColumns={"repeat(3,1fr)"}>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Numero de estudio</Text>
-                                {studiesDetail ? (
+                                <SubTitlelight title={'Estudio #'} color={'#000'} />
+                                {detailEstudio ?
                                     <Badge>
-                                    <Text >{studiesDetail.codigo}</Text>
+                                        <Text >{`${detailEstudio?.codigo}`}</Text>
+                                    </Badge> :
+
+                                    <Badge>
+                                        <Text >Cargando</Text>
                                     </Badge>
-                                    
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
+                                }
+
+
                             </Box>
-                          {/*  <Box margin={'10px'} >
-                                <Text fontSize={'17px'}>Tipo de muestra</Text>
-                                <Text>Estomago</Text>
-                            </Box>*/}
+                            <Box margin={'10px'} >
+                                <SubTitlelight title={'Tipo de estudio'} color={'#000'} />
+                                {detailEstudio ?
+                                    <Badge>
+                                        <Text >{`${detailEstudio?.tipo}`}</Text>
+                                    </Badge> :
+
+                                    <Badge>
+                                        <Text >Cargando</Text>
+                                    </Badge>
+                                }
+                            </Box>
                         </Box>
+
                         <Box>
                             <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Tipo de estudio</Text>
-                                {studiesDetail ? (
+                                <SubTitlelight title={'Patologo'} color={'#000'} />
+                                {detailEstudio ?
                                     <Badge>
-                                    <Text >{studiesDetail.tipo}</Text>
-                                    </Badge>
-                                    
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                            {/*<Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Tipo de muestra 2</Text>
-                                <Text>Estomago parte alta</Text>
-                            </Box>*/}
-                        </Box>
-                        <Box>
-                            <Box margin={'10px'}>
-                                <Text fontSize={'16px'}>Patologo</Text>
-                                {studiesDetail ? (
+                                        <Text >{`${detailEstudio?.patologo?.nombres} ${detailEstudio?.patologo?.apellidos}`}</Text>
+                                    </Badge> :
+
                                     <Badge>
- <Text >{studiesDetail?.patologo?.nombres} {studiesDetail?.patologo?.apellidos}</Text>
+                                        <Text >Cargando</Text>
                                     </Badge>
-                                   
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
+                                }
                             </Box>
-                            {/*<Box margin={'10px'}>
-                                <Text fontSize={'17px'}>Tipo de muestra 3</Text>
-                                <Text>Estomago parte baja</Text>
-                            </Box>*/}
+                           
+
+
                         </Box>
+
                     </Grid>
-                    <Grid margin={'40px 5px 20px 5px'} templateColumns={'repeat(3,1fr)'} gap={'20px'}>
-                        <Select color="gray.400" defaultValue="Informes anteriores">
+                    <Grid margin={'50px 10px 20px 10px'} templateColumns={'repeat(2,1fr)'} gap={'20px'}>
+
+                     { historyMap &&  <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
-                            {/*studiesDetail ? (
-                                studiesDetail.muestras.map((muestra, index) => (
-                                    <option key={index} value={muestra.tipo_de_muestra}>
-                                        {muestra.tipo_de_muestra}
-                                    </option>
-                                ))
-                            ) : (
-                                <option disabled>Loading...</option>
-                            )*/}
-                        </Select>
-                        <Select color="gray.400" defaultValue="Anexos">
+                            {historyMap.map((estudio, index) => (
+        <option key={index} value={estudio.estudio_id}>
+           {estudio.estudio_codigo}
+        </option>
+      ))}                          
+                        </Select>}
+                        { historyMap &&  <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
                             <option hidden colorScheme="gray.400">Anexos</option>
-                            {/*studiesDetail ? (
-                                studiesDetail.adjuntos.map((adjunto, index) => (
-                                    <option key={index} value={adjunto}>
-                                        {adjunto}
-                                    </option>
-                                ))
-                            ) : (
-                                <option disabled>Loading...</option>
-                            )*/}
-                        </Select>
-                        <Input
-                            placeholder='Notas'
-                            type="text"
-                            name="notas"
-                        />
+                            {historyMap.map((estudio, index) => (
+        <option key={index} value={estudio.estudio_id}>
+           {estudio.estudio_codigo}
+        </option>
+      ))}                          
+                        </Select>}
+                       
                     </Grid>
                 </Box>
-                <Box marginTop={'-50%'} height={'100%'}>
-                    <Box height='80%' marginTop={'60%'} borderLeft={'solid #89bbcc'}>
+                <Box  height={'100%'}  display={'flex'} flexDirection={'column'} alignItems={'flex-start'} >
+                    <Box height='50%' marginTop={'6%'} borderLeft={'c'}>
                         <Button
                             margin={'10px'}
                             marginBottom={'30px'}
@@ -216,120 +298,102 @@ const ModalInforme = ({ id }) => {
                             borderColor={'gray.400'}
                             w={'80%'}
                             background={'none'}
-                            borderRadius={'10px'}>
-                            Registro de cambios</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={() => {
-                                toggleModal();
-                                setTitulo('Descripción macroscópica');
-                            }}>Descripción macroscópica</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={() => {
-                                toggleModal();
-                                setTitulo('Descripción microscópica');
-                            }}>Descripción microscópica</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={() => {
-                                toggleModal();
-                                setTitulo('Diagnóstico');
-                            }}>Diagnóstico</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={() => {
-                                toggleModal();
-                                setTitulo('Notas');
-                            }}>Notas</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={() => {
-                                toggleModal();
-                                setTitulo('Anexos');
-                            }}>Anexos</Button>
-                        <Button
-                            margin={'10px'}
-                            border={'solid 2px'}
-                            color={'#137798'}
-                            borderColor={'#137798'}
-                            w={'80%'}
-                            background={'none'}
-                            borderRadius={'20px'}
-                            onClick={() => {
-                                toggleModal();
-                                setTitulo('Biblografía');
-                            }}>Biblografía</Button>
+                            borderRadius={'10px'}
+                            onClick={toggleModalR}>Registro de cambios</Button>
+
+                        <OutlineBtnModal text={'Descripción microscópica'}
+                            handleClick={toggleModal}
+                        />
+                        <OutlineBtnModal text={'Descripción macroscópica'}
+                            handleClick={toggleModalM}
+                        />
+                        <OutlineBtnModal text={'Diagnóstico'}
+                            handleClick={toggleModalD}
+                        />
+                        <OutlineBtnModal text={'Notas'}
+                            handleClick={toggleModalN}
+                        />
+
+
+
+
+                        <OutlineBtnModal text={'Biblografía'}
+                            handleClick={toggleModalB}
+                        />
+                        <GeneralButton text={'Vista previa'} handleClick={generarPdf} />
+              
+            { /* <GeneralButton 
+              type={'withTooltip'}
+              
+              disabled={detailEstudio.envio_digital ? false :true}
+                            text={'Generar'} handleClick={handleSubmitGenerateInfor} />*/}
+                         <Tooltip label={'Para generar el informe la orden deber estar totalmente pagada y aprobada.'}>
+                         <Button
+                         disabled={detailEstudio?.envio_digital ? false : true}
+       size="auto"
+       padding={'10px'}
+         marginX={"10px"}
+         marginY={"30px"}
+         color={"whiteAlpha.900"}
+         borderColor={"gray.400"}
+         background={"#137797"}
+         borderRadius={"20px"}
+          onClick={handleSubmitGenerateInfor}
+        >
+          Generar
+        </Button>
+
+                         </Tooltip>
+                    
                     </Box>
-                    <Box style={{display:"flex", justifyContent:'flex-end',marginTop:"-20px"}}>
-                    <GeneralButton  text={'Procesar'} handleClick={()=>{}}  />
-                    </Box>
+                    
+
                 </Box>
             </Grid>
-           { /*<Button
-                marginBottom={{ lg: '-5%', md: '-8%', sm: '-10%' }}
-                marginLeft={{ lg: '88%', md: '70%', sm: '77%' }}
-                borderRadius={'20px'}
-                bgColor={'#137797'}
-                color='#ffff'>
-                Procesar
-            </Button>*/}
-            <Modal
-                size={'4xl'}
-                maxWidth='100%'
-                isOpen={showModal}
-                onClose={toggleModal}>
-                <ModalOverlay />
-                <ModalContent borderRadius={'20px'} bg="#ffff">
-                    <ModalHeader>
-                        <Button
-                            borderRadius={'50%'}
-                            colorScheme="blue"
-                            width="40px"
-                            height="40px"
-                            marginLeft={'95%'}
-                            marginTop={'-60px'}
-                            bgColor={'#137797'}
-                            color='#ffff'
-                            onClick={toggleModal}>
-                            <CloseButton />
-                        </Button>
-                    </ModalHeader>
-                    <ModalBody>
-                        <ModalDescripcion idStudy={id} titulo={titulo} />
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
+
+          
+            <ModalCreateNotes
+            type='create'
+            setShowModal={setShowModal}
+            titulo={'Descripción microscópica'} toggleModal={toggleModal} showModal={showModal} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='micro'setInformeDetail={setInformeDetail} 
+            setShowModalGeneral={setShowModalGeneral}
+            />
+
+            <ModalCreateNotes
+             type='create'
+            setShowModal={setShowModalMacro}
+            titulo={'Descripción macroscópica'} toggleModal={toggleModalM} showModal={showModalMacro} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='macro'
+            setShowModalGeneral={setShowModalGeneral}
+            />
+
+            <ModalCreateNotes
+             type='create'
+            setShowModal={setShowModalDiag}
+            titulo={'Descripción diagnóstico'} toggleModal={toggleModalD} showModal={showModalDiag} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='diag'
+            setShowModalGeneral={setShowModalGeneral} />
+           
+            <ModalCreateNotes
+             type='create'
+            setShowModal={setShowModalNotas}
+            titulo={'Notas'} toggleModal={toggleModalN} showModal={showModalNotas} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='notas'
+            setShowModalGeneral={setShowModalGeneral}
+            />
+
+        <ModalCreateNotes
+         type='create'
+            setShowModal={setShowModalBibli}
+            titulo={'Biblografía'} toggleModal={toggleModalB} showModal={showModalBibli} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='bibli'
+            setShowModalGeneral={setShowModalGeneral}
+            />
+
+<ModalCreateNotes
+ type='create'
+            setShowModal={setShowModalRegister}
+            titulo={'Registro de cambios'} toggleModal={toggleModalR} showModal={showModalRegister} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='register'
+            //setShowModalGeneral={setShowModalGeneral}
+            />
+<ModalSendWp detailEstudio={detailEstudio} isOpen={showModalSendWp} setOpenModal={setShowModalSendWp} />
+           
         </>
     );
 }

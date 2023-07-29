@@ -73,8 +73,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Container
-      >
+      <Container >
         <Box padding={'2%'}>
           <Heading
             size="md"

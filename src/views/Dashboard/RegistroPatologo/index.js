@@ -30,10 +30,11 @@ import CardOverall_ from "components/widgets/Cards/CardOverall";
 import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
 import ModalRegisterInforme from "components/widgets/Modals/ModalRegisterInforme";
 import Container from "components/widgets/utils/Container";
+import { getInformesList } from "api/controllers/informes";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenmuestrasPatologosort } = useContext(MainContext);
+  const { informesp,hiddenInformessortp,setEnableSearch,sethiddenInformessortp} = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const [studies, setStudies] = useState();
   const [study, setStudy] = useState();
@@ -41,40 +42,58 @@ const Dashboard = () => {
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
 
-  const { muestraALTA, muestraMEDIA, muestraBAJA, getMuestrasPatologoAlta, getMuestrasPatologoMedia, getMuestrasPatologoBaja, loadingA, loadingM, loadingB } = useMuestrasPatologo()
+ const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB,getInformes}= useMuestrasPatologo()
 
   // Iterar sobre los datos y clasificar según la prioridad
   // Clasificar estudios según prioridad
   //const highPriorityStudies = [];
-  // const mediumPriorityStudies = [];
-  // const lowPriorityStudies = [];
+ // const mediumPriorityStudies = [];
+ // const lowPriorityStudies = [];
 
-  /* if (studies) {
-     studies.forEach((study) => {
-       const priority = study.prioridad;
-       const isConfirmed = study.confirmado;
- 
-       if (isConfirmed) {
-         if (priority === "ALTA") {
-           highPriorityStudies.push(study);
-         } else if (priority === "MEDIA") {
-           mediumPriorityStudies.push(study);
-         } else if (priority === "BAJA") {
-           lowPriorityStudies.push(study);
-         }
-       }
-     });
-   }*/
-  // console.log(lowPriorityColor);
+ /* if (studies) {
+    studies.forEach((study) => {
+      const priority = study.prioridad;
+      const isConfirmed = study.confirmado;
+
+      if (isConfirmed) {
+        if (priority === "ALTA") {
+          highPriorityStudies.push(study);
+        } else if (priority === "MEDIA") {
+          mediumPriorityStudies.push(study);
+        } else if (priority === "BAJA") {
+          lowPriorityStudies.push(study);
+        }
+      }
+    });
+  }*/
+ // console.log(lowPriorityColor);
 
   // modales para las vistas flotantes
 
   useEffect(() => {
+    getInformes()
+    
     getMuestrasPatologoAlta()
     getMuestrasPatologoMedia()
     getMuestrasPatologoBaja()
   }, [])
+  
+useEffect(() => {
+  if(hiddenInformessortp){
+  setEnableSearch(false)
+  
+  }
+ 
+  return () => { 
+    setEnableSearch(false)
+   // sethiddenInformessortp(false)
+  }
+}, [hiddenInformessortp])
 
+
+
+ 
+  console.log(muestraALTA);
 
   const toggleModal = (study) => {
     console.log('toggleling')
@@ -82,18 +101,18 @@ const Dashboard = () => {
     setStudy(study);
   };
 
-  /* const peticionGet = async () => {
-     try {
-       const estudiosList = await getStudiesList()
-       setStudies(estudiosList)
- 
-     } catch (error) {
-       console.log(error);
-     }
-   };
-   useEffect(() => {
-     peticionGet();
-   }, []); */
+ /* const peticionGet = async () => {
+    try {
+      const estudiosList = await getStudiesList()
+      setStudies(estudiosList)
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    peticionGet();
+  }, []); */
 
   const renderStudies = (studies, priorityColor) => {
     const renderDate = (createdAt) => {
@@ -104,13 +123,13 @@ const Dashboard = () => {
       }
       return '';
     };
-
+  
     return studies.map((study) => (
       <Flex flexDirection="row 7" key={study.id} >
         <Link onClick={() => toggleModal(study)}>
           <Box
-            //  border={'1px solid'}
-            marginLeft={'30px'}
+        //  border={'1px solid'}
+          marginLeft={'30px'}
             //margin="5px 0px"
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
             borderRadius="16px"
@@ -192,59 +211,57 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Container
+        <Container>
+         
           
-        >
-
-
-          <Box marginTop={"30px"} width={'100%'}
+            <Box marginTop={"30px"} width={'100%'}
             pl={'5px'}>
-            {hiddenmuestrasPatologosort ? (
-              <>
-                <CardOverall_Muestra
-                  title={"Prioridad Alta"}
-                  content={muestraALTA}
-                  toggleModal={toggleModal}
-                  colorA={highPriorityColor}
-                  loading={loadingA}
-                  type="other"
-                />
-
-                <CardOverall_Muestra
-                  title={"Prioridad Media"}
-                  content={muestraMEDIA}
-                  toggleModal={toggleModal}
-                  colorA={mediumPriorityColor}
-                  loading={loadingM}
-                  type="other"
-                />
-                <CardOverall_Muestra
-                  title={"Prioridad Baja"}
-                  content={muestraBAJA}
-                  toggleModal={toggleModal}
-                  colorA={lowPriorityColor}
-                  loading={loadingB}
-                  type="other"
-                />
-              </>
-            ) : (
-              <CardOverall_
-                title={"Resultados"}
-                content={facturas}
+          {hiddenInformessortp ? (
+            <>
+              <CardOverall_Muestra
+                title={"Prioridad Alta"}
+                content={muestraALTA}
                 toggleModal={toggleModal}
-                colorA={colorA}
-                //loading={loading}
-                type="search"
+                colorA={highPriorityColor}
+                loading={loadingA}
+                type="other"
               />
-            )}
 
+              <CardOverall_Muestra
+                title={"Prioridad Media"}
+                content={muestraMEDIA}
+                toggleModal={toggleModal}
+                colorA={mediumPriorityColor}
+                loading={loadingM}
+                type="other"
+              />
+               <CardOverall_Muestra
+                title={"Prioridad Baja"}
+                content={muestraBAJA}
+                toggleModal={toggleModal}
+                colorA={lowPriorityColor}
+                loading={loadingB}
+                type="other"
+              />
+            </>
+          ) :  (
+            <CardOverall_Muestra
+              title={"Resultados"}
+              content={informesp}
+              toggleModal={toggleModal}
+              //colorA={colorA}
+              //loading={loading}
+              type="search"
+            />
+          ) }
 
-          </Box>
-
+        
+        </Box>
+         
         </Container>
 
 
-        {/* <Modal
+       {/* <Modal
           size={'3xl'}
           maxWidth='100%'
           isOpen={showModal}
@@ -271,8 +288,8 @@ const Dashboard = () => {
           </ModalContent>
         </Modal> */}
         <ModalRegisterInforme showModal={showModal}
-          toggleModal={toggleModal}
-          study={study} />
+        toggleModal={toggleModal}
+        study={study} />
       </>
     ) : (
       <ModoLista />

@@ -8,7 +8,7 @@ import { useCallback, useMemo, useState } from "react";
 export function useInformes() {
 
  const {informes, setInformes,
-    filteredInforme, setfilteredInforme }= useContext(MainContext)
+    filteredInforme, setfilteredInformeP }= useContext(MainContext)
   
   const [informesCompletados, setInformesCompletados] = useState([]);
   const [informesNoCompletados, setInformesNoCompletados] = useState([]);
@@ -23,7 +23,15 @@ export function useInformes() {
       seterror(null);
       const informeList = await getListInforme();
       setInformes(informeList);  
-      setfilteredInforme(informeList)
+      setfilteredInformeP(informeList)
+     
+      
+    //  const completados = informeList.filter((item) => item.completado === true);
+     // setInformesCompletados(completados);
+    //  const Nocompletados = informeList.filter((item) => item.completado === false);
+     // setInformesNoCompletados(Nocompletados);
+   
+     // console.log(facturasList);
     } catch (error) {
       seterror(error.message);
     } finally {
@@ -54,7 +62,7 @@ export function useInformes() {
       // setloading(false);
     }
   }, []);
-  console.log(informesCompletados);
+  //console.log(informesCompletados);
 
  
 

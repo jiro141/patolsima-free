@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 
-export default function InputOverallSearch({locale, onChangeInformes,onChangeFacturas,onChangeInformesP}) {
+export default function InputOverallSearch({locale, onChangeInformes,onChangeFacturas,onChangeInformesP,}) {
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -38,6 +38,7 @@ export default function InputOverallSearch({locale, onChangeInformes,onChangeFac
       onFocus={handleFocus}
       onBlur={handleBlur}
       className='input-estilo '
+      id="miInput"
     />:
 
       <input

@@ -21,7 +21,10 @@ export function MainContextProvider({ children }) {
   const [informes, setInformes] = useState([]);
   const [filteredInforme, setfilteredInforme] = useState([]);
   const [hiddenInformessort, sethiddenInformessort] = useState(true);
-
+//patolgo
+  const [informesp, setInformesp] = useState([]);
+  const [filteredInformeP, setfilteredInformeP] = useState([]);
+  const [hiddenInformessortp, sethiddenInformessortp] = useState(true);
   //--------------------------------------------------------
   const [muestrasPatologo, setMuestrasPatologo] = useState([]);
   const [filteredMuestrasPatologo, setfilteredMuestrasPatologo] = useState([]);
@@ -42,7 +45,7 @@ export function MainContextProvider({ children }) {
 
   const [ordenId, setOrdenId] = useState('');
 
-
+  const [enableSearch, setEnableSearch] = useState(false);
   useEffect(() => {
 
     const fetchRefreshToken = async () => {
@@ -97,7 +100,12 @@ export function MainContextProvider({ children }) {
         enablefactModalDetails, setEnablefactModalDetails,
         enableInfoModalDetails, setEnableInfoModalDetails,
         idSelectId, setidSelectId,
-        ordenId, setOrdenId
+        ordenId, setOrdenId,
+        filteredInformeP, setfilteredInformeP,
+        informesp, setInformesp,
+        hiddenInformessortp, sethiddenInformessortp,
+        enableSearch, setEnableSearch
+
       }}
     >
       {children}

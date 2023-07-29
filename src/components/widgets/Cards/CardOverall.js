@@ -20,6 +20,8 @@ import RowCard from "./RowCard";
 import { FaFlask } from "react-icons/fa";
 import { Separator } from "components/Separator/Separator";
 import { Title } from "../Texts";
+import { useContext } from "react";
+import MainContext from "context/mainContext/MainContext";
 //here
 
 const renderStudies = (content, toggleModal, colorA, type) => {
@@ -167,12 +169,19 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
 
 
 };
-const renderMuestras = (content, toggleModal, colorA, type) => {
+const renderMuestras = (content, toggleModal, colorA, type,handleSelectInforme) => {
+
+  const{hiddenInformessortp} = useContext(MainContext)
   return content.map((study) => (
     <Link
-      onClick={() => {
-        toggleModal(study);
-      }}
+    onClick={() => {
+      toggleModal(study);
+      console.log(study);
+      if(handleSelectInforme){
+        handleSelectInforme(study.id)
+      }
+      
+    }}
     >
       <Box
         width={'185px'}
@@ -204,7 +213,10 @@ const renderMuestras = (content, toggleModal, colorA, type) => {
           />
         </Box>
         <Box className="WrapAlignRow" p={"10px"} width={"100%"}>
-          <RowCard
+        {!hiddenInformessortp ?
+        <></>
+        :
+        <RowCard
             headTitle={"Tipo"}
             data={
               study.tipo.length > 10
@@ -212,7 +224,7 @@ const renderMuestras = (content, toggleModal, colorA, type) => {
                 : study.tipo
             }
             color={useColorModeValue("gray.600", "gray.400")}
-          />
+          />}
 
 
 
@@ -492,6 +504,7 @@ export function CardOverall_Muestra({
   toggleModal,
   loading,
   colorA,
+  handleSelectInforme
 }) {
   const containerRef = useRef(null);
   const [startX, setStartX] = useState(0);
@@ -586,7 +599,7 @@ export function CardOverall_Muestra({
                   sm: "repeat(1,1fr)",
                 }}
               >
-                {renderMuestras(content, toggleModal, colorA, type)
+                {renderMuestras(content, toggleModal, colorA, type,handleSelectInforme)
                 }
 
               </Grid>

@@ -32,7 +32,7 @@ export default function ModalCreateNotes({ showModal, toggleModal, titulo, infor
                 </ModalHeader>
                 <ModalBody>
                     {
-                        <ModalDescripcion setShowModalGeneral={setShowModalGeneral} titulo={titulo} informeDetail={informeDetail} idStudy={idStudy} type={type} setInformeDetail={setInformeDetail} />
+                        <ModalDescripcion setShowModalGeneral={setShowModalGeneral} titulo={titulo} informeDetail={informeDetail} idStudy={idStudy} type={type} setInformeDetail={setInformeDetail}  />
                     }
                 </ModalBody>
             </ModalContent>

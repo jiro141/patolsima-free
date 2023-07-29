@@ -2,6 +2,7 @@ import { getStudiesListPriorityMEDIA } from "api/controllers/estudios";
 import { getStudiesListPriorityBAJA } from "api/controllers/estudios";
 import { getStudiesListPriorityALTA } from "api/controllers/estudios";
 import { getFacturasList } from "api/controllers/facturas";
+import { getInformesList } from "api/controllers/informes";
 import { getListInforme } from "api/controllers/informes";
 import { getCambio } from "api/controllers/tazaDia";
 import MainContext from "context/mainContext/MainContext";
@@ -11,7 +12,7 @@ import { useCallback, useMemo, useState } from "react";
 export function useMuestrasPatologo() {
 
  const {muestrasPatologo, setMuestrasPatologo,
-    filteredMuestrasPatologo, setfilteredMuestrasPatologo }= useContext(MainContext)
+  filteredInformeP, setfilteredInforme,informesp, setInformesp,setfilteredInformeP }= useContext(MainContext)
   
   const [muestraALTA, setmuestraALTA] = useState([]);
   const [muestraMEDIA, setmuestraMEDIA] = useState([]);
@@ -26,7 +27,20 @@ export function useMuestrasPatologo() {
   const [loadingB, setloadingB] = useState(false);
   const [errorB, seterrorB] = useState(false);
 
-
+  const getInformes = useCallback(async () => {
+    try {
+     
+      const InformesList = await getInformesList();
+      console.log(typeof InformesList);
+      setfilteredInformeP(InformesList)
+      setInformesp(InformesList);
+     // setfilteredInforme(InformesList)
+    } catch (error) {
+      
+    } finally {
+      
+    }
+  }, []);
 
   const getMuestrasPatologoAlta = useCallback(async () => {
     try {
@@ -34,7 +48,7 @@ export function useMuestrasPatologo() {
       seterrorA(null);
       const muestralistAlta = await getStudiesListPriorityALTA();
       setmuestraALTA(muestralistAlta)
- 
+      //setfilteredInformeP(muestralistAlta)
     } catch (error) {
       seterrorA(error.message);
     } finally {
@@ -73,5 +87,5 @@ export function useMuestrasPatologo() {
 
  
 
-  return {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB};
+  return {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB,getInformes};
 }

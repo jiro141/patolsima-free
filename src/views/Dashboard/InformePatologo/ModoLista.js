@@ -76,8 +76,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Container
-      >
+      <Container>
         <Box padding={'2%'}>
           <Heading
             size="md"
@@ -213,7 +212,7 @@ const Dashboard = () => {
             Ver más</Button>
         </Box>
       </Container>
-      <Modal
+    {  <Modal
         size={'4xl'}
         maxWidth='100%'
         isOpen={showModal}
@@ -238,7 +237,11 @@ const Dashboard = () => {
             <ModalInforme />
           </ModalBody>
         </ModalContent>
-      </Modal>
+      </Modal>}
+
+
+
+
       <Modal
         size={sizeView}
         maxWidth='100%'

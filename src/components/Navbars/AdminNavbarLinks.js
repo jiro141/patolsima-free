@@ -47,7 +47,8 @@ import MainContext from "context/mainContext/MainContext";
 import { useGroups } from "hooks/Groups/useGroups";
 import { FaSearch } from "react-icons/fa";
 import InputOverallSearch from "components/widgets/Inputs/InputOverallSearch";
-
+import debounce from "just-debounce-it";
+import { useInformes } from "hooks/Informes/useInformes";
 
 
 
@@ -154,8 +155,10 @@ export default function HeaderLinks(props) {
   //constex para cambian de visualizacion de tarjeta a lista
   //default tarjeta
   const { modoVisualizacion, cambiarModoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { setInformes, setFacturas, filteredFact, sethiddenInformessort, sethiddenFactssort, filteredInforme, setfilteredInforme } = useContext(MainContext)
-
+  const { setInformes, setFacturas, filteredFact, sethiddenInformessort, sethiddenFactssort, filteredInforme, setfilteredInforme,filteredInformeP, setInformesp,sethiddenInformessortp,
+    enableSearch, setEnableSearch
+  } = useContext(MainContext)
+const {setInformesCompletados}=useInformes()
 
   const cambiarModo = (nuevoModo) => {
     cambiarModoVisualizacion(nuevoModo);
@@ -201,19 +204,26 @@ export default function HeaderLinks(props) {
     //setBusqueda(query);
 
   };
+
   const handleBusquedaChangeInformesPatologo = (event) => {
     console.log('informe')
-    //setfilteredInforme(event.target.value);
+    //setfilteredInformeP(event.target.value);
     const query = event.target.value;
     console.log(query)
     if (query.startsWith(" ")) return;
 
-    //sethiddenInformessort(false)
-    //filterInfor(query);
+    sethiddenInformessortp(false)
+    filterInforPatologo(query);
+    setEnableSearch(true)
     if (query === '') {
-      //sethiddenInformessort(true)
+      sethiddenInformessortp(true)
     }
+    
+
+  
+   // setInformesp([])
     //setBusqueda(query);
+
 
   };
   // console.log(filteredInforme)
@@ -234,7 +244,7 @@ export default function HeaderLinks(props) {
       setFacturas(resultadoBusqueda);
     } else {
       // console.log(filteredInforme)
-      let resultadoBusqueda = filteredInforme.filter((elemento) => {
+     /* let resultadoBusqueda = filteredInforme.filter((elemento) => {
         if (
           elemento.estudio_tipo
             .toLowerCase()
@@ -246,26 +256,46 @@ export default function HeaderLinks(props) {
           return elemento;
         }
       });
-      setInformes(resultadoBusqueda);
+      setInformes(resultadoBusqueda);*/
     }
+
+  }
+
+  const filterInforPatologo = (searchTearm) => {
+    console.log( filteredInformeP[0].estudio_codigo);
+  
+      let resultadoBusqueda = filteredInformeP.filter((elemento) => {
+        if (
+          elemento.estudio_codigo
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) ||
+          elemento.estudio_patologo_name
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase())
+        ) {
+          return elemento;
+        }
+      });
+      setInformesp(resultadoBusqueda);
+    
 
   }
 
   const filterInfor = (searchTearm) => {
     //console.log(filteredInforme)
-    /*  let resultadoBusqueda = filteredInforme.filter((elemento) => {
-        if (
-          elemento.estudio_patologo_name
-            .toLowerCase()
-            .includes(searchTearm.toLowerCase()) ||
-            elemento.estudio_paciente_ci
-            .toLowerCase()
-            .includes(searchTearm.toLowerCase()) 
-        ) {
-          return elemento;
-        }
-      });
-      setInformes(resultadoBusqueda);*/
+    let resultadoBusqueda = filteredInformeP.filter((elemento) => {
+      if (
+        elemento.estudio_tipo
+          .toLowerCase()
+          .includes(searchTearm.toLowerCase()) ||
+        elemento.estudio_codigo
+          .toLowerCase()
+          .includes(searchTearm.toLowerCase())
+      ) {
+        return elemento;
+      }
+    });
+      setInformes(resultadoBusqueda);
   }
   return (
     <Flex

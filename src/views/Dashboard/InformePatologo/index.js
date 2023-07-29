@@ -35,18 +35,23 @@ import MainContext from "context/mainContext/MainContext";
 import { useMuestrasPatologo } from "hooks/MuestrasPatologo/useMuestrasPatologo";
 import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 import Container from "components/widgets/utils/Container";
+import { getInformesDetail } from "api/controllers/informes";
+import { getStudiesDetail } from "api/controllers/estudios";
+//import ModalInforme from "../InformeAdministracion/components/ModalInforma";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
   const [informes, setInformes] = useState();
-  const [informesDetail, setInformeDetail] = useState();
   const [showModal, setShowModal] = useState(false);
   const [showModalList, setShowModalList] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenmuestrasPatologosort } = useContext(MainContext);
-  const { muestraALTA, muestraMEDIA, muestraBAJA, getMuestrasPatologoAlta, getMuestrasPatologoMedia, getMuestrasPatologoBaja, loadingA, loadingM, loadingB } = useMuestrasPatologo()
+  const { hiddenmuestrasPatologosort} = useContext(MainContext);
+  const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB}= useMuestrasPatologo()
+  const [detailInforme, setInformeDetail] = useState([]);
+  const [detailEstudio, setdetailEstudio] = useState([]);
+  
 
   /*const highPriorityStudies = [];
   const mediumPriorityStudies = [];
@@ -173,14 +178,23 @@ const Dashboard = () => {
     ));
   };
 
+  const handleSelectInforme = async (id) => {
+    console.log('endpoint here');
+    console.log(id);
+    const res = await getInformesDetail(id)
+    console.log(res);
+    setInformeDetail(res)
+   // setIdInforme(id)
+    const resStudyDetail = await getStudiesDetail(id)
+    setdetailEstudio(resStudyDetail)
+  }
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Container
-        >
-          <Box marginTop={"30px"} width={'100%'}
-            pl={'5px'} >
-
+        <Container>
+            <Box  marginTop={"30px"} width={'100%'}
+        pl={'5px'} >
+          
             <>
               <CardOverall_Muestra
                 title={"Prioridad Alta"}
@@ -188,6 +202,7 @@ const Dashboard = () => {
                 toggleModal={toggleModal}
                 colorA={highPriorityColor}
                 loading={loadingA}
+                handleSelectInforme={handleSelectInforme}
                 type="other"
               />
 
@@ -196,6 +211,7 @@ const Dashboard = () => {
                 content={muestraMEDIA}
                 toggleModal={toggleModal}
                 colorA={mediumPriorityColor}
+                handleSelectInforme={handleSelectInforme}
                 loading={loadingM}
                 type="other"
               />
@@ -204,6 +220,7 @@ const Dashboard = () => {
                 content={muestraBAJA}
                 toggleModal={toggleModal}
                 colorA={lowPriorityColor}
+                handleSelectInforme={handleSelectInforme}
                 loading={loadingB}
                 type="other"
               />
@@ -302,11 +319,12 @@ const Dashboard = () => {
               Ver más</Button>*/}
           </Box>
         </Container>
-        <Modal
+       {/*<Modal
           size={"4xl"}
           maxWidth='100%'
           isOpen={showModal}
-          onClose={toggleModal}>
+          onClose={toggleModal}
+          >
           <ModalOverlay />
           <ModalContent borderRadius={'20px'} bg="#ffff">
             <ModalHeader>
@@ -327,8 +345,41 @@ const Dashboard = () => {
               <ModalInforme id={informesDetail} />
             </ModalBody>
           </ModalContent>
+        </Modal>*/}
+         <Modal
+          size={"4xl"}
+          maxWidth='100%'
+          isOpen={showModal}
+          onClose={toggleModal}
+          >
+          <ModalOverlay />
+          <ModalContent borderRadius={'20px'} bg="#ffff">
+            <ModalHeader>
+              <Button
+                borderRadius={'50%'}
+                colorScheme="blue"
+                width="40px"
+                height="40px"
+                marginLeft={'95%'}
+                marginTop={'-60px'}
+                bgColor={'#137797'}
+                color='#ffff'
+                onClick={toggleModal}>
+                <CloseButton />
+              </Button>
+            </ModalHeader>
+            <ModalBody>
+              <ModalInforme id={detailInforme} informeDetail={detailInforme}
+              detailEstudio={detailEstudio}
+              setInformeDetail={setInformeDetail}
+              setShowModalGeneral={setShowModal} />
+            </ModalBody>
+          </ModalContent>
         </Modal>
-        <Modal
+
+
+        
+       <Modal
           size={sizeView}
           maxWidth='100%'
           isOpen={showModalList}
