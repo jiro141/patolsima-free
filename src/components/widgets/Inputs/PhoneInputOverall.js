@@ -16,7 +16,7 @@ export default function PhoneInputOverall({value,errors,onChange,placeholder,nam
     }
   return (
     <Box >
-    <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}   >
+    <Box display={'flex'} justifyContent={'center'} alignItems={'center'}  >
          <Box onClick={()=>setselectFlag(!selectFlag)} _hover={{
        
         color: "black",
@@ -32,14 +32,14 @@ export default function PhoneInputOverall({value,errors,onChange,placeholder,nam
                        marginLeft: '4px',
                     }}
                   />
-<Box    display={'flex'}justifyContent={'space-between'} alignItems={'center'}  p={'5px'}>
-<p style={{color:'#2d3748',}} >+{numberCode}</p>
+<Box   display={'flex'}justifyContent={'space-between'} alignItems={'center'}  p={'5px'}>
+<p style={{color:'#2d3748'}} >+{numberCode}</p>
 <ChevronDownIcon fontSize={'15px'} marginRight={'5px'} />
 
 </Box>
          </Box>
       
-     <Box style={{marginLeft:'1px'}} >
+     <Box  >
     
      <Input
       //style={{marginLeft:'0px', outline:'none'}}
