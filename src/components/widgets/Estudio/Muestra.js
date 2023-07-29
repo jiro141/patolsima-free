@@ -39,7 +39,7 @@ import { postMuestraAdjunto } from "api/controllers/estudios";
 import { useHistory } from "react-router-dom";
 import SuccessModal from "../Modals/SuccessModal";
 import { NextStation } from "../Buttons/NextStation";
-import { Title, subTitleBold, Titlelight, TitleBig } from "../Texts";
+import { Title, subTitleBold, Titlelight, TitleBig, TitleBigW } from "../Texts";
 import FinishButton from "../Buttons/FinishButton";
 import GeneralButton from "../Buttons/GeneralButton";
 import { postMuestra } from "api/controllers/estudios";
@@ -195,9 +195,12 @@ const Muestra = () => {
   return (
     <div style={{ height: "auto" }}>
       <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
-      <TitleBig
-            title={'Estudio #1'}
+        <Box display={'flex'} justifyContent={'center'} alignItems={'center'} backgroundColor={'#137797'} p={'10px'} borderRadius={'100%'} width={'50px'} height={'50px'}>
+        <TitleBigW
+            title={'1'}
           />
+        </Box>
+      
       </Box>
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >

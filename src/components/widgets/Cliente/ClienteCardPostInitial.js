@@ -1,5 +1,5 @@
 import { useState, useContext, useCallback } from "react";
-import { Text, Grid, Box } from "@chakra-ui/react";
+import { Text, Grid, Box, Input } from "@chakra-ui/react";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { getPacientesDetail } from "api/controllers/pacientes";
@@ -28,6 +28,9 @@ import { putPacientes } from "api/controllers/pacientes";
 import { NextStation } from "../Buttons/NextStation";
 import { getPacientesListByCi } from "api/controllers/pacientes";
 import { Title } from "../Texts";
+import PhoneInputOverall from "../Inputs/PhoneInputOverall";
+import { COUNTRY_CODE } from "mocks";
+import "../../../css/style.css";
 
 const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
@@ -46,6 +49,11 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const [onOpenCalendar, setOpenCalendar] = useState(false);
   const [value, setvalue] = useState(false);
   const [date, onChange] = useState(formatDate(new Date()));
+  const [countryCode, setCountryCode] = useState('ve');
+  const [numberCode, setNumberCode] = useState('58');
+  const [selectPacient, setSelectPacient] = useState('');
+  const [nselectPacient, setnSelectPacient] = useState('');
+
   const handleDateChange = (date) => {
     onChange(date);
   };
@@ -74,7 +82,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       direccion: "",
       email: "",
       telefono_fijo: " ",
-      telefono_celular: "",
+     // telefono_celular: "",
       sexo: "",
     },
     validationSchema: Yup.object({
@@ -97,6 +105,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         const newObj = {
           ...formData,
           ci: searchci,
+          telefono_celular:'+' + numberCode + formData.telefono_celular,
           fecha_nacimiento: dateNew
         }
         try {
@@ -128,15 +137,16 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         // return;
       }
       if (oneState == 'put') {
-        const Obj = {
+        const newObj = {
           ...formData,
+          //ci: searchci,
           fecha_nacimiento: dateNew,
         }
        
         try {
           // if (pacientsByCi) {
-          const pacientePut = await putPacientes(formData.id || pacientsByCi[0].id, Obj);
-          setFormValues(Obj, 'paciente');
+          const pacientePut = await putPacientes(formData.id || pacientsByCi[0].id, newObj);
+          setFormValues(newObj, 'paciente');
           console.log(pacientePut);
           setPacienteID(pacientePut.id);
           if (pacientePut) {
@@ -232,12 +242,13 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         direccion: pacienteDetail.direccion,
         email: pacienteDetail.email,
         telefono_fijo: pacienteDetail.telefono_fijo,
-        telefono_celular: pacienteDetail.telefono_celular,
+       telefono_celular: pacienteDetail.telefono_celular,
         sexo: pacienteDetail.sexo,
 
       });
       onChange(pacienteDetail.fecha_nacimiento)
-      //console.log(formikValue)
+      setSelectPacient(pacienteDetail.telefono_celular)
+    
       // formik.validateForm();
     } catch (error) {
       console.log(error);
@@ -318,10 +329,14 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     }
   }, [formik.values])
 
-
+const handleSelectChange=(e)=>{
+  setnSelectPacient(e.target.value);
+}
 
   return (
     <Box
+  
+   
       backgroundColor={"#FFFF"}
       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
       padding={"30px"}
@@ -444,19 +459,51 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
               onChange={(e) => formik.setFieldValue("email", e.target.value)}
               errors={formik.errors.email}
             />
-            <InputOverall
+           {/* <InputOverall
               name="Telefono"
               value={formik.values.telefono_celular}
               placeholder="Telefono de Contacto:"
               onChange={(e) =>
                 formik.setFieldValue("telefono_celular", e.target.value)
               }
+              errors={formik.errors.telefono_celular} || searchci
+            />*/}
+          
+          {selectPacient || selectSearch ?
+          <div>
+           <InputOverall
+              name="Telefono"
+              value={formik.values.telefono_celular}
+              //placeholder="Telefono de Contacto:"
+              onChange={(e) =>
+                formik.setFieldValue("telefono_celular", e.target.value)
+              }
               errors={formik.errors.telefono_celular}
             />
+          
+          </div>:
+          <PhoneInputOverall name="Telefono" 
+             value={formik.values.telefono_celular}
+             onChange={(e) =>
+              formik.setFieldValue("telefono_celular", e.target.value)
+            }
+            numberCode={numberCode}
+             setNumberCode={setNumberCode}
+            countryCode={countryCode}
+            setCountryCode={setCountryCode}
+             errors={formik.errors.telefono_celular}
+             placeholder="4247423185"
+            />
+        
+        }
+            
+  
           </Grid>
+      
 
         </form>
       }
+      
       <FilteredDataModal
         isOpenModal={mostrarModal}
         isToggleModal={toggleModal}
@@ -492,7 +539,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
        
       {  <NextStation  handleNextSubmit={formik.handleSubmit}  searchci={searchci} />}
       </Box>
-
+     
 
     </Box>
   );

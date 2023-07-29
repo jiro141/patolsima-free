@@ -40,7 +40,7 @@ import { getStudiesDetail } from "api/controllers/estudios";
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
-  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes } = useInformes()
+  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes,getInformesNotConfirm,getInformesConfirm } = useInformes()
 
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
 
@@ -66,7 +66,8 @@ const Dashboard = () => {
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   useEffect(() => {
     getInformes();
-
+    getInformesNotConfirm()
+    getInformesConfirm()
   }, []);
 
 
@@ -275,7 +276,6 @@ const Dashboard = () => {
           handleSelectIcon={toggleModalConfirmacion}
           loading={loading}
           handleBusquedaChange={handleBusquedaChange}
-
         />
 
 

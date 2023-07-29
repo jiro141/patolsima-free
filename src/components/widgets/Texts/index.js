@@ -20,6 +20,16 @@ export const TitleBig = ({ title }) => {
     </>
   );
 };
+export const TitleBigW = ({ title }) => {
+
+  return (
+    <>
+      <Text style={{ fontSize: '1.5rem', fontWeight: "bold", color: "#fff" }}>
+        {title}
+      </Text>
+    </>
+  );
+};
 
 export const Titlelight = ({ title,color }) => {
     return (

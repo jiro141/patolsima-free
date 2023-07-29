@@ -15,6 +15,7 @@ import MedicoCardPostInitial from "components/widgets/Medico/MedicoCardPostIniti
 import Muestra from "components/widgets/Estudio/Muestra";
 import MainContext from "context/mainContext/MainContext";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import "../../../css/style.css";
 
 function Registro() {
   const { activeTab, twoState, setTwoState, setActiveTab } = useContext(MainContext);
@@ -151,8 +152,10 @@ function Registro() {
       borderRadius={"20px"}
       backgroundSize="cover"
       backgroundPosition="center"
-      overflowX="hidden"
-      overflowY={"hidden"}
+     // overflowX="hidden"
+      //overflowY={"hidden"}
+      position={'relative'}
+      className="container"
     >
       <Box backgroundSize="cover" backgroundPosition="center" height="auto">
         <Box

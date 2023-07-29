@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getInformesDetail } from "api/controllers/informes";
 import { useEffect } from "react";
 import { HistoryInformes } from "api/controllers/informes";
+import { useRef } from "react";
 
 
 const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral }) => {
@@ -147,7 +148,8 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
 
   //console.log(dataResmicro);
 
-
+  const editorRef = useRef();
+  console.log(editorRef.current)
   return (
     <>
       <Box marginTop={'-50px'}  >
@@ -182,7 +184,8 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                         informeDetail?.descripcion_microscopica || dataResmicro
                     }
                     onReady={(editor) => {
-                      console.log("CKEditor5 React Component is ready to use!", editor);
+                    
+                      editorRef.current = editor;
                     }}
                     onChange={(event, editor) => {
                       const data = editor.getData();
@@ -283,8 +286,13 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
         </Box>
       </Box>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', border: '0px solid', width: '95%',marginBottom:'20px' }}>
-        {/*<GeneralButton text={'Descartar'} handleClick={() => setShowModal(false)} />*/}
-        <SaveButton handleSubmit={handleSubmitData} />
+
+     {type ==='register' ?
+     
+    <></> :
+
+     <SaveButton handleSubmit={handleSubmitData} />
+    }
       </div>
     </>
   );
