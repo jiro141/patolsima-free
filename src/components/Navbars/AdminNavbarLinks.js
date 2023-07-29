@@ -201,6 +201,21 @@ export default function HeaderLinks(props) {
     //setBusqueda(query);
 
   };
+  const handleBusquedaChangeInformesPatologo = (event) => {
+    console.log('informe')
+    //setfilteredInforme(event.target.value);
+    const query = event.target.value;
+    console.log(query)
+    if (query.startsWith(" ")) return;
+
+    //sethiddenInformessort(false)
+    //filterInfor(query);
+    if (query === '') {
+      //sethiddenInformessort(true)
+    }
+    //setBusqueda(query);
+
+  };
   // console.log(filteredInforme)
   const filterFacts = (searchTearm) => {
     if (location.pathname === "/admin/Facturacion") {
@@ -264,11 +279,12 @@ export default function HeaderLinks(props) {
 
     // gap={"5px"} ?param1=ordenId
     >
-      {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion" ? (
+      {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion"  || location.pathname === "/admin/RegistroPatologo" ? (
         <InputOverallSearch
           locale={location.pathname}
           onChangeInformes={handleBusquedaChangeInformes}
           onChangeFacturas={handleBusquedaChange}
+          onChangeInformesP={handleBusquedaChangeInformesPatologo}
         />
       ) :
         <InputGroup
@@ -309,135 +325,11 @@ export default function HeaderLinks(props) {
 
         </InputGroup>}
 
-      {/*location.pathname === "/admin/InformeAdministracion"  && (
-        <InputGroup
-      border={'1px'}
-        //marginRight={'10px'}
-        marginLeft={'-70%'}
-          cursor="pointer"
-          bg="none"
-          borderRadius="none"
-          w={{
-            sm: "200px",
-            md: "410px",
-          }}
-          //me={{ sm: "auto", md: "20px" }}
-          _focus={{
-            borderColor: { mainTeal },
-          }}
-          _active={{
-            borderColor: { mainTeal },
-          }}
-        >
-          <InputLeftElement
-            children={
-              <IconButton
-                bg="inherit"
-                borderRadius="inherit"
-                _hover="none"
-                _active={{
-                  bg: "inherit",
-                  transform: "none",
-                  borderColor: "gray.700",
-                }}
-                _focus={{
-                  boxShadow: "none",
-                }}
-                icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
-              />
-            }
-          />
-          <Input
-            fontSize="xs"
-            py="15px"
-            marginRight={'30px'}
-            color={mainText}
-            placeholder="Buscar..."
-            border={'1px'}
-            bg="none"
-           
-           // value={filterInfor}
-            onChange={handleBusquedaChangeInformes}
-            borderRadius="none"
-            css={{
-              borderBottom: "1px solid ",
-              borderColor: "gray"
-            }}
-          />
-          </InputGroup>
-         
+    
 
-      ) */}
+      
 
-      {/*location.pathname === "/admin/InformeAdministracion"  && (
-       <InputGroup
-       cursor="pointer"
-       bg="none"
-       borderRadius="none"
-       marginLeft={'-70%'}
-       w={{
-         sm: "200px",
-         md: "410px",
-       }}
-       me={{ sm: "auto", md: "20px" }}
-       _focus={{
-         borderColor: { mainTeal },
-       }}
-       _active={{
-         borderColor: { mainTeal },
-       }}
-     >
-       <InputLeftElement
-         children={
-           <IconButton
-             bg="inherit"
-             borderRadius="inherit"
-             _hover="none"
-             _active={{
-               bg: "inherit",
-               transform: "none",
-               borderColor: "gray.700",
-             }}
-             _focus={{
-               boxShadow: "none",
-             }}
-             icon={<SearchIcon color={searchIcon} w="15px" h="15px" />}
-           />
-         }
-       />
-       <Input
-         fontSize="xs"
-         py="11px"
-         color={mainText}
-         placeholder="Buscar..."
-         border="none"
-         bg="none"
-        // value={filteredInforme}
-         onChange={handleBusquedaChange}
-         borderRadius="none"
-         css={{
-           borderBottom: "1px solid ",
-           borderColor: "gray",
-           color:'#000'
-         }}
-       />
-     </InputGroup>
-         
-
-      ) */}
-
-
-      {/*location.pathname !== "/admin/RegistroAdministracion" && location.pathname !== "/admin/Home" ? (
-        <Box display={{ base: "none", md: "flex" }}>
-          
-          <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
-            <BsListUl size="30px" color="#137797" />
-          </Button>
-          <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion === 'tarjeta' ? "#89bbcc" : 'none'}>
-            <BsGrid3X3GapFill size="25px" color="#137797" />
-          </Button>
-        </Box>
-      ) : null*/}
+     
 
 
 

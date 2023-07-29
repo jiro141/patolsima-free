@@ -347,3 +347,34 @@
     border-color: #3182ce;
     box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
   }
+
+  .wrapSearch {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+        padding: 10px;
+        transition: border-color 0.3s ease;
+        width:60%,
+  }
+  .input-estilo {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+  }
+
+
+
+.div-estilo {
+  display: inline-flex;
+  align-items: center;
+  border: 1.6px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  transition: border-color 0.3s ease;
+  width: 60%;
+}
+
+.div-estilo:focus {
+  border-color: #137798;
+}

@@ -35,6 +35,7 @@ import { thValuesInformes } from "mocks";
 import { useInformeDetail } from "hooks/Informes/useInformeDetail";
 import { getInformesDetail } from "api/controllers/informes";
 import { getStudiesDetail } from "api/controllers/estudios";
+import Container from "components/widgets/utils/Container";
 
 
 const Dashboard = () => {
@@ -184,20 +185,7 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Box
-          margin={{
-            lg: "50px 0px 0px 30px",
-            md: "60px 0px 0px 0px",
-            sm: "30px 0px 10% 0px",
-          }}
-          padding={{ lg: "0 25px 50px 25px", md: "10px", sm: "0px 0 10% 0" }}
-          backgroundColor={{ lg: "gray.100", md: "gray.100", sm: "none" }}
-          borderRadius={"20px"}
-          backgroundSize="cover"
-          backgroundPosition="center"
-          overflowX="hidden"
-          overflowY={"hidden"}
-        // maxH={'40em'}
+        <Container
         >
 
 
@@ -239,7 +227,7 @@ const Dashboard = () => {
 
             <ShowMoreButton handleClick={toggleModalList} />
           </Box>
-        </Box>
+        </Container>
         <Modal
           size={'3xl'}
           maxWidth='100%'

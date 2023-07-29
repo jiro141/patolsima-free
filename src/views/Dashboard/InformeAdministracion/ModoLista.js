@@ -33,6 +33,7 @@ import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
 import { thValuesInformes } from "mocks";
 import { getInformesDetail } from "api/controllers/informes";
 import { getStudiesDetail } from "api/controllers/estudios";
+import Container from "components/widgets/utils/Container";
 
 
 const Dashboard = () => {
@@ -88,19 +89,9 @@ const Dashboard = () => {
   }
   return (
     <>
-      <Box
-        margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
-        w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
-        height={'auto'}
-        padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
-        backgroundColor={"gray.100"}
-        borderTopLeftRadius={"20px"}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        overflowY="hidden"
-        overflowX={{ lg: "hidden", sm: "auto" }}
-      >
-        <Box marginTop={'-15px'} padding={'2%'}>
+      <Container>
+        <Box marginTop={"30px"} width={'100%'}
+            pl={'5px'}>
           <TableInforms_Pendientes>
             <Tbody>
               {informesNoCompletados.length === 0 ? (
@@ -179,7 +170,7 @@ const Dashboard = () => {
           </TableInforms_Confirmados>
           <ShowMoreButton handleClick={toggleModalList} />
         </Box>
-      </Box >
+      </Container >
       <FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
         Busqueda={Busqueda}
         //handleSelectTBody={seleccionarRegistro}

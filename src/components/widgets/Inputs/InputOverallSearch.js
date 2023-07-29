@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 
-export default function InputOverallSearch({locale, onChangeInformes,onChangeFacturas}) {
+export default function InputOverallSearch({locale, onChangeInformes,onChangeFacturas,onChangeInformesP}) {
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -14,14 +14,11 @@ export default function InputOverallSearch({locale, onChangeInformes,onChangeFac
     };
   return (
       <div
+      className='div-estilo'
       style={{
-        display: "inline-flex",
-        alignItems: "center",
+      
         border: `1.6px solid ${isFocused ? "#137798" : "#ccc"}`,
-        borderRadius: "4px",
-        padding: "10px",
-        transition: "border-color 0.3s ease",
-        width:'60%'
+       
       }}
     >
       <FaSearch style={{ marginRight: "10px", color: "#137798" }} />
@@ -32,13 +29,16 @@ export default function InputOverallSearch({locale, onChangeInformes,onChangeFac
         onChange={onChangeFacturas}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        style={{
-          border: "none",
-          outline: "none",
-          backgroundColor: "transparent",
-          width: "100%",
-        }}
-      />:
+        className='input-estilo '
+      />: locale==='/admin/RegistroPatologo' ?
+      <input
+      type="text"
+      placeholder="Buscar..."
+      onChange={onChangeInformesP}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      className='input-estilo '
+    />:
 
       <input
       type="text"
@@ -46,12 +46,7 @@ export default function InputOverallSearch({locale, onChangeInformes,onChangeFac
       onChange={onChangeInformes}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      style={{
-        border: "none",
-        outline: "none",
-        backgroundColor: "transparent",
-        width: "100%",
-      }}
+      className='input-estilo '
     />
     
     }

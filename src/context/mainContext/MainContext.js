@@ -61,9 +61,11 @@ export function MainContextProvider({ children }) {
       fetchRefreshToken();
       window.localStorage.removeItem('access')
       window.localStorage.removeItem('refresh')
+      const url = `/Auth/SignIn`;
+    window.location.href = url
     }, 2 * 60 * 60 * 1000);
 
-
+    
     return () => clearInterval(interval);
 
 

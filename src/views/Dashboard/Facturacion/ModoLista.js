@@ -40,8 +40,9 @@ import { deleteOrden } from "api/controllers/facturas";
 import CardCambio from "components/widgets/Cards/CardCambio";
 import { useFacturas } from "hooks/Facturas/useFacturas";
 import { formatDate } from "helpers";
-import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
-import { useInformes } from "hooks/Informes/useInformes";
+import Container from "components/widgets/utils/Container";
+
+
 const Dashboard = () => {
   // const [cambioDelDia, setCambioDelDia] = useState('');
   //const [facturas, setFacturas] = useState([]);
@@ -137,23 +138,12 @@ const Dashboard = () => {
   console.log(facturasNoConfirmadas)
   return (
     <>
-      <Box
-        margin={{
-          lg: "50px 0px 0px 30px",
-          md: "60px 0px 0px 0px",
-          sm: "30px 0px 10% 0px",
-        }}
-        padding={{ lg: "0 25px 50px 25px", md: "10px", sm: "0px 0 10% 0" }}
-        backgroundColor={{ lg: "gray.100", md: "gray.100", sm: "none" }}
-        borderRadius={"20px"}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        overflowX="hidden"
-        overflowY={"hidden"}
+      <Container
       >
 
         {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
-        <Box marginTop={'-15px'} padding={'2%'}>
+        <Box marginTop={"30px"} width={'100%'}
+          pl={'5px'}>
 
           <TableOrders_Pendientes>
 
@@ -217,7 +207,7 @@ const Dashboard = () => {
 
           <ShowMoreButton handleClick={toggleModalList} />
         </Box>
-      </Box>
+      </Container>
       <Modal
         size={size}
         maxWidth='100%'
