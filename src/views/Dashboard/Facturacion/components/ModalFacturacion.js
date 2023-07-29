@@ -44,9 +44,9 @@ import ModalNumFactura from "components/widgets/Modals/ModalNumFactura";
 import { Title } from "components/widgets/Texts";
 
 
-const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG,setShowModalConfirmacdion,setAbonarSend,abonarSend }) => {
-   
-  
+const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend }) => {
+
+
     const {
         getFacturasDetails,
         facturasDetail,
@@ -76,16 +76,16 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     );
     const getStudyDetail = async () => {
         try {
-            if(itemOrden){
+            if (itemOrden) {
                 const study = await getStudiesDetail(itemOrden);
                 setStudyDetail(study);
             }
-            if(itemOrden2){
+            if (itemOrden2) {
                 console.log('study2-->');
                 const study = await getStudiesDetail(itemOrden2);
                 setStudyDetail2(study);
             }
-            
+
         } catch (error) {
             console.log(error);
         } finally {
@@ -93,51 +93,51 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     };
     useEffect(() => {
-        if(setAbonarSend){
+        if (setAbonarSend) {
             setAbonarSend(false)
             getFacturasDetails()
             return () => { setAbonarSend(false) }
         }
-       
-    }, [])
-    useEffect(() => {     
-            getFacturasDetails() 
+
     }, [])
     useEffect(() => {
-        if(abonarSend){
+        getFacturasDetails()
+    }, [])
+    useEffect(() => {
+        if (abonarSend) {
             getFacturasDetails()
         }
-        return () => { }
+        return () => { setAbonarSend(false) }
     }, [abonarSend])
     //
     useEffect(() => {
         getStudyDetail()
         return () => { }
-    }, [itemOrden,itemOrden2])
+    }, [itemOrden, itemOrden2])
     useEffect(() => {
         getStudyDetail()
-        return () => { }
+        return () => { setAbonarSend(false) }
     }, [abonarSend])
 
 
 
-console.log(study);
-    
-useEffect(() => {     
-        const changeClientByOrder=async()=>{
-            if(study){ 
-                if(study.pagada===false){ 
-                    const res=await putChangeIdOrdenClient(study.id,{
-                        cliente_id:study?.cliente?.id
+    console.log(study);
+
+    useEffect(() => {
+        const changeClientByOrder = async () => {
+            if (study) {
+                if (study.pagada === false) {
+                    const res = await putChangeIdOrdenClient(study.id, {
+                        cliente_id: study?.cliente?.id
                     })
                     console.log(res);
                 }
-            }           
+            }
         }
         changeClientByOrder()
-         return () => {
-  }
-}, [finishFactTerceros])
+        return () => {
+        }
+    }, [finishFactTerceros])
 
 
 
@@ -166,9 +166,9 @@ useEffect(() => {
                 toast.success("¡Se envio el monto correctamente!", {
                     autoClose: 1000,
                 });
-               getFacturasDetails()
-               setShowModalConfirmacdion(true)
-              
+                getFacturasDetails()
+                setShowModalConfirmacdion(true)
+
             } else {
                 toast.error("¡Hubo un error al crear el monto!", {
                     autoClose: 1000,
@@ -198,7 +198,7 @@ useEffect(() => {
     //modal
     const [showModal, setShowModal] = useState(false);
     const [showModalRegisterFact, setShowModalRegisterFact] = useState(false);
-   
+
     const toggleModal = () => {
         setShowModal(!showModal);
     };
@@ -212,24 +212,24 @@ useEffect(() => {
     const fechaHora = facturasDetail?.cliente?.created_at;
     const fecha = fechaHora ? fechaHora.split("T")[0] : "";
     let newId = generateUniqueId()
-   // const numeroAleatorio = generarNumeroAleatorio(1, 10000000000);
+    // const numeroAleatorio = generarNumeroAleatorio(1, 10000000000);
     const generarFactura = async () => {
         setShowModalRegisterFact(true)
-      /*  const fact = {
-            n_factura: numeroAleatorio
-        }
-        console.log('study id->')
-        console.log(study.id)
-        const resFact = await postFactura(study.id, fact)
-        if (resFact) {
-            console.log(resFact)
-            setPdfContentFact(resFact.uri)
-            setOpenModalFact2(true)
-        } else {
-            toast.error("¡Ocurrio un error al generar la factura!", {
-                autoClose: 1000,
-            });
-        }*/
+        /*  const fact = {
+              n_factura: numeroAleatorio
+          }
+          console.log('study id->')
+          console.log(study.id)
+          const resFact = await postFactura(study.id, fact)
+          if (resFact) {
+              console.log(resFact)
+              setPdfContentFact(resFact.uri)
+              setOpenModalFact2(true)
+          } else {
+              toast.error("¡Ocurrio un error al generar la factura!", {
+                  autoClose: 1000,
+              });
+          }*/
         //console.log(resFact)
 
     }
@@ -252,22 +252,22 @@ useEffect(() => {
 
 
     const handleArchivar = async () => {
-       if(study){
-        const resSendArchived = await postArchivar(study?.id)
-        if (resSendArchived) {
-            toast.success("¡Se archivo la factura correctamente!", {
-                autoClose: 1000,
-            });
-            handleArchivarConfirmFacts(facturasDetail?.id)
-            //setSearchFacturas(informeList.filter((item) => item.completado === true));
-            setShowModalG(false)
-            setArchived(true)
-        } else {
-            toast.error("¡Esta factura no se puede archivar!", {
-                autoClose: 1000,
-            });
+        if (study) {
+            const resSendArchived = await postArchivar(study?.id)
+            if (resSendArchived) {
+                toast.success("¡Se archivo la factura correctamente!", {
+                    autoClose: 1000,
+                });
+                handleArchivarConfirmFacts(facturasDetail?.id)
+                //setSearchFacturas(informeList.filter((item) => item.completado === true));
+                setShowModalG(false)
+                setArchived(true)
+            } else {
+                toast.error("¡Esta factura no se puede archivar!", {
+                    autoClose: 1000,
+                });
+            }
         }
-       }
         //console.log(resSendArchived)
     }
 
@@ -285,18 +285,147 @@ useEffect(() => {
             {loadingDetailFact ?
                 <p>cargando</p> : <Box marginTop={'-50px'}  >
                     <Box display={'flex'} width={'100%'} justifyContent={'space-between'} padding={'5px'}>
-                    <Title
-            title={'Datos de factura'}
-          />
-          <Text   color={'gray.500'} fontSize={'17px'} mr={'20px'} >
+                        <Title
+                            title={'Descripción'}
+                        />
+                        <Text color={'gray.500'} fontSize={'17px'} mr={'20px'} >
 
-Número de Orden { facturasDetail && facturasDetail?.id}
-{/* {`${newId}`} */}
+                            Número de Orden {facturasDetail && facturasDetail?.id}
+                            {/* {`${newId}`} */}
 
-</Text>
+                        </Text>
+                    </Box>
+                    {studyDetail && <>
+                        <Box >
+                            <Box margin={'5px'}  >
+                                <Text fontSize={'16px'} >Paciente</Text>
+                                {studyDetail ? (
+                                    <Text fontSize={'14px'}>
+                                        <Badge>
+                                            {studyDetail?.paciente.apellidos} {studyDetail?.paciente.apellidos}
+                                        </Badge>
+
+
+                                    </Text>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>
+                        <Grid mt={'5px'} templateColumns={{ lg: "repeat(3,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
+                            <Box>
+                                <Box margin={'5px'} >
+                                    <Text fontSize={'16px'} > Estudio # 1</Text>
+                                    {studyDetail ? (
+                                        <Text fontSize={'14px'}>
+                                            <Badge>{studyDetail?.codigo}</Badge>
+                                        </Text>
+                                    ) : (
+                                        <Text fontSize={'14px'}>Loading...</Text>
+                                    )}
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Box margin={' 5px '}>
+                                    <Text fontSize={'16px'} >Tipo de estudio</Text>
+                                    {studyDetail ? (
+                                        <Text fontSize={'14px'}>
+                                            <Badge>
+                                                {studyDetail.tipo}
+                                            </Badge>
+
+
+                                        </Text>
+                                    ) : (
+                                        <Text fontSize={'14px'}>Loading...</Text>
+                                    )}
+                                </Box>
+                            </Box>
+
+
+                            {<Box>
+                                <Box margin={' 5px '}>
+                                    <Text fontSize={'16px'} >Muestras</Text>
+                                    {studyDetail ? (
+                                        <Select style={{ height: '30px' }} >
+                                            {studyDetail?.muestras.map((muestra, index) => (
+                                                <option key={index} value={muestra.tipo_de_muestra}>
+                                                    {muestra.tipo_de_muestra}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    ) : (
+                                        <Text fontSize={'14px'}>Loading...</Text>
+                                    )}
+                                </Box>
+                            </Box>}
+                            <Box>
+
+                            </Box>
+                        </Grid></>
+                    }
+                    {studyDetail2 && <Grid mt={'5px'} templateColumns={{ lg: "repeat(3,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
+                        <Box>
+                            <Box margin={'5px'} >
+                                <Text fontSize={'16px'} > Estudio # 2</Text>
+                                {studyDetail2 ? (
+                                    <Text fontSize={'14px'}>
+                                        <Badge>{studyDetail2?.codigo}</Badge>
+                                    </Text>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>
+
+                        <Box>
+                            <Box margin={' 5px '}>
+                                <Text fontSize={'16px'} >Tipo de estudio </Text>
+                                {studyDetail2 ? (
+                                    <Text fontSize={'14px'}>
+                                        <Badge>
+                                            {studyDetail2.tipo}
+                                        </Badge>
+
+
+                                    </Text>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>
+
+
+                        {<Box>
+                            <Box margin={' 5px '}>
+                                <Text fontSize={'16px'} >Muestras </Text>
+                                {studyDetail2 ? (
+                                    <Select style={{ height: '30px' }} >
+                                        {studyDetail2?.muestras.map((muestra, index) => (
+                                            <option key={index} value={muestra.tipo_de_muestra}>
+                                                {muestra.tipo_de_muestra}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
+                            </Box>
+                        </Box>}
+
+                        <Box>
+
+                        </Box>
+                    </Grid>
+                    }
+                    <Separator></Separator>
+                    <Box display={'flex'} width={'100%'} justifyContent={'space-between'} padding={'5px'}>
+                        <Title
+                            title={'Datos de factura'}
+                        />
                     </Box>
                     <Grid templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
-                        <Box>
+                        <Box margin={'5px'}>
                             <Box margin={'5px'}>
                                 <Text fontSize={'16px'} >Cliente</Text>
                                 {facturasDetail && !factClientTerceros ? (
@@ -347,7 +476,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                     </Text> : null
 
                                 }
-                        </Box>
+                            </Box>
                         </Box>
                         <Box>
                             <Box margin={'5px'}>
@@ -396,7 +525,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                         </Box>
                         <Box>
                             <Box margin={'5px'}>
-                               { <Text fontSize={'16px'} >Dirección</Text>}
+                                {<Text fontSize={'16px'} >Dirección</Text>}
                                 {
                                     facturasDetail && !factClientTerceros ? (
                                         <Text fontSize={'14px'}>
@@ -405,116 +534,30 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                     ) : factClientTerceros ?
                                         <Text fontSize={'14px'}>
                                             <Badge>{factClientTerceros.direccion}</Badge>
-                                      </Text> : null
+                                        </Text> : null
                                 }
                             </Box>
 
                         </Box>
-                        <Box margin={'5px'}>
-                            <Text fontSize={'16px'} >Estado del pago</Text>
-                            {facturasDetail ? (
-                                <Text fontSize={'14px'}>
-
-                                    {facturasDetail.pagada ?
-                                        <Badge variant='subtle' colorScheme='green'>
-                                            Completado
-                                        </Badge>
-
-
-                                        :
-                                        <Badge variant='subtle' colorScheme={"orange"}>
-                                            Pendiente
-                                        </Badge>
-                                    }
-                                </Text>
-                            ) : (
-                                <Text fontSize={'14px'}>Loading...</Text>
-                            )}
-                        </Box>
                     </Grid>
 
 
-                 {facturasDetail && facturasDetail.pagada || abonarSend ?
-                 <></> :
-                 <Button
-                        marginTop={'15px'}
-                        marginBottom={'10px'}
-                        // marginLeft={{ lg: '70%', md: '60%', sm: '40%' }}
-                        borderRadius={'20px'}
-                        bgColor={'#137797'}
-                        color='#ffff'
-                        onClick={() => toggleModal(study)}>
-                        Factura para un tercero
-                    </Button>}
+                    {facturasDetail && facturasDetail.pagada || abonarSend ?
+                        <></> :
+                        <Button
+                            marginTop={'15px'}
+                            marginBottom={'10px'}
+                            // marginLeft={{ lg: '70%', md: '60%', sm: '40%' }}
+                            borderRadius={'20px'}
+                            bgColor={'#137797'}
+                            color='#ffff'
+                            onClick={() => toggleModal(study)}>
+                            Factura para un tercero
+                        </Button>}
 
                     <Separator mb={'15px'}></Separator>
-                   {/* <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>*/}
-                   <Title title={'Descripción'} />
-                   {studyDetail&& <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
-                        <Box>
-                            <Box margin={'5px'} >
-                                <Text fontSize={'16px'} > Estudio # 1</Text>
-                                {studyDetail ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>{studyDetail?.codigo}</Badge>
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                        </Box>
-                        <Box >
-                            <Box margin={'5px'}  >
-                                <Text fontSize={'16px'} >Paciente</Text>
-                                {studyDetail ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>
-                                        {studyDetail?.paciente.nombres?.length > 15 ? studyDetail?.paciente.nombres.substring(0, 15) + '...' :studyDetail?.paciente.nombres}
-                                        {studyDetail?.paciente.apellidos?.length > 10 ? studyDetail?.paciente.apellidos.substring(0, 5) + '...' :studyDetail?.paciente.apellidos}
-                                         
-                                        </Badge>
-
-
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                        </Box>
-                        <Box>
-                            <Box margin={' 5px '}>
-                                <Text fontSize={'16px'} >Tipo de estudio</Text>
-                                {studyDetail ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>
-                                            {studyDetail.tipo}
-                                        </Badge>
-
-
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                        </Box>
-                       
-                       
-                       { <Box>
-                            <Box margin={' 5px '}>
-                                <Text fontSize={'16px'} >Muestras</Text>
-                                {studyDetail ? (
-                                    <Select style={{height:'30px'}} >
-                                    {studyDetail?.muestras.map((muestra, index) => (
-                                      <option key={index} value={muestra.tipo_de_muestra}>
-                                        {muestra.tipo_de_muestra}
-                                      </option>
-                                    ))}
-                                  </Select>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                        </Box>}
+                    {/* <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>*/}
+                    {/* <Box display={'flex'} justifyContent={'space-around'}>
                         <Box>
                             <Box margin={' 5px'}>
                                 <Text fontSize={'16px'} >Monto($)</Text>
@@ -565,86 +608,89 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                 )}
                             </Box>
                         </Box>
-                        <Box>
-                          
-                        </Box>
-                    </Grid>
-}
-{studyDetail2 && <Grid mt={'5px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
-                        <Box>
-                            <Box margin={'5px'} >
-                                <Text fontSize={'16px'} > Estudio # 2</Text>
-                                {studyDetail2 ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>{studyDetail2?.codigo}</Badge>
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                        </Box>
-                        
-                        <Box>
-                            <Box margin={' 5px '}>
-                                <Text fontSize={'16px'} >Tipo de estudio </Text>
-                                {studyDetail2 ? (
-                                    <Text fontSize={'14px'}>
-                                        <Badge>
-                                            {studyDetail2.tipo}
+                    </Box> */}
+                    <Grid marginTop={'5px'} marginBottom={'3px'} marginLeft={'5px'} marginRight={'18px'} templateColumns={{ lg: "repeat(5,1fr)", md: "repeat(3,1fr)", sm: "repeat(2,1fr)" }} >
+                        <Box margin={'5px'}>
+                            <Text margin={'5px'} fontSize={'16px'}>Estado</Text>
+                            {facturasDetail ? (
+                                <Text fontSize={'14px'}>
+
+                                    {facturasDetail.pagada ?
+                                        <Badge variant='subtle' colorScheme='green'>
+                                            Completado
                                         </Badge>
 
-
-                                    </Text>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
+                                        :
+                                        <Badge variant='subtle' colorScheme={"orange"}>
+                                            Pendiente
+                                        </Badge>
+                                    }
+                                </Text>
+                            ) : (
+                                <Text fontSize={'14px'}>Loading...</Text>
+                            )}
                         </Box>
-                       
-                        
-                       { <Box>
-                            <Box margin={' 5px '}>
-                                <Text fontSize={'16px'} >Muestras </Text>
-                                {studyDetail2 ? (
-                                    <Select style={{height:'30px'}} >
-                                    {studyDetail2?.muestras.map((muestra, index) => (
-                                      <option key={index} value={muestra.tipo_de_muestra}>
-                                        {muestra.tipo_de_muestra}
-                                      </option>
-                                    ))}
-                                  </Select>
-                                ) : (
-                                    <Text fontSize={'14px'}>Loading...</Text>
-                                )}
-                            </Box>
-                        </Box>}
-                       
-                        <Box>
-                          
-                        </Box>
-                    </Grid>
-}
-                    <Grid marginTop={'5px'} marginBottom={'3px'} marginLeft={'5px'} marginRight={'18px'} templateColumns={{ lg: "repeat(4,1fr)", md: "repeat(4,1fr)", sm: "repeat(2,1fr)" }} >
                         <Box >
-                            <Box margin={'5px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Monto</Text>
-                                <Text fontSize={'14px'} marginTop={'5px'}>
-                                    <Badge>
-                                        Dolares ($)
-                                    </Badge>
+                            <Box margin={'10px'}>
+                                <Text margin={'5px'} fontSize={'16px'}>Monto</Text>
+                                {facturasDetail ? (
+                                    facturasDetail.balance.total_usd !== 0 ? (
+                                        <Box>
+                                            <Text fontSize={'14px'}>
+                                                <Badge>
+                                                    Dolares ($)
+                                                </Badge>
 
-                                </Text>
-                                <Text fontSize={'14px'} marginTop={'5px'}>
-                                    <Badge>
-                                        Bolivares (Bs)
-                                    </Badge>
+                                            </Text>
+                                            <Text fontSize={'14px'} marginTop={'5px'}>
+                                                <Badge>
+                                                    Bolivares (Bs)
+                                                </Badge>
 
-                                </Text>
+                                            </Text>
+                                        </Box>
+                                    ) : (
+                                        <>
+                                            {editing ? (
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <Input h={'60%'} type="number"
+                                                        style={{ marginRight: '8px' }}
+                                                        value={data?.monto_usd}
+                                                        onChange={e => cambiarValoresRegistro("monto_usd", e.target.value)} />
+                                                    <Button
+                                                        borderRadius={'10px'}
+                                                        colorScheme="blue"
+                                                        bgColor={'#137797'}
+                                                        color='#ffff'
+                                                        size="sm"
+                                                        onClick={aggMonto}
+                                                    >
+                                                        <BsFillFileCheckFill size={25} />
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <Button
+                                                    borderRadius={'10px'}
+                                                    colorScheme="blue"
+                                                    bgColor={'#137797'}
+                                                    color='#ffff'
+                                                    size="sm"
+                                                    onClick={handleEditClick}
+                                                >
+                                                    <BsFillPencilFill size={16} />
+                                                </Button>
+                                            )}
+                                        </>
+                                    )
+                                ) : (
+                                    <Text fontSize={'14px'}>Loading...</Text>
+                                )}
                             </Box>
-                        </Box>
+
+                        </Box >
                         <Box>
                             <Box margin={'10px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Pendiente</Text>
+                                <Text margin={'5px'} fontSize={'16px'}>Pendiente</Text>
                                 {facturasDetail ? (
                                     <Text fontSize={'14px'} marginTop={'5px'}>
                                         <Badge>
@@ -667,7 +713,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Abonado</Text>
+                                <Text margin={'5px'} fontSize={'16px'}>Abonado</Text>
                                 {facturasDetail ? (
                                     <Text fontSize={'14px'} marginTop={'5px'}>
                                         <Badge>
@@ -690,7 +736,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                         </Box>
                         <Box>
                             <Box margin={'10px'}>
-                                <Text margin={'5px'} fontSize={'20px'}>Total</Text>
+                                <Text margin={'5px'} fontSize={'16px'}>Total</Text>
                                 {facturasDetail ? (
                                     <Text fontSize={'14px'}>
                                         <Badge>
@@ -713,7 +759,7 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                 )}
                             </Box>
                         </Box>
-                    </Grid>
+                    </Grid >
                     {
                         facturasDetail && facturasDetail.pagada ?
                             <Box >
@@ -754,8 +800,8 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                                     color='#ffff'>
                                     Archivar
                                 </Button>
-                               { <Button
-                              
+                                {<Button
+
                                     // marginBottom={{ lg: '-10.5%', md: '-13%', sm: '-25%' }}
                                     // marginLeft={{ lg: '50%', md: '52%', sm: '12%' }}
                                     borderRadius={'20px'}
@@ -780,19 +826,19 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                     }
 
                     <ModalPrint text={'¿Desea descargar el recibo ?'} isOpen={openModalFact} setOpenModal={setOpenModalFact} pdfContent={pdfContent} />
-                   {/* <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />*/}
+                    {/* <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />*/}
                     <ModalPrint text={'¿Desea descargar la nota de pago ?'} isOpen={openModalPago} setOpenModal={setOpenModalPago} pdfContent={pdfContentNotaPago} type={'nota'} />
 
                     {/** */}
 
-                </Box>
+                </Box >
             }
 
 
-            <ModalFctTerceros 
-           
-            setFinishFactTerceros={setFinishFactTerceros}
-            study={study} toggleModal={toggleModal} showModal={showModal} setShowModal={setShowModal} />
+            <ModalFctTerceros
+
+                setFinishFactTerceros={setFinishFactTerceros}
+                study={study} toggleModal={toggleModal} showModal={showModal} setShowModal={setShowModal} />
 
             <Modal
                 size={"xs"}
@@ -807,14 +853,14 @@ Número de Orden { facturasDetail && facturasDetail?.id}
                 </ModalContent>
             </Modal>
             <ModalNumFactura
-            study={study}
-            setPdfContentFact={setPdfContentFact}
-             setShowModal={setShowModalRegisterFact} 
-             isOpen={showModalRegisterFact}
-             pdfContentFact={pdfContentFact}
-             setOpenModalFact2={setOpenModalFact2}
-             openModalFact2={openModalFact2}
-             />
+                study={study}
+                setPdfContentFact={setPdfContentFact}
+                setShowModal={setShowModalRegisterFact}
+                isOpen={showModalRegisterFact}
+                pdfContentFact={pdfContentFact}
+                setOpenModalFact2={setOpenModalFact2}
+                openModalFact2={openModalFact2}
+            />
 
             <AddAbonarModal setAbonarSend={setAbonarSend} openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={facturasDetail?.id} setPdfContent={setPdfContentNotaPago} />
 
