@@ -41,21 +41,26 @@ import CardCambio from "components/widgets/Cards/CardCambio";
 import { useFacturas } from "hooks/Facturas/useFacturas";
 import { formatDate } from "helpers";
 import Container from "components/widgets/utils/Container";
-
-
+import { useContext } from "react";
+import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import MainContext from "context/mainContext/MainContext";
+import { useHistory } from "react-router-dom";
 const Dashboard = () => {
-  // const [cambioDelDia, setCambioDelDia] = useState('');
-  //const [facturas, setFacturas] = useState([]);
+  const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+  const { hiddenFactssort, archived, setArchived,
+    idSelectItem, setidSelectItem,
+    enablefactModalDetails, setEnablefactModalDetails,ordenId
+  } = useContext(MainContext);
+  const history = useHistory();
+  const colorA = "#137797";
+  const [Busqueda, setBusqueda] = useState("");
   const [study, setStudy] = useState([]);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
-  const {
-    getSearchFacturas,
-    loadingSF,
-    searchFacturas,
-    staticFacturas,
-    error,
-    setSearchFacturas,
-  } = useSearchFacturas();
+  const [showModalConfirmaciodn, setShowModalConfirmacdion] = useState(false);
+  const [abonarSend, setAbonarSend] = useState(false);
+  // const [facturaIdDelete, setfacturaIdDelete] = useState("");
+  // const [pacienteName, setPacienteName] = useState("");
+  // const [archived, setArchived] = useState(false);
   const {
     facturas,
     getFacturas,
@@ -65,8 +70,47 @@ const Dashboard = () => {
     facturasNoConfirmadas,
     loading,
     getFacturasConfirm, getFacturasNotConfirm,
-    setFacturasNoConfirmadas
+    setFacturasNoConfirmadas,
+    setFacturasConfirmadas
   } = useFacturas();
+  const {
+    getSearchFacturas,
+    loadingSF,
+    searchFacturas,
+    staticFacturas,
+    error,
+    setSearchFacturas,
+  } = useSearchFacturas();
+
+  // console.log(cambioDelDia)
+  useEffect(() => {
+    getFacturas();
+    getFacturasConfirm()
+    getFacturasNotConfirm()
+    getCambios();
+    //setArchived(false)
+  }, [showModalConfirmaciodn]);
+  useEffect(() => {
+    getFacturas();
+    getFacturasConfirm()
+    getFacturasNotConfirm()
+    getCambios();
+    //setArchived(false)
+  }, [abonarSend]);
+
+
+  //modal 
+  const [showModal, setShowModal] = useState(false);
+  // const toggleModal = () => {
+  //   setShowModal(!showModal);
+  // };
+  const [showModalList, setShowModalList] = useState(false);
+  const toggleModalList = () => {
+    setShowModalList(!showModalList);
+  };
+  //tamaños de modal
+  const size = useBreakpointValue({ base: "sm", lg: "3xl", md: '2xl' });
+  const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
 
   useEffect(() => {
     getFacturas();
@@ -82,23 +126,29 @@ const Dashboard = () => {
     setfacturaIdDelete(factura?.id);
     setPacienteName(factura?.cliente?.razon_social);
   };
+  const handleArchivarConfirmFacts = (facturaIdDelete) => {
+    console.log(facturaIdDelete)
+    setFacturasConfirmadas(facturasConfirmadas.filter((p) => p.id !== facturaIdDelete))
+    setFacturasNoConfirmadas(facturasNoConfirmadas.filter((p) => p.id !== facturaIdDelete))
+  }
 
 
 
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const toggleModal = (study) => {
+    console.log(study);
     setShowModal(!showModal);
     setStudy(study);
   };
-  const [showModalList, setShowModalList] = useState(false);
-  const toggleModalList = () => {
-    getSearchFacturas();
-    setShowModalList(!showModalList);
-  };
+  // // const [showModalList, setShowModalList] = useState(false);
+  // const toggleModalList = () => {
+  //   getSearchFacturas();
+  //   setShowModalList(!showModalList);
+  // };
   //tamaños de modal
-  const size = useBreakpointValue({ base: "sm", lg: "3xl", md: '2xl' });
-  const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
-  const [Busqueda, setBusqueda] = useState("");
+  // const size = useBreakpointValue({ base: "sm", lg: "3xl", md: '2xl' });
+  // const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+  // const [Busqueda, setBusqueda] = useState("");
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
 
@@ -225,7 +275,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion study={study} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ study } abonarSend={abonarSend} />
           </ModalBody>
         </ModalContent>
       </Modal>

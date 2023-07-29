@@ -130,29 +130,29 @@ const Muestra2 = () => {
   });
 
   useEffect(() => {
-   /*  const sendOrden = async () => {
-      if (estudioId2 && muestraID && !estudioID) {
-        const newOrden = {
-          estudio_ids: [estudioId2, estudioID]
-        }
-        const postOrden = await postOrdenes(newOrden)
-        // console.log(postOrden)
-
-      }
-     if(estudioId2){
-        const newOrden={
-          estudio_ids: [estudioID,estudioId2]
-        }
-        const postOrden =await postOrdenes(newOrden)
-        console.log(postOrden)
-        
+    /*  const sendOrden = async () => {
+       if (estudioId2 && muestraID && !estudioID) {
+         const newOrden = {
+           estudio_ids: [estudioId2, estudioID]
+         }
+         const postOrden = await postOrdenes(newOrden)
+         // console.log(postOrden)
+ 
        }
-    }
-
-    sendOrden()
-    return () => {
-
-    }*/
+      if(estudioId2){
+         const newOrden={
+           estudio_ids: [estudioID,estudioId2]
+         }
+         const postOrden =await postOrdenes(newOrden)
+         console.log(postOrden)
+         
+        }
+     }
+ 
+     sendOrden()
+     return () => {
+ 
+     }*/
   }, [estudioId2])
 
   const uniqueId = generateUniqueId();
@@ -170,11 +170,11 @@ const Muestra2 = () => {
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       formikMuestra.resetForm()
-     /* if(muestraID){
-        formikMuestra.resetForm()
-       }*/
+      /* if(muestraID){
+         formikMuestra.resetForm()
+        }*/
       const newObj = {
-        estudio: estudioId2 ,
+        estudio: estudioId2,
         ...formData,
       };
       try {
@@ -186,8 +186,8 @@ const Muestra2 = () => {
           toast.success("¡La muestra fue guardada con exito!", {
             autoClose: 1000,
           });
-         
-         
+
+
         } else {
           toast.error("¡Hubo un error al crear la muestra!", {
             autoClose: 1000,
@@ -200,18 +200,18 @@ const Muestra2 = () => {
     },
   });
 
-  const handleFinishRegister=()=>{
+  const handleFinishRegister = () => {
     setOpenModalSuccess(true);
   }
   return (
     <div style={{ height: "auto" }}>
       <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
         <Box display={'flex'} justifyContent={'center'} alignItems={'center'} backgroundColor={'#137797'} p={'10px'} borderRadius={'100%'} width={'50px'} height={'50px'}>
-        <TitleBigW
+          <TitleBigW
             title={'2'}
           />
         </Box>
-      
+
       </Box>
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
@@ -299,7 +299,7 @@ const Muestra2 = () => {
         >
           <Switch_
             id="envio_digital"
-            disabled={estudioId2 ? true :false}
+            disabled={estudioId2 ? true : false}
             checked={formik.values.envio_digital}
             onChange={(e) =>
               formik.setFieldValue("envio_digital", e.target.checked)
@@ -309,7 +309,7 @@ const Muestra2 = () => {
           />
 
           <Switch_
-           disabled={estudioId2 ? true :false}
+            disabled={estudioId2 ? true : false}
             id="urgente"
             name="urgente"
             checked={formik.values.urgente}
@@ -320,14 +320,14 @@ const Muestra2 = () => {
           {<FormControl display="flex" alignItems="center" justifyContent={'left'} marginTop={"5px"}>
             <input type="file" accept=".pdf" onChange={handleFileChange}
               style={{ display: 'none' }} ref={fileInputRef} />
-            <Text style={{fontSize:'15px',marginRight:'8px'}}>{selectedFile ? selectedFile.name : 'Subir archivo'}</Text>
+            <Text style={{ fontSize: '15px', marginRight: '8px' }}>{selectedFile ? (selectedFile.name.length > 10 ? selectedFile.name.substring(0, 10) + "..." : selectedFile.name) : 'Subir archivo'}</Text>
             <Button type="button" onClick={handleUpload}>
               <BsFolderPlus color="#137797" />
             </Button>
           </FormControl>}
         </Grid>
         <Textarea
-         disabled={estudioId2 ? true :false}
+          disabled={estudioId2 ? true : false}
           marginTop={"10px"}
           size="lg"
           name="notas"
@@ -338,34 +338,34 @@ const Muestra2 = () => {
         />
 
         {
-          <AddMuestraForm muestraID={muestraID2} setOpenModalSuccess={setOpenModalSuccess} 
-          formikMuestra={formikMuestra}
+          <AddMuestraForm muestraID={muestraID2} setOpenModalSuccess={setOpenModalSuccess}
+            formikMuestra={formikMuestra}
           />}
-        { <SuccessModal type={'muestra2'} isOpen={openModalSuccess} setOpenModal={setOpenModalSuccess} />}
+        {<SuccessModal type={'muestra2'} isOpen={openModalSuccess} setOpenModal={setOpenModalSuccess} />}
       </form>
       {(
         <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
-          
-           <GeneralButton
-            text={ muestraID2 ?"Agregar otra muestra" : "Agregar muestra"}
+
+          <GeneralButton
+            text={muestraID2 ? "Agregar otra muestra" : "Agregar muestra"}
             disabled={estudioId2 ? false : true}
             handleClick={formikMuestra.handleSubmit}
           />
-       
-          
-          
-         
-           {estudioId2 && muestraID2 ?<GeneralButton
+
+
+
+
+          {estudioId2 && muestraID2 ? <GeneralButton
             text={"Finalizar registro "}
             handleClick={handleFinishRegister}
-          />:
-          <GeneralButton
-            text={"Guardar estudio 2"}
-            disabled={createSuccess ? true : false}
-            handleClick={handleSubmit}
-          />
+          /> :
+            <GeneralButton
+              text={"Guardar estudio 2"}
+              disabled={createSuccess ? true : false}
+              handleClick={handleSubmit}
+            />
           }
-         {/* <SaveButton type='studio' handleSubmit={handleSubmit} />*/}
+          {/* <SaveButton type='studio' handleSubmit={handleSubmit} />*/}
         </Box>
       )}
     </div>

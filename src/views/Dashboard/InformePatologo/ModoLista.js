@@ -40,13 +40,13 @@ const Dashboard = () => {
   if (informes) {
     informes.forEach((informe) => {
       const priority = informe.estudio_prioridad;
-        if (priority === "ALTA") {
-          highPriorityStudies.push(informe);
-        } else if (priority === "MEDIA") {
-          mediumPriorityStudies.push(informe);
-        } else if (priority === "BAJA") {
-          lowPriorityStudies.push(informe);
-        }
+      if (priority === "ALTA") {
+        highPriorityStudies.push(informe);
+      } else if (priority === "MEDIA") {
+        mediumPriorityStudies.push(informe);
+      } else if (priority === "BAJA") {
+        lowPriorityStudies.push(informe);
+      }
     });
   }
 
@@ -93,8 +93,8 @@ const Dashboard = () => {
             overflowY="scroll"
             overflowX="hidden"
             maxH={'34em'}
-            
-            >
+
+          >
             <Table >
               <Thead>
                 <Tr>

@@ -215,7 +215,7 @@ const Dashboard = () => {
                 loading={loadingM}
                 type="other"
               />
-               <CardOverall_Muestra
+              <CardOverall_Muestra
                 title={"Prioridad Baja"}
                 content={muestraBAJA}
                 toggleModal={toggleModal}
@@ -225,12 +225,12 @@ const Dashboard = () => {
                 type="other"
               />
             </>
-          
-<ShowMoreButton handleClick={toggleModalList} />
-        
-        </Box>
+
+            <ShowMoreButton handleClick={toggleModalList} />
+
+          </Box>
           <Box padding={'2%'}>
-         { /*  <Heading
+            { /*  <Heading
               size="md"
             >
               Informes en proceso

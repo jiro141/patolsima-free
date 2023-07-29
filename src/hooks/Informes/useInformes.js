@@ -42,7 +42,7 @@ export function useInformes() {
   const getInformesConfirm = useCallback(async () => {
     try {
       const ListConfirm = await getInformesListConfirm();
-      
+      console.log(ListConfirm);
       setInformesCompletados(ListConfirm)
     } catch (error) {
       //seterror(error.message);
