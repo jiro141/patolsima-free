@@ -35,6 +35,7 @@ const SidebarContent = ({ logoText, routes }) => {
   } = useFacturas();
 
   const { getGroups, groups, loading } = useGroups();
+  console.log(groups);
   useEffect(() => {
     const getUsersGroups = async () => {
       getGroups();

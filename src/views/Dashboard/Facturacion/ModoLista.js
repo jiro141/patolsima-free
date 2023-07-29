@@ -40,32 +40,37 @@ import { deleteOrden } from "api/controllers/facturas";
 import CardCambio from "components/widgets/Cards/CardCambio";
 import { useFacturas } from "hooks/Facturas/useFacturas";
 import { formatDate } from "helpers";
-
-
+import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
+import { useInformes } from "hooks/Informes/useInformes";
 const Dashboard = () => {
   // const [cambioDelDia, setCambioDelDia] = useState('');
   //const [facturas, setFacturas] = useState([]);
-  const [study, setStudy] = useState([]);
+  const { modoVisualizacion } = useContext(ModoVisualizacionContext);
+  const { hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
+  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes } = useInformes()
+
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
-  const {
-    getSearchFacturas,
-    loadingSF,
-    searchFacturas,
-    staticFacturas,
-    error,
-    setSearchFacturas,
-  } = useSearchFacturas();
-  const {
-    facturas,
-    getFacturas,
-    getCambios,
-    cambioDelDia,
-    facturasConfirmadas,
-    facturasNoConfirmadas,
-    loading,
-    getFacturasConfirm, getFacturasNotConfirm,
-    setFacturasNoConfirmadas
-  } = useFacturas();
+
+  const [Busqueda, setBusqueda] = useState("");
+  const [idInforme, setIdInforme] = useState("");
+  const [detailInforme, setInformeDetail] = useState([]);
+  const [detailEstudio, setdetailEstudio] = useState([]);
+
+  const colorA = '#137797';
+
+
+  //modal 
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+  const [showModalList, setShowModalList] = useState(false);
+  const toggleModalList = () => {
+    setShowModalList(!showModalList);
+  };
+  //tamaños de modal
+  const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+  const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
 
   useEffect(() => {
     getFacturas();
@@ -84,20 +89,20 @@ const Dashboard = () => {
 
 
 
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = (study) => {
-    setShowModal(!showModal);
-    setStudy(study);
-  };
-  const [showModalList, setShowModalList] = useState(false);
-  const toggleModalList = () => {
-    getSearchFacturas();
-    setShowModalList(!showModalList);
-  };
+  // const [showModal, setShowModal] = useState(false);
+  // const toggleModal = (study) => {
+  //   setShowModal(!showModal);
+  //   setStudy(study);
+  // };
+  // // const [showModalList, setShowModalList] = useState(false);
+  // const toggleModalList = () => {
+  //   getSearchFacturas();
+  //   setShowModalList(!showModalList);
+  // };
   //tamaños de modal
-  const size = useBreakpointValue({ base: "sm", lg: "3xl", md: '2xl' });
-  const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
-  const [Busqueda, setBusqueda] = useState("");
+  // const size = useBreakpointValue({ base: "sm", lg: "3xl", md: '2xl' });
+  // const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+  // const [Busqueda, setBusqueda] = useState("");
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
 
