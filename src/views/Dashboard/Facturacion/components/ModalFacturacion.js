@@ -107,7 +107,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         if (abonarSend) {
             getFacturasDetails()
         }
-        return () => { }
+        return () => { setAbonarSend(false) }
     }, [abonarSend])
     //
     useEffect(() => {
@@ -116,7 +116,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     }, [itemOrden, itemOrden2])
     useEffect(() => {
         getStudyDetail()
-        return () => { }
+        return () => { setAbonarSend(false) }
     }, [abonarSend])
 
 
