@@ -42,8 +42,8 @@ export default function FilteredDataModal({
         minH={"500px"}
         borderRadius={"20px"}
         bg="#ffff"
-        // maxHeight="80vh" // Establece el máximo alto del modal
-        // overflowY="auto" // Genera scroll cuando el contenido excede el alto máximo
+      // maxHeight="80vh" // Establece el máximo alto del modal
+      // overflowY="auto" // Genera scroll cuando el contenido excede el alto máximo
       >
         <ModalHeader>
           <CloseButtonL handleModal={isToggleModal} />
@@ -58,145 +58,145 @@ export default function FilteredDataModal({
               />
 
               <Center>
-              {type==='medics'?  
-              <Box
-                  width={"100%"}
-                  maxH={"400px"}
-                  overflowY={"auto"}
-                  sx={{
-                    "&::-webkit-scrollbar": {
-                      width: "5px", // Ancho del scroll
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      background: "#89bbcc",
-                      borderRadius: "10px", // Color del scroll
-                    },
-                  }}
-                >
-                  {loading ? (
-                    <div className="centerLoader">
-                      <CircularProgress
-                        value={80}
-                        size="80px"
-                        color="#137797"
+                {type === 'medics' ?
+                  <Box
+                    width={"100%"}
+                    maxH={"400px"}
+                    overflowY={"auto"}
+                    sx={{
+                      "&::-webkit-scrollbar": {
+                        width: "5px", // Ancho del scroll
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        background: "#89bbcc",
+                        borderRadius: "10px", // Color del scroll
+                      },
+                    }}
+                  >
+                    {loading ? (
+                      <div className="centerLoader">
+                        <CircularProgress
+                          value={80}
+                          size="80px"
+                          color="#137797"
+                        />
+                      </div>
+                    ) : tBodyData && tBodyData.length > 0 ? (
+                      <TABLE_MEDICOS
+                        thData={thData}
+                        tBodyData={tBodyData}
+                        handleSelectTBody={handleSelectTBody}
+                        handleSelectIcon={handleSelectIcon}
                       />
-                    </div>
-                  ) : tBodyData && tBodyData.length > 0 ? (
-                    <TABLE_MEDICOS
-                      thData={thData}
-                      tBodyData={tBodyData}
-                      handleSelectTBody={handleSelectTBody}
-                      handleSelectIcon={handleSelectIcon}
-                    />
-                  ) : (
-                    <NotFound desc={"No se encontraron los resultados"} />
-                  )}
-              </Box>
-              : type==='facturas'?
-              <Box
-              width={"100%"}
-              maxH={"400px"}
-              overflowY={"auto"}
-              sx={{
-                "&::-webkit-scrollbar": {
-                  width: "5px", // Ancho del scroll
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#89bbcc",
-                  borderRadius: "10px", // Color del scroll
-                },
-              }}
-            >
-              {loading ? (
-                <div className="centerLoader">
-                  <CircularProgress
-                    value={80}
-                    size="80px"
-                    color="#137797"
-                  />
-                </div>
-              ) : tBodyData && tBodyData.length > 0 ? (
-                <TABLE_FACTURAS
-                  thData={thData}
-                  tBodyData={tBodyData}
-                  handleSelectTBody={handleSelectTBody}
-                  handleSelectIcon={handleSelectIcon}
-                />
-              ) : (
-                <NotFound desc={"No se encontraron los resultados"} />
-              )}
-            </Box>  
-: type==='informes' ?
+                    ) : (
+                      <NotFound desc={"No se encontraron los resultados"} />
+                    )}
+                  </Box>
+                  : type === 'facturas' ?
+                    <Box
+                      width={"100%"}
+                      maxH={"400px"}
+                      overflowY={"auto"}
+                      sx={{
+                        "&::-webkit-scrollbar": {
+                          width: "5px", // Ancho del scroll
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          background: "#89bbcc",
+                          borderRadius: "10px", // Color del scroll
+                        },
+                      }}
+                    >
+                      {loading ? (
+                        <div className="centerLoader">
+                          <CircularProgress
+                            value={80}
+                            size="80px"
+                            color="#137797"
+                          />
+                        </div>
+                      ) : tBodyData && tBodyData.length > 0 ? (
+                        <TABLE_FACTURAS
+                          thData={thData}
+                          tBodyData={tBodyData}
+                          handleSelectTBody={handleSelectTBody}
+                          handleSelectIcon={handleSelectIcon}
+                        />
+                      ) : (
+                        <NotFound desc={"No se encontraron los resultados"} />
+                      )}
+                    </Box>
+                    : type === 'informes' ?
 
-<Box
-              width={"100%"}
-              maxH={"400px"}
-              overflowY={"auto"}
-              sx={{
-                "&::-webkit-scrollbar": {
-                  width: "5px", // Ancho del scroll
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#89bbcc",
-                  borderRadius: "10px", // Color del scroll
-                },
-              }}
-            >
-              {loading ? (
-                <div className="centerLoader">
-                  <CircularProgress
-                    value={80}
-                    size="80px"
-                    color="#137797"
-                  />
-                </div>
-              ) : tBodyData && tBodyData.length > 0 ? (
-                <TABLE_INFORMES
-                  thData={thData}
-                  tBodyData={tBodyData}
-                  handleSelectTBody={handleSelectTBody}
-                  handleSelectIcon={handleSelectIcon}
-                />
-              ) : (
-                <NotFound desc={"No se encontraron los resultados"} />
-              )}
-            </Box>  :
+                      <Box
+                        width={"100%"}
+                        maxH={"400px"}
+                        overflowY={"auto"}
+                        sx={{
+                          "&::-webkit-scrollbar": {
+                            width: "5px", // Ancho del scroll
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            background: "#89bbcc",
+                            borderRadius: "10px", // Color del scroll
+                          },
+                        }}
+                      >
+                        {loading ? (
+                          <div className="centerLoader">
+                            <CircularProgress
+                              value={80}
+                              size="80px"
+                              color="#137797"
+                            />
+                          </div>
+                        ) : tBodyData && tBodyData.length > 0 ? (
+                          <TABLE_INFORMES
+                            thData={thData}
+                            tBodyData={tBodyData}
+                            handleSelectTBody={handleSelectTBody}
+                            handleSelectIcon={handleSelectIcon}
+                          />
+                        ) : (
+                          <NotFound desc={"No se encontraron los resultados"} />
+                        )}
+                      </Box> :
 
 
-              <Box
-              width={"100%"}
-              maxH={"400px"}
-              overflowY={"auto"}
-              sx={{
-                "&::-webkit-scrollbar": {
-                  width: "5px", // Ancho del scroll
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#89bbcc",
-                  borderRadius: "10px", // Color del scroll
-                },
-              }}
-            >
-              {loading ? (
-                <div className="centerLoader">
-                  <CircularProgress
-                    value={80}
-                    size="80px"
-                    color="#137797"
-                  />
-                </div>
-              ) : tBodyData && tBodyData.length > 0 ? (
-                <TABLE_PACIENTS
-                  thData={thData}
-                  tBodyData={tBodyData}
-                  handleSelectTBody={handleSelectTBody}
-                  handleSelectIcon={handleSelectIcon}
-                />
-              ) : (
-                <NotFound desc={"No se encontraron los resultados"} />
-              )}
-            </Box>  
-              }
+                      <Box
+                        width={"100%"}
+                        maxH={"400px"}
+                        overflowY={"auto"}
+                        sx={{
+                          "&::-webkit-scrollbar": {
+                            width: "5px", // Ancho del scroll
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            background: "#89bbcc",
+                            borderRadius: "10px", // Color del scroll
+                          },
+                        }}
+                      >
+                        {loading ? (
+                          <div className="centerLoader">
+                            <CircularProgress
+                              value={80}
+                              size="80px"
+                              color="#137797"
+                            />
+                          </div>
+                        ) : tBodyData && tBodyData.length > 0 ? (
+                          <TABLE_PACIENTS
+                            thData={thData}
+                            tBodyData={tBodyData}
+                            handleSelectTBody={handleSelectTBody}
+                            handleSelectIcon={handleSelectIcon}
+                          />
+                        ) : (
+                          <NotFound desc={"No se encontraron los resultados"} />
+                        )}
+                      </Box>
+                }
               </Center>
             </Box>
           </Box>

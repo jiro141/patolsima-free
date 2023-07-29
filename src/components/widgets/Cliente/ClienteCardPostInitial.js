@@ -74,7 +74,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   } = usePacientsListCi({ searchci });
 
   const formik = useFormik({
-  initialValues: {
+    initialValues: {
       ci: "",
       nombres: "",
       apellidos: "",
@@ -82,7 +82,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       direccion: "",
       email: "",
       telefono_fijo: " ",
-     // telefono_celular: "",
+      // telefono_celular: "",
       sexo: "",
     },
     validationSchema: Yup.object({
@@ -105,7 +105,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         const newObj = {
           ...formData,
           ci: searchci,
-          telefono_celular:'+' + numberCode + formData.telefono_celular,
+          telefono_celular: '+' + numberCode + formData.telefono_celular,
           fecha_nacimiento: dateNew
         }
         try {
@@ -125,10 +125,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             return null
           }
           else {
-           toast.error("¡Hubo un error al guardar el paciente!", {
+            toast.error("¡Hubo un error al guardar el paciente!", {
               autoClose: 1000,
             });
-           // formik.resetForm()
+            // formik.resetForm()
           }
           getPacients();
         } catch (error) {
@@ -142,7 +142,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           //ci: searchci,
           fecha_nacimiento: dateNew,
         }
-       
+
         try {
           // if (pacientsByCi) {
           const pacientePut = await putPacientes(formData.id || pacientsByCi[0].id, newObj);
@@ -150,17 +150,17 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
           console.log(pacientePut);
           setPacienteID(pacientePut.id);
           if (pacientePut) {
-           toast.success("¡El paciente fue guardado correctamente!", {
+            toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
-           // setActiveTab(activeTab + 1)
+            // setActiveTab(activeTab + 1)
             setTwoState('post')
           }
           else {
             toast.error("¡Hubo un error al guardar el paciente!", {
               autoClose: 1000,
             });
-           // formik.resetForm()
+            // formik.resetForm()
           }
           // }
 
@@ -178,7 +178,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   useEffect(() => {
     if (value) {
-     // formik.resetForm()
+      // formik.resetForm()
 
     }
   }, [formik.values]);
@@ -242,13 +242,13 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         direccion: pacienteDetail.direccion,
         email: pacienteDetail.email,
         telefono_fijo: pacienteDetail.telefono_fijo,
-       telefono_celular: pacienteDetail.telefono_celular,
+        telefono_celular: pacienteDetail.telefono_celular,
         sexo: pacienteDetail.sexo,
 
       });
       onChange(pacienteDetail.fecha_nacimiento)
       setSelectPacient(pacienteDetail.telefono_celular)
-    
+
       // formik.validateForm();
     } catch (error) {
       console.log(error);
@@ -288,17 +288,17 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
       console.log(searchci)
-      if (searchci === "") {      
+      if (searchci === "") {
         formik.resetForm('')
         onChange(new Date())
-       // setsearchci("");
-      
-      }if(searchci.length > 0){
-        getPacientsByCi({searchci})
+        // setsearchci("");
+
+      } if (searchci.length > 0) {
+        getPacientsByCi({ searchci })
         setSelectSearch(false);
       }
-     // setSelectSearch(false);
-     
+      // setSelectSearch(false);
+
     }, 500),
     []
   );
@@ -312,38 +312,38 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
-  
-  
+
+
 
   };
 
- 
+
   useEffect(() => {
     if (formik.values.ci === '') {
       //formik.resetForm('')
-     setOneState('post')
+      setOneState('post')
     }
-   
+
     return () => {
       //setsearchci("");
     }
   }, [formik.values])
 
-const handleSelectChange=(e)=>{
-  setnSelectPacient(e.target.value);
-}
+  const handleSelectChange = (e) => {
+    setnSelectPacient(e.target.value);
+  }
 
   return (
     <Box
-  
-   
+
+
       backgroundColor={"#FFFF"}
       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
       padding={"30px"}
       borderRadius="20px"
       m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
     >
-     
+
       {
         <form>
           <Box margin={'5px'} padding={'5px'}>
@@ -459,7 +459,7 @@ const handleSelectChange=(e)=>{
               onChange={(e) => formik.setFieldValue("email", e.target.value)}
               errors={formik.errors.email}
             />
-           {/* <InputOverall
+            {/* <InputOverall
               name="Telefono"
               value={formik.values.telefono_celular}
               placeholder="Telefono de Contacto:"
@@ -468,42 +468,42 @@ const handleSelectChange=(e)=>{
               }
               errors={formik.errors.telefono_celular} || searchci
             />*/}
-          
-          {selectPacient || selectSearch ?
-          <div>
-           <InputOverall
-              name="Telefono"
-              value={formik.values.telefono_celular}
-              //placeholder="Telefono de Contacto:"
-              onChange={(e) =>
-                formik.setFieldValue("telefono_celular", e.target.value)
-              }
-              errors={formik.errors.telefono_celular}
-            />
-          
-          </div>:
-          <PhoneInputOverall name="Telefono" 
-             value={formik.values.telefono_celular}
-             onChange={(e) =>
-              formik.setFieldValue("telefono_celular", e.target.value)
+
+            {selectPacient || selectSearch ?
+              <div>
+                <InputOverall
+                  name="Telefono"
+                  value={formik.values.telefono_celular}
+                  //placeholder="Telefono de Contacto:"
+                  onChange={(e) =>
+                    formik.setFieldValue("telefono_celular", e.target.value)
+                  }
+                  errors={formik.errors.telefono_celular}
+                />
+
+              </div> :
+              <PhoneInputOverall name="Telefono"
+                value={formik.values.telefono_celular}
+                onChange={(e) =>
+                  formik.setFieldValue("telefono_celular", e.target.value)
+                }
+                numberCode={numberCode}
+                setNumberCode={setNumberCode}
+                countryCode={countryCode}
+                setCountryCode={setCountryCode}
+                errors={formik.errors.telefono_celular}
+                placeholder="4247423185"
+              />
+
             }
-            numberCode={numberCode}
-             setNumberCode={setNumberCode}
-            countryCode={countryCode}
-            setCountryCode={setCountryCode}
-             errors={formik.errors.telefono_celular}
-             placeholder="4247423185"
-            />
-        
-        }
-            
-  
+
+
           </Grid>
-      
+
 
         </form>
       }
-      
+
       <FilteredDataModal
         isOpenModal={mostrarModal}
         isToggleModal={toggleModal}
@@ -524,22 +524,17 @@ const handleSelectChange=(e)=>{
         eliminar={eliminarPaciente}
         nombres={pacienteName}
       />
-      <Box  marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'} w={'100%'}>
-      <div style={{width:"50px"}}>
+      <Box marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'} w={'100%'}>
+        <div style={{ width: "50px" }}>
 
-      </div>
-       <ShowMoreButton handleClick={toggleModal} />
-        
+        </div>
+        <ShowMoreButton handleClick={toggleModal} />
+
         <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />
 
-      
-
-       
-       
-       
-      {  <NextStation  handleNextSubmit={formik.handleSubmit}  searchci={searchci} />}
+        {<NextStation handleNextSubmit={formik.handleSubmit} searchci={searchci} />}
       </Box>
-     
+
 
     </Box>
   );

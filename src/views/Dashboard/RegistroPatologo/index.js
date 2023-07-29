@@ -29,10 +29,11 @@ import MainContext from "context/mainContext/MainContext";
 import CardOverall_ from "components/widgets/Cards/CardOverall";
 import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
 import ModalRegisterInforme from "components/widgets/Modals/ModalRegisterInforme";
+import Container from "components/widgets/utils/Container";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenmuestrasPatologosort} = useContext(MainContext);
+  const { hiddenmuestrasPatologosort } = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const [studies, setStudies] = useState();
   const [study, setStudy] = useState();
@@ -40,31 +41,31 @@ const Dashboard = () => {
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
 
- const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB}= useMuestrasPatologo()
+  const { muestraALTA, muestraMEDIA, muestraBAJA, getMuestrasPatologoAlta, getMuestrasPatologoMedia, getMuestrasPatologoBaja, loadingA, loadingM, loadingB } = useMuestrasPatologo()
 
   // Iterar sobre los datos y clasificar según la prioridad
   // Clasificar estudios según prioridad
   //const highPriorityStudies = [];
- // const mediumPriorityStudies = [];
- // const lowPriorityStudies = [];
+  // const mediumPriorityStudies = [];
+  // const lowPriorityStudies = [];
 
- /* if (studies) {
-    studies.forEach((study) => {
-      const priority = study.prioridad;
-      const isConfirmed = study.confirmado;
-
-      if (isConfirmed) {
-        if (priority === "ALTA") {
-          highPriorityStudies.push(study);
-        } else if (priority === "MEDIA") {
-          mediumPriorityStudies.push(study);
-        } else if (priority === "BAJA") {
-          lowPriorityStudies.push(study);
-        }
-      }
-    });
-  }*/
- // console.log(lowPriorityColor);
+  /* if (studies) {
+     studies.forEach((study) => {
+       const priority = study.prioridad;
+       const isConfirmed = study.confirmado;
+ 
+       if (isConfirmed) {
+         if (priority === "ALTA") {
+           highPriorityStudies.push(study);
+         } else if (priority === "MEDIA") {
+           mediumPriorityStudies.push(study);
+         } else if (priority === "BAJA") {
+           lowPriorityStudies.push(study);
+         }
+       }
+     });
+   }*/
+  // console.log(lowPriorityColor);
 
   // modales para las vistas flotantes
 
@@ -73,7 +74,7 @@ const Dashboard = () => {
     getMuestrasPatologoMedia()
     getMuestrasPatologoBaja()
   }, [])
-  
+
 
   const toggleModal = (study) => {
     console.log('toggleling')
@@ -81,18 +82,18 @@ const Dashboard = () => {
     setStudy(study);
   };
 
- /* const peticionGet = async () => {
-    try {
-      const estudiosList = await getStudiesList()
-      setStudies(estudiosList)
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    peticionGet();
-  }, []); */
+  /* const peticionGet = async () => {
+     try {
+       const estudiosList = await getStudiesList()
+       setStudies(estudiosList)
+ 
+     } catch (error) {
+       console.log(error);
+     }
+   };
+   useEffect(() => {
+     peticionGet();
+   }, []); */
 
   const renderStudies = (studies, priorityColor) => {
     const renderDate = (createdAt) => {
@@ -103,13 +104,13 @@ const Dashboard = () => {
       }
       return '';
     };
-  
+
     return studies.map((study) => (
       <Flex flexDirection="row 7" key={study.id} >
         <Link onClick={() => toggleModal(study)}>
           <Box
-        //  border={'1px solid'}
-          marginLeft={'30px'}
+            //  border={'1px solid'}
+            marginLeft={'30px'}
             //margin="5px 0px"
             boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
             borderRadius="16px"
@@ -191,73 +192,59 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Box
-          margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
-          w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
-          height={'auto'}
-          //pb={'50px'}
-          //py={'5px'}
-        // border={'1px'}
-       // pb={'60px'}
-          padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
-          backgroundColor={"gray.100"}
-          borderTopLeftRadius={"20px"}
-          backgroundSize="cover"
-          backgroundPosition="center"
-          overflowY="hidden"
-          overflowX={{ lg: "hidden", sm: "auto" }}
-          //width={'95%'}
-        >
-         
+        <Container
           
-            <Box marginTop={"30px"} width={'100%'}
-        pl={'5px'}>
-          {hiddenmuestrasPatologosort ? (
-            <>
-              <CardOverall_Muestra
-                title={"Prioridad Alta"}
-                content={muestraALTA}
+        >
+
+
+          <Box marginTop={"30px"} width={'100%'}
+            pl={'5px'}>
+            {hiddenmuestrasPatologosort ? (
+              <>
+                <CardOverall_Muestra
+                  title={"Prioridad Alta"}
+                  content={muestraALTA}
+                  toggleModal={toggleModal}
+                  colorA={highPriorityColor}
+                  loading={loadingA}
+                  type="other"
+                />
+
+                <CardOverall_Muestra
+                  title={"Prioridad Media"}
+                  content={muestraMEDIA}
+                  toggleModal={toggleModal}
+                  colorA={mediumPriorityColor}
+                  loading={loadingM}
+                  type="other"
+                />
+                <CardOverall_Muestra
+                  title={"Prioridad Baja"}
+                  content={muestraBAJA}
+                  toggleModal={toggleModal}
+                  colorA={lowPriorityColor}
+                  loading={loadingB}
+                  type="other"
+                />
+              </>
+            ) : (
+              <CardOverall_
+                title={"Resultados"}
+                content={facturas}
                 toggleModal={toggleModal}
-                colorA={highPriorityColor}
-                loading={loadingA}
-                type="other"
+                colorA={colorA}
+                //loading={loading}
+                type="search"
               />
-
-              <CardOverall_Muestra
-                title={"Prioridad Media"}
-                content={muestraMEDIA}
-                toggleModal={toggleModal}
-                colorA={mediumPriorityColor}
-                loading={loadingM}
-                type="other"
-              />
-               <CardOverall_Muestra
-                title={"Prioridad Baja"}
-                content={muestraBAJA}
-                toggleModal={toggleModal}
-                colorA={lowPriorityColor}
-                loading={loadingB}
-                type="other"
-              />
-            </>
-          ) : (
-            <CardOverall_
-              title={"Resultados"}
-              content={facturas}
-              toggleModal={toggleModal}
-              colorA={colorA}
-              //loading={loading}
-              type="search"
-            />
-          )}
-
-        
-        </Box>
-         
-        </Box>
+            )}
 
 
-       {/* <Modal
+          </Box>
+
+        </Container>
+
+
+        {/* <Modal
           size={'3xl'}
           maxWidth='100%'
           isOpen={showModal}
@@ -284,8 +271,8 @@ const Dashboard = () => {
           </ModalContent>
         </Modal> */}
         <ModalRegisterInforme showModal={showModal}
-        toggleModal={toggleModal}
-        study={study} />
+          toggleModal={toggleModal}
+          study={study} />
       </>
     ) : (
       <ModoLista />

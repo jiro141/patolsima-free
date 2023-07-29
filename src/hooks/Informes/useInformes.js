@@ -24,14 +24,6 @@ export function useInformes() {
       const informeList = await getListInforme();
       setInformes(informeList);  
       setfilteredInforme(informeList)
-     
-      
-    //  const completados = informeList.filter((item) => item.completado === true);
-     // setInformesCompletados(completados);
-    //  const Nocompletados = informeList.filter((item) => item.completado === false);
-     // setInformesNoCompletados(Nocompletados);
-   
-     // console.log(facturasList);
     } catch (error) {
       seterror(error.message);
     } finally {
@@ -42,7 +34,7 @@ export function useInformes() {
   const getInformesConfirm = useCallback(async () => {
     try {
       const ListConfirm = await getInformesListConfirm();
-      
+      console.log(ListConfirm);
       setInformesCompletados(ListConfirm)
     } catch (error) {
       //seterror(error.message);

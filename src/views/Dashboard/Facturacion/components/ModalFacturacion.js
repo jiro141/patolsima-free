@@ -13,9 +13,11 @@ import {
     useBreakpointValue,
     Input,
     Badge,
-    Select
+    Select,
+    CircularProgress
 } from "@chakra-ui/react";
 import { BsFillPencilFill, BsFillFileCheckFill } from "react-icons/bs";
+import '../../../../css/style.css'
 import FacturaTerceros from "./FacturaTerceros";
 import Confirmacion from "./Confirmacion";
 import ModalAbonar from "./ModalAbonar";
@@ -283,7 +285,13 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     return (
         <>
             {loadingDetailFact ?
-                <p>cargando</p> : <Box marginTop={'-50px'}  >
+                <p><div className="centerLoader">
+                    <CircularProgress
+                        value={80}
+                        size="80px"
+                        color="#137797"
+                    />
+                </div></p> : <Box marginTop={'-50px'}  >
                     <Box display={'flex'} width={'100%'} justifyContent={'space-between'} padding={'5px'}>
                         <Title
                             title={'Descripción'}
@@ -302,7 +310,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 {studyDetail ? (
                                     <Text fontSize={'14px'}>
                                         <Badge>
-                                            {studyDetail?.paciente.apellidos} {studyDetail?.paciente.apellidos}
+                                            {studyDetail?.paciente.apellidos} {studyDetail?.paciente.nombres}
                                         </Badge>
 
 

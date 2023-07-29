@@ -34,6 +34,7 @@ import CardOverall_ from "components/widgets/Cards/CardOverall";
 import MainContext from "context/mainContext/MainContext";
 import { useMuestrasPatologo } from "hooks/MuestrasPatologo/useMuestrasPatologo";
 import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
+import Container from "components/widgets/utils/Container";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
@@ -44,8 +45,8 @@ const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalList, setShowModalList] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenmuestrasPatologosort} = useContext(MainContext);
-  const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB}= useMuestrasPatologo()
+  const { hiddenmuestrasPatologosort } = useContext(MainContext);
+  const { muestraALTA, muestraMEDIA, muestraBAJA, getMuestrasPatologoAlta, getMuestrasPatologoMedia, getMuestrasPatologoBaja, loadingA, loadingM, loadingB } = useMuestrasPatologo()
 
   /*const highPriorityStudies = [];
   const mediumPriorityStudies = [];
@@ -175,27 +176,11 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Box
-           margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
-           w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
-           height={'auto'}
-           //pb={'50px'}
-           //py={'5px'}
-         // border={'1px'}
-        // pb={'60px'}
-           padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
-           backgroundColor={"gray.100"}
-           borderTopLeftRadius={"20px"}
-           backgroundSize="cover"
-           backgroundPosition="center"
-           overflowY="hidden"
-           overflowX={{ lg: "hidden", sm: "auto" }}
-           //width={'95%'}
-          //maxH={'40em'}
+        <Container
         >
-            <Box  marginTop={"30px"} width={'100%'}
-        pl={'5px'} >
-          
+          <Box marginTop={"30px"} width={'100%'}
+            pl={'5px'} >
+
             <>
               <CardOverall_Muestra
                 title={"Prioridad Alta"}
@@ -214,7 +199,7 @@ const Dashboard = () => {
                 loading={loadingM}
                 type="other"
               />
-               <CardOverall_Muestra
+              <CardOverall_Muestra
                 title={"Prioridad Baja"}
                 content={muestraBAJA}
                 toggleModal={toggleModal}
@@ -223,12 +208,12 @@ const Dashboard = () => {
                 type="other"
               />
             </>
-          
-<ShowMoreButton handleClick={toggleModalList} />
-        
-        </Box>
+
+            <ShowMoreButton handleClick={toggleModalList} />
+
+          </Box>
           <Box padding={'2%'}>
-         { /*  <Heading
+            { /*  <Heading
               size="md"
             >
               Informes en proceso
@@ -316,8 +301,8 @@ const Dashboard = () => {
             >
               Ver más</Button>*/}
           </Box>
-        </Box>
-       <Modal
+        </Container>
+        <Modal
           size={"4xl"}
           maxWidth='100%'
           isOpen={showModal}
@@ -343,7 +328,7 @@ const Dashboard = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
-       <Modal
+        <Modal
           size={sizeView}
           maxWidth='100%'
           isOpen={showModalList}

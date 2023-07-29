@@ -121,9 +121,9 @@ const Muestra = () => {
       return;
     },
   });
-  
 
- 
+
+
   useEffect(() => {
     const postDoc = async () => {
       if (selectedFile) {
@@ -156,11 +156,11 @@ const Muestra = () => {
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       formikMuestra.resetForm()
-      if(muestraID){
+      if (muestraID) {
         //formikMuestra.resetForm()
-       }
+      }
       const newObj = {
-        estudio: estudioID ,
+        estudio: estudioID,
         ...formData,
       };
       try {
@@ -172,7 +172,7 @@ const Muestra = () => {
           toast.success("¡La muestra fue guardada con exito!", {
             autoClose: 1000,
           });
-          
+
         } else {
           toast.error("¡Hubo un error al crear la muestra!", {
             autoClose: 1000,
@@ -184,11 +184,11 @@ const Muestra = () => {
       return;
     },
   });
- 
-  const handleFinishRegister=()=>{
+
+  const handleFinishRegister = () => {
     setOpenModalSuccess(true);
   }
-  const handleEnableNewMuestra=()=>{
+  const handleEnableNewMuestra = () => {
     setConfirmOtherMuestra(true)
     formikMuestra.handleSubmit()
   }
@@ -196,11 +196,11 @@ const Muestra = () => {
     <div style={{ height: "auto" }}>
       <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
         <Box display={'flex'} justifyContent={'center'} alignItems={'center'} backgroundColor={'#137797'} p={'10px'} borderRadius={'100%'} width={'50px'} height={'50px'}>
-        <TitleBigW
+          <TitleBigW
             title={'1'}
           />
         </Box>
-      
+
       </Box>
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >
@@ -261,10 +261,10 @@ const Muestra = () => {
         ></Grid>
         <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
           <Box marginBottom={'15px'}>
-          <Title
-            title={'Datos de estudio'}
-          >
-          </Title>
+            <Title
+              title={'Datos de estudio'}
+            >
+            </Title>
           </Box>
 
         </Grid>
@@ -287,7 +287,7 @@ const Muestra = () => {
 
         >
           <Switch_
-           disabled={estudioID ? true :false}
+            disabled={estudioID ? true : false}
             id="envio_digital"
             checked={formik.values.envio_digital}
             onChange={(e) =>
@@ -298,7 +298,7 @@ const Muestra = () => {
           />
 
           <Switch_
-           disabled={estudioID ? true :false}
+            disabled={estudioID ? true : false}
             id="urgente"
             name="urgente"
             checked={formik.values.urgente}
@@ -306,10 +306,10 @@ const Muestra = () => {
             label={"Urgente"}
           />
 
-          {<FormControl  display="flex" alignItems="center" justifyContent={'left'} marginTop={"5px"}>
+          {<FormControl display="flex" alignItems="center" justifyContent={'left'} marginTop={"5px"}>
             <input type="file" accept=".pdf" onChange={handleFileChange}
               style={{ display: 'none' }} ref={fileInputRef} />
-            <Text style={{fontSize:'15px',marginRight:'8px'}}>{selectedFile ? selectedFile.name : 'Subir archivo'}</Text>
+            <Text style={{ fontSize: '15px', marginRight: '8px' }}>{selectedFile ? (selectedFile.name.length > 10 ? selectedFile.name.substring(0, 10) + "..." : selectedFile.name) : 'Subir archivo'}</Text>
             <Button type="button" onClick={handleUpload}>
               <BsFolderPlus color="#137797" />
             </Button>
@@ -320,41 +320,41 @@ const Muestra = () => {
           size="lg"
           name="notas"
           borderRadius="md"
-          disabled={estudioID ? true :false}
+          disabled={estudioID ? true : false}
           placeholder="Notas de estudio:"
           value={formik.values.notas}
           onChange={(e) => formik.setFieldValue("notas", e.target.value)}
         />
 
-        {  <AddMuestraForm type={'muestra1'} muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} formikMuestra={formikMuestra} confirmOtherMuestra={confirmOtherMuestra} />}
+        {<AddMuestraForm type={'muestra1'} muestraID={muestraID} finish={finish} setFinish={setFinish} setOpenModalSuccess={setOpenModalSuccess} formikMuestra={formikMuestra} confirmOtherMuestra={confirmOtherMuestra} />}
 
-        { <SuccessModal confirm={confirm} setConfirm={setConfirm} isOpen={openModalSuccess} setOpenModal={setOpenModalSuccess} />}
+        {<SuccessModal confirm={confirm} setConfirm={setConfirm} isOpen={openModalSuccess} setOpenModal={setOpenModalSuccess} />}
       </form>
 
       {(
         <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
-          
-         { muestraID ? 
-         <GeneralButton
-            text={ "Agregar otra muestra"}
-            disabled={estudioID ? false : true}
-            handleClick={handleEnableNewMuestra}
-          />:
-          <GeneralButton
-            text={ "Agregar muestra"}
-            disabled={estudioID ? false : true}
-            handleClick={formikMuestra.handleSubmit}
-          />
+
+          {muestraID ?
+            <GeneralButton
+              text={"Agregar otra muestra"}
+              disabled={estudioID ? false : true}
+              handleClick={handleEnableNewMuestra}
+            /> :
+            <GeneralButton
+              text={"Agregar muestra"}
+              disabled={estudioID ? false : true}
+              handleClick={formikMuestra.handleSubmit}
+            />
           }
-           {estudioID && muestraID ?<GeneralButton
+          {estudioID && muestraID ? <GeneralButton
             text={"Finalizar registro "}
             handleClick={handleFinishRegister}
-          />:
-          <GeneralButton
-            text={"Guardar estudio"}
-            handleClick={handleSubmit}
-            disabled={createSuccess ? true : false}
-          />
+          /> :
+            <GeneralButton
+              text={"Guardar estudio"}
+              handleClick={handleSubmit}
+              disabled={createSuccess ? true : false}
+            />
           }
         </Box>
       )}

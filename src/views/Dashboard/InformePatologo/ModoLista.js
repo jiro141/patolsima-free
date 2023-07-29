@@ -27,6 +27,7 @@ import DatosMuestra from "./DatosMuestra";
 import ModalInforme from "./components/ModalInforma";
 import ListaInformes from "./components/ListaInformes";
 import { getListInforme } from "api/controllers/informes";
+import Container from "components/widgets/utils/Container";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
@@ -39,13 +40,13 @@ const Dashboard = () => {
   if (informes) {
     informes.forEach((informe) => {
       const priority = informe.estudio_prioridad;
-        if (priority === "ALTA") {
-          highPriorityStudies.push(informe);
-        } else if (priority === "MEDIA") {
-          mediumPriorityStudies.push(informe);
-        } else if (priority === "BAJA") {
-          lowPriorityStudies.push(informe);
-        }
+      if (priority === "ALTA") {
+        highPriorityStudies.push(informe);
+      } else if (priority === "MEDIA") {
+        mediumPriorityStudies.push(informe);
+      } else if (priority === "BAJA") {
+        lowPriorityStudies.push(informe);
+      }
     });
   }
 
@@ -75,16 +76,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 10% 0px' }}
-        padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-        backgroundColor={'gray.100'}
-        borderRadius={'20px'}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        overflowY="scroll"
-        overflowX="hidden"
-        maxH={'40em'}
-         >
+      <Container
+      >
         <Box padding={'2%'}>
           <Heading
             size="md"
@@ -101,8 +94,8 @@ const Dashboard = () => {
             overflowY="scroll"
             overflowX="hidden"
             maxH={'34em'}
-            
-            >
+
+          >
             <Table >
               <Thead>
                 <Tr>
@@ -219,7 +212,7 @@ const Dashboard = () => {
           >
             Ver más</Button>
         </Box>
-      </Box>
+      </Container>
       <Modal
         size={'4xl'}
         maxWidth='100%'
