@@ -34,6 +34,7 @@ import { deleteOrden } from "api/controllers/facturas";
 import CardCambio from "components/widgets/Cards/CardCambio";
 import { getFacturasListNoConfirm } from "api/controllers/facturas";
 import { useHistory } from "react-router-dom";
+import Container from "components/widgets/utils/Container";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
@@ -175,26 +176,10 @@ const Dashboard = () => {
  
   return modoVisualizacion === "tarjeta" ? (
     <>
-      <Box
-        margin={{
-          lg: "50px 0px 0px 30px",
-          md: "60px 0px 0px 0px",
-          sm: "30px 0px 10% 0px",
-        }}
-        w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
-        height={'auto'}
-        padding={{ lg: "0 25px 50px 25px", md: "10px", sm: "0px 0 10% 0"  }}
-        backgroundColor={"gray.100"}
-        borderRadius={"20px"}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        overflowY="hidden"
-        overflowX={{ lg: "hidden", sm: "auto" }}
-      // maxH={'40em'}
-      >
+      <Container>
         {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
 
-        <Box marginTop={"5px"} width={'100%'}
+        <Box marginTop={"30px"} width={'100%'}
           pl={'5px'}
 
         >
@@ -231,7 +216,12 @@ const Dashboard = () => {
 
           <ShowMoreButton setAbonarSend={setAbonarSend} handleClick={toggleModalList} />
         </Box>
-      </Box>
+      </Container>
+      
+      
+      
+      
+      
       <Modal
         size={size}
         maxWidth="100%"
