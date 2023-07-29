@@ -24,6 +24,7 @@ import { FaFlask } from "react-icons/fa";
 import { Icon } from "@chakra-ui/react";
 import ModalRegistro from "./components/ModalRegistro";
 import { getStudiesList } from "api/controllers/estudios";
+import Container from "components/widgets/utils/Container";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
@@ -72,15 +73,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box 
-      margin={{ lg: '50px 0px 0px 0px', sm: '60px 0px 0px 0px' }}
-
-        padding={{ lg: '0 25px', md: '10px', sm: '0px 0 10% 0' }}
-        backgroundColor={'gray.100'}
-        borderRadius={'20px'}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        height={'auto'} >
+      <Container >
         <Box padding={'2%'}>
           <Heading
             size="md"
@@ -210,7 +203,7 @@ const Dashboard = () => {
             </Table>
           </Box>
         </Box>
-      </Box>
+      </Container>
       <Modal
         size={'4xl'}
         maxWidth='100%'

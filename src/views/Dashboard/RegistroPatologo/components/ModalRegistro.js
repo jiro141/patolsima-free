@@ -20,25 +20,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { formatDate } from "helpers";
 import { lastInformes } from "api/controllers/informes";
 import { completeInforme } from "api/controllers/informes";
+import MainContext from "context/mainContext/MainContext";
+import { useContext } from "react";
+import { putInforme } from "api/controllers/informes";
+import { Title } from "components/widgets/Texts";
 //import { putInformes } from "api/controllers/informes";
-
+import "../../../../css/style.css";
 const ModalRegistro = ({ study, close }) => {
     const [studiesDetail, setStudiesDetail] = useState()
   const {detailMuestra,getMuestraDetail,loading,error} = useMuestraDetail({studyId:study.id})
   const [historyMap, setHistoryMap] = useState([]);
-
-   /* const StudiesDetailGet = async () => {
-        try {
-            const estudiosDetail = await getStudiesDetail(study.id)
-            console.log(estudiosDetail)
-            setStudiesDetail(estudiosDetail)
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    useEffect(() => {
-        StudiesDetailGet();
-    }, []);*/
+  const [changeFocus, setChangeFocus] = useState(false);
+  const{informesp,hiddenInformessortp} = useContext(MainContext)
+  
     useEffect(() => {
      getMuestraDetail()
       
@@ -58,27 +52,24 @@ const ModalRegistro = ({ study, close }) => {
       }
     }, [])
 
-    console.log(detailMuestra.notas);
+    console.log(detailMuestra?.notas);
     const formik = useFormik({
         initialValues: {
-            //estudio: study.id,
-            notas: detailMuestra.notas,
-            descripcion_macroscopica:null,
-            descripcion_microscopica:null,
-            diagnostico:null,
+           // estudio: study?.id,
+            notas:detailMuestra?.notas,
         },
         validateOnChange: false,
         onSubmit: async (formData, { resetForm }) => { // se agregar resetForm para limpar los campos del 
            const newObj={
             estudio: study.id,
-           ...formData
+            ...formData
 
            }
            
             try {
                 
-                const procesarInforme = await postInformes(newObj);
-                if(procesarInforme){
+                const procesarInforme = await putInforme(study.id,newObj);
+               if(procesarInforme){
                     toast.success("¡El informe se ha procesado con exito!", {
                         autoClose: 1000,
                       });
@@ -101,7 +92,7 @@ const ModalRegistro = ({ study, close }) => {
         const res= await completeInforme(detailMuestra?.id)
         console.log(res);
         if(res){
-            window.location.reload();
+            //window.location.reload();
            // setShowModalGeneral(false)
         
         }
@@ -111,8 +102,8 @@ const ModalRegistro = ({ study, close }) => {
    //console.log(detailMuestra)
     return (
         <Box marginTop={'-50px'}>
-            <Text margin={'10px'} color={'gray.900'} fontSize={'20px'} >Información General</Text>
-           
+           {/* <Text margin={'10px'} color={'gray.900'} fontSize={'20px'} >Información General</Text>*/}
+           <Title title={'Información General'} />
          {loading ?
          <p>cargando</p>
          :
@@ -121,14 +112,19 @@ const ModalRegistro = ({ study, close }) => {
                 <Box>
                     <Box margin={'10px'}>
                         <Text fontSize={'17px'}>Paciente</Text>
-                        { (
+                        {!hiddenInformessortp ?
+
+<Badge>
+<Text >{`${study?.estudio_paciente_name.length > 10 ? study?.estudio_paciente_name.substring(0, 10) + "..." : ''
+}`}</Text>
+</Badge>:
                             <Badge>
-                            <Text >{`${detailMuestra ? detailMuestra?.paciente?.nombres : ''}
-                            ${detailMuestra ? detailMuestra?.paciente?.apellidos : ''}
+                            <Text >{`${study ? study?.paciente?.nombres : ''}
+                            ${study ? study?.paciente?.apellidos : ''}
                             `}</Text>
                             </Badge>
                             
-                        )}
+                        }
                     </Box>
                     <Box margin={'10px'}>
                         <Text fontSize={'17px'}>Fecha</Text>
@@ -141,10 +137,15 @@ const ModalRegistro = ({ study, close }) => {
                 <Box>
                     <Box margin={'10px'}>
                         <Text fontSize={'17px'}>Cedula de Identidad</Text>
-                        {
+                        {!hiddenInformessortp ?
                             <Badge>
-                            <Text >{detailMuestra ? detailMuestra?.paciente?.ci : ''}</Text>
-                            </Badge>
+                            <Text >{study ? study?.estudio_paciente_ci
+ : ''}</Text>
+                            </Badge>:
+
+<Badge>
+<Text >{study ? study?.paciente?.ci : ''}</Text>
+</Badge>
                             
                         }
                     </Box>
@@ -173,7 +174,11 @@ const ModalRegistro = ({ study, close }) => {
                 </Box>
             </Grid>
             <Separator></Separator>
-            <Text margin={'10px'} fontSize={'20px'}>Información de estudio</Text>
+           {/* <Text margin={'10px'} fontSize={'20px'}>Información de estudio</Text>*/}
+           <Box mt={'10px'}>
+           <Title title={'Información de estudio'} />
+           </Box>
+          
             <Grid templateColumns={"repeat(3,1fr)"}>
                 <Box>
                     <Box margin={'10px'}>
@@ -225,20 +230,31 @@ const ModalRegistro = ({ study, close }) => {
                         <option disabled>Loading...</option>
                     )*/}
                 </Select>
-              {detailMuestra && <Input
-                    //placeholder='Notas'
-                    type="text"
-                    name="notas"
-                    value={detailMuestra?.notas}
-                    onChange={(e) =>
-                        formik.setFieldValue("notas", e.target.value)
-                      }
-                    //value={studiesDetail?.notas}
-                />}
+             
+                {changeFocus ?
+                <Input
+             
+                //placeholder='Notas'
+                type="text"
+                name="notas"
+                value={formik.values.notas}
+                onChange={(e) =>
+                    formik.setFieldValue("notas", e.target.value)
+                  }
+                  //onFocus={()=>setChangeFocus(false)}
+                //value={study?.notas}
+            />:
+            <div className="chakra-input-style" onClick={()=>setChangeFocus(true)}>
+ <p> {detailMuestra?.notas}</p>
+            </div>
+           
+
+            
+            }
                
             </Grid>
             <Box display={'flex'} justifyContent={'flex-end'} my={'-27px'}>
-            <GeneralButton  text='Procesar' handleClick={handleProcesar} />
+            <GeneralButton  text='Procesar' handleClick={formik.handleSubmit} />
             </Box>
            
            </>}

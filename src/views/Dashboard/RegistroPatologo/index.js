@@ -29,10 +29,12 @@ import MainContext from "context/mainContext/MainContext";
 import CardOverall_ from "components/widgets/Cards/CardOverall";
 import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
 import ModalRegisterInforme from "components/widgets/Modals/ModalRegisterInforme";
+import Container from "components/widgets/utils/Container";
+import { getInformesList } from "api/controllers/informes";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenmuestrasPatologosort} = useContext(MainContext);
+  const { informesp,hiddenInformessortp,setEnableSearch,sethiddenInformessortp} = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const [studies, setStudies] = useState();
   const [study, setStudy] = useState();
@@ -40,7 +42,7 @@ const Dashboard = () => {
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
 
- const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB}= useMuestrasPatologo()
+ const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB,getInformes}= useMuestrasPatologo()
 
   // Iterar sobre los datos y clasificar según la prioridad
   // Clasificar estudios según prioridad
@@ -69,11 +71,29 @@ const Dashboard = () => {
   // modales para las vistas flotantes
 
   useEffect(() => {
+    getInformes()
+    
     getMuestrasPatologoAlta()
     getMuestrasPatologoMedia()
     getMuestrasPatologoBaja()
   }, [])
   
+useEffect(() => {
+  if(hiddenInformessortp){
+  setEnableSearch(false)
+  
+  }
+ 
+  return () => { 
+    setEnableSearch(false)
+   // sethiddenInformessortp(false)
+  }
+}, [hiddenInformessortp])
+
+
+
+ 
+  console.log(muestraALTA);
 
   const toggleModal = (study) => {
     console.log('toggleling')
@@ -191,28 +211,12 @@ const Dashboard = () => {
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
-        <Box
-          margin={{ lg: "50px 0px 0px 20px", sm: "60px 0px 10% 0px" }}
-          w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 235px)" }}
-          height={'auto'}
-          //pb={'50px'}
-          //py={'5px'}
-        // border={'1px'}
-       // pb={'60px'}
-          padding={{ lg: "0 50px 20px 10px", md: "20px", sm: "0px 0 10% 0" }}
-          backgroundColor={"gray.100"}
-          borderTopLeftRadius={"20px"}
-          backgroundSize="cover"
-          backgroundPosition="center"
-          overflowY="hidden"
-          overflowX={{ lg: "hidden", sm: "auto" }}
-          //width={'95%'}
-        >
+        <Container>
          
           
             <Box marginTop={"30px"} width={'100%'}
-        pl={'5px'}>
-          {hiddenmuestrasPatologosort ? (
+            pl={'5px'}>
+          {hiddenInformessortp ? (
             <>
               <CardOverall_Muestra
                 title={"Prioridad Alta"}
@@ -240,21 +244,21 @@ const Dashboard = () => {
                 type="other"
               />
             </>
-          ) : (
-            <CardOverall_
+          ) :  (
+            <CardOverall_Muestra
               title={"Resultados"}
-              content={facturas}
+              content={informesp}
               toggleModal={toggleModal}
-              colorA={colorA}
+              //colorA={colorA}
               //loading={loading}
               type="search"
             />
-          )}
+          ) }
 
         
         </Box>
          
-        </Box>
+        </Container>
 
 
        {/* <Modal

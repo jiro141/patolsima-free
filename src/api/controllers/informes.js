@@ -1,6 +1,7 @@
 import Axios from "api/authApi";
 //post create informes 
-export const postInformes= async (formData,id) => {
+export const postInformes= async (formData) => {
+
     console.log(formData)
     try {
         const response = await Axios.post(`/v1/core/informes/`, formData)
@@ -19,6 +20,16 @@ export const getListInforme= async () => {
         return response.data.results;
     } catch (error) {
         console.log(error);
+    }
+}
+export const putInforme= async (id,data) => {
+    console.log(id,data);
+    try {
+        const response = await Axios.put(`/v1/core/informes/${id}/`,data)
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log(error.message);
     }
 }
 //informe update  
@@ -85,6 +96,15 @@ export const getInformesListConfirm= async () => {
     // console.log(token);
     try {
         const response = await Axios.get(`/v1/core/informes/?aprobado=true`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getInformesList= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/core/informes/`)
         return response.data.results;
     } catch (error) {
         console.log(error);

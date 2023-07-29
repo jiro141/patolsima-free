@@ -20,6 +20,7 @@ import { getInformesDetail } from "api/controllers/informes";
 import { useEffect } from "react";
 import { HistoryInformes } from "api/controllers/informes";
 import { useRef } from "react";
+import { postInformes } from "api/controllers/informes";
 
 
 const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral }) => {
@@ -37,99 +38,199 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
     }, [])
 
   const handleSubmitData = async () => {
-    if (type === 'micro') {
-      const newObj = {
-        estudio: idStudy,
-        descripcion_microscopica: data.data
+   
+
+    if(type==='create'){
+      if (type === 'micro') {
+        const newObj = {
+          estudio: idStudy,
+          descripcion_microscopica: data.data
+        }
+        const res = await postInformes(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha creado con exito!", {
+            autoClose: 1000,
+          });
+          setdataResmicro(res?.descripcion_microscopica)
+          //setdata(res?.descripcion_microscopica)
+          // setInformeDetail('')
+          setShowModalGeneral(false)
+          // setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al crear el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-      const res = await updateInforme(idStudy, newObj)
-      if (res) {
-        toast.success("¡El informe se ha actualizado con exito!", {
-          autoClose: 1000,
-        });
-        setdataResmicro(res?.descripcion_microscopica)
-        //setdata(res?.descripcion_microscopica)
-        // setInformeDetail('')
-        setShowModalGeneral(false)
-        // setShowModal(false)
-      } else {
-        toast.error("¡Hubo un error al actualizar el informe!", {
-          autoClose: 1000,
-        });
+      if (type === 'macro') {
+        const newObj = {
+          estudio: idStudy,
+          descripcion_macroscopica: data.data
+        }
+        const res = await postInformes(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha creado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al crear el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-    }
-    if (type === 'macro') {
-      const newObj = {
-        estudio: idStudy,
-        descripcion_macroscopica: data.data
+      if (type === 'diag') {
+        const newObj = {
+          estudio: idStudy,
+          diagnostico: data.data
+        }
+        const res = await postInformes(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha creado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          // setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al crear el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-      const res = await updateInforme(idStudy, newObj)
-      if (res) {
-        toast.success("¡El informe se ha actualizado con exito!", {
-          autoClose: 1000,
-        });
-        setShowModalGeneral(false)
-        //setShowModal(false)
-      } else {
-        toast.error("¡Hubo un error al actualizar el informe!", {
-          autoClose: 1000,
-        });
+      if (type === 'notas') {
+        const newObj = {
+          estudio: idStudy,
+          notas: data.data
+        }
+        const res = await postInformes(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha creado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al crear el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-    }
-    if (type === 'diag') {
-      const newObj = {
-        estudio: idStudy,
-        diagnostico: data.data
+      if (type === 'bibli') {
+        const newObj = {
+          estudio: idStudy,
+          bibliografia: data.data
+        }
+        const res = await postInformes(idStudy, newObj)
+        console.log('res bibli ->')
+        console.log(res)
+        if (res) {
+          toast.success("¡El informe se ha creado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al crear el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-      const res = await updateInforme(idStudy, newObj)
-      if (res) {
-        toast.success("¡El informe se ha actualizado con exito!", {
-          autoClose: 1000,
-        });
-        setShowModalGeneral(false)
-        // setShowModal(false)
-      } else {
-        toast.error("¡Hubo un error al actualizar el informe!", {
-          autoClose: 1000,
-        });
+    }else{
+      if (type === 'micro') {
+        const newObj = {
+          estudio: idStudy,
+          descripcion_microscopica: data.data
+        }
+        const res = await updateInforme(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha actualizado con exito!", {
+            autoClose: 1000,
+          });
+          setdataResmicro(res?.descripcion_microscopica)
+          //setdata(res?.descripcion_microscopica)
+          // setInformeDetail('')
+          setShowModalGeneral(false)
+          // setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al actualizar el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-    }
-    if (type === 'notas') {
-      const newObj = {
-        estudio: idStudy,
-        notas: data.data
+      if (type === 'macro') {
+        const newObj = {
+          estudio: idStudy,
+          descripcion_macroscopica: data.data
+        }
+        const res = await updateInforme(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha actualizado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al actualizar el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-      const res = await updateInforme(idStudy, newObj)
-      if (res) {
-        toast.success("¡El informe se ha actualizado con exito!", {
-          autoClose: 1000,
-        });
-        setShowModalGeneral(false)
-        //setShowModal(false)
-      } else {
-        toast.error("¡Hubo un error al actualizar el informe!", {
-          autoClose: 1000,
-        });
+      if (type === 'diag') {
+        const newObj = {
+          estudio: idStudy,
+          diagnostico: data.data
+        }
+        const res = await updateInforme(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha actualizado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          // setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al actualizar el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-    }
-    if (type === 'bibli') {
-      const newObj = {
-        estudio: idStudy,
-        bibliografia: data.data
+      if (type === 'notas') {
+        const newObj = {
+          estudio: idStudy,
+          notas: data.data
+        }
+        const res = await updateInforme(idStudy, newObj)
+        if (res) {
+          toast.success("¡El informe se ha actualizado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al actualizar el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
-      const res = await updateInforme(idStudy, newObj)
-      console.log('res bibli ->')
-      console.log(res)
-      if (res) {
-        toast.success("¡El informe se ha actualizado con exito!", {
-          autoClose: 1000,
-        });
-        setShowModalGeneral(false)
-        //setShowModal(false)
-      } else {
-        toast.error("¡Hubo un error al actualizar el informe!", {
-          autoClose: 1000,
-        });
+      if (type === 'bibli') {
+        const newObj = {
+          estudio: idStudy,
+          bibliografia: data.data
+        }
+        const res = await updateInforme(idStudy, newObj)
+        console.log('res bibli ->')
+        console.log(res)
+        if (res) {
+          toast.success("¡El informe se ha actualizado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al actualizar el informe!", {
+            autoClose: 1000,
+          });
+        }
       }
     }
 
