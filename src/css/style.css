@@ -187,10 +187,80 @@
     border:1px solid #e6e6e6;
     border-radius:6px;
     padding:10px;
-    margin-top:2%;
-    
-    
+    margin-top:2%;  
   
+  }
+  .options{
+    position: relative;
+    top: -50px;
+    left: -3px;
+      padding:20px ;
+      border-radius: 10px;
+      background: #fff;
+      margin-top: 10px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 200px;
+   width: 270px;
+   z-index: 100;
+ 
+  }
+  .container {
+    max-height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Ocultar el scroll de Firefox */
+    -ms-overflow-style: none; /* Ocultar el scroll de IE/Edge */
+  }
+  
+  .container::-webkit-scrollbar {
+    display: none; /* Ocultar el scroll de Chrome/Safari/Opera */
+  } 
+  .options::-webkit-scrollbar-track {
+    border-radius: 10px;
+    padding: 2px 0;
+    background-color: white;
+  }
+  
+  .options::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 10px;
+   
+  }
+  .options::-webkit-scrollbar-thumb {
+   border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background: #9e9e9e;
+  
+  }
+  
+   .option{
+    display: flex;
+   /* height:60px ;*/
+    width: '100%';
+    align-items: center;
+    cursor: pointer;
+    align-items: center;
+    padding: 10px 10px;
+    border-radius: 8px;
+    background: #fff;
+  margin-bottom: 1rem;
+  text-align: start;
+  }
+  
+  
+  .option.option:hover{
+    background: #EDF2F7;
+  }
+  
+  .option i {
+    font-size: 15px;
+    margin-right: 12px;
+  }
+  .option .option-text{
+    font-size: 15px;
+    margin-left: 5px;
+    color: #333;
   }
   .btnPrint{
     width: 50%;

@@ -50,6 +50,7 @@ import { Title, subTitleBold, Titlelight } from "components/widgets/Texts";
 import GeneralButton from "components/widgets/Buttons/GeneralButton";
 import { postMuestra } from "api/controllers/estudios";
 import { TitleBig } from "components/widgets/Texts";
+import { TitleBigW } from "components/widgets/Texts";
 const Muestra2 = () => {
   const {
     estudioID,
@@ -204,10 +205,13 @@ const Muestra2 = () => {
   }
   return (
     <div style={{ height: "auto" }}>
-     <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
-      <TitleBig
-            title={'Estudio #2'}
+      <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
+        <Box display={'flex'} justifyContent={'center'} alignItems={'center'} backgroundColor={'#137797'} p={'10px'} borderRadius={'100%'} width={'50px'} height={'50px'}>
+        <TitleBigW
+            title={'2'}
           />
+        </Box>
+      
       </Box>
       <form>
         <Grid marginY={'15px'} templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{ lg: "100px", md: '20px', sm: '15px' }} >

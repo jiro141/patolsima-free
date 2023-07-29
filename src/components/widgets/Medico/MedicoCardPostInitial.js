@@ -43,6 +43,7 @@ import { putMedicos } from "api/controllers/medicos";
 import { BackStation, NextStation } from "../Buttons/NextStation";
 import { useMedicos } from "hooks/Medicos/useMedicos";
 import { Title, Titlelight, SubTitlelight } from "../Texts";
+import PhoneInputOverall from "../Inputs/PhoneInputOverall";
 
 // iconname-->BsArrowRightCircle 
 //nombre del label  saltar etapa
@@ -61,6 +62,10 @@ const MedicoCardPostInitial = ({
   const [Busqueda, setBusqueda] = useState("");
   const [medicoName, setMedicoName] = useState("");
   const [especialidad, setEspecialidad] = useState("");
+  const [countryCode, setCountryCode] = useState('ve');
+  const [numberCode, setNumberCode] = useState('58');
+  const [selectMedico, setSelectMedico] = useState('');
+  
   //modal confirmacion eliminacion
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const {
@@ -213,6 +218,7 @@ const MedicoCardPostInitial = ({
       telefono_celular: medico?.telefono_celular,
       email: medico?.email,
     });
+    setSelectMedico(medico?.telefono_celular)
     try {
       const medicosDetail = await getMedicosDetail(medico.id);
       setRegistro(medicosDetail);
@@ -292,7 +298,7 @@ const MedicoCardPostInitial = ({
             errors={formik.errors.email}
           />
 
-          <InputOverall
+         {/* <InputOverall
             name="Telefono"
             value={formik.values.telefono_celular}
             placeholder="Telefono de Contacto:"
@@ -300,7 +306,35 @@ const MedicoCardPostInitial = ({
               formik.setFieldValue("telefono_celular", e.target.value)
             }
             errors={formik.errors.telefono_celular}
-          />
+          />*/}
+           
+             {selectMedico ?
+          <div>
+           <InputOverall
+              name="Telefono"
+              value={formik.values.telefono_celular}
+              //placeholder="Telefono de Contacto:"
+              onChange={(e) =>
+                formik.setFieldValue("telefono_celular", e.target.value)
+              }
+              errors={formik.errors.telefono_celular}
+            />
+          
+          </div>:
+          <PhoneInputOverall name="Telefono" 
+             value={formik.values.telefono_celular}
+             onChange={(e) =>
+              formik.setFieldValue("telefono_celular", e.target.value)
+            }
+            numberCode={numberCode}
+             setNumberCode={setNumberCode}
+            countryCode={countryCode}
+            setCountryCode={setCountryCode}
+             errors={formik.errors.telefono_celular}
+             placeholder="4247423185"
+            />
+        
+        }
         </Grid>
       </form>
 

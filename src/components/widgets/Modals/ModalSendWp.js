@@ -22,14 +22,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { generateInformeCompletePdf } from "api/controllers/informes";
 
 export default function ModalSendWp({ isOpen, setOpenModal, type, text,pdfContent,detailEstudio }) {
-  console.log(detailEstudio);
+  console.log(detailEstudio?.medico_tratante?.telefono_celular);
  
  
   const handleSendMessage = async() => {
   const res=await  generateInformeCompletePdf(detailEstudio?.id)
   
   if(res){
-    const phoneNumber = '+584247423183'; 
+    const phoneNumber = detailEstudio?.paciente?.telefono_celular ? detailEstudio?.paciente?.telefono_celular :'+584247423183'; 
     const message = `Desde Laboratorios Patolsima le informamos que el estudio ${detailEstudio?.codigo} del paciente ${detailEstudio?.paciente?.nombres} ${detailEstudio?.paciente?.apellidos}, CI ${detailEstudio?.paciente?.ci
     } , ha sido completado, y puede acceder a él a través del siguiente link:${res.uri} `; 
     const url = `https://api.whatsapp.com/send?phone=${encodeURIComponent(phoneNumber)}&text=${encodeURIComponent(message)}`;

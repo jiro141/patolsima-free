@@ -1,3 +1,5 @@
+import { getInformesListConfirm } from "api/controllers/informes";
+import { getInformesListNotConfirm } from "api/controllers/informes";
 import { getListInforme } from "api/controllers/informes";
 import MainContext from "context/mainContext/MainContext";
 import { useContext } from "react";
@@ -22,10 +24,12 @@ export function useInformes() {
       const informeList = await getListInforme();
       setInformes(informeList);  
       setfilteredInforme(informeList)
-      const completados = informeList.filter((item) => item.completado === true);
-      setInformesCompletados(completados);
-      const Nocompletados = informeList.filter((item) => item.completado === false);
-      setInformesNoCompletados(Nocompletados);
+     
+      
+    //  const completados = informeList.filter((item) => item.completado === true);
+     // setInformesCompletados(completados);
+    //  const Nocompletados = informeList.filter((item) => item.completado === false);
+     // setInformesNoCompletados(Nocompletados);
    
      // console.log(facturasList);
     } catch (error) {
@@ -34,20 +38,33 @@ export function useInformes() {
       setloading(false);
     }
   }, []);
-  console.log(informesCompletados);
- /* const getCambios = useCallback(async () => {
+
+  const getInformesConfirm = useCallback(async () => {
     try {
-      setloadingCambio(true);
-      seterrorC(null);
-      const Cambio = await getCambio();
-      setCambioDelDia(Cambio)
+      const ListConfirm = await getInformesListConfirm();
+      
+      setInformesCompletados(ListConfirm)
     } catch (error) {
-      seterrorC(error.message);
+      //seterror(error.message);
     } finally {
-      setloadingCambio(false);
+      // setloading(false);
     }
-  }, []);*/
+  }, []);
+
+  const getInformesNotConfirm = useCallback(async () => {
+    try {
+      const ListConfirm = await getInformesListNotConfirm();
+      
+      setInformesNoCompletados(ListConfirm)
+    } catch (error) {
+      //seterror(error.message);
+    } finally {
+      // setloading(false);
+    }
+  }, []);
+  console.log(informesCompletados);
+
  
 
-  return {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error,setInformes};
+  return {informes,getInformes,informesCompletados,informesNoCompletados,filteredInforme,loading,error,setInformes,getInformesNotConfirm,getInformesConfirm};
 }

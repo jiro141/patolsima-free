@@ -13,7 +13,8 @@ import {
     ModalHeader,
     ModalBody,
     CloseButton,
-    Badge
+    Badge,
+    Tooltip
 } from "@chakra-ui/react";
 import ModalDescripcion from "./ModalDescripcion";
 import { Titlelight } from "components/widgets/Texts";
@@ -84,7 +85,8 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
     }, [])
     
     const handleSubmitGenerateInfor=async()=>{
-        if(detailEstudio.envio_digital){
+      if(detailEstudio){
+        if(detailEstudio?.envio_digital){
             setShowModalSendWp(true)
             const res=await completeInforme(detailEstudio.id)
             console.log('res complete informe -->');
@@ -100,6 +102,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                 autoClose: 1000,
             });
         }
+      }
 
        
        
@@ -111,7 +114,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
     }
    
   
-    console.log(detailEstudio.id)
+    console.log(detailEstudio)
     //console.log(detailEstudio.envio_digital)
     //tamaños de modal
     const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -273,11 +276,18 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                             <option hidden colorScheme="gray.400">Informes anteriores</option>
                             {historyMap.map((estudio, index) => (
         <option key={index} value={estudio.estudio_id}>
-          {estudio.estudio_tipo} - {estudio.estudio_codigo}
+           {estudio.estudio_codigo}
         </option>
       ))}                          
                         </Select>}
-
+                        { historyMap &&  <Select width={'100%'} color="gray.400" defaultValue="Informes anteriores">
+                            <option hidden colorScheme="gray.400">Anexos</option>
+                            {historyMap.map((estudio, index) => (
+        <option key={index} value={estudio.estudio_id}>
+           {estudio.estudio_codigo}
+        </option>
+      ))}                          
+                        </Select>}
                        
                     </Grid>
                 </Box>
@@ -316,13 +326,29 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                         />
                         <GeneralButton text={'Vista previa'} handleClick={generarPdf} />
               
-            {  <GeneralButton 
+            { /* <GeneralButton 
               type={'withTooltip'}
               
               disabled={detailEstudio.envio_digital ? false :true}
-               text={'Generar'} handleClick={handleSubmitGenerateInfor} />}
-                        
+                            text={'Generar'} handleClick={handleSubmitGenerateInfor} />*/}
+                         <Tooltip label={'Para generar el informe la orden deber estar totalmente pagada y aprobada.'}>
+                         <Button
+                         disabled={detailEstudio?.envio_digital ? false : true}
+       size="auto"
+       padding={'10px'}
+         marginX={"10px"}
+         marginY={"30px"}
+         color={"whiteAlpha.900"}
+         borderColor={"gray.400"}
+         background={"#137797"}
+         borderRadius={"20px"}
+          onClick={handleSubmitGenerateInfor}
+        >
+          Generar
+        </Button>
 
+                         </Tooltip>
+                    
                     </Box>
                     
 
@@ -357,36 +383,36 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
             </Modal>*/}
             <ModalCreateNotes
             setShowModal={setShowModal}
-            titulo={'Descripción microscópica'} toggleModal={toggleModal} showModal={showModal} informeDetail={informeDetail} idStudy={detailEstudio.id} type='micro'setInformeDetail={setInformeDetail} 
+            titulo={'Descripción microscópica'} toggleModal={toggleModal} showModal={showModal} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='micro'setInformeDetail={setInformeDetail} 
             setShowModalGeneral={setShowModalGeneral}
             />
 
             <ModalCreateNotes
             setShowModal={setShowModalMacro}
-            titulo={'Descripción macroscópica'} toggleModal={toggleModalM} showModal={showModalMacro} informeDetail={informeDetail} idStudy={detailEstudio.id} type='macro'
+            titulo={'Descripción macroscópica'} toggleModal={toggleModalM} showModal={showModalMacro} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='macro'
             setShowModalGeneral={setShowModalGeneral}
             />
 
             <ModalCreateNotes
             setShowModal={setShowModalDiag}
-            titulo={'Descripción diagnóstico'} toggleModal={toggleModalD} showModal={showModalDiag} informeDetail={informeDetail} idStudy={detailEstudio.id} type='diag'
+            titulo={'Descripción diagnóstico'} toggleModal={toggleModalD} showModal={showModalDiag} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='diag'
             setShowModalGeneral={setShowModalGeneral} />
            
             <ModalCreateNotes
             setShowModal={setShowModalNotas}
-            titulo={'Notas'} toggleModal={toggleModalN} showModal={showModalNotas} informeDetail={informeDetail} idStudy={detailEstudio.id} type='notas'
+            titulo={'Notas'} toggleModal={toggleModalN} showModal={showModalNotas} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='notas'
             setShowModalGeneral={setShowModalGeneral}
             />
 
         <ModalCreateNotes
             setShowModal={setShowModalBibli}
-            titulo={'Biblografía'} toggleModal={toggleModalB} showModal={showModalBibli} informeDetail={informeDetail} idStudy={detailEstudio.id} type='bibli'
+            titulo={'Biblografía'} toggleModal={toggleModalB} showModal={showModalBibli} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='bibli'
             setShowModalGeneral={setShowModalGeneral}
             />
 
 <ModalCreateNotes
             setShowModal={setShowModalRegister}
-            titulo={'Registro de cambios'} toggleModal={toggleModalR} showModal={showModalRegister} informeDetail={informeDetail} idStudy={detailEstudio.id} type='register'
+            titulo={'Registro de cambios'} toggleModal={toggleModalR} showModal={showModalRegister} informeDetail={informeDetail} idStudy={detailEstudio?.id} type='register'
             //setShowModalGeneral={setShowModalGeneral}
             />
 <ModalSendWp detailEstudio={detailEstudio} isOpen={showModalSendWp} setOpenModal={setShowModalSendWp} />

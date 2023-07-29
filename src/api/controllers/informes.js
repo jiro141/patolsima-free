@@ -81,7 +81,24 @@ export const generateInformeCompletePdf= async (id) => {
         console.log(error);
     }
 }
-
+export const getInformesListConfirm= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/core/informes/?aprobado=true`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getInformesListNotConfirm= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/core/informes/?aprobado=false`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
 //aprobar informe (admin)
 export const aprobarInforme= async (id) => {
 
