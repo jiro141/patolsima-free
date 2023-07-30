@@ -121,6 +121,7 @@ export default function FilteredDataModal({
                           tBodyData={tBodyData}
                           handleSelectTBody={handleSelectTBody}
                           handleSelectIcon={handleSelectIcon}
+                          
                         />
                       ) : (
                         <NotFound desc={"No se encontraron los resultados"} />

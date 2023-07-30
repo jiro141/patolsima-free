@@ -214,8 +214,9 @@ const Dashboard = () => {
             />
           )}
 
-          <ShowMoreButton setAbonarSend={setAbonarSend} handleClick={toggleModalList} />
+          <ShowMoreButton  handleClick={toggleModalList} />
         </Box>
+
       </Container>
       
       
@@ -329,6 +330,7 @@ const Dashboard = () => {
         handleSelectTBody={handleSelectTBody}
         handleSelectIcon={toggleModalConfirmacion}
         type="facturas"
+        // setAbonarSend={setAbonarSend}
       />
     </>
   ) : (

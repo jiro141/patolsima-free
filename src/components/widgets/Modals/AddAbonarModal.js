@@ -44,107 +44,107 @@ export default function AddAbonarModal({
     getCambios,
     cambioDelDia,
   } = useFacturas();
- 
-  useEffect(() => { 
-      getCambios();
+
+  useEffect(() => {
+    getCambios();
   }, []);
 
   const [idPago, setIdPago] = useState('');
 
   const handleSubmit = async () => {
-   // 
-if(selectedOption === 'dolar'){
-  const newObj = {
-    orden: facturasDetail.id,
-    monto_usd: valueInput,
-  };
- 
-  try {
-    const sendAbonar = await postAbonar(newObj);
-    //console.log(sendAbonar);
-    if (sendAbonar) {
-      toast.success("¡El abono fue guardado correctamente!", {
-        autoClose: 1000,
-      });
-      setIdPago(sendAbonar.id)
-     
-      setShowModal(false);
-      setOpenModalPago(true)
-      setAbonarSend(true)
-      //getStudyDetail()
+    // 
+    if (selectedOption === 'dolar') {
+      const newObj = {
+        orden: facturasDetail.id,
+        monto_usd: valueInput,
+      };
+
+      try {
+        const sendAbonar = await postAbonar(newObj);
+        //console.log(sendAbonar);
+        if (sendAbonar) {
+          toast.success("¡El abono fue guardado correctamente!", {
+            autoClose: 1000,
+          });
+          setIdPago(sendAbonar.id)
+
+          setShowModal(false);
+          setOpenModalPago(true)
+          setAbonarSend(true)
+          //getStudyDetail()
+        } else {
+          toast.error("¡Hubo un error al abonar la factura!", {
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        toast.error(error.menssage, {
+          autoClose: 1000,
+        });
+      }
+
+
     } else {
-      toast.error("¡Hubo un error al abonar la factura!", {
-        autoClose: 1000,
-      });
+
+
+      ///bolivares
+      let dolarValue = valueInputBs / cambioDelDia
+
+      const newObj = {
+        orden: facturasDetail.id,
+        monto_usd: parseInt(dolarValue),
+      };
+
+      try {
+        const sendAbonar = await postAbonar(newObj);
+        //console.log(sendAbonar);
+        if (sendAbonar) {
+          toast.success("¡El abono fue guardado correctamente!", {
+            autoClose: 1000,
+          });
+          setIdPago(sendAbonar.id)
+
+          setShowModal(false);
+          setOpenModalPago(true)
+          setAbonarSend(true)
+          //getStudyDetail()
+        } else {
+          toast.error("¡Hubo un error al abonar la factura!", {
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        toast.error(error.menssage, {
+          autoClose: 1000,
+        });
+      }
+
     }
-  } catch (error) {
-    toast.error(error.menssage, {
-      autoClose: 1000,
-    });
-  }
 
 
-}else{
-
-
-  ///bolivares
-let dolarValue= valueInputBs/cambioDelDia
-
-  const newObj = {
-    orden: facturasDetail.id,
-    monto_usd:parseInt(dolarValue),
   };
- 
-  try {
-    const sendAbonar = await postAbonar(newObj);
-    //console.log(sendAbonar);
-    if (sendAbonar) {
-      toast.success("¡El abono fue guardado correctamente!", {
-        autoClose: 1000,
-      });
-      setIdPago(sendAbonar.id)
-     
-      setShowModal(false);
-      setOpenModalPago(true)
-      setAbonarSend(true)
-      //getStudyDetail()
+  const generarReciboPago = async () => {
+    const resPago = await getNotadePago(idPago)
+    if (resPago) {
+      setPdfContent(resPago.uri)
+
     } else {
-      toast.error("¡Hubo un error al abonar la factura!", {
-        autoClose: 1000,
-      });
+      return
     }
-  } catch (error) {
-    toast.error(error.menssage, {
-      autoClose: 1000,
-    });
-  }
-
-}
-    
-
-  };
-  const generarReciboPago=async()=>{
-    const resPago= await  getNotadePago(idPago)
-    if(resPago){
-    setPdfContent(resPago.uri)
-    
-    }else{
-        return
-       }
   }
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
   console.log(selectedOption);
-  
+
   useEffect(() => {
-    if(openModalPago){
+    if (openModalPago) {
       generarReciboPago()
-   
-   
+
+
     }
   }, [openModalPago])
-  
+
   //console.log(facturasDetail);
   return (
     <Modal size={"sm"} maxWidth="100%" isOpen={isOpen}>
@@ -156,25 +156,25 @@ let dolarValue= valueInputBs/cambioDelDia
         borderRadius={"20px"}
       >
         <ModalHeader>
-                        <Button
-                            borderRadius={'50%'}
-                            colorScheme="blue"
-                            width="40px"
-                            height="40px"
-                            marginLeft={'92%'}
-                            marginTop={'-60px'}
-                            bgColor={'#137797'}
-                            color='#ffff'
-                           onClick={()=>setShowModal(false)}
-                           >
-                            <CloseButton />
-                        </Button>
-                    </ModalHeader>
+          <Button
+            borderRadius={'50%'}
+            colorScheme="blue"
+            width="40px"
+            height="40px"
+            marginLeft={'92%'}
+            marginTop={'-80px'}
+            bgColor={'#137797'}
+            color='#ffff'
+            onClick={() => setShowModal(false)}
+          >
+            <CloseButton />
+          </Button>
+        </ModalHeader>
         <ModalBody>
           <Box marginTop={"-50px"} >
-           
+
             <Box display={'flex'} width={'100%'} justifyContent={'center'}>
-            <Title title={'¿Cuánto desea abonar?'} />
+              <Title title={'¿Cuánto desea abonar?'} />
             </Box>
             <Grid
               margin={"10px 0 10px 0"}
@@ -184,43 +184,43 @@ let dolarValue= valueInputBs/cambioDelDia
               <Box>
                 <Text textAlign="center">Monto total: </Text>
               </Box>
-             { <Box>
+              {<Box>
                 <Text textAlign="center">
                   <Badge>
                     {facturasDetail ? facturasDetail?.balance.por_pagar_usd : ""}{" "}
                     $ -
                   </Badge>
-                  <Badge>{facturasDetail ? facturasDetail?.balance.por_pagar_bs: ''}Bs</Badge>
+                  <Badge>{facturasDetail ? facturasDetail?.balance.por_pagar_bs : ''}Bs</Badge>
                 </Text>
               </Box>}
             </Grid>
             <Grid gap={"3px"} templateColumns={"1.5fr 2fr"}>
               <Box width={"100%"}>
-               { <Text textAlign={"left"}>Monto a abonar:</Text>}
+                {<Text textAlign={"left"}>Monto a abonar:</Text>}
               </Box>
               <Grid
                 margin={"10px 0 10px 0"}
                 gap={"5px"}
                 templateColumns={"1fr 1fr"}
               >
-             
-               {selectedOption === 'dolar'?
-                <Input
-                  marginTop={"-5px"}
-                  maxH={"60%"}
-                  value={valueInput}
-                  onChange={(e) => setvalueInput(e.target.value)}
-                /> : 
-                
-                <Input
-                marginTop={"-5px"}
-                maxH={"60%"}
-                value={valueInputBs}
-                onChange={(e) => setvalueInputBs(e.target.value)}
-              />
+
+                {selectedOption === 'dolar' ?
+                  <Input
+                    marginTop={"-5px"}
+                    maxH={"60%"}
+                    value={valueInput}
+                    onChange={(e) => setvalueInput(e.target.value)}
+                  /> :
+
+                  <Input
+                    marginTop={"-5px"}
+                    maxH={"60%"}
+                    value={valueInputBs}
+                    onChange={(e) => setvalueInputBs(e.target.value)}
+                  />
                 }
                 <Select
-                value={selectedOption}
+                  value={selectedOption}
                   width={"100px"}
                   style={{ border: "1px solid" }}
                   marginTop={"-8px"}
@@ -231,8 +231,8 @@ let dolarValue= valueInputBs/cambioDelDia
                   color="whiteAlpha.900"
                   onChange={handleSelectChange}
                 >
-                  <option value={'dolar'}   style={{ color: "black" }}>Dólar</option>
-                  <option value={'bolivar'}  style={{ color: "black" }}>Bolivar</option>
+                  <option value={'dolar'} style={{ color: "black" }}>Dólar</option>
+                  <option value={'bolivar'} style={{ color: "black" }}>Bolivar</option>
                 </Select>
               </Grid>
             </Grid>

@@ -37,14 +37,14 @@ import Container from "components/widgets/utils/Container";
 
 
 const Dashboard = () => {
-  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes,getInformesNotConfirm,getInformesConfirm } = useInformes()
+  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
   useEffect(() => {
     getInformes();
   }, []);
   const [Busqueda, setBusqueda] = useState("");
   const [idInforme, setIdInforme] = useState("");
   const [detailEstudio, setdetailEstudio] = useState([]);
-  const [detailInforme, setInformeDetail] = useState([]);
+  const [detailInforme, setInformeDetail] = useState();
   console.log(informesCompletados);
   useEffect(() => {
     getInformes();
@@ -75,13 +75,13 @@ const Dashboard = () => {
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
-  const handleSelectInforme = async (id) => {
-    const res = await getInformesDetail(id)
-    setInformeDetail(res)
-    setIdInforme(id)
-    const resStudyDetail = await getStudiesDetail(id)
-    setdetailEstudio(resStudyDetail)
+  const handleSelectInforme = async (study) => {
     setShowModal(!showModal);
+    // const res = await getInformesDetail(study)
+    setInformeDetail(study)
+    setIdInforme(study)
+    const resStudyDetail = await getStudiesDetail(study.estudio_id)
+    setdetailEstudio(resStudyDetail)
   }
   return (
     <>
@@ -105,7 +105,7 @@ const Dashboard = () => {
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
                     <Td textAlign={'center'}>
-                      <Link  onClick={() => toggleModal(study)}>
+                      <Link onClick={() => toggleModal(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
@@ -115,12 +115,12 @@ const Dashboard = () => {
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
                     <Td textAlign={'center'} style={{ width: '15%' }}>
-                      <Link  onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
                     <Td textAlign={'center'} >
-                      <Link  onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
-                          ? study?.estudio_patologo_name.substring(0, 10) + "..."
-                          : study?.estudio_patologo_name}</Link>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
+                        ? study?.estudio_patologo_name.substring(0, 10) + "..."
+                        : study?.estudio_patologo_name}</Link>
                     </Td>
                   </Tr>
                 ))
@@ -145,7 +145,7 @@ const Dashboard = () => {
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
                     <Td textAlign={'center'}>
-                      <Link  onClick={() => toggleModal(study)}>
+                      <Link onClick={() => toggleModal(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
@@ -155,12 +155,12 @@ const Dashboard = () => {
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
                     <Td textAlign={'center'} style={{ width: '15%' }}>
-                      <Link  onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
                     <Td textAlign={'center'} >
-                      <Link  onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
-                          ? study?.estudio_patologo_name.substring(0, 10) + "..."
-                          : study?.estudio_patologo_name}</Link>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
+                        ? study?.estudio_patologo_name.substring(0, 10) + "..."
+                        : study?.estudio_patologo_name}</Link>
                     </Td>
                   </Tr>
                 ))
@@ -177,6 +177,7 @@ const Dashboard = () => {
         handleSelectIcon={toggleModalConfirmacion}
         loading={loading}
         handleBusquedaChange={handleBusquedaChange}
+        handleSelectTBody={detailEstudio}
 
       />
       <Modal
@@ -202,8 +203,8 @@ const Dashboard = () => {
           </ModalHeader>
           <ModalBody>
             <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme}
-                setInformeDetail={setInformeDetail}
-                setShowModalGeneral={setShowModal}
+              setInformeDetail={setInformeDetail}
+              setShowModalGeneral={setShowModal}
             />
           </ModalBody>
         </ModalContent>
