@@ -91,7 +91,7 @@ console.log(study.cliente.id);
    if(res){
      //setsearchResult(res[0].cliente)
      setsearchResult(true)
-     console.log(res[0].cliente);
+    //  console.log(res[0].cliente);
      const resDetail = await getFacturasDetail(study.id)
      console.log(resDetail);
     formik.setValues({

@@ -40,7 +40,7 @@ const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenFactssort, archived, setArchived,
     idSelectItem, setidSelectItem,
-    enablefactModalDetails, setEnablefactModalDetails,ordenId
+    enablefactModalDetails, setEnablefactModalDetails, ordenId
   } = useContext(MainContext);
   const history = useHistory();
   const colorA = "#137797";
@@ -98,7 +98,7 @@ const Dashboard = () => {
   const [showModalFromRe, setShowModalFromRe] = useState(false);
   const [newIdOrder, setNewIdOrder] = useState([]);
   //setNewIdOrder
- 
+
   const toggleModal = (study) => {
     setShowModal(!showModal);
     setStudy(study);
@@ -152,28 +152,28 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);   
-    const param1Value = urlParams.get("param1");  
-    if(param1Value=== 'ordenId'){
-      const sendIds=async()=>{
-       const res= await  getFacturasListNoConfirm();
-       if(res){
-       setNewIdOrder(res[0]);
-       setShowModalFromRe(true)
-       }
-      }    
-      sendIds()   
+    const urlParams = new URLSearchParams(window.location.search);
+    const param1Value = urlParams.get("param1");
+    if (param1Value === 'ordenId') {
+      const sendIds = async () => {
+        const res = await getFacturasListNoConfirm();
+        if (res) {
+          setNewIdOrder(res[0]);
+          setShowModalFromRe(true)
+        }
+      }
+      sendIds()
     }
-    
+
 
   }, []);
 
-  const handleCloseFromR=()=>{
+  const handleCloseFromR = () => {
     history.push('/admin/Facturacion');
     setShowModalFromRe(false)
     //window.location.reload();
   }
- 
+
   return modoVisualizacion === "tarjeta" ? (
     <>
       <Container>
@@ -214,15 +214,15 @@ const Dashboard = () => {
             />
           )}
 
-          <ShowMoreButton  handleClick={toggleModalList} />
+          <ShowMoreButton handleClick={toggleModalList} />
         </Box>
 
       </Container>
-      
-      
-      
-      
-      
+
+
+
+
+
       <Modal
         size={size}
         maxWidth="100%"
@@ -247,7 +247,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ study } abonarSend={abonarSend} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={study} abonarSend={abonarSend} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -276,7 +276,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModalFromRe} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ newIdOrder } abonarSend={abonarSend} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModalFromRe} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={newIdOrder} abonarSend={abonarSend} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -305,13 +305,13 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion abonarSend={abonarSend} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem } />
+            <ModalFacturacion setAbonarSend={setAbonarSend} abonarSend={abonarSend} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem} />
           </ModalBody>
         </ModalContent>
       </Modal>
 
 
-     
+
       <DeleteModal
         isOpen={showModalConfirmacion}
         onClose={toggleModalConfirmacion}

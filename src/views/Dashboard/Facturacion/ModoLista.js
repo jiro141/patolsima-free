@@ -142,8 +142,8 @@ const Dashboard = () => {
   // const [showModal, setShowModal] = useState(false);
   const toggleModal = (study) => {
     console.log(study);
-    setShowModal(!showModal);
-    setStudy(study);
+    setEnablefactModalDetails(!enablefactModalDetails);
+    setidSelectItem(study);
   };
   // // const [showModalList, setShowModalList] = useState(false);
   // const toggleModalList = () => {
@@ -185,7 +185,7 @@ const Dashboard = () => {
       //toast.error(error.message, { autoClose: 1000 });
     }
   };
-  console.log(facturasNoConfirmadas)
+  // console.log(facturasNoConfirmadas)
   return (
     <>
       <Container
@@ -226,7 +226,6 @@ const Dashboard = () => {
           </TableOrders_Pendientes>
 
           <TableOrders_Confirmadas>
-
             <Tbody>
               {facturasConfirmadas.map((study) => (
                 <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
@@ -261,8 +260,8 @@ const Dashboard = () => {
       <Modal
         size={size}
         maxWidth='100%'
-        isOpen={showModal}
-        onClose={toggleModal}>
+        isOpen={enablefactModalDetails}
+        onClose={() => setEnablefactModalDetails(false)}>
         <ModalOverlay />
         <ModalContent borderRadius={"20px"} bg="#ffff">
           <ModalHeader>
@@ -275,25 +274,26 @@ const Dashboard = () => {
               marginTop={'-60px'}
               bgColor={'#137797'}
               color='#ffff'
-              onClick={toggleModal}>
+              onClick={() => setEnablefactModalDetails(false)}>
               <CloseButton />
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ study } abonarSend={abonarSend} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ idSelectItem } abonarSend={abonarSend} />
           </ModalBody>
         </ModalContent>
       </Modal>
       <FilteredDataModal
-        isOpenModal={showModalList}
-        isToggleModal={toggleModalList}
-        Busqueda={Busqueda}
-        handleBusquedaChange={handleBusquedaChange}
-        thData={thValuesFacturas}
-        tBodyData={searchFacturas}
-        handleSelectTBody={handleSelectTBody}
-        handleSelectIcon={toggleModalConfirmacion}
-        type="facturas"
+         isOpenModal={showModalList}
+         isToggleModal={toggleModalList}
+         Busqueda={Busqueda}
+         handleBusquedaChange={handleBusquedaChange}
+         thData={thValuesFacturas}
+         tBodyData={searchFacturas}
+         handleSelectTBody={handleSelectTBody}
+         handleSelectIcon={toggleModalConfirmacion}
+         type="facturas"
+         setAbonarSend={setAbonarSend}
       />
       <DeleteModal
         isOpen={showModalConfirmacion}

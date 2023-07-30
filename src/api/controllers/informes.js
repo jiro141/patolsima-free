@@ -199,12 +199,38 @@ export const HistoryInformes= async (id) => {
 
 
 
-export const deleteInforme = async () => {
+export const deleteInforme = async (id) => {
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.delete(`/v1/core/informes/${id}/`);
         console.log(response);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+//filtros para administrador
+export const getInformesCompletados = async () => {
+    const token = localStorage.getItem("access");
+    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    try {
+        const response = await Axios.get('/v1/core/informes/?completado=true&aprobado=false');
+        console.log(response);
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getInformesNoCompletados = async () => {
+    const token = localStorage.getItem("access");
+    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    try {
+        const response = await Axios.get('/v1/core/informes/?completado=false&aprobado=false');
+        console.log(response);
+        return response.data.results;
     } catch (error) {
         console.log(error);
     }

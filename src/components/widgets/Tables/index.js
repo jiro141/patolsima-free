@@ -322,10 +322,10 @@ export function TRI({
 }) {
   const { setidSelectId, setEnableInfoModalDetails } = useContext(MainContext)
   console.log(tBodyData);
-  // const handleSelectIcon = (bills) => {
-  //   setidSelectId(bills)
-  //   setEnableInfoModalDetails(true)
-  // }
+  const handleClickItem = (bills) => {
+    setidSelectId(bills)
+    setEnableInfoModalDetails(true)
+  }
   return (
     <Tbody >
       {tBodyData &&
@@ -338,7 +338,7 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills)}
+              onClick={() => handleClickItem(bills)}
               fontSize={'14px'}
             >
               {bills.estudio_codigo}
@@ -351,7 +351,7 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills)}
+              onClick={() => handleClickItem(bills)}
               fontSize={'14px'}
             >
               {formatDate(bills.created_at)}
@@ -364,7 +364,7 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills)}
+              onClick={() => handleClickItem(bills)}
               fontSize={'14px'}
             >
 
@@ -379,7 +379,7 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills)}
+              onClick={() => handleClickItem(bills)}
               fontSize={'14px'}
             >
               {bills.estudio_paciente_ci}
@@ -393,7 +393,7 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills)}
+              onClick={() => handleClickItem(bills)}
               fontSize={'14px'}
             >
               {bills.estudio_tipo}
@@ -405,7 +405,7 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills)}
+              onClick={() => handleClickItem(bills)}
               fontSize={'14px'}
             >
               {bills.estudio_patologo_name}
@@ -418,7 +418,7 @@ export function TRI({
               borderBottom="1px solid"
               borderBottomColor="gray.500"
               onClick={() =>
-                handleClickItem(bills)
+                handleSelectIcon(bills)
               }
             >
               <BsFillTrashFill color="#137797" />
@@ -479,6 +479,7 @@ export function TABLE_FACTURAS({
   tBodyData,
   handleSelectTBody,
   handleSelectIcon,
+  setAbonarSend
 }) {
   return (
     <Table variant="simple">
@@ -489,6 +490,7 @@ export function TABLE_FACTURAS({
         tBodyData={tBodyData}
         handleSelectTBody={handleSelectTBody}
         handleSelectIcon={handleSelectIcon}
+        setAbonarSend={setAbonarSend}
       />
     </Table>
   );
