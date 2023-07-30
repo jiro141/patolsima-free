@@ -55,21 +55,6 @@ const Dashboard = () => {
   const [detailEstudio, setdetailEstudio] = useState([]);
   
 
-  /*const highPriorityStudies = [];
-  const mediumPriorityStudies = [];
-  const lowPriorityStudies = [];
-  if (informes) {
-    informes.forEach((informe) => {
-      const priority = informe.estudio_prioridad;
-      if (priority === "ALTA") {
-        highPriorityStudies.push(informe);
-      } else if (priority === "MEDIA") {
-        mediumPriorityStudies.push(informe);
-      } else if (priority === "BAJA") {
-        lowPriorityStudies.push(informe);
-      }
-    });
-  }*/
 
   const toggleModal = (informe) => {
     setShowModal(!showModal);
@@ -321,33 +306,7 @@ const Dashboard = () => {
               Ver más</Button>*/}
           </Box>
         </Container>
-       {/*<Modal
-          size={"4xl"}
-          maxWidth='100%'
-          isOpen={showModal}
-          onClose={toggleModal}
-          >
-          <ModalOverlay />
-          <ModalContent borderRadius={'20px'} bg="#ffff">
-            <ModalHeader>
-              <Button
-                borderRadius={'50%'}
-                colorScheme="blue"
-                width="40px"
-                height="40px"
-                marginLeft={'95%'}
-                marginTop={'-60px'}
-                bgColor={'#137797'}
-                color='#ffff'
-                onClick={toggleModal}>
-                <CloseButton />
-              </Button>
-            </ModalHeader>
-            <ModalBody>
-              <ModalInforme id={informesDetail} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>*/}
+       
          <Modal
           size={"4xl"}
           maxWidth='100%'
