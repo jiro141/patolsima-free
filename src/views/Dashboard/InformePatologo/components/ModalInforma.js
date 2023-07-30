@@ -50,7 +50,7 @@ const ModalInforme = ({
   const [showModalSendWp, setShowModalSendWp] = useState(false);
   const [showModalEstudioNotas, setShowModalEstudioNotas] = useState(false);
   const [historyMap, setHistoryMap] = useState([]);
- 
+  const [showModalDescIh, setShowModalDescIh] = useState(false);
 
   const toggleModal = async () => {
     setShowModal(!showModal);
@@ -74,6 +74,9 @@ const ModalInforme = ({
   const toggleModalNotas = () => {
     setShowModalEstudioNotas(!showModalEstudioNotas);
   };
+  const toggleModalIH= () => {
+    setShowModalDescIh(!showModalDescIh);
+};
   //console.log(informeDetail.paciente.id); 
   useEffect(() => {
     const historyInformes = async () => {
@@ -107,10 +110,10 @@ const ModalInforme = ({
     window.open(res, "_blank");
     //console.log(res)
   };
-
-  console.log(detailEstudio);
-  //console.log(detailEstudio.envio_digital)
-  //tamaños de modal
+  const handleOptionClick = (url) => {
+    window.location.href = url;
+    
+  };
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: "2xl" });
   return (
     <>
@@ -305,6 +308,7 @@ const ModalInforme = ({
               <Select
                 width={"100%"}
                 color="gray.400"
+                onChange={()=>handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
                 defaultValue="Informes anteriores"
               >
                 <option hidden colorScheme="gray.400">
@@ -355,7 +359,21 @@ const ModalInforme = ({
               />
             </Box>
 
-            <OutlineBtnModal
+           {detailEstudio?.tipo==='INMUNOSTOQUIMICA'
+           ?
+           <>
+           <OutlineBtnModal
+              text={"Descripción "}
+              handleClick={toggleModalIH}
+            />
+             <OutlineBtnModal
+              text={"Agregar nuevo proceso"}
+              handleClick={toggleModal}
+            />
+           </>
+           :
+            <>
+             <OutlineBtnModal
               text={"Descripción Microscópica"}
               handleClick={toggleModal}
             />
@@ -367,6 +385,8 @@ const ModalInforme = ({
             <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
 
             <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
+            </>
+          }
           </Box>
         </Box>
       </Grid>
@@ -448,6 +468,17 @@ const ModalInforme = ({
         type="notas2"
         //setShowModalGeneral={setShowModalGeneral}
       />
+      <ModalCreateNotes
+            setShowModal={setShowModalDescIh}
+            titulo={"Descripción"}
+            toggleModal={toggleModalIH}
+            showModal={showModalDescIh}
+            informeDetail={informeDetail}
+            idStudy={detailEstudio?.id}
+            detailEstudio={detailEstudio}
+            type="desIH"
+            //setShowModalGeneral={setShowModalGeneral}
+          />
       <ModalSendWp
         detailEstudio={detailEstudio}
         isOpen={showModalSendWp}

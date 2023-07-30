@@ -89,13 +89,13 @@ export const generateInformeCompletePdf= async (id) => {
         console.log(response);
          return response.data;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 export const getInformesListConfirm= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?aprobado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&aprobado=true&confirmado=true`)
         return response.data.results;
     } catch (error) {
         console.log(error);
