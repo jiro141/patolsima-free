@@ -668,8 +668,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                                     <CheckButton handleClick={aggMonto} />
                                                 </div>
                                             ) : (
-                                              
-                                               <EditButton handleClick={handleEditClick} />
+
+                                                <EditButton handleClick={handleEditClick} />
                                             )}
                                         </>
                                     )
@@ -756,7 +756,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                             <Box >
 
                                 <Button
-                                 disabled={facturasDetail?.confirmada === false ? true : false}
+                                    disabled={facturasDetail?.confirmada === false ? true : false}
                                     onClick={handleArchivar}
                                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                                     marginRight={'2%'}
@@ -784,7 +784,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Button
-                                 //disabled={facturasDetail?.confirmada === false ? true : false}
+                                    //disabled={facturasDetail?.confirmada === false ? true : false}
                                     onClick={handleArchivar}
                                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                                     marginRight={'2%'}
@@ -806,14 +806,14 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 {facturasDetail?.confirmada === false ?
                                     <div style={{ width: '80%', display: 'flex', justifyContent: 'flex-end' }}>
 
-                                         {
-                                         
-                                         <GeneralButton
-                                            text="Confirmar"
-                                            handleClick={confirmar}
-                                           // disabled={facturasDetail?.balance.pagado_usd
-                                              //  === 0 ? true : false}
-                                        />}
+                                        {
+
+                                            <GeneralButton
+                                                text="Confirmar"
+                                                handleClick={confirmar}
+                                            // disabled={facturasDetail?.balance.pagado_usd
+                                            //  === 0 ? true : false}
+                                            />}
                                     </div>
 
                                     :

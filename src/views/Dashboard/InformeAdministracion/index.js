@@ -36,17 +36,22 @@ import { useInformeDetail } from "hooks/Informes/useInformeDetail";
 import { getInformesDetail } from "api/controllers/informes";
 import { getStudiesDetail } from "api/controllers/estudios";
 import Container from "components/widgets/utils/Container";
-
+import DeleteModal from "components/widgets/Modals/DeleteModal";
+import { getInformesCompletados } from "api/controllers/informes";
+import { getInformesNoCompletados } from "api/controllers/informes";
+import { deleteInforme } from "api/controllers/informes";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
+  const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails } = useContext(MainContext);
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
   console.log(informesCompletados);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
 
   const [Busqueda, setBusqueda] = useState("");
   const [idInforme, setIdInforme] = useState("");
+  const [studyId, setStudyId] = useState('');
+  const [pacienteName, setPacienteName] = useState("");
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
 
@@ -56,12 +61,22 @@ const Dashboard = () => {
   //modal 
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => {
-    setShowModal(!showModal);
+    setEnableInfoModalDetails(!enableInfoModalDetails);
   };
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
     setShowModalList(!showModalList);
     // get
+  };
+
+  const handleDeleteInf = async (study) => {
+    try {
+      await deleteInforme(study);
+      // setSearchFacturas(searchFacturas.filter((p) => p.id !== facturaIdDelete));
+      setShowModalConfirmacion(!showModalConfirmacion);
+    } catch (error) {
+      //toast.error(error.message, { autoClose: 1000 });
+    }
   };
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -70,14 +85,17 @@ const Dashboard = () => {
     getInformes();
     getInformesNotConfirm()
     getInformesConfirm()
-  }, []);
+    getInformesCompletados()
+    getInformesNoCompletados()
+  }, [showModalConfirmacion]);
+  
 
 
 
-  const toggleModalConfirmacion = (paciente) => {
+  const toggleModalConfirmacion = (estudio) => {
     setShowModalConfirmacion(!showModalConfirmacion);
-    // setPacienteName(paciente.nombres);
-    // setPacienteIdDelete(paciente.id);
+    setStudyId(estudio?.estudio_id);
+    setPacienteName(estudio?.estudio_paciente_name);
   };
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
@@ -232,8 +250,8 @@ const Dashboard = () => {
         <Modal
           size={'3xl'}
           maxWidth='100%'
-          isOpen={showModal}
-          onClose={toggleModal}>
+          onClose={() => setEnableInfoModalDetails(false)}
+          isOpen={enableInfoModalDetails}>
           <ModalOverlay />
           <ModalContent borderRadius={'20px'} bg="#ffff">
             <ModalHeader>
@@ -259,12 +277,25 @@ const Dashboard = () => {
           </ModalContent>
         </Modal>
 
-        <FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
+        <FilteredDataModal
+          type='informes'
+          thData={thValuesInformes}
+          isOpenModal={showModalList}
+          isToggleModal={toggleModalList}
+          tBodyData={informes}
           Busqueda={Busqueda}
           handleSelectTBody={handleSelectInforme}
           handleSelectIcon={toggleModalConfirmacion}
           loading={loading}
           handleBusquedaChange={handleBusquedaChange}
+        />
+        <DeleteModal
+          isOpen={showModalConfirmacion}
+          onClose={toggleModalConfirmacion}
+          id={studyId}
+          close={toggleModalConfirmacion}
+          eliminar={handleDeleteInf}
+          nombres={pacienteName}
         />
 
 

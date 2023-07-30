@@ -27,7 +27,9 @@ export default function FilteredDataModal({
   handleSelectTBody,
   handleSelectIcon,
   loading,
-  type
+  type,
+  setAbonarSend
+
 }) {
 
   return (
@@ -121,14 +123,14 @@ export default function FilteredDataModal({
                           tBodyData={tBodyData}
                           handleSelectTBody={handleSelectTBody}
                           handleSelectIcon={handleSelectIcon}
-                          
+                          setAbonarSend={setAbonarSend}
+
                         />
                       ) : (
                         <NotFound desc={"No se encontraron los resultados"} />
                       )}
                     </Box>
                     : type === 'informes' ?
-
                       <Box
                         width={"100%"}
                         maxH={"400px"}

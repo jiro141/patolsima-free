@@ -44,6 +44,7 @@ export default function AddAbonarModal({
     getCambios,
     cambioDelDia,
   } = useFacturas();
+  console.log(setAbonarSend);
 
   useEffect(() => {
     getCambios();

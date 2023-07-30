@@ -4,6 +4,8 @@ import { getListInforme } from "api/controllers/informes";
 import MainContext from "context/mainContext/MainContext";
 import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
+import { getInformesCompletados } from "api/controllers/informes";
+import { getInformesNoCompletados } from "api/controllers/informes";
 
 export function useInformes() {
 
@@ -41,7 +43,7 @@ export function useInformes() {
 
   const getInformesConfirm = useCallback(async () => {
     try {
-      const ListConfirm = await getInformesListConfirm();
+      const ListConfirm = await getInformesCompletados();
       console.log(ListConfirm);
       setInformesCompletados(ListConfirm)
     } catch (error) {
@@ -53,7 +55,7 @@ export function useInformes() {
 
   const getInformesNotConfirm = useCallback(async () => {
     try {
-      const ListConfirm = await getInformesListNotConfirm();
+      const ListConfirm = await getInformesNoCompletados();
       
       setInformesNoCompletados(ListConfirm)
     } catch (error) {

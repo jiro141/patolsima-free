@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import {
   Badge,
   Heading,
@@ -34,10 +34,16 @@ import { thValuesInformes } from "mocks";
 import { getInformesDetail } from "api/controllers/informes";
 import { getStudiesDetail } from "api/controllers/estudios";
 import Container from "components/widgets/utils/Container";
-
+import MainContext from "context/mainContext/MainContext";
+import { getInformesCompletados } from "api/controllers/informes";
+import { getInformesNoCompletados } from "api/controllers/informes";
+import DeleteModal from "components/widgets/Modals/DeleteModal";
+import { deleteInforme } from "api/controllers/informes";
 
 const Dashboard = () => {
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
+  const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+  const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails } = useContext(MainContext);
   useEffect(() => {
     getInformes();
   }, []);
@@ -45,12 +51,16 @@ const Dashboard = () => {
   const [idInforme, setIdInforme] = useState("");
   const [detailEstudio, setdetailEstudio] = useState([]);
   const [detailInforme, setInformeDetail] = useState();
+  const [studyId, setStudyId] = useState('');
+  const [pacienteName, setPacienteName] = useState("");
   console.log(informesCompletados);
   useEffect(() => {
     getInformes();
     getInformesNotConfirm()
     getInformesConfirm()
-  }, []);
+    getInformesCompletados()
+    getInformesNoCompletados()
+  }, [showModalConfirmacion]);
   const [showModal, setShowModal] = useState(false);
 
   const [showModalList, setShowModalList] = useState(false);
@@ -60,11 +70,20 @@ const Dashboard = () => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
-  const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
-  const toggleModalConfirmacion = (paciente) => {
+  const handleDeleteInf = async (study) => {
+    try {
+      await deleteInforme(study);
+      // setSearchFacturas(searchFacturas.filter((p) => p.id !== facturaIdDelete));
+      setShowModalConfirmacion(!showModalConfirmacion);
+    } catch (error) {
+      //toast.error(error.message, { autoClose: 1000 });
+    }
+  };
+  
+  const toggleModalConfirmacion = (estudio) => {
     setShowModalConfirmacion(!showModalConfirmacion);
-    // setPacienteName(paciente.nombres);
-    // setPacienteIdDelete(paciente.id);
+    setStudyId(estudio?.estudio_id);
+    setPacienteName(estudio?.estudio_paciente_name);
   };
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
@@ -76,7 +95,7 @@ const Dashboard = () => {
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const handleSelectInforme = async (study) => {
-    setShowModal(!showModal);
+    setEnableInfoModalDetails(!enableInfoModalDetails);
     // const res = await getInformesDetail(study)
     setInformeDetail(study)
     setIdInforme(study)
@@ -105,7 +124,7 @@ const Dashboard = () => {
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
                     <Td textAlign={'center'}>
-                      <Link onClick={() => toggleModal(study)}>
+                      <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
@@ -145,7 +164,7 @@ const Dashboard = () => {
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
                     <Td textAlign={'center'}>
-                      <Link onClick={() => toggleModal(study)}>
+                      <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
@@ -173,18 +192,25 @@ const Dashboard = () => {
       </Container >
       <FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
         Busqueda={Busqueda}
-        //handleSelectTBody={seleccionarRegistro}
         handleSelectIcon={toggleModalConfirmacion}
         loading={loading}
         handleBusquedaChange={handleBusquedaChange}
-        handleSelectTBody={detailEstudio}
+        handleSelectTBody={informes}
 
+      />
+      <DeleteModal
+        isOpen={showModalConfirmacion}
+        onClose={toggleModalConfirmacion}
+        id={studyId}
+        close={toggleModalConfirmacion}
+        eliminar={handleDeleteInf}
+        nombres={pacienteName}
       />
       <Modal
         size={'3xl'}
         maxWidth='100%'
-        isOpen={showModal}
-        onClose={toggleModal}>
+        onClose={() => setEnableInfoModalDetails(false)}
+        isOpen={enableInfoModalDetails}>
         <ModalOverlay />
         <ModalContent borderRadius={'20px'} bg="#ffff">
           <ModalHeader>
@@ -197,7 +223,7 @@ const Dashboard = () => {
               marginTop={'-60px'}
               bgColor={'#137797'}
               color='#ffff'
-              onClick={toggleModal}>
+              onClick={() => setEnableInfoModalDetails(false)}>
               <CloseButton />
             </Button>
           </ModalHeader>
