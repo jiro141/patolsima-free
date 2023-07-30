@@ -62,7 +62,7 @@ export const getStudiesList = async () => {
 
 export const getStudiesListPriorityALTA = async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?prioridad=ALTA`)
+        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=ALTA&confirmado=true`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {
@@ -91,6 +91,16 @@ export const getStudiesDetail = async (id) => {
     console.log(id)
     try {
         const response = await Axios.get(`/v1/core/estudios/${id}/`)
+        console.log(response.data);
+        return response.data
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const putStudiesDetail = async (id,data) => {
+    try {
+        const response = await Axios.put(`/v1/core/estudios/${id}/`,data)
         console.log(response.data);
         return response.data
     } catch (error) {

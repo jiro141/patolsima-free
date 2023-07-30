@@ -1,4 +1,5 @@
 import { getStudiesListPriorityMEDIA } from "api/controllers/estudios";
+import { getStudiesList } from "api/controllers/estudios";
 import { getStudiesListPriorityBAJA } from "api/controllers/estudios";
 import { getStudiesListPriorityALTA } from "api/controllers/estudios";
 import { getFacturasList } from "api/controllers/facturas";
@@ -30,7 +31,7 @@ export function useMuestrasPatologo() {
   const getInformes = useCallback(async () => {
     try {
      
-      const InformesList = await getInformesList();
+      const InformesList = await getStudiesList();
       console.log(typeof InformesList);
       setfilteredInformeP(InformesList)
       setInformesp(InformesList);

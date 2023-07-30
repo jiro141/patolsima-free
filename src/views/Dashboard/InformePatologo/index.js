@@ -37,6 +37,8 @@ import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 import Container from "components/widgets/utils/Container";
 import { getInformesDetail } from "api/controllers/informes";
 import { getStudiesDetail } from "api/controllers/estudios";
+import { useInformesPatologo } from "hooks/InformesPatologo/useInformesPatologo";
+import { CardOverall_Infor } from "components/widgets/Cards/CardOverall";
 //import ModalInforme from "../InformeAdministracion/components/ModalInforma";
 
 const Dashboard = () => {
@@ -48,7 +50,7 @@ const Dashboard = () => {
   const [showModalList, setShowModalList] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenmuestrasPatologosort} = useContext(MainContext);
-  const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB}= useMuestrasPatologo()
+  const {muestraALTA,muestraMEDIA,muestraBAJA ,getInformesPatologoAlta,getInformesPatologoMedia,getInformesPatologoBaja,loadingA,loadingM,loadingB}= useInformesPatologo()
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
   
@@ -90,9 +92,9 @@ const Dashboard = () => {
     peticionGet();
   }, []);
   useEffect(() => {
-    getMuestrasPatologoAlta()
-    getMuestrasPatologoMedia()
-    getMuestrasPatologoBaja()
+    getInformesPatologoAlta()
+    getInformesPatologoMedia()
+    getInformesPatologoBaja()
   }, [])
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -196,7 +198,7 @@ const Dashboard = () => {
         pl={'5px'} >
           
             <>
-              <CardOverall_Muestra
+              <CardOverall_Infor
                 title={"Prioridad Alta"}
                 content={muestraALTA}
                 toggleModal={toggleModal}
@@ -206,7 +208,7 @@ const Dashboard = () => {
                 type="other"
               />
 
-              <CardOverall_Muestra
+              <CardOverall_Infor
                 title={"Prioridad Media"}
                 content={muestraMEDIA}
                 toggleModal={toggleModal}
@@ -215,7 +217,7 @@ const Dashboard = () => {
                 loading={loadingM}
                 type="other"
               />
-              <CardOverall_Muestra
+              <CardOverall_Infor
                 title={"Prioridad Baja"}
                 content={muestraBAJA}
                 toggleModal={toggleModal}
