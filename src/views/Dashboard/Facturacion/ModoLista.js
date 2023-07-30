@@ -105,9 +105,9 @@ const Dashboard = () => {
   //   setShowModal(!showModal);
   // };
   const [showModalList, setShowModalList] = useState(false);
-  const toggleModalList = () => {
-    setShowModalList(!showModalList);
-  };
+  // const toggleModalList = () => {
+  //   setShowModalList(!showModalList);
+  // };
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "3xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -131,7 +131,12 @@ const Dashboard = () => {
     setFacturasConfirmadas(facturasConfirmadas.filter((p) => p.id !== facturaIdDelete))
     setFacturasNoConfirmadas(facturasNoConfirmadas.filter((p) => p.id !== facturaIdDelete))
   }
-
+  const handleSelectTBody = (id) => { }
+  // const [showModalList, setShowModalList] = useState(false);
+  const toggleModalList = () => {
+    getSearchFacturas();
+    setShowModalList(!showModalList);
+  };
 
 
   // const [showModal, setShowModal] = useState(false);
@@ -286,6 +291,7 @@ const Dashboard = () => {
         handleBusquedaChange={handleBusquedaChange}
         thData={thValuesFacturas}
         tBodyData={searchFacturas}
+        handleSelectTBody={handleSelectTBody}
         handleSelectIcon={toggleModalConfirmacion}
         type="facturas"
       />

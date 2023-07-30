@@ -18,15 +18,12 @@ import MainContext from "context/mainContext/MainContext";
 import { putClientFactura } from "api/controllers/facturas";
 import { getOrdenesByCi } from "api/controllers/facturas";
 import { getFacturasDetail } from "api/controllers/facturas";
-import PhoneInputOverall from "components/widgets/Inputs/PhoneInputOverall";
 
-const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
+const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
   const { setfactClientTerceros } = useContext(MainContext)
   const [searchResult, setsearchResult] = useState(false)
-  const [numberCode, setNumberCode] = useState('58');
-  const [countryCode, setCountryCode] = useState('ve');
 
-
+  
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -46,34 +43,34 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       console.log(formData);
-      if (searchResult) {
+      if(searchResult){
         try {
-          const resPost = await putClientFactura(study?.cliente?.id, formData)
+          const resPost = await putClientFactura(study?.cliente?.id,formData)
           if (resPost) {
             setfactClientTerceros(resPost)
             //console.log(resPost)
             toast.success("¡Se actualizo el cliente con exito en la factura!", {
               autoClose: 1000,
             });
-
+  
             setShowModal(false)
-            // window.location.reload();
+           // window.location.reload();
           }
         } catch (error) {
           toast.error("¡Ocurrio un error para actualizar el cliente de la factura!", {
             autoClose: 1000,
           });
         }
-      } else {
+      }else{
         try {
           const resPostClient = await postFacturaTerceros(formData)
           if (resPostClient) {
             toast.success("¡Se creo el cliente con exito en la factura!", {
               autoClose: 1000,
             });
-
+  
             setShowModal(false)
-            // window.location.reload();
+           // window.location.reload();
           }
         } catch (error) {
           toast.error("¡Ocurrio un error para crear el cliente de la factura!", {
@@ -81,48 +78,48 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
           });
         }
       }
-
+     
       setFinishFactTerceros(true)
 
     },
   });
-  console.log(study.cliente.id);
+console.log(study.cliente.id);
   useEffect(() => {
-    if (study) {
-      const searchByCi = async () => {
-        const res = await getOrdenesByCi('V465456')
-        if (res) {
-          //setsearchResult(res[0].cliente)
-          setsearchResult(true)
-          console.log(res[0].cliente);
-          const resDetail = await getFacturasDetail(study.id)
-          console.log(resDetail);
-          formik.setValues({
-            ci_rif: resDetail.cliente.ci_rif,
-            direccion: resDetail.cliente.direccion,
-            razon_social: resDetail.cliente.razon_social,
-            telefono_celular: resDetail.cliente.telefono_celular,
-            telefono_fijo: resDetail.cliente.telefono_fijo,
-            email: resDetail?.cliente?.email,
-          })
-
-          //console.log('ya existe la ci');
-        } else {
-          console.log('no existe la ci');
-          toast.error("¡No esta el cliente en registro!", {
-            autoClose: 1000,
-          });
-          setsearchResult(false)
-        }
-
-      }
-      searchByCi()
+    if(study){
+   const searchByCi=async()=>{
+   const res= await getOrdenesByCi('V465456')
+   if(res){
+     //setsearchResult(res[0].cliente)
+     setsearchResult(true)
+     console.log(res[0].cliente);
+     const resDetail = await getFacturasDetail(study.id)
+     console.log(resDetail);
+    formik.setValues({
+      ci_rif: resDetail.cliente.ci_rif,
+      direccion:resDetail.cliente.direccion,
+      razon_social: resDetail.cliente.razon_social,
+      telefono_celular:resDetail.cliente.telefono_celular,
+      telefono_fijo:resDetail.cliente.telefono_fijo,
+      email:resDetail?.cliente?.email,
+    })
+    
+     //console.log('ya existe la ci');
+   }else{
+    console.log('no existe la ci');
+    toast.error("¡No esta el cliente en registro!", {
+      autoClose: 1000,
+    });
+    setsearchResult(false)
+   }
+   
+   }
+   searchByCi()
     }
-    return () => { }
-  }, [study])
+     return () => { }
+   }, [study])
 
-
-  console.log(study)
+  
+console.log(study)
   return (
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
@@ -147,61 +144,22 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
       </Grid>
       <Grid gap={'20px'} margin={'10px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
 
-        {study.cliente.telefono_celular ?
-          <div>
-            <InputOverall
-              name="Telefono"
-              value={formik.values.telefono_celular}
-              //placeholder="Telefono de Contacto:"
-              onChange={(e) =>
-                formik.setFieldValue("telefono_celular", e.target.value)
-              }
-              errors={formik.errors.telefono_celular}
-            />
-
-          </div> :
-          <PhoneInputOverall name="Telefono"
-            value={formik.values.telefono_celular}
-            onChange={(e) =>
-              formik.setFieldValue("telefono_celular", e.target.value)
-            }
-            numberCode={numberCode}
-            setNumberCode={setNumberCode}
-            countryCode={countryCode}
-            setCountryCode={setCountryCode}
-            errors={formik.errors.telefono_celular}
-            placeholder="4247423185"
-          />
-
-        }
-        {study.cliente.telefono_fijo ?
-          <div>
-            <InputOverall
-              name="Telefono"
-              value={formik.values.telefono_fijo}
-              //placeholder="Telefono de Contacto:"
-              onChange={(e) =>
-                formik.setFieldValue("telefono_fijo", e.target.value)
-              }
-            // errors={formik.errors.telefono_fijo}
-            />
-
-          </div> :
-          <PhoneInputOverall name="Telefono"
-            placeholder='Telefono Fijo'
-            defaultValue={searchResult.telefono_fijo}
-            // name={'telefono_fijo'}
-            value={formik.values.telefono_fijo}
-            onChange={e => formik.setFieldValue('telefono_fijo', e.target.value)}
-            numberCode={numberCode}
-            setNumberCode={setNumberCode}
-            countryCode={countryCode}
-            setCountryCode={setCountryCode}
-          // errors={formik.errors.telefono_celular}
-          // placeholder="4247423185"
-          />
-        }
-
+        <InputOverall
+          placeholder='Telefono Celular'
+          name={'telefono_celular'}
+          defaultValue={searchResult.telefono_celular}
+          value={formik.values.telefono_celular}
+          onChange={e => formik.setFieldValue('telefono_celular', e.target.value)}
+          errors={formik.errors.telefono_celular}
+        />
+        <InputOverall
+          placeholder='Telefono Fijo'
+          defaultValue={searchResult.telefono_fijo}
+          name={'telefono_fijo'}
+          value={formik.values.telefono_fijo}
+          onChange={e => formik.setFieldValue('telefono_fijo', e.target.value)}
+        //errors={formik.errors.telefono_celular}
+        />
 
       </Grid>
       <Grid margin={'10px'} gap={'20px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>

@@ -41,7 +41,7 @@ import Container from "components/widgets/utils/Container";
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenInformessort, sethiddenInformessort } = useContext(MainContext);
-  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes,getInformesNotConfirm,getInformesConfirm } = useInformes()
+  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
   console.log(informesCompletados);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
 
@@ -61,6 +61,7 @@ const Dashboard = () => {
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
     setShowModalList(!showModalList);
+    // get
   };
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -260,7 +261,7 @@ const Dashboard = () => {
 
         <FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
           Busqueda={Busqueda}
-          //handleSelectTBody={seleccionarRegistro}
+          handleSelectTBody={handleSelectInforme}
           handleSelectIcon={toggleModalConfirmacion}
           loading={loading}
           handleBusquedaChange={handleBusquedaChange}

@@ -38,7 +38,7 @@ export default function ModalNumFactura({
 
   const formik = useFormik({
     initialValues: {
-      n_factura: '' ,
+      n_factura: '',
 
     },
     validationSchema: Yup.object({
@@ -60,7 +60,7 @@ export default function ModalNumFactura({
           setPdfContentFact(facturaPost.uri)
           setOpenModalFact2(true)
           setShowModal(false)
-  
+
         } else {
           toast.error("¡Hubo un error al generar la factura!", {
             autoClose: 1000,
@@ -76,71 +76,71 @@ export default function ModalNumFactura({
   //console.log(facturasDetail);
   return (
     <>
-     <Modal size={"sm"} maxWidth="100%" isOpen={isOpen}>
-      <ModalOverlay />
-      <ModalContent
-        padding={"10px"}
-        marginTop={"15%"}
-        bg="#ffff"
-        borderRadius={"20px"}
-      >
-        <ModalHeader>
-                        <Button
-                            borderRadius={'50%'}
-                            colorScheme="blue"
-                            width="40px"
-                            height="40px"
-                            marginLeft={'92%'}
-                            marginTop={'-60px'}
-                            bgColor={'#137797'}
-                            color='#ffff'
-                           onClick={()=>setShowModal(false)}
-                           >
-                            <CloseButton />
-                        </Button>
-                    </ModalHeader>
-        <ModalBody>
-          <Box marginTop={"-50px"}>
-            <Box style={{marginBottom:'20px'}}>
-            <Title title={'Ingresa el número de facturación'} />
-            </Box>
-  
-              <Box flexDirection={'row'}width={"100%"} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
-                <Text fontSize={'15px'} mr={'5px'} >Factura #:</Text>
-               <Box ml={'2px'}>
-               <InputOverall
-                placeholder="548692"
-                //disabled={estudioID || estudioId2 ? false : true}
-                name={"n_factura"}
-                value={formik.values.n_factura}
-                onChange={(e) =>
-                  formik.setFieldValue("n_factura", e.target.value)
-                }
-                errors={formik.errors.n_factura}
-             
-             />
-               </Box>
+      <Modal size={"sm"} maxWidth="100%" isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent
+          padding={"10px"}
+          marginTop={"15%"}
+          bg="#ffff"
+          borderRadius={"20px"}
+        >
+          <ModalHeader>
+            <Button
+              borderRadius={'50%'}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={'92%'}
+              marginTop={'-80px'}
+              bgColor={'#137797'}
+              color='#ffff'
+              onClick={() => setShowModal(false)}
+            >
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody>
+            <Box marginTop={"-50px"}>
+              <Box style={{ marginBottom: '20px' }}>
+                <Title title={'Ingresa el número de facturación'} />
               </Box>
-                       
-            <Box textAlign={"center"} w={"100%"}>
-              <Button
-                marginBottom={"10px"}
-                padding={"0px 25px"}
-                borderRadius={"20px"}
-                bgColor={"#137797"}
-                color="#ffff"
-                onClick={formik.handleSubmit}
-              >
-                Generar factura
-              </Button>
+
+              <Box flexDirection={'row'} width={"100%"} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
+                <Text fontSize={'15px'} mr={'5px'} >Factura #:</Text>
+                <Box ml={'2px'}>
+                  <InputOverall
+                    placeholder="548692"
+                    //disabled={estudioID || estudioId2 ? false : true}
+                    name={"n_factura"}
+                    value={formik.values.n_factura}
+                    onChange={(e) =>
+                      formik.setFieldValue("n_factura", e.target.value)
+                    }
+                    errors={formik.errors.n_factura}
+
+                  />
+                </Box>
+              </Box>
+
+              <Box textAlign={"center"} w={"100%"}>
+                <Button
+                  marginBottom={"10px"}
+                  padding={"0px 25px"}
+                  borderRadius={"20px"}
+                  bgColor={"#137797"}
+                  color="#ffff"
+                  onClick={formik.handleSubmit}
+                >
+                  Generar factura
+                </Button>
+              </Box>
             </Box>
-          </Box>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
-    
-    <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />
     </>
-   
+
   );
 }
