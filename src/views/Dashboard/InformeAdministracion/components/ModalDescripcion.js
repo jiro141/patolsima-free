@@ -9,7 +9,7 @@ import {
   Table, Thead, Tbody, Tr, Th, Td
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import Editor, { ClassicEditor } from 'ckeditor5-custom-build/build/ckeditor';
 import CKEditorDefaultConfig from "api/ckeditor/ckeditorconfig";
 import SaveButton from "components/widgets/Buttons/SaveButton";
 import GeneralButton from "components/widgets/Buttons/GeneralButton";
@@ -23,7 +23,7 @@ import { useRef } from "react";
 import { postInformes } from "api/controllers/informes";
 
 
-const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral }) => {
+const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral,detailEstudio }) => {
   const [data, setdata] = useState([])
   const [dataResmicro, setdataResmicro] = useState('')
   const [History, setgetHistory] = useState([])
@@ -251,6 +251,26 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
 
   const editorRef = useRef();
   console.log(editorRef.current)
+  const editorConfig = {
+    toolbar: {
+      items: [
+        'heading',
+        '|',
+        'bold',
+        'italic',
+        'link',
+        'bulletedList',
+        'numberedList',
+        'imageInsert',
+        'blockQuote',
+        'undo',
+        'redo',
+      ],
+    },
+    image: {
+      toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'linkImage'],
+    },
+  };
   return (
     <>
       <Box marginTop={'-50px'}  >
@@ -277,8 +297,8 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
               type === 'micro' ?
                 <>
                   <CKEditor
+                  
                     editor={Editor}
-
                     config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                     data={
                       informeDetail?.descripcion_microscopica === null ? ' ' :
@@ -358,7 +378,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             console.log('from other');
                             setdata({ data })
                           }}
-                        /> : 
+                        /> : type==='register'?
 
                         <Table variant="striped" colorScheme="teal">
                         <Thead>
@@ -382,13 +402,30 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                           ))}
                         </Tbody>}
                       </Table>
+                      : type==='notas2' ?
+<Table variant="striped" colorScheme="teal">
+                        <Thead>
+                          <Tr>
+                           
+                          </Tr>
+                        </Thead>
+                       {detailEstudio && <Tbody>
+                          {detailEstudio.muestras.map((item) => (
+                            <Tr key={item?.id}>
+                              <Td >{item?.notas}</Td>
+                             
+                            </Tr>
+                          ))}
+                        </Tbody>}
+                      </Table> : ''
+
             }
           </Box>
         </Box>
       </Box>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', border: '0px solid', width: '95%',marginBottom:'20px' }}>
 
-     {type ==='register' ?
+     {type ==='register' || type==='notas2' ?
      
     <></> :
 

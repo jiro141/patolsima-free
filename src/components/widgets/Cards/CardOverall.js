@@ -234,11 +234,17 @@ const renderMuestras = (content, toggleModal, colorA, type,handleSelectInforme) 
             color={useColorModeValue("gray.600", "gray.400")}
           />
           <RowCard
-            headTitle={"Confirmado"}
-            data={study.confirmado ? <Badge colorScheme='green'>
-              Confirmado
-            </Badge> : <Badge colorScheme='yellow'>
-              Pendiente
+            headTitle={"Medico"}
+            data={study.medico_tratante ? 
+            <Badge colorScheme='green'>
+             { study.medico_tratante?.nombres?.length > 10
+                ? study.medico_tratante?.nombres?.substring(0, 10) + "..."
+                : study.medico_tratante?.nombres}
+            </Badge>
+            
+            
+            : <Badge >
+              Indefinido
             </Badge>}
             color={useColorModeValue("gray.600", "gray.400")}
           />

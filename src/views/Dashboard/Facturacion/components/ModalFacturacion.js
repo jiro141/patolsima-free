@@ -44,6 +44,8 @@ import { generarNumeroAleatorio } from "helpers";
 import { putChangeIdOrdenClient } from "api/controllers/facturas";
 import ModalNumFactura from "components/widgets/Modals/ModalNumFactura";
 import { Title } from "components/widgets/Texts";
+import EditButton from "components/widgets/Buttons/EditButton";
+import { CheckButton } from "components/widgets/Buttons/EditButton";
 
 
 const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend }) => {
@@ -665,28 +667,11 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                                         style={{ marginRight: '8px' }}
                                                         value={data?.monto_usd}
                                                         onChange={e => cambiarValoresRegistro("monto_usd", e.target.value)} />
-                                                    <Button
-                                                        borderRadius={'10px'}
-                                                        colorScheme="blue"
-                                                        bgColor={'#137797'}
-                                                        color='#ffff'
-                                                        size="sm"
-                                                        onClick={aggMonto}
-                                                    >
-                                                        <BsFillFileCheckFill size={25} />
-                                                    </Button>
+                                                    <CheckButton handleClick={aggMonto} />
                                                 </div>
                                             ) : (
-                                                <Button
-                                                    borderRadius={'10px'}
-                                                    colorScheme="blue"
-                                                    bgColor={'#137797'}
-                                                    color='#ffff'
-                                                    size="sm"
-                                                    onClick={handleEditClick}
-                                                >
-                                                    <BsFillPencilFill size={16} />
-                                                </Button>
+                                              
+                                               <EditButton handleClick={handleEditClick} />
                                             )}
                                         </>
                                     )
@@ -773,6 +758,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                             <Box >
 
                                 <Button
+                                 disabled={facturasDetail?.confirmada === false ? true : false}
                                     onClick={handleArchivar}
                                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                                     marginRight={'2%'}
@@ -800,6 +786,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Button
+                                 //disabled={facturasDetail?.confirmada === false ? true : false}
                                     onClick={handleArchivar}
                                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                                     marginRight={'2%'}
@@ -810,8 +797,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 </Button>
                                 {<Button
 
-                                    // marginBottom={{ lg: '-10.5%', md: '-13%', sm: '-25%' }}
-                                    // marginLeft={{ lg: '50%', md: '52%', sm: '12%' }}
+                                    disabled={facturasDetail?.confirmada === false || facturasDetail?.pagada === true ? true : false}
                                     borderRadius={'20px'}
                                     bgColor={'#137797'}
                                     color='#ffff'
@@ -821,10 +807,15 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
                                 {facturasDetail?.confirmada === false ?
                                     <div style={{ width: '80%', display: 'flex', justifyContent: 'flex-end' }}>
-                                        <GeneralButton
+
+                                         {
+                                         
+                                         <GeneralButton
                                             text="Confirmar"
                                             handleClick={confirmar}
-                                        />
+                                           // disabled={facturasDetail?.balance.pagado_usd
+                                              //  === 0 ? true : false}
+                                        />}
                                     </div>
 
                                     :

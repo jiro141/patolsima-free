@@ -70,7 +70,7 @@ export const getInformePreview= async (id) => {
         console.log(error);
     }
 }
-//completar informe (patologo)
+//completar informe (admin)
 export const completeInforme= async (id) => {
 
     try {
@@ -119,7 +119,36 @@ export const getInformesListNotConfirm= async () => {
         console.log(error);
     }
 }
-//aprobar informe (admin)
+//get informes priority hight
+export const getInformesListHightPriority= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=ALTA&confirmado=true`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getInformesListMediaPriority= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=MEDIA&confirmado=true`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getInformesListLowPriority= async () => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=BAJA&confirmado=true`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//aprobar informe (patolgo)
 export const aprobarInforme= async (id) => {
 
     try {
@@ -166,6 +195,8 @@ export const HistoryInformes= async (id) => {
         console.log(error);
     }
 }
+
+
 
 
 export const deleteInforme = async () => {
