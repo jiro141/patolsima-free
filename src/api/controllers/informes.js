@@ -217,7 +217,7 @@ export const getInformesCompletados = async () => {
     const token = localStorage.getItem("access");
     Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
-        const response = await Axios.get('/v1/core/informes/?completado=true&aprobado=false');
+        const response = await Axios.get('/v1/core/informes/?completado=false&aprobado=true');
         console.log(response);
         return response.data.results;
     } catch (error) {

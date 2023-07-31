@@ -194,6 +194,7 @@ export const getNotadePago= async (id) => {
 export const postArchivar= async (id,data) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/archivar/`,{})
+        console.log(response);
         return response.data;
     } catch (error) {
         console.log(error);

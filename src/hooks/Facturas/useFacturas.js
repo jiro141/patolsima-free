@@ -38,9 +38,9 @@ export function useFacturas() {
       const facturasListConfirm = await getFacturasListConfirm();
       console.log(facturasListConfirm);
       if (facturasListConfirm) {
-        const archivedFacts = facturasListConfirm.filter((item) => item.pagada === false );
+        const archivedFacts = facturasListConfirm.filter((item) => item.pagada === false && item.archived === false);
         setFacturasConfirmadas(archivedFacts);
-      } 
+      }
       // console.log(facturasList);
     } catch (error) {
       //seterror(error.message);
@@ -55,7 +55,7 @@ export function useFacturas() {
         const archivedFacts = facturasListNotConfirm.filter((item) => item.archived === false);
         // console.log();
         setFacturasNoConfirmadas(archivedFacts);
-       
+
         //setFacturasNoConfirmadasFirstId(primerId)
       }
       // } else {
@@ -83,5 +83,5 @@ export function useFacturas() {
   }, []);
 
 
-  return { facturas, getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas,facturasNoConfirmadasFirstId };
+  return { facturas, getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas, facturasNoConfirmadasFirstId };
 }
