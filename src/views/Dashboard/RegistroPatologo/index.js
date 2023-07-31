@@ -30,7 +30,6 @@ import CardOverall_ from "components/widgets/Cards/CardOverall";
 import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
 import ModalRegisterInforme from "components/widgets/Modals/ModalRegisterInforme";
 import Container from "components/widgets/utils/Container";
-import { getInformesList } from "api/controllers/informes";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
@@ -44,31 +43,7 @@ const Dashboard = () => {
 
  const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB,getInformes}= useMuestrasPatologo()
 
-  // Iterar sobre los datos y clasificar según la prioridad
-  // Clasificar estudios según prioridad
-  //const highPriorityStudies = [];
- // const mediumPriorityStudies = [];
- // const lowPriorityStudies = [];
 
- /* if (studies) {
-    studies.forEach((study) => {
-      const priority = study.prioridad;
-      const isConfirmed = study.confirmado;
-
-      if (isConfirmed) {
-        if (priority === "ALTA") {
-          highPriorityStudies.push(study);
-        } else if (priority === "MEDIA") {
-          mediumPriorityStudies.push(study);
-        } else if (priority === "BAJA") {
-          lowPriorityStudies.push(study);
-        }
-      }
-    });
-  }*/
- // console.log(lowPriorityColor);
-
-  // modales para las vistas flotantes
 
   useEffect(() => {
     getInformes()
@@ -114,6 +89,7 @@ useEffect(() => {
     peticionGet();
   }, []); */
 
+  console.log(informesp);
   const renderStudies = (studies, priorityColor) => {
     const renderDate = (createdAt) => {
       const date = createdAt ? new Date(createdAt) : null;

@@ -32,7 +32,7 @@ export function useMuestrasPatologo() {
     try {
      
       const InformesList = await getStudiesList();
-      console.log(typeof InformesList);
+      console.log( InformesList);
       setfilteredInformeP(InformesList)
       setInformesp(InformesList);
      // setfilteredInforme(InformesList)
