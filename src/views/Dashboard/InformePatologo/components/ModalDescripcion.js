@@ -52,7 +52,7 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
         validationSchema,
         onSubmit: async (formData) => {
             formData[field_name] = editorData;
-            console.log('form data formik pipi');
+           
             console.log(formData);
             try {
                 const enviarInforme = await updateInforme(idStudy, formData);

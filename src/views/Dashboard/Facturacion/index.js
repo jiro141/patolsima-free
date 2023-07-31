@@ -170,6 +170,7 @@ const Dashboard = () => {
 
   const handleCloseFromR = () => {
     history.push('/admin/Facturacion');
+    
     setShowModalFromRe(false)
     //window.location.reload();
   }
@@ -305,7 +306,13 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setAbonarSend={setAbonarSend} abonarSend={abonarSend} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem} />
+            <ModalFacturacion
+            setEnablefactModalDetails={setEnablefactModalDetails} 
+            setAbonarSend={setAbonarSend} 
+            abonarSend={abonarSend} 
+            setShowModalG={setShowModal} 
+            handleArchivarConfirmFacts={handleArchivarConfirmFacts}
+             setArchived={setArchived} study={idSelectItem} />
           </ModalBody>
         </ModalContent>
       </Modal>

@@ -45,7 +45,7 @@ const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails } = useContext(MainContext);
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
-  console.log(informesCompletados);
+
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
 
   const [Busqueda, setBusqueda] = useState("");
@@ -272,6 +272,7 @@ const Dashboard = () => {
               <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme}
                 setInformeDetail={setInformeDetail}
                 setShowModalGeneral={setShowModal}
+                setEnableInfoModalDetails={setEnableInfoModalDetails}
               />
             </ModalBody>
           </ModalContent>

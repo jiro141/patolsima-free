@@ -33,6 +33,7 @@ import { useEffect } from "react";
 import { Separator } from "components/Separator/Separator";
 import GreyButton from "components/widgets/Buttons/GreyButton";
 import { aprobarInforme } from "api/controllers/informes";
+import AddIHQModal from "components/widgets/Modals/AddIHQModal";
 
 const ModalInforme = ({
   informeDetail,
@@ -51,6 +52,7 @@ const ModalInforme = ({
   const [showModalEstudioNotas, setShowModalEstudioNotas] = useState(false);
   const [historyMap, setHistoryMap] = useState([]);
   const [showModalDescIh, setShowModalDescIh] = useState(false);
+  const [showModalResultadosIh, setShowModalResultadosIh] = useState(false);
 
   const toggleModal = async () => {
     setShowModal(!showModal);
@@ -77,6 +79,9 @@ const ModalInforme = ({
   const toggleModalIH= () => {
     setShowModalDescIh(!showModalDescIh);
 };
+const toggleModalIHResultados= () => {
+  setShowModalResultadosIh(!showModalResultadosIh);
+};
   //console.log(informeDetail.paciente.id); 
   useEffect(() => {
     const historyInformes = async () => {
@@ -97,6 +102,8 @@ const ModalInforme = ({
         toast.success("¡Informe aprobado con exito!", {
           autoClose: 1000,
         });
+        setShowModalGeneral(false)
+        window.location.reload();
       } else {
         toast.error("¡No puedes aprobar este informe!", {
           autoClose: 1000,
@@ -366,11 +373,17 @@ const ModalInforme = ({
            <>
            <OutlineBtnModal
               text={"Descripción "}
-              handleClick={toggleModalIH}
+              handleClick={toggleModalD}
             />
              <OutlineBtnModal
               text={"Agregar nuevo proceso"}
-              handleClick={toggleModal}
+              handleClick={toggleModalIH}
+             
+            />
+             <OutlineBtnModal
+              text={"Resultados"}
+              handleClick={toggleModalIHResultados}
+             
             />
            </>
            :
@@ -470,21 +483,27 @@ const ModalInforme = ({
         type="notas2"
         //setShowModalGeneral={setShowModalGeneral}
       />
-      <ModalCreateNotes
-            setShowModal={setShowModalDescIh}
-            titulo={"Descripción"}
-            toggleModal={toggleModalIH}
-            showModal={showModalDescIh}
-            informeDetail={informeDetail}
-            idStudy={detailEstudio?.id}
-            detailEstudio={detailEstudio}
-            type="desIH"
-            //setShowModalGeneral={setShowModalGeneral}
-          />
+       <ModalCreateNotes
+        setShowModal={setShowModalResultadosIh}
+        titulo={"Resultados"}
+        toggleModal={toggleModalIHResultados}
+        showModal={showModalResultadosIh}
+        informeDetail={informeDetail}
+        idStudy={detailEstudio?.id}
+        detailEstudio={detailEstudio}
+        type="resultadosI"
+        //setShowModalGeneral={setShowModalGeneral}
+      />
+     
       <ModalSendWp
         detailEstudio={detailEstudio}
         isOpen={showModalSendWp}
         setOpenModal={setShowModalSendWp}
+      />
+      <AddIHQModal
+      showModal={showModalDescIh}
+      toggleModal={toggleModalIH}
+      idStudy={detailEstudio?.id}
       />
       <Box
         display={"flex"}

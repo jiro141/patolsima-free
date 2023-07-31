@@ -44,10 +44,10 @@ import ModalNumFactura from "components/widgets/Modals/ModalNumFactura";
 import { Title } from "components/widgets/Texts";
 import EditButton from "components/widgets/Buttons/EditButton";
 import { CheckButton } from "components/widgets/Buttons/EditButton";
+import { useHistory } from "react-router-dom";
 
-
-const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend }) => {
-
+const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend,setEnablefactModalDetails }) => {
+    const history = useHistory();
 
     const {
         getFacturasDetails,
@@ -150,13 +150,18 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 toast.success("¡Se confirmo la factura correctamente!", {
                     autoClose: 1000,
                 });
-                window.location.reload();
+             //window.location.reload();
+             history.push('/admin/Facturacion');
+             window.location.reload();
+             //setEnablefactModalDetails(false)
             } else {
                 toast.error("¡Hubo un error al confirmar la factura!", {
                     autoClose: 1000,
                 });
             }
-            // console.log(confirmarFactura)
+            history.push('/admin/Facturacion');
+            window.location.reload();
+             //setEnablefactModalDetails(false)
         } catch (error) {
             console.log(error);
         }

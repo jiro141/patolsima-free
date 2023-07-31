@@ -48,7 +48,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
         <Box
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
-          backgroundColor={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor }
+          backgroundColor={'#137797' }
           py={'1px'}
           px={'10px'}
           minH={"5px"}
@@ -57,7 +57,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
             type={"headPrincipal"}
             data={'   ' + formatDate(study.fecha_recepcion)}
             headTitle={formatDate(study.fecha_recepcion)}
-            icon={<BsReceipt size={"25px"} color={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor} />}
+            icon={<BsReceipt size={"25px"} color={'#137797'} />}
             color={useColorModeValue("gray.600", "gray.400")}
           />
         </Box>
@@ -116,7 +116,7 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
         <Box
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
-          backgroundColor={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor }
+          backgroundColor={'#137797' }
           py={'1px'}
           px={'10px'}
           minH={"15px"}
@@ -126,7 +126,7 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
             type="headPrincipal"
             headTitle={' ' + study.estudio_codigo}
             icon={
-              <BsFillFileEarmarkRichtextFill size={"25px"} color={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor} />
+              <BsFillFileEarmarkRichtextFill size={"25px"} color={'#137797'} />
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />

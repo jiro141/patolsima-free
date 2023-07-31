@@ -119,11 +119,11 @@ export const getInformesListNotConfirm= async () => {
         console.log(error);
     }
 }
-//get informes priority hight
+//get informes priority hight ?completado=false&aprobado=true
 export const getInformesListHightPriority= async () => {
-    // console.log(token);
+    // console.log(token); ?completado=false&aprobado=true
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=ALTA&completado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=ALTA&completado=true&aprobado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -132,7 +132,7 @@ export const getInformesListHightPriority= async () => {
 export const getInformesListMediaPriority= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=MEDIA&completado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=MEDIA&completado=true&aprobado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -141,7 +141,7 @@ export const getInformesListMediaPriority= async () => {
 export const getInformesListLowPriority= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=BAJA&completado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=BAJA&completado=true&aprobado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -214,8 +214,8 @@ export const deleteInforme = async (id) => {
 
 //filtros para administrador
 export const getInformesCompletados = async () => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+   // const token = localStorage.getItem("access");
+   // Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get('/v1/core/informes/?completado=false&aprobado=true');
         console.log(response);
@@ -225,13 +225,23 @@ export const getInformesCompletados = async () => {
     }
 }
 export const getInformesNoCompletados = async () => {
-    const token = localStorage.getItem("access");
-    Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    //const token = localStorage.getItem("access");
+   // Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
         const response = await Axios.get('/v1/core/informes/?completado=false&aprobado=false');
         console.log(response);
         return response.data.results;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const postIHQ = async (data) => {
+    try {
+        const response = await Axios.post('/v1/core/resultados-inmunostoquimica/',data);
+        console.log(response);
+        return response.data.results;
+    } catch (error) {
+        console.log(error.message);
     }
 }

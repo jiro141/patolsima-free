@@ -76,18 +76,7 @@ useEffect(() => {
     setStudy(study);
   };
 
- /* const peticionGet = async () => {
-    try {
-      const estudiosList = await getStudiesList()
-      setStudies(estudiosList)
 
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    peticionGet();
-  }, []); */
 
   console.log(informesp);
   const renderStudies = (studies, priorityColor) => {

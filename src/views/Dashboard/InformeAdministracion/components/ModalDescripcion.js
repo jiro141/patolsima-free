@@ -298,7 +298,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                   <CKEditor
 
                     editor={Editor}
-                    config={{ ...{ patolsima_informe_id: idStudy },...CKEditorDefaultConfig,editorConfig }}
+                    config={{ ...{ patolsima_informe_id: idStudy },...CKEditorDefaultConfig }}
                     data={
                       informeDetail?.descripcion_microscopica === null ? ' ' :
                         informeDetail?.descripcion_microscopica || dataResmicro
