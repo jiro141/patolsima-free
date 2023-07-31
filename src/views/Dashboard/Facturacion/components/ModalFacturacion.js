@@ -756,7 +756,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                             <Box >
 
                                 <Button
-                                    disabled={facturasDetail?.confirmada === false ? true : false}
+                                    disabled={facturasDetail?.pagada === true ? true : false}
                                     onClick={handleArchivar}
                                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
                                     marginRight={'2%'}

@@ -23,24 +23,24 @@ import { useRef } from "react";
 import { postInformes } from "api/controllers/informes";
 
 
-const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral,detailEstudio }) => {
+const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral, detailEstudio }) => {
   const [data, setdata] = useState([])
   const [dataResmicro, setdataResmicro] = useState('')
   const [History, setgetHistory] = useState([])
-   
+
   useEffect(() => {
-     const getHistory=async()=>{
-      const getData= await HistoryInformes(idStudy)
+    const getHistory = async () => {
+      const getData = await HistoryInformes(idStudy)
       console.log(getData);
       setgetHistory(getData)
-     }
-     getHistory()
-    }, [])
+    }
+    getHistory()
+  }, [])
 
   const handleSubmitData = async () => {
-   
 
-    if(type==='create'){
+
+    if (type === 'create') {
       if (type === 'micro') {
         const newObj = {
           estudio: idStudy,
@@ -136,7 +136,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
           });
         }
       }
-    }else{
+    } else {
       if (type === 'micro') {
         const newObj = {
           estudio: idStudy,
@@ -297,7 +297,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
               type === 'micro' ?
                 <>
                   <CKEditor
-                  
+
                     editor={Editor}
                     config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                     data={
@@ -305,7 +305,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                         informeDetail?.descripcion_microscopica || dataResmicro
                     }
                     onReady={(editor) => {
-                    
+
                       editorRef.current = editor;
                     }}
                     onChange={(event, editor) => {
@@ -378,59 +378,59 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             console.log('from other');
                             setdata({ data })
                           }}
-                        /> : type==='register'?
+                        /> : type === 'register' ?
 
-                        <Table variant="striped" colorScheme="teal">
-                        <Thead>
-                          <Tr>
-                            <Th>ID</Th>
-                            <Th>Fecha</Th>
-                            <Th>Usuario</Th>
-                            <Th>Tipo</Th>
-                            <Th>Descripción</Th>
-                          </Tr>
-                        </Thead>
-                       {History && <Tbody>
-                          {History.map((item) => (
-                            <Tr key={item?.history_id}>
-                              <Td >{item?.history_id}</Td>
-                              <Td>{new Date(item?.history_date).toLocaleString()}+</Td>
-                              <Td>{item?.history_user}</Td>
-                              <Td>{item?.history_type}</Td>
-                              <Td>{item?.history_change_reason}</Td>
-                            </Tr>
-                          ))}
-                        </Tbody>}
-                      </Table>
-                      : type==='notas2' ?
-<Table variant="striped" colorScheme="teal">
-                        <Thead>
-                          <Tr>
-                           
-                          </Tr>
-                        </Thead>
-                       {detailEstudio && <Tbody>
-                          {detailEstudio.muestras.map((item) => (
-                            <Tr key={item?.id}>
-                              <Td >{item?.notas}</Td>
-                             
-                            </Tr>
-                          ))}
-                        </Tbody>}
-                      </Table> : ''
+                          <Table variant="striped" colorScheme="teal">
+                            <Thead>
+                              <Tr>
+                                <Th>ID</Th>
+                                <Th>Fecha</Th>
+                                <Th>Usuario</Th>
+                                {/* <Th>Tipo</Th> */}
+                                <Th>Descripción</Th>
+                              </Tr>
+                            </Thead>
+                            {History && <Tbody>
+                              {History.map((item) => (
+                                <Tr key={item?.history_id}>
+                                  <Td >{item?.history_id}</Td>
+                                  <Td>{new Date(item?.history_date).toLocaleString()}+</Td>
+                                  <Td>{item?.history_user}</Td>
+                                  {/* <Td>{item?.history_type}</Td> */}
+                                  <Td>{item?.history_change_reason}</Td>
+                                </Tr>
+                              ))}
+                            </Tbody>}
+                          </Table>
+                          : type === 'notas2' ?
+                            <Table variant="striped" colorScheme="teal">
+                              <Thead>
+                                <Tr>
+
+                                </Tr>
+                              </Thead>
+                              {detailEstudio && <Tbody>
+                                {detailEstudio.muestras.map((item) => (
+                                  <Tr key={item?.id}>
+                                    <Td >{item?.notas}</Td>
+
+                                  </Tr>
+                                ))}
+                              </Tbody>}
+                            </Table> : ''
 
             }
           </Box>
         </Box>
       </Box>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', border: '0px solid', width: '95%',marginBottom:'20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', border: '0px solid', width: '95%', marginBottom: '20px' }}>
 
-     {type ==='register' || type==='notas2' ?
-     
-    <></> :
+        {type === 'register' || type === 'notas2' ?
 
-     <SaveButton handleSubmit={handleSubmitData} />
-    }
+          <></> :
+
+          <SaveButton handleSubmit={handleSubmitData} />
+        }
       </div>
     </>
   );
