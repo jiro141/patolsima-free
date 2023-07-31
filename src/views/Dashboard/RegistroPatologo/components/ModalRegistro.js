@@ -134,12 +134,7 @@ const handlePutStudies=async()=>{
                   </Badge>
                 )}
               </Box>
-              <Box margin={"10px"}>
-                <Text fontSize={"17px"}>Fecha</Text>
-                <Badge>
-                  <Text>{detailMuestra ? "07/03/1998" : ""}</Text>
-                </Badge>
-              </Box>
+              
             </Box>
             <Box>
               <Box margin={"10px"}>
@@ -264,7 +259,9 @@ const handlePutStudies=async()=>{
             <Box margin={"10px"}>
               <Text>Muestras</Text>
               {detailMuestra ? (
-                <Select width={"100%"} color="gray.400" defaultValue="Muestras">
+                <Select 
+                disabled={detailMuestra?.muestras?.length>0 ? false :true}
+                width={"100%"} color="gray.400" defaultValue="Muestras">
                   <option hidden colorScheme="gray.400">
                     Muestras
                   </option>
@@ -292,6 +289,7 @@ const handlePutStudies=async()=>{
                 width={"100%"}
                 color="gray.400"
                 defaultValue="Informes anteriores"
+                disabled={historyMap ? false :true}
               >
                 <option hidden colorScheme="gray.400">
                   Informes anteriores
@@ -307,6 +305,7 @@ const handlePutStudies=async()=>{
                 mt={"5px"}
                 color="gray.400"
                 defaultValue="Informes anteriores"
+                disabled={detailMuestra?.adjuntos?.length>0 ? false :true}
               >
                 <option hidden>Anexos</option>
                 {detailMuestra ? (
@@ -321,32 +320,17 @@ const handlePutStudies=async()=>{
               </Select>
             </Box>
 
-            {changeFocus ? (
-              <div style={{ position: "relative" }}>
-                <Textarea
-                  placeholder="Notas de estudio"
-                  type="text"
-                  name="notas"
-                  value={formik.values.notas}
-                  onChange={(e) =>
-                    formik.setFieldValue("notas", e.target.value)
-                  }
-                />
-                <Box position={"absolute"} top={"5px"} left={"85%"}>
-                 <CheckButton handleClick={handlePutStudies} />
-                </Box>
-              </div>
-            ) : (
+            { 
               <div
                 className="chakra-input-style"
-                onClick={() => setChangeFocus(true)}
+               // onClick={() => setChangeFocus(true)}
               >
                 <Box display={"flex"} justifyContent={"space-between"}>
                   <p> {detailMuestra?.notas}</p>
-                  <EditButton handleClick={() => setChangeFocus(true)} />
+                  
                 </Box>
               </div>
-            )}
+            }
           </Grid>
           <Box display={"flex"} justifyContent={"flex-end"} my={"-27px"}>
             <GeneralButton text="Procesar" handleClick={formik.handleSubmit} />

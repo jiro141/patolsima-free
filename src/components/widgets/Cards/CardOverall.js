@@ -23,8 +23,12 @@ import { Title } from "../Texts";
 import { useContext } from "react";
 import MainContext from "context/mainContext/MainContext";
 //here
+const highPriorityColor = "#FE686A";
+const mediumPriorityColor = "#FC9F02";
+const lowPriorityColor = "#02B464";
 
 const renderStudies = (content, toggleModal, colorA, type) => {
+  
   return content.map((study) => (
     <Link
       onClick={() => {
@@ -44,7 +48,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
         <Box
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
-          backgroundColor={colorA}
+          backgroundColor={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor }
           py={'1px'}
           px={'10px'}
           minH={"5px"}
@@ -53,7 +57,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
             type={"headPrincipal"}
             data={'   ' + formatDate(study.fecha_recepcion)}
             headTitle={formatDate(study.fecha_recepcion)}
-            icon={<BsReceipt size={"25px"} color={colorA} />}
+            icon={<BsReceipt size={"25px"} color={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor} />}
             color={useColorModeValue("gray.600", "gray.400")}
           />
         </Box>
@@ -92,7 +96,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
 };
 
 const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme) => {
-
+ 
   return content.map((study) => (
     <Link
       onClick={() => {
@@ -112,7 +116,7 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
         <Box
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
-          backgroundColor={colorA}
+          backgroundColor={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor }
           py={'1px'}
           px={'10px'}
           minH={"15px"}
@@ -122,7 +126,7 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
             type="headPrincipal"
             headTitle={' ' + study.estudio_codigo}
             icon={
-              <BsFillFileEarmarkRichtextFill size={"25px"} color={colorA} />
+              <BsFillFileEarmarkRichtextFill size={"25px"} color={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor} />
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />
@@ -176,7 +180,6 @@ const renderMuestras = (content, toggleModal, colorA, type,handleSelectInforme) 
     <Link
     onClick={() => {
       toggleModal(study);
-      console.log(study);
       if(handleSelectInforme){
         handleSelectInforme(study.id)
       }
@@ -194,7 +197,7 @@ const renderMuestras = (content, toggleModal, colorA, type,handleSelectInforme) 
         <Box
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
-          backgroundColor={colorA}
+          backgroundColor={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor }
           py={'1px'}
           px={'6px'}
           minH={"15px"}

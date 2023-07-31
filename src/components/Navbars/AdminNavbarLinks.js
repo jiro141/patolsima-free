@@ -262,21 +262,28 @@ const {setInformesCompletados}=useInformes()
   }
 
   const filterInforPatologo = (searchTearm) => {
-    console.log( filteredInformeP[0].estudio_codigo);
+    console.log( filteredInformeP);
   
-      let resultadoBusqueda = filteredInformeP.filter((elemento) => {
+     let resultadoBusqueda = filteredInformeP.filter((elemento) => {
         if (
-          elemento.estudio_codigo
+          elemento?.paciente?.nombres
             .toLowerCase()
             .includes(searchTearm.toLowerCase()) ||
-          elemento.estudio_patologo_name
+          elemento.paciente?.apellidos
             .toLowerCase()
-            .includes(searchTearm.toLowerCase())
+            .includes(searchTearm.toLowerCase())||
+            elemento.codigo
+              .toLowerCase()
+              .includes(searchTearm.toLowerCase())
+              ||
+            elemento.medico_tratante?.nombres
+              .toLowerCase()
+              .includes(searchTearm.toLowerCase())
         ) {
           return elemento;
         }
       });
-      setInformesp(resultadoBusqueda);
+    setInformesp(resultadoBusqueda);
     
 
   }
