@@ -1,7 +1,41 @@
-import { Box, Button, CloseButton, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react'
+import { Box, Button, CloseButton, Grid, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, Textarea } from '@chakra-ui/react'
 import React from 'react'
+import InputOverall from '../Inputs/InputOverall'
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { Title } from '../Texts';
+import { postIHQ } from 'api/controllers/informes';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function AddIHQModal({showModal,toggleModal}) {
+export default function AddIHQModal({showModal,toggleModal,idStudy}) {
+    const formik = useFormik({
+        initialValues: {
+          //informe: idStudy,
+          procedimiento: '',
+          reaccion: '',
+          diagnostico_observaciones: '',
+        },
+       
+        validateOnChange: false,
+        onSubmit: async (formData, { resetForm }) => {
+         const newObjs={
+          informe:idStudy,
+          ...formData
+         }
+         
+       try {
+        const res=await postIHQ(newObjs)
+       
+        toast.success("¡Registro exitoso!", {
+          autoClose: 1000,
+        });
+       } catch (error) {
+        
+       }
+       
+        },
+      });
   return (
     <Modal
     size={"lg"}
@@ -28,7 +62,54 @@ export default function AddIHQModal({showModal,toggleModal}) {
              </Button>
          </ModalHeader>
          <ModalBody>
+         <Box>
+ 
+     <Box display={'flex'} justifyContent={'center'} marginTop={'-30px'} marginBottom={'15px'}>
+     <Title title={'Ingresa los datos'} />
+     </Box>
+      <Box>
+
+        <InputOverall
+          placeholder='Procedimiento'
+          name={'procedimiento'}
+          value={formik.values.procedimiento}
+          onChange={e => formik.setFieldValue('procedimiento', e.target.value)}
+          //errors={formik.errors.ci_rif}
+        />
+        <InputOverall
+          placeholder='Reaccion'
+          name={'reaccion'}
+          value={formik.values.reaccion}
+          onChange={e => formik.setFieldValue('reaccion', e.target.value)}
+          //errors={formik.errors.razon_social}
+        />
+       {/* <InputOverall
+          placeholder='Diagnostico y observaciones'
+          name={'diagnostico_observaciones'}
+          value={formik.values.telefono_celular}
+          onChange={e => formik.setFieldValue('diagnostico_observaciones', e.target.value)}
+         // errors={formik.errors.telefono_celular}
+        />*/}
+        <Textarea  placeholder='Diagnostico y observaciones'      
+        name={'diagnostico_observaciones'}
+          value={formik.values.telefono_celular}
+          onChange={e => formik.setFieldValue('diagnostico_observaciones', e.target.value)}
+        />
+
+      </Box>
     
+      
+      <Button
+      marginTop={'5px'}
+        // marginBottom={{ lg: '-6%', md: '-8%', sm: '-10%' }}
+        marginLeft={{ lg: '82%', md: '70%', sm: '77%' }}
+        borderRadius={'20px'}
+        bgColor={'#137797'}
+        color='#ffff'
+        onClick={formik.handleSubmit}>
+        Aceptar
+      </Button>
+    </Box>
          </ModalBody>
      </ModalContent>
  </Modal>

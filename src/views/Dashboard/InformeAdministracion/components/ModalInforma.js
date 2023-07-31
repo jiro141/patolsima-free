@@ -44,7 +44,7 @@ import ModalPrint from "components/widgets/Modals/ModalPrintFact";
 
 
 
-const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowModalGeneral }) => {
+const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowModalGeneral,setEnableInfoModalDetails }) => {
   console.log(detailEstudio);
   const [showModal, setShowModal] = useState(false);
   const [showModalMacro, setShowModalMacro] = useState(false);
@@ -105,12 +105,11 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
     if (detailEstudio) {
 
       const res = await completeInforme(detailEstudio.id)
-      console.log('res complete informe -->');
-      console.log(res);
+
       if (res) {
         const resGenerate = await generateInformeCompletePdf(detailEstudio?.id)
         console.log(resGenerate);
-        informes()
+        
         if (resGenerate) {
           if (detailEstudio?.envio_digital) {
             setShowModalSendWp(true)
@@ -130,6 +129,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
             autoClose: 3000,
           });
         }
+        setEnableInfoModalDetails(false)
+        window.location.reload();
       } else {
         toast.error("¡Ocurrio un error al generar el informe!", {
           autoClose: 1000,

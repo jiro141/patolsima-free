@@ -76,6 +76,7 @@ const ModalRegistro = ({ study, close }) => {
 
       try {
         const procesarInforme = await postInformes(newObj);
+        console.log(procesarInforme);
         if (procesarInforme) {
           toast.success("¡El informe se ha procesado con exito!", {
             autoClose: 1000,

@@ -62,7 +62,7 @@ export const getStudiesList = async () => {
 
 export const getStudiesListPriorityALTA = async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=ALTA&confirmado=true`)
+        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=ALTA&confirmado=true&pagado=true`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {
@@ -71,7 +71,7 @@ export const getStudiesListPriorityALTA = async () => {
 }
 export const getStudiesListPriorityMEDIA= async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=MEDIA&confirmado=true`)
+        const response = await Axios.get(`/v1/core/estudios/?prioridad=MEDIA&confirmado=true&pagado=true`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {
@@ -80,7 +80,7 @@ export const getStudiesListPriorityMEDIA= async () => {
 }
 export const getStudiesListPriorityBAJA= async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=BAJA&confirmado=true`)
+        const response = await Axios.get(`/v1/core/estudios/?prioridad=BAJA&confirmado=true&pagado=true`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {
