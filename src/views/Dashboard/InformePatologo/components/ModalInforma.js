@@ -311,10 +311,12 @@ const ModalInforme = ({
                 onChange={()=>handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
                 defaultValue="Informes anteriores"
               >
-                <option hidden colorScheme="gray.400">
+                
+                {detailEstudio?.adjuntos &&
+                 <option hidden colorScheme="gray.400">
                   Anexos
-                </option>
-                {detailEstudio?.adjuntos?.map((estudio, index) => (
+                </option>}
+                { detailEstudio?.adjuntos?.map((estudio, index) => (
                   <option key={index} value={estudio.estudio_id}>
                     {estudio.file_name}
                   </option>

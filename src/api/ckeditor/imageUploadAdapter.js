@@ -1,6 +1,7 @@
 import Axios from "api/authApi";
 
 function CustomUploadAdapterPlugin(editor) {
+   
     const informe_id = editor.config._config.patolsima_informe_id;
 
     // Only allocates the upload handler for instances of the Editor with informe_id
@@ -11,6 +12,9 @@ function CustomUploadAdapterPlugin(editor) {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
         return new ImageUploadAdapter(loader, informe_id)
     }
+   
+      
+    
 }
 
 class ImageUploadAdapter {
@@ -20,6 +24,8 @@ class ImageUploadAdapter {
         this.requestPromise = null;
         this.abortController = new AbortController();
     }
+    
+    
 
     // Starts the upload process.
     upload() {
@@ -63,6 +69,7 @@ class ImageUploadAdapter {
             this.abortController.abort();
         }
     }
+    
 
 }
 

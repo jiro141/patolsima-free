@@ -258,7 +258,6 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
         '|',
         'bold',
         'italic',
-        'link',
         'bulletedList',
         'numberedList',
         'imageInsert',
@@ -299,7 +298,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                   <CKEditor
 
                     editor={Editor}
-                    config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
+                    config={{ ...{ patolsima_informe_id: idStudy },...CKEditorDefaultConfig,editorConfig }}
                     data={
                       informeDetail?.descripcion_microscopica === null ? ' ' :
                         informeDetail?.descripcion_microscopica || dataResmicro
