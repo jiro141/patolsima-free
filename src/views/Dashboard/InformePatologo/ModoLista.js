@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import {
   Badge,
   Heading,
@@ -28,39 +28,74 @@ import ModalInforme from "./components/ModalInforma";
 import ListaInformes from "./components/ListaInformes";
 import { getListInforme } from "api/controllers/informes";
 import Container from "components/widgets/utils/Container";
-
+import { TableStudys_Alta } from "../Facturacion/components/TableOrders";
+import { TableStudys_Media } from "../Facturacion/components/TableOrders";
+import { TableStudys_Baja } from "../Facturacion/components/TableOrders";
+import { getInformesListHightPriority } from "api/controllers/informes";
+import { getInformesListMediaPriority } from "api/controllers/informes";
+import { getInformesListLowPriority } from "api/controllers/informes";
+import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
+import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
+import MainContext from "context/mainContext/MainContext";
+import { getStudiesDetail } from "api/controllers/estudios";
+import { formatDate } from "helpers";
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
-  const [informes, setInformes] = useState();
-  const highPriorityStudies = [];
-  const mediumPriorityStudies = [];
-  const lowPriorityStudies = [];
-  if (informes) {
-    informes.forEach((informe) => {
-      const priority = informe.estudio_prioridad;
-      if (priority === "ALTA") {
-        highPriorityStudies.push(informe);
-      } else if (priority === "MEDIA") {
-        mediumPriorityStudies.push(informe);
-      } else if (priority === "BAJA") {
-        lowPriorityStudies.push(informe);
-      }
-    });
+  const [informesHightPriority, setInformesHightPriority] = useState([])
+  const [informesMediaPriority, setInformesMediaPriority] = useState([])
+  const [informesLowPriority, setInformesLowPriority] = useState([])
+  const [detailInforme, setInformeDetail] = useState();
+  const [idInforme, setIdInforme] = useState("");
+  const [detailEstudio, setdetailEstudio] = useState([]);
+  const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails } = useContext(MainContext);
+  const [Busqueda, setBusqueda] = useState("");
+  const handleSelectInforme = async (study) => {
+    setEnableInfoModalDetails(!enableInfoModalDetails);
+    // const res = await getInformesDetail(study)
+    setInformeDetail(study)
+    setIdInforme(study)
+    const resStudyDetail = await getStudiesDetail(study.estudio_id)
+    setdetailEstudio(resStudyDetail)
   }
 
-  const peticionGet = async () => {
+  const peticionGetHightPriority = async () => {
     try {
-      const informesList = await getListInforme()
-      setInformes(informesList);
+      const informesList = await getInformesListHightPriority()
+      setInformesHightPriority(informesList);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const peticionGetMediaPriority = async () => {
+    try {
+      const informesList = await getInformesListMediaPriority()
+      setInformesMediaPriority(informesList);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const peticionGetLowPriority = async () => {
+    try {
+      const informesList = await getInformesListLowPriority()
+      console.log(informesList);
+      setInformesLowPriority(informesList);
 
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    peticionGet();
+    // peticionGet();
+    getInformesListHightPriority()
+    getInformesListMediaPriority()
+    getInformesListLowPriority()
+    peticionGetHightPriority()
+    peticionGetMediaPriority()
+    peticionGetLowPriority()
   }, []);
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => {
@@ -78,145 +113,145 @@ const Dashboard = () => {
     <>
       <Container>
         <Box padding={'2%'}>
-          <Heading
-            size="md"
-          >
-            Informes en proceso
-          </Heading>
-          <Box
-            p={'15px 25px 25px 25px'}
-            width={'100%'}
-            m={"20px 30px 30px 10px"}
-            backgroundColor={"#FFFF"}
-            boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-            borderRadius="20px"
-            overflowY="scroll"
-            overflowX="hidden"
-            maxH={'34em'}
-
-          >
-            <Table >
-              <Thead>
+          <TableStudys_Alta colorA={highPriorityColor}>
+            <Tbody>
+              {informesHightPriority?.length === 0 ? (
                 <Tr>
-                  <Th># Muestra</Th>
-                  <Th>Nombre y Apellido</Th>
-                  <Th>RIF/CI</Th>
-                  <Th>Fecha de recepción</Th>
-                  <Th>Tipo de estudio</Th>
+                  <Td border={'none'} colSpan={5} textAlign="center">
+                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                      No se encontraron resultados
+                    </Text>
+                  </Td>
                 </Tr>
-              </Thead>
-              <Tbody>
-                <Tr borderBottom={'solid 3px'} borderColor={highPriorityColor}>
-                  <Heading
-                    size="md"
-                    mt={4}
-                  >
-                    Prioridad Alta
-                  </Heading>
+              ) : (
+                informesHightPriority?.map((study) => (
+                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
+                    </Td>
+                    <Td textAlign={'center'}>
+                      <Link onClick={() => toggleModal(study)}>
+                        {study?.estudio_paciente_name.length > 16
+                          ? study?.estudio_paciente_name.substring(0, 16) + "..."
+                          : study?.estudio_paciente_name}
+                      </Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{formatDate(study?.created_at)}</Link>
+                    </Td>
+                    <Td textAlign={'center'} >
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
+                    </Td>
+                  </Tr>
+                ))
+              )}
+            </Tbody>
+          </TableStudys_Alta>
+          <TableStudys_Media colorA={mediumPriorityColor}>
+            <Tbody>
+              {informesMediaPriority?.length === 0 ? (
+                <Tr>
+                  <Td border={'none'} colSpan={5} textAlign="center">
+                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                      No se encontraron resultados
+                    </Text>
+                  </Td>
                 </Tr>
-                {highPriorityStudies.map((informe) => {
-                  const fechaHora = informe.created_at;
-                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-                  return (
-                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={informe.id}>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_codigo}</Link>
-                      </Td>
-                      <Td>
-                        {/* <Link onClick={() => toggleModal(study)}>{informe.paciente.nombres} {informe.paciente.apellidos}</Link> */}
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_paciente_ci}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{fecha}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_tipo}</Link>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-                <Tr borderBottom={'solid 3px'} borderColor={mediumPriorityColor}>
-                  <Heading
-                    size="md"
-                    mt={4}
-                  >
-                    Prioridad Media
-                  </Heading>
+              ) : (
+                informesMediaPriority?.map((study) => (
+                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
+                    </Td>
+                    <Td textAlign={'center'}>
+                      <Link onClick={() => handleSelectInforme(study)}>
+                        {study?.estudio_paciente_name.length > 16
+                          ? study?.estudio_paciente_name.substring(0, 16) + "..."
+                          : study?.estudio_paciente_name}
+                      </Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{formatDate(study?.created_at)}</Link>
+                    </Td>
+                    <Td textAlign={'center'} >
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
+                    </Td>
+                  </Tr>
+                ))
+              )}
+            </Tbody>
+          </TableStudys_Media>
+          <TableStudys_Baja colorA={lowPriorityColor}>
+            <Tbody>
+              {informesLowPriority?.length === 0 ? (
+                <Tr>
+                  <Td border={'none'} colSpan={5} textAlign="center">
+                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                      No se encontraron resultados
+                    </Text>
+                  </Td>
                 </Tr>
-                {mediumPriorityStudies.map((informe) => {
-                  const fechaHora = informe.created_at;
-                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-                  return (
-                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={informe.id}>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_codigo}</Link>
-                      </Td>
-                      <Td>
-                        {/* <Link onClick={() => toggleModal(study)}>{informe.paciente.nombres} {informe.paciente.apellidos}</Link> */}
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_paciente_ci}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{fecha}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_tipo}</Link>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-                <Tr borderBottom={'solid 3px'} borderColor={lowPriorityColor}>
-                  <Heading
-                    size="md"
-                    mt={4}
-                  >
-                    Prioridad Baja
-                  </Heading>
-                </Tr>
-                {lowPriorityStudies.map((informe) => {
-                  const fechaHora = informe.created_at;
-                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-                  return (
-                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={informe.id}>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_codigo}</Link>
-                      </Td>
-                      <Td>
-                        {/* <Link onClick={() => toggleModal(study)}>{informe.paciente.nombres} {informe.paciente.apellidos}</Link> */}
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_paciente_ci}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{fecha}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal()}>{informe.estudio_tipo}</Link>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </Box>
-          <Button
-            borderRadius={'20px'}
-            padding={'10px 30px'}
-            bgColor={'#137797'}
-            color='#ffff'
-            onClick={toggleModalList}
-          >
-            Ver más</Button>
+              ) : (
+                informesLowPriority?.map((study) => (
+                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
+                    </Td>
+                    <Td textAlign={'center'}>
+                      <Link onClick={() => handleSelectInforme(study)}>
+                        {study?.estudio_paciente_name.length > 16
+                          ? study?.estudio_paciente_name.substring(0, 16) + "..."
+                          : study?.estudio_paciente_name}
+                      </Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{formatDate(study?.created_at)}</Link>
+                    </Td>
+                    <Td textAlign={'center'} >
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
+                    </Td>
+                  </Tr>
+                ))
+              )}
+            </Tbody>
+          </TableStudys_Baja>
+          <ShowMoreButton handleClick={toggleModalList} />
         </Box>
       </Container>
-    {  <Modal
-        size={'4xl'}
+      {/* <FilteredDataModal
+        isOpenModal={showModalList}
+        isToggleModal={toggleModalList}
+        Busqueda={Busqueda}
+        handleBusquedaChange={handleBusquedaChange}
+        thData={thValuesFacturas}
+        tBodyData={searchFacturas}
+        handleSelectTBody={handleSelectTBody}
+        handleSelectIcon={toggleModalConfirmacion}
+        type="facturas"
+      //  setAbonarSend={setAbonarSend}
+      />
+      <DeleteModal
+        isOpen={showModalConfirmacion}
+        onClose={toggleModalConfirmacion}
+        id={facturaIdDelete}
+        close={toggleModalConfirmacion}
+        eliminar={handleDeleteFact}
+        nombres={pacienteName}
+      /> */}
+      <Modal
+        size={'3xl'}
         maxWidth='100%'
-        isOpen={showModal}
-        onClose={toggleModal}>
+        onClose={() => setEnableInfoModalDetails(false)}
+        isOpen={enableInfoModalDetails}>
         <ModalOverlay />
         <ModalContent borderRadius={'20px'} bg="#ffff">
           <ModalHeader>
@@ -229,45 +264,18 @@ const Dashboard = () => {
               marginTop={'-60px'}
               bgColor={'#137797'}
               color='#ffff'
-              onClick={toggleModal}>
+              onClick={() => setEnableInfoModalDetails(false)}>
               <CloseButton />
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalInforme />
-          </ModalBody>
-        </ModalContent>
-      </Modal>}
-
-
-
-
-      <Modal
-        size={sizeView}
-        maxWidth='100%'
-        isOpen={showModalList}
-        onClose={toggleModalList}>
-        <ModalOverlay />
-        <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
-          <ModalHeader>
-            <Button
-              borderRadius={'50%'}
-              colorScheme="blue"
-              width="40px"
-              height="40px"
-              marginLeft={'95%'}
-              marginTop={'-60px'}
-              bgColor={'#137797'}
-              color='#ffff'
-              onClick={toggleModalList}>
-              <CloseButton />
-            </Button>
-          </ModalHeader>
-          <ModalBody marginTop={'-5%'}>
-            <ListaInformes />
+            <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme}
+              setInformeDetail={setInformeDetail}
+              setShowModalGeneral={setShowModal} />
           </ModalBody>
         </ModalContent>
       </Modal>
+
     </>
   );
 };
