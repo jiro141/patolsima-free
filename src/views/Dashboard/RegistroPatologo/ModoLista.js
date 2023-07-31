@@ -25,37 +25,22 @@ import { Icon } from "@chakra-ui/react";
 import ModalRegistro from "./components/ModalRegistro";
 import { getStudiesList } from "api/controllers/estudios";
 import Container from "components/widgets/utils/Container";
+import { TableStudys_Alta } from "../Facturacion/components/TableOrders";
+import { getInformesListHightPriority } from "api/controllers/informes";
+import { getStudiesListPriorityALTA } from "api/controllers/estudios";
+import { formatDate } from "helpers";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
-  const [study, setStudy] = useState();
-  const [studies, setStudies] = useState();
-  const highPriorityStudies = [];
-  const mediumPriorityStudies = [];
-  const lowPriorityStudies = [];
-  if (studies) {
-    studies.forEach((study) => {
-      const priority = study.prioridad;
-      const isConfirmed = study.confirmado;
-
-      if (isConfirmed) {
-        if (priority === "ALTA") {
-          highPriorityStudies.push(study);
-        } else if (priority === "MEDIA") {
-          mediumPriorityStudies.push(study);
-        } else if (priority === "BAJA") {
-          lowPriorityStudies.push(study);
-        }
-      }
-    });
-  }
-  console.log(studies);
+  const [studiesListPriorityALTA, setStudiesListPriorityALTA] = useState([])
+  // console.log(studies);
   const peticionGet = async () => {
     try {
-      const estudiosList = await getStudiesList()
-      setStudies(estudiosList)
+      const estudiosList = await getStudiesListPriorityALTA()
+      console.log(estudiosList);
+      setStudiesListPriorityALTA(estudiosList);
 
     } catch (error) {
       console.log(error);
@@ -63,11 +48,13 @@ const Dashboard = () => {
   };
   useEffect(() => {
     peticionGet();
+    getStudiesListPriorityALTA()
+
   }, []);
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (study) => {
     setShowModal(!showModal);
-    setStudy(study);
+    // setStudy(study);
   };
 
 
@@ -75,133 +62,44 @@ const Dashboard = () => {
     <>
       <Container >
         <Box padding={'2%'}>
-          <Heading
-            size="md"
-          >
-            Registro de muestras
-          </Heading>
-          <Box
-            p={'15px 25px 25px 25px'}
-            width={'100%'}
-            m={"20px 30px 30px 10px"}
-            backgroundColor={"#FFFF"}
-            boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-            borderRadius="20px"
-            overflowY="scroll"
-            overflowX="hidden"
-            maxH={'34em'}
-          >
-
-            <Table >
-              <Thead>
+          <TableStudys_Alta colorA={highPriorityColor}>
+            <Tbody>
+              {studiesListPriorityALTA.length === 0 ? (
                 <Tr>
-                  <Th># Muestra</Th>
-                  <Th>Nombre y Apellido</Th>
-                  <Th>RIF/CI</Th>
-                  <Th>Fecha de recepción</Th>
-                  <Th>Tipo de estudio</Th>
+                  <Td border={'none'} colSpan={5} textAlign="center">
+                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                      No se encontraron resultados
+                    </Text>
+                  </Td>
                 </Tr>
-              </Thead>
-              <Tbody>
-                <Tr borderBottom={'solid 3px'} borderColor={highPriorityColor}>
-                  <Heading
-                    size="md"
-                    mt={4}
-                  >
-                    Prioridad Alta
-                  </Heading>
-                </Tr>
-                {highPriorityStudies.map((study) => {
-                  console.log(studies);
-                  const fechaHora = study.created_at;
-                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
+              ) : (
+                studiesListPriorityALTA.map((study) => (
+                  <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.codigo}</Link>
+                    </Td>
+                    <Td textAlign={'center'}>
+                      <Link onClick={() => handleSelectInforme(study)}>
+                        {study?.paciente.nombres.length > 8 && study?.paciente.apellidos.length > 8
+                          ? study?.paciente.nombres.substring(0, 5) + "..." + study?.paciente.apellidos.substring(0, 5) + "..."
+                          : study?.paciente.nombres + ' ' + study?.paciente.apellidos}
+                      </Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.paciente.ci}</Link>
+                    </Td>
+                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                      <Link onClick={() => handleSelectInforme(study)}>{formatDate(study?.created_at)}</Link>
+                    </Td>
+                    <Td textAlign={'center'} >
+                      <Link onClick={() => handleSelectInforme(study)}>{study?.tipo}</Link>
+                    </Td>
+                  </Tr>
+                ))
+              )}
+            </Tbody>
+          </TableStudys_Alta>
 
-                  return (
-                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={study.id}>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.codigo}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.paciente.nombres} {study.paciente.apellidos}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.paciente.ci}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{fecha}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.tipo}</Link>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-                <Tr borderBottom={'solid 3px'} borderColor={mediumPriorityColor}>
-                  <Heading
-                    size="md"
-                    mt={4}
-                  >
-                    Prioridad Media
-                  </Heading>
-                </Tr>
-                {mediumPriorityStudies.map((study) => {
-                  const fechaHora = study.created_at;
-                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-
-                  return (
-                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={study.id}>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.codigo}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.paciente.nombres} {study.paciente.apellidos}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.paciente.ci}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{fecha}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.tipo}</Link>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-                <Tr borderBottom={'solid 3px'} borderColor={lowPriorityColor}>
-                  <Heading
-                    size="md"
-                    mt={4}
-                  >
-                    Prioridad Baja
-                  </Heading>
-                </Tr>
-                {lowPriorityStudies.map((study) => {
-                  const fechaHora = study.created_at;
-                  const fecha = fechaHora ? fechaHora.split("T")[0] : "";
-                  return (
-                    <Tr borderBottom="solid 2px" borderColor="gray.400" key={study.id}>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.codigo}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.paciente.nombres} {study.paciente.apellidos}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.paciente.ci}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{fecha}</Link>
-                      </Td>
-                      <Td>
-                        <Link onClick={() => toggleModal(study)}>{study.tipo}</Link>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </Box>
         </Box>
       </Container>
       <Modal
@@ -226,7 +124,7 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalRegistro study={study} />
+            <ModalRegistro />
           </ModalBody>
         </ModalContent>
       </Modal>

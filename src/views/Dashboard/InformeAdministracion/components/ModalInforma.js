@@ -99,7 +99,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
     return () => {
 
     }
-  }, [informes])
+  }, [])
 
   const handleSubmitGenerateInfor = async () => {
     if (detailEstudio) {
