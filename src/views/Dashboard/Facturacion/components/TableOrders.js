@@ -6,6 +6,7 @@ import { thValuesFacturasSimples } from 'mocks'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { thValuesPatologo } from 'mocks'
+import { Separator } from 'components/Separator/Separator'
 export function TableOrders_Pendientes({ children }) {
   return (
     <div>
@@ -216,10 +217,11 @@ export function TableOrders_Confirmadas({ children }) {
     </div>
   )
 }
-export function TableStudys_Alta({ children }) {
+export function TableStudys_Alta({ children,colorA }) {
   return (
     <div>
       <Title title={'Prioridad Alta'} />
+      <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
       <Box
         boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
         backgroundColor={"#FFFF"}
