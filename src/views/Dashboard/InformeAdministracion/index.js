@@ -197,7 +197,7 @@ const Dashboard = () => {
     const res = await getInformesDetail(id)
     setInformeDetail(res)
     setIdInforme(id)
-    const resStudyDetail = await getStudiesDetail(id)
+    const resStudyDetail = await getStudiesDetail(id.estudio_id)
     setdetailEstudio(resStudyDetail)
   }
   //console.log(informes.estudio)

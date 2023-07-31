@@ -31,7 +31,7 @@ export default function ModalSendWp({ isOpen, setOpenModal, type, text,pdfConten
   if(res){
     const phoneNumber = detailEstudio?.paciente?.telefono_celular ? detailEstudio?.paciente?.telefono_celular :'+584247423183'; 
     const message = `Desde Laboratorios Patolsima le informamos que el estudio ${detailEstudio?.codigo} del paciente ${detailEstudio?.paciente?.nombres} ${detailEstudio?.paciente?.apellidos}, CI ${detailEstudio?.paciente?.ci
-    } , ha sido completado, y puede acceder a él a través del siguiente link:${res.uri} `; 
+    } , ha sido completado, y puede acceder a él a través del siguiente link: ${res.uri} `; 
     const url = `https://api.whatsapp.com/send?phone=${encodeURIComponent(phoneNumber)}&text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   }else{
