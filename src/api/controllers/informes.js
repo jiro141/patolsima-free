@@ -123,7 +123,7 @@ export const getInformesListNotConfirm= async () => {
 export const getInformesListHightPriority= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=ALTA&completado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=ALTA&aprobado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -132,7 +132,7 @@ export const getInformesListHightPriority= async () => {
 export const getInformesListMediaPriority= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=MEDIA&completado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=MEDIA&aprobado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -141,7 +141,8 @@ export const getInformesListMediaPriority= async () => {
 export const getInformesListLowPriority= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=BAJA&completado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=BAJA&aprobado=false`)
+        console.log(response);
         return response.data.results;
     } catch (error) {
         console.log(error);
