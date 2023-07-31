@@ -334,6 +334,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                     width={"100%"}
                     color="gray.400"
                     defaultValue="Informes anteriores"
+                    disabled={historyMap ? false : true}
                   >
                     <option hidden colorScheme="gray.400">
                       Informes anteriores
@@ -345,14 +346,16 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                     ))}
                   </Select>
                 )}
-                {detailEstudio && (
+                {detailEstudio  && (
                   <Select
                   onChange={()=>handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
                     width={"100%"}
                     color="gray.400"
+                    disabled={detailEstudio&& detailEstudio?.adjuntos?.length >0  ? false : true}
                     //onClick={()=>console.log('clikin')}
                     //defaultValue="Informes anteriores"
                   >
+                    
                     <option hidden colorScheme="gray.400">
                       Anexos
                     </option>
@@ -371,6 +374,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
                     width={"100%"}
                     color="gray.400"
                     defaultValue="Informes anteriores"
+                    disabled={detailEstudio?.muestras?.length >0  ? false : true}
                   >
                     <option hidden colorScheme="gray.400">
                       Muestras
@@ -520,7 +524,7 @@ const ModalInforme = ({informeDetail,detailEstudio,setInformeDetail,setShowModal
             justifyContent={"space-between"}
             mb={"-20px"}
             mt={"-30px"}
-            width={"95%"}
+            width={"100%"}
           >
             <GreyButton
               handleClick={()=>setShowModalEstudioNotas(true)}
