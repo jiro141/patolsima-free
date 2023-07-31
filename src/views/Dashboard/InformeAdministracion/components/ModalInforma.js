@@ -99,7 +99,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
     return () => {
 
     }
-  }, [])
+  }, [informes])
 
   const handleSubmitGenerateInfor = async () => {
     if (detailEstudio) {
@@ -110,6 +110,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
       if (res) {
         const resGenerate = await generateInformeCompletePdf(detailEstudio?.id)
         console.log(resGenerate);
+        informes()
         if (resGenerate) {
           if (detailEstudio?.envio_digital) {
             setShowModalSendWp(true)
