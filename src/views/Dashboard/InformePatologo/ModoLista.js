@@ -39,6 +39,10 @@ import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
 import MainContext from "context/mainContext/MainContext";
 import { getStudiesDetail } from "api/controllers/estudios";
 import { formatDate } from "helpers";
+import { useInformes } from "hooks/Informes/useInformes";
+import { thValuesFacturas } from "mocks";
+import { thValuesInformes } from "mocks";
+import { getInformesDetail } from "api/controllers/informes";
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
@@ -51,6 +55,11 @@ const Dashboard = () => {
   const [detailEstudio, setdetailEstudio] = useState([]);
   const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails } = useContext(MainContext);
   const [Busqueda, setBusqueda] = useState("");
+  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
+  const [showModalListDetails, setShowModalListDetails] = useState(false);
+  const [detailInformefromShowMore, setInformeDetailfromShowMore] = useState([]);
+  const [detailEstudiofromShowMore, setdetailEstudiofromShowMore] = useState([]);
+ 
   const handleSelectInforme = async (study) => {
     setEnableInfoModalDetails(!enableInfoModalDetails);
     // const res = await getInformesDetail(study)
@@ -108,6 +117,40 @@ const Dashboard = () => {
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    setBusqueda(query);
+    filtrar(query);
+  };
+  const filtrar = (terminoBusqueda) => {
+    let resultadoBusqueda = filteredInforme.filter((elemento) => {
+      if (
+        elemento.estudio_codigo
+          .toLowerCase()
+          .includes(terminoBusqueda.toLowerCase()) ||
+        elemento.estudio_patologo_name
+          .toLowerCase()
+          .includes(terminoBusqueda.toLowerCase())
+
+      ) {
+        return elemento;
+      }
+    });
+    setInformes(resultadoBusqueda);
+  };
+  const handleSelectInformeFromShowMore = async (id) => {
+    console.log(id);
+    setShowModalListDetails(true)
+    const res = await getInformesDetail(id)
+    setInformeDetailfromShowMore(res)
+    //setIdInforme(id)
+    const resStudyDetail = await getStudiesDetail(id)
+    setdetailEstudiofromShowMore(resStudyDetail)
+
+   
+  }
+ 
 
   return (
     <>
@@ -227,19 +270,20 @@ const Dashboard = () => {
           <ShowMoreButton handleClick={toggleModalList} />
         </Box>
       </Container>
-      {/* <FilteredDataModal
+      <FilteredDataModal
+        type='informes'
+        thData={thValuesInformes}
         isOpenModal={showModalList}
         isToggleModal={toggleModalList}
+        tBodyData={informes}
         Busqueda={Busqueda}
+        handleSelectTBody={handleSelectInformeFromShowMore}
+        //handleSelectIcon={toggleModalConfirmacion}
+        //loading={loading}
         handleBusquedaChange={handleBusquedaChange}
-        thData={thValuesFacturas}
-        tBodyData={searchFacturas}
-        handleSelectTBody={handleSelectTBody}
-        handleSelectIcon={toggleModalConfirmacion}
-        type="facturas"
       //  setAbonarSend={setAbonarSend}
       />
-      <DeleteModal
+     {/* <DeleteModal
         isOpen={showModalConfirmacion}
         onClose={toggleModalConfirmacion}
         id={facturaIdDelete}
@@ -270,6 +314,35 @@ const Dashboard = () => {
           </ModalHeader>
           <ModalBody>
             <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme}
+              setInformeDetail={setInformeDetail}
+              setShowModalGeneral={setShowModal} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+     
+      <Modal
+        size={'3xl'}
+        maxWidth='100%'
+        onClose={() => setShowModalListDetails(false)}
+        isOpen={showModalListDetails}>
+        <ModalOverlay />
+        <ModalContent borderRadius={'20px'} bg="#ffff">
+          <ModalHeader>
+            <Button
+              borderRadius={'50%'}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={'95%'}
+              marginTop={'-60px'}
+              bgColor={'#137797'}
+              color='#ffff'
+              onClick={() => setShowModalListDetails(false)}>
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody>
+            <ModalInforme detailEstudio={detailEstudiofromShowMore} informeDetail={detailInformefromShowMore}
               setInformeDetail={setInformeDetail}
               setShowModalGeneral={setShowModal} />
           </ModalBody>

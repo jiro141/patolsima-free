@@ -141,7 +141,7 @@ export default function FilteredDataModal({
                           },
                           "&::-webkit-scrollbar-thumb": {
                             background: "#89bbcc",
-                            borderRadius: "10px", // Color del scroll
+                            borderRadius: "10px", 
                           },
                         }}
                       >

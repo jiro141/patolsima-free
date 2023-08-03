@@ -379,8 +379,6 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
                 placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
                 selectSearch={selectSearch}
-
-
               />
             }
             <InputSelector
@@ -422,15 +420,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}
           >
-            {/* <InputOverall
-              name="fecha_nacimiento"
-              value={date}
-              placeholder="Fecha de Nacimiento (AAAA-MM-DD): "
-              onChange={handleDateChange}
-              //errors={formik.errors.fecha_nacimiento}
-              type="date"
-              //handleClick={()=>console.log('clik')}
-            /> */}
+           
             <InputCalendar onOpenCalendar={onOpenCalendar} value={date} onChange={handleDateChange} setOpenCalendar={setOpenCalendar} />
             <InputOverall
               name="direccion"
@@ -459,15 +449,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
               onChange={(e) => formik.setFieldValue("email", e.target.value)}
               errors={formik.errors.email}
             />
-            {/* <InputOverall
-              name="Telefono"
-              value={formik.values.telefono_celular}
-              placeholder="Telefono de Contacto:"
-              onChange={(e) =>
-                formik.setFieldValue("telefono_celular", e.target.value)
-              }
-              errors={formik.errors.telefono_celular} || searchci
-            />*/}
+          
 
             {selectPacient || selectSearch ?
               <div>

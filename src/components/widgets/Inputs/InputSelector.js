@@ -11,7 +11,7 @@ export default function InputSelector({ errors, value, type, options, onChange }
       case "CITOLOGIA_ESPECIAL":
         return "Citología especial";
       case "INMUNOSTOQUIMICA":
-        return "Inmunostoquímica";
+        return "Inmunohistoquimica";
       default:
         return value;
     }

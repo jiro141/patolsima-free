@@ -292,7 +292,7 @@ const toggleModalIHResultados= () => {
           </Grid>
           <Grid
             margin={"50px 10px 20px 10px"}
-            templateColumns={"repeat(3,1fr)"}
+            templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
           >
             {historyMap && (
@@ -330,22 +330,7 @@ const toggleModalIHResultados= () => {
                 ))}
               </Select>
             )}
-            {detailEstudio && (
-              <Select
-                width={"100%"}
-                color="gray.400"
-                defaultValue="Informes anteriores"
-              >
-                <option hidden colorScheme="gray.400">
-                  Muestras
-                </option>
-                {detailEstudio?.muestras?.map((estudio, index) => (
-                  <option key={index} value={estudio.estudio_id}>
-                    {estudio.tipo_de_muestra}
-                  </option>
-                ))}
-              </Select>
-            )}
+           
           </Grid>
         </Box>
 
@@ -389,11 +374,11 @@ const toggleModalIHResultados= () => {
            :
             <>
              <OutlineBtnModal
-              text={"Descripción Microscópica"}
+              text={"Descripción Macroscópica"}
               handleClick={toggleModal}
             />
             <OutlineBtnModal
-              text={"Descripción Macroscópica"}
+              text={"Descripción Microscópica"}
               handleClick={toggleModalM}
             />
             <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
@@ -408,7 +393,7 @@ const toggleModalIHResultados= () => {
 
       <ModalCreateNotes
         setShowModal={setShowModal}
-        titulo={"Descripción microscópica"}
+        titulo={"Descripción Macroscópica"}
         toggleModal={toggleModal}
         showModal={showModal}
         informeDetail={informeDetail}
@@ -420,7 +405,7 @@ const toggleModalIHResultados= () => {
 
       <ModalCreateNotes
         setShowModal={setShowModalMacro}
-        titulo={"Descripción macroscópica"}
+        titulo={"Descripción Microscópica"}
         toggleModal={toggleModalM}
         showModal={showModalMacro}
         informeDetail={informeDetail}

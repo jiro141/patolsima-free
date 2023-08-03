@@ -69,7 +69,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
           />*/}
 
           <RowCard
-            headTitle={"Paciente"}
+            headTitle={"Cliente"}
             data={
               study.cliente.razon_social.length > 10
                 ? study.cliente.razon_social.substring(0, 10) + "..."

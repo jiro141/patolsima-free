@@ -39,21 +39,25 @@ import { getInformesDetail } from "api/controllers/informes";
 import { getStudiesDetail } from "api/controllers/estudios";
 import { useInformesPatologo } from "hooks/InformesPatologo/useInformesPatologo";
 import { CardOverall_Infor } from "components/widgets/Cards/CardOverall";
+import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
+import { thValuesInformes } from "mocks";
+import { useInformes } from "hooks/Informes/useInformes";
 //import ModalInforme from "../InformeAdministracion/components/ModalInforma";
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
-  const [informes, setInformes] = useState();
+ // const [informes, setInformes] = useState();
   const [showModal, setShowModal] = useState(false);
   const [showModalList, setShowModalList] = useState(false);
+  const [showModalListDetails, setShowModalListDetails] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenmuestrasPatologosort} = useContext(MainContext);
   const {muestraALTA,muestraMEDIA,muestraBAJA ,getInformesPatologoAlta,getInformesPatologoMedia,getInformesPatologoBaja,loadingA,loadingM,loadingB}= useInformesPatologo()
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
-  
+  const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
 
 
   const toggleModal = (informe) => {
@@ -85,85 +89,10 @@ const Dashboard = () => {
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
 
-  const renderStudies = (informes, priorityColor) => {
-    const renderDate = (createdAt) => {
-      const date = createdAt ? new Date(createdAt) : null;
-      if (date) {
-        const formattedDate = date.toLocaleDateString();
-        return formattedDate;
-      }
-      return '';
-    };
-    return informes.map((informe) => (
-      <Flex flexDirection={"row 7"}>
-        <Link
-          onClick={() => toggleModal(informe)}>
-          <Box
-            margin={"5px auto"}
-            boxShadow={"0px 0px 16px 2px rgba(0, 0, 0, 0.2)"}
-            borderRadius={"16px"}
-            padding={"0"}
-            maxW="200px"
-            maxH="250px"
-            key={informe.estudio_id}
-          >
-            <Box
-              borderTopLeftRadius={"16px"}
-              borderTopRightRadius={"16px"}
-              backgroundColor={priorityColor}
-            >
-              <Badge
-                textAlign={"center"}
-                background={"none"}
-                color={"#FFFF"}
-                padding={"10px"}
-                fontSize={"17px"}
-                w={'200px'}
-              >
-                {informe.estudio_codigo}
-                <Icon
-                  border={"solid"}
-                  borderColor={priorityColor}
-                  marginTop={"-30px"}
-                  marginLeft={informe.estudio_codigo.length <= 10 ? '2.7em' : '1.9em'}
-                  marginBottom={'-18px'}
-                  height={"55px"}
-                  width={"55px"}
-                  padding={"5px"}
-                  borderRadius={"50%"}
-                  as={BsFillFileEarmarkTextFill}
-                  backgroundColor={"#FFFF"}
-                  color={priorityColor}
-                />
-              </Badge>
-            </Box>
-            <Box maxH={'192px'} minW={'180px'} p={"10px "}>
-              <Heading size="sm">Fecha de ingreso</Heading>
-              <Text
-                textAlign={"right"}
-                ml={2}
-                color={useColorModeValue("gray.600", "gray.400")}
-              >
-                {renderDate(informe.created_at)}
-              </Text>
-              <Heading size="sm">Estudio</Heading>
-              <Text
+  const [Busqueda, setBusqueda] = useState("");
+  const [detailInformefromShowMore, setInformeDetailfromShowMore] = useState([]);
+  const [detailEstudiofromShowMore, setdetailEstudiofromShowMore] = useState([]);
 
-                textAlign={"right"}
-                color={useColorModeValue("gray.600", "gray.400")}
-              >
-                {informe.estudio_tipo}
-              </Text>
-              <Heading size="sm"  >Paciente</Heading>
-              {/* <Text textAlign={"right"}>{study.paciente}</Text> */}
-              <Heading size="sm">Patologo</Heading>
-              <Text textAlign={"right"}>{informe.estudio_patologo_name}</Text>
-            </Box>
-          </Box>
-        </Link>
-      </Flex>
-    ));
-  };
 
   const handleSelectInforme = async (id) => {
     console.log('endpoint here');
@@ -174,6 +103,40 @@ const Dashboard = () => {
    // setIdInforme(id)
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudio(resStudyDetail)
+  }
+  console.log(muestraMEDIA);
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    setBusqueda(query);
+    filtrar(query);
+  };
+  const filtrar = (terminoBusqueda) => {
+    let resultadoBusqueda = filteredInforme.filter((elemento) => {
+      if (
+        elemento.estudio_codigo
+          .toLowerCase()
+          .includes(terminoBusqueda.toLowerCase()) ||
+        elemento.estudio_patologo_name
+          .toLowerCase()
+          .includes(terminoBusqueda.toLowerCase())
+
+      ) {
+        return elemento;
+      }
+    });
+    setInformes(resultadoBusqueda);
+  };
+  const handleSelectInformeFromShowMore = async (id) => {
+    console.log(id);
+    setShowModalListDetails(true)
+    const res = await getInformesDetail(id)
+    setInformeDetailfromShowMore(res)
+    //setIdInforme(id)
+    const resStudyDetail = await getStudiesDetail(id)
+    setdetailEstudiofromShowMore(resStudyDetail)
+
+   
   }
   return (
     modoVisualizacion === 'tarjeta' ? (
@@ -340,7 +303,7 @@ const Dashboard = () => {
 
 
         
-       <Modal
+      {/* <Modal showModalListDetails
           size={sizeView}
           maxWidth='100%'
           isOpen={showModalList}
@@ -365,7 +328,51 @@ const Dashboard = () => {
               <ListaInformes />
             </ModalBody>
           </ModalContent>
+        </Modal>*/}
+
+<FilteredDataModal
+          type='informes'
+          thData={thValuesInformes}
+          isOpenModal={showModalList}
+          isToggleModal={toggleModalList}
+          tBodyData={informes}
+          Busqueda={Busqueda}
+          handleSelectTBody={handleSelectInformeFromShowMore}
+          //handleSelectIcon={toggleModalConfirmacion}
+          //loading={loading}
+          handleBusquedaChange={handleBusquedaChange}
+        />
+         <Modal
+          size={"3xl"}
+          maxWidth='100%'
+          isOpen={showModalListDetails}
+          onClose={()=>setShowModalListDetails(false)}
+          >
+          <ModalOverlay />
+          <ModalContent borderRadius={'20px'} bg="#ffff">
+            <ModalHeader>
+              <Button
+                borderRadius={'50%'}
+                colorScheme="blue"
+                width="40px"
+                height="40px"
+                marginLeft={'95%'}
+                marginTop={'-60px'}
+                bgColor={'#137797'}
+                color='#ffff'
+                onClick={()=>setShowModalListDetails(false)}>
+                <CloseButton />
+              </Button>
+            </ModalHeader>
+            <ModalBody>
+              <ModalInforme id={detailInforme} informeDetail={detailInformefromShowMore}
+              detailEstudio={detailEstudiofromShowMore}
+              setInformeDetail={setInformeDetail}
+              setShowModalGeneral={setShowModal} />
+            </ModalBody>
+          </ModalContent>
         </Modal>
+
       </>
     ) : (
       <ModoLista />

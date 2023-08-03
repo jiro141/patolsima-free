@@ -314,7 +314,9 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
               <SubTitlelight title={"Tipo de estudio"} color={"#000"} />
               {detailEstudio ? (
                 <Badge>
-                  <Text>{`${detailEstudio?.tipo}`}</Text>
+                  <Text>{`${detailEstudio?.tipo}`}
+                  
+                  </Text>
                 </Badge>
               ) : (
                 <Badge>
@@ -325,7 +327,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
           </Grid>
           <Grid
             margin={"50px 10px 20px 10px"}
-            templateColumns={"repeat(3,1fr)"}
+            templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
           >
             {historyMap && (
@@ -365,7 +367,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
               </Select>
             )}
 
-            {detailEstudio && (
+            {/*detailEstudio && (
               <Select
                 width={"100%"}
                 color="gray.400"
@@ -380,7 +382,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                   </option>
                 ))}
               </Select>
-            )}
+            )*/}
           </Grid>
         </Box>
 
@@ -404,11 +406,11 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
               />
             </Box>
             <OutlineBtnModal
-              text={"Descripción Microscópica"}
+              text={"Descripción Macroscópica "}
               handleClick={toggleModal}
             />
             <OutlineBtnModal
-              text={"Descripción Macroscópica"}
+              text={"Descripción Microscópica"}
               handleClick={toggleModalM}
             />
             <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
@@ -420,7 +422,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
       <ModalCreateNotes
         setShowModal={setShowModal}
-        titulo={"Descripción microscópica"}
+        titulo={"Descripción Macroscópica"}
         toggleModal={toggleModal}
         showModal={showModal}
         informeDetail={informeDetail}
@@ -432,7 +434,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
       <ModalCreateNotes
         setShowModal={setShowModalMacro}
-        titulo={"Descripción macroscópica"}
+        titulo={"Descripción Microscópica"}
         toggleModal={toggleModalM}
         showModal={showModalMacro}
         informeDetail={informeDetail}
@@ -443,7 +445,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
       <ModalCreateNotes
         setShowModal={setShowModalDiag}
-        titulo={"Descripción diagnóstico"}
+        titulo={"Descripción Diagnóstico"}
         toggleModal={toggleModalD}
         showModal={showModalDiag}
         informeDetail={informeDetail}
@@ -465,7 +467,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
       <ModalCreateNotes
         setShowModal={setShowModalBibli}
-        titulo={"Biblografía"}
+        titulo={"Bibliografía"}
         toggleModal={toggleModalB}
         showModal={showModalBibli}
         informeDetail={informeDetail}
@@ -476,7 +478,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
       <ModalCreateNotes
         setShowModal={setShowModalRegister}
-        titulo={"Registro de cambios"}
+        titulo={"Registro de Cambios"}
         toggleModal={toggleModalR}
         showModal={showModalRegister}
         informeDetail={informeDetail}

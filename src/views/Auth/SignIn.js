@@ -69,15 +69,17 @@ function SignIn() {
       } catch (error) {
         setShowErrorModal(true)
         console.log(error)
+       // history.push('/');
         setError(error.message)
+        return
       } finally {
         setLoading(false)
-        if (error) {
+       /* if (error) {
           toast.error(error, {
             autoClose: 1000,
           });
-        }
-        return
+        }*/
+        
       }
     },
   });

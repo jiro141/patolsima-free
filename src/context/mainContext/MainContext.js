@@ -42,10 +42,14 @@ export function MainContextProvider({ children }) {
   //informe detail from tables
   const [enableInfoModalDetails, setEnableInfoModalDetails] = useState(false);
   const [idSelectId, setidSelectId] = useState([]);
-
   const [ordenId, setOrdenId] = useState('');
-
   const [enableSearch, setEnableSearch] = useState(false);
+  //informe data modal
+  const [selectInfor, setSelectInfor] = useState([]);
+  const [enableInforModalDetails, setEnableInforModalDetails] = useState(false);
+
+
+
   useEffect(() => {
 
     const fetchRefreshToken = async () => {
@@ -104,7 +108,10 @@ export function MainContextProvider({ children }) {
         filteredInformeP, setfilteredInformeP,
         informesp, setInformesp,
         hiddenInformessortp, sethiddenInformessortp,
-        enableSearch, setEnableSearch
+        enableSearch, setEnableSearch,
+        selectInfor, setSelectInfor,
+        enableInforModalDetails, setEnableInforModalDetails,
+        
 
       }}
     >

@@ -18,11 +18,13 @@ import MainContext from "context/mainContext/MainContext";
 import { putClientFactura } from "api/controllers/facturas";
 import { getOrdenesByCi } from "api/controllers/facturas";
 import { getFacturasDetail } from "api/controllers/facturas";
+import InputAutoComplete from "components/widgets/Inputs/InputAutoComplete";
+import debounce from "just-debounce-it";
 
 const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
   const { setfactClientTerceros } = useContext(MainContext)
   const [searchResult, setsearchResult] = useState(false)
-
+  const [searchci, setsearchci] = useState('')
   
   const formik = useFormik({
     initialValues: {
@@ -119,20 +121,57 @@ console.log(study.cliente.id);
    }, [study])
 
   
-console.log(study)
+   const handleChangeCi = (event) => {
+    const newQuery = event.target.value;
+
+    setsearchci(newQuery);
+    debouncedGetPacients(newQuery);
+
+
+
+  };
+
+  const debouncedGetPacients = useCallback(
+    debounce((searchci) => {
+      console.log(searchci)
+      if (searchci === "") {
+        formik.resetForm('')
+        onChange(new Date())
+        // setsearchci("");
+
+      } if (searchci.length > 0) {
+        getPacientsByCi({ searchci })
+        setSelectSearch(false);
+      }
+      // setSelectSearch(false);
+
+    }, 500),
+    []
+  );
   return (
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
       <Grid gap={'15px'} margin={'6px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
 
-        <InputOverall
+       {/* <InputOverall
           placeholder='CI/RIF'
           defaultValue={'searchResult?.ci_rif'}
           name={'ci_rif'}
           value={formik.values.ci_rif}
           onChange={e => formik.setFieldValue('ci_rif', e.target.value)}
           errors={formik.errors.ci_rif}
-        />
+        />*/}
+         <InputAutoComplete
+                // name={"ci"}
+                searchValue={searchci}
+                onChange={handleChangeCi}
+                resultSearch={pacientsByCi}
+                errors={errorci}
+                loading={loadingpacientsByCi}
+                placeholder={"Cedula de identidad:"}
+                handleSelectSearch={handleSelectSearch}
+                selectSearch={selectSearch}
+              />
         <InputOverall
           placeholder='Nombres o razón social'
           name={'razon_social'}

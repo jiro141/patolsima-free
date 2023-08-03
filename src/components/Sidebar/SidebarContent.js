@@ -26,6 +26,7 @@ import CardCambio from "components/widgets/Cards/CardCambio";
 import { useFacturas } from "hooks/Facturas/useFacturas";
 import { useContext } from "react";
 import CardCambioSidebar from "components/widgets/Cards/CardCambioSidebar";
+import MainContext from "context/mainContext/MainContext";
 // CardCambioSidebar
 
 const SidebarContent = ({ logoText, routes }) => {
@@ -35,6 +36,7 @@ const SidebarContent = ({ logoText, routes }) => {
   } = useFacturas();
 
   const { getGroups, groups, loading } = useGroups();
+  const {loginSuccess} = useContext(MainContext)
   console.log(groups);
   useEffect(() => {
     const getUsersGroups = async () => {
@@ -492,7 +494,7 @@ const SidebarContent = ({ logoText, routes }) => {
           </Box>
           <Stack direction="column" mb="40px">
             <Box>
-              {arrGroup === "patologo"
+              {  arrGroup && arrGroup === "patologo"
                 ? linksPatology
                 : arrGroup === "administracion"
                   ? linksAdmin

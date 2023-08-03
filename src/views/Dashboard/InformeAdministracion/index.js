@@ -43,7 +43,7 @@ import { deleteInforme } from "api/controllers/informes";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails } = useContext(MainContext);
+  const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails,selectInfor,enableInforModalDetails,setEnableInforModalDetails } = useContext(MainContext);
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
 
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
@@ -54,6 +54,9 @@ const Dashboard = () => {
   const [pacienteName, setPacienteName] = useState("");
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
+ 
+  const [detailInformefromShowMore, setInformeDetailfromShowMore] = useState([]);
+  const [detailEstudiofromShowMore, setdetailEstudiofromShowMore] = useState([]);
 
   const colorA = '#137797';
 
@@ -200,6 +203,17 @@ const Dashboard = () => {
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudio(resStudyDetail)
   }
+  const handleSelectInformeFromShowMore = async (id) => {
+    console.log(id);
+    setEnableInforModalDetails(true)
+    const res = await getInformesDetail(id)
+    setInformeDetailfromShowMore(res)
+    //setIdInforme(id)
+    const resStudyDetail = await getStudiesDetail(id)
+    setdetailEstudiofromShowMore(resStudyDetail)
+
+   
+  }
   //console.log(informes.estudio)
   return (
     modoVisualizacion === 'tarjeta' ? (
@@ -214,7 +228,7 @@ const Dashboard = () => {
               <>
                 <CardOverall_Infor
                   type='informes'
-                  title={"Infomes sin completar"}
+                  title={"Informes sin completar"}
                   content={informesNoCompletados}
                   toggleModal={toggleModal}
                   colorA={colorA}
@@ -223,7 +237,7 @@ const Dashboard = () => {
                 />
 
                 <CardOverall_Infor
-                  title={"Infomes Completados"}
+                  title={"Informes Completados"}
                   content={informesCompletados}
                   toggleModal={toggleModal}
                   colorA={colorA}
@@ -277,6 +291,37 @@ const Dashboard = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
+       
+        <Modal
+          size={'3xl'}
+          maxWidth='100%'
+          onClose={() => setEnableInforModalDetails(false)}
+          isOpen={enableInforModalDetails}>
+          <ModalOverlay />
+          <ModalContent borderRadius={'20px'} bg="#ffff">
+            <ModalHeader>
+              <Button
+                borderRadius={'50%'}
+                colorScheme="blue"
+                width="40px"
+                height="40px"
+                marginLeft={'95%'}
+                marginTop={'-60px'}
+                bgColor={'#137797'}
+                color='#ffff'
+                onClick={() => setEnableInforModalDetails(false)}>
+                <CloseButton />
+              </Button>
+            </ModalHeader>
+            <ModalBody>
+              <ModalInforme detailEstudio={detailEstudiofromShowMore} informeDetail={detailInformefromShowMore}
+                setInformeDetail={setInformeDetail}
+                setShowModalGeneral={setShowModal}
+                setEnableInfoModalDetails={setEnableInforModalDetails}
+              />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
 
         <FilteredDataModal
           type='informes'
@@ -285,7 +330,7 @@ const Dashboard = () => {
           isToggleModal={toggleModalList}
           tBodyData={informes}
           Busqueda={Busqueda}
-          handleSelectTBody={handleSelectInforme}
+          handleSelectTBody={handleSelectInformeFromShowMore}
           handleSelectIcon={toggleModalConfirmacion}
           loading={loading}
           handleBusquedaChange={handleBusquedaChange}

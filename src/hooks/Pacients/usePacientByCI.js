@@ -25,19 +25,7 @@ export function usePacientsListCi({ searchci }) {
     }
   }, []);
  
-  // const getPacientsByCi = useCallback(async ({ pacienteID }) => {
-  //   try {
-  //     setLoadingpacientsByCi(true);
-  //     setErrorpacientsByCi(null);
-  //     const newMovies = await getPacientesDetail({ pacienteID });
-  //     console.log(newMovies);
-  //     setPacienteID(newMovies);
-  //   } catch (e) {
-  //     setErrorpacientsByCi(e.message);
-  //   } finally {
-  //     setLoadingpacientsByCi(false);
-  //   }
-  // }, []);
+
 
   return {
     pacientsByCi,
