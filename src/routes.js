@@ -51,8 +51,8 @@ import {
     {
       groupName:"patologia",
       path: "/RegistroPatologo",
-      name: "Registro",
-      icon: <HomeIcon color="inherit" />,
+      name: "Pendientes",
+      icon: <DocumentIcon color="inherit" />,
       component: RegistroPatologo,
       layout: "/admin",
     },

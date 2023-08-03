@@ -44,7 +44,7 @@ export const Titlelight = ({ title,color }) => {
   export const SubTitlelight = ({ title,color="#888888" }) => {
     return (
       <>
-        <Text style={{ fontSize: "15px", fontWeight: "normal", color: `${color}` }}>
+        <Text style={{ fontSize: "15px", fontWeight: "normal", color: `${color}`,width:'100%' }}>
           {title}
         </Text>
       </>

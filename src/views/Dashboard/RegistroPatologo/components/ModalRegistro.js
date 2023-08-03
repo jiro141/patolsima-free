@@ -8,6 +8,7 @@ import {
   Button,
   Badge,
   Textarea,
+  CircularProgress,
 } from "@chakra-ui/react";
 import { getStudiesDetail } from "api/controllers/estudios";
 import { postInformes } from "api/controllers/informes";
@@ -30,6 +31,10 @@ import "../../../../css/style.css";
 import EditButton from "components/widgets/Buttons/EditButton";
 import { putStudiesDetail } from "api/controllers/estudios";
 import { CheckButton } from "components/widgets/Buttons/EditButton";
+import '../../../../css/style.css'
+import WrapContentDetail from "components/widgets/Cards/WrapContentDetail";
+import BadgeDetail from "components/widgets/Cards/BadgeDetail";
+
 const ModalRegistro = ({ study, close }) => {
   const [dataNotes, setdataNotes] = useState([]);
   const { detailMuestra, getMuestraDetail, loading, error } = useMuestraDetail({
@@ -112,173 +117,126 @@ const handlePutStudies=async()=>{
       {/* <Text margin={'10px'} color={'gray.900'} fontSize={'20px'} >Información General</Text>*/}
       <Title title={"Información General"} />
       {loading ? (
-        <p>cargando</p>
+        <div className="centerLoader">
+        <CircularProgress
+            value={80}
+            size="80px"
+            color="#137797"
+        />
+    </div>
       ) : (
         <>
-          <Grid templateColumns={"repeat(3,1fr)"}>
-            <Box>
-              <Box margin={"10px"}>
-                <Text fontSize={"17px"}>Paciente</Text>
-                {!hiddenInformessortp ? (
-                  <Badge>
-                    <Text>{`${
-                      study?.estudio_paciente_name.length > 10
-                        ? study?.estudio_paciente_name.substring(0, 10) + "..."
-                        : ""
-                    }`}</Text>
-                  </Badge>
-                ) : (
-                  <Badge>
-                    <Text>{`${study ? study?.paciente?.nombres : ""}
-                            ${study ? study?.paciente?.apellidos : ""}
-                            `}</Text>
-                  </Badge>
-                )}
-              </Box>
-              
-            </Box>
-            <Box>
-              <Box margin={"10px"}>
-                <Text fontSize={"17px"}>Cedula de Identidad</Text>
-                {!hiddenInformessortp ? (
-                  <Badge>
-                    <Text>{study ? study?.estudio_paciente_ci : ""}</Text>
-                  </Badge>
-                ) : (
-                  <Badge>
-                    <Text>{study ? study?.paciente?.ci : ""}</Text>
-                  </Badge>
-                )}
-              </Box>
-            </Box>
-            <Box>
-              <Box margin={"10px"}>
-                <Text fontSize={"17px"}>Telefono</Text>
-                {
-                  <Badge>
-                    <Text color={"gray.600"}>
-                      {detailMuestra
-                        ? detailMuestra?.paciente?.telefono_celular
-                        : ""}
-                    </Text>
-                  </Badge>
-                }
-              </Box>
-            </Box>
-          </Grid>
-          <Separator></Separator>
-          {/* <Text margin={'10px'} fontSize={'20px'}>Información de estudio</Text>*/}
+        
 
-          <Grid templateColumns={"repeat(3,1fr)"}>
-            <Box margin={"10px"}>
-              <Text fontSize={"17px"}>Medico Tratante</Text>
-              {detailMuestra?.medico_tratante ? (
-                <Badge>
-                  <Text>{`${
-                    detailMuestra ? detailMuestra?.medico_tratante?.nombres : ""
+<Separator
+            marginTop={"8px"}
+            width={"70%"}
+            backgroundColor={"#89bbcc"}
+            color={"#89bbcc"}
+          ></Separator>
+           <WrapContentDetail>
+           <BadgeDetail
+                title={'Paciente'}
+                content={study && study}
+                text={`${study?.paciente?.nombres.length > 9
+                  ? study?.paciente?.nombres.substring(0, 10) +
+                  "..."
+                  : study?.paciente?.nombres
                   }
-                            ${
-                              detailMuestra
-                                ? detailMuestra?.medico_tratante?.apellidos
-                                : ""
-                            }
-                            `}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Indefinido</Text>
-                </Badge>
-              )}
-            </Box>
-            <Box margin={"10px"}>
-              <Text fontSize={"17px"}>Telefono</Text>
-              {detailMuestra?.medico_tratante ? (
-                <Badge>
-                  <Text>{`${
-                    detailMuestra
-                      ? detailMuestra?.medico_tratante?.telefono_celular
-                      : ""
+
+                          ${study?.paciente?.apellidos.length > 9
+                    ? study?.paciente?.apellidos.substring(
+                      0,
+                      3
+                    ) + "..."
+                    : study?.paciente?.apellidos
+                  }`}
+                />
+                 <BadgeDetail
+                title={'CI/RIF'}
+                content={study && study}
+                text={study?.paciente?.ci}
+                />
+                  <BadgeDetail
+                title={'Telefono'}
+                content={study && study}
+                text={study?.paciente?.telefono_celular}
+                />
+
+           </WrapContentDetail>
+          
+            <WrapContentDetail>
+           <BadgeDetail
+                title={'Medico T.'}
+                content={study && study}
+                text={study?.medico_tratante ? `${study?.medico_tratante?.nombres.length > 9
+                  ? study?.medico_tratante?.nombres.substring(0, 9) +
+                  "..."
+                  : study?.medico_tratante?.nombres
                   }
-                           
-                            `}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Indefinido</Text>
-                </Badge>
-              )}
-            </Box>
-            <Box margin={"10px"}>
-              <Text fontSize={"17px"}>Especialidad</Text>
-              {detailMuestra?.medico_tratante ? (
-                <Badge>
-                  <Text>{`${
-                    detailMuestra
-                      ? detailMuestra?.medico_tratante?.especialidad
-                      : ""
-                  }
-                           
-                            `}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Indefinido</Text>
-                </Badge>
-              )}
-            </Box>
-          </Grid>
+
+                          ${study?.medico_tratante?.apellidos.length > 9
+                    ? study?.medico_tratante?.apellidos.substring(
+                      0,
+                     3
+                    ) + "..."
+                    : study?.medico_tratante?.apellidos
+                  }` : 'Indefinido'}
+                />
+                 <BadgeDetail
+                title={'Especialidad'}
+                content={study && study}
+                text={study?.medico_tratante ? study?.medico_tratante?.especialidad : 'Indefinido'}
+                />
+                  <BadgeDetail
+                title={'Telefono'}
+                content={study && study}
+                text={study?.medico_tratante ? study?.medico_tratante?.telefono_celular : 'Indefinido'}
+                />
+
+           </WrapContentDetail>
 
           <Box mt={"10px"}>
             <Title title={"Información de estudio"} />
+            <Separator
+            marginTop={"8px"}
+            width={"70%"}
+            backgroundColor={"#89bbcc"}
+            color={"#89bbcc"}
+          ></Separator>
           </Box>
 
-          <Grid templateColumns={"repeat(3,1fr)"}>
-            <Box>
-              <Box margin={"10px"}>
-                <Text>Tipo de muestra</Text>
-                {detailMuestra ? (
-                  <Badge>
-                    <Text>{detailMuestra.codigo}</Text>
-                  </Badge>
-                ) : (
-                  ""
-                )}
-              </Box>
-            </Box>
-            <Box>
-              <Box margin={"10px"}>
-                <Text>Tipo de estudio</Text>
-                {detailMuestra ? (
-                  <Badge>
-                    <Text>{detailMuestra.tipo}</Text>
-                  </Badge>
-                ) : (
-                  ""
-                )}
-              </Box>
-            </Box>
-            <Box margin={"10px"}>
-              <Text>Muestras</Text>
-              {detailMuestra ? (
-                <Select 
-                disabled={detailMuestra?.muestras?.length>0 ? false :true}
-                width={"100%"} color="gray.400" defaultValue="Muestras">
-                  <option hidden colorScheme="gray.400">
-                    Muestras
-                  </option>
-                  {detailMuestra?.muestras?.map((estudio, index) => (
-                    <option key={index} value={estudio}>
-                      {estudio.tipo_de_muestra}- #{estudio.estudio}
-                    </option>
-                  ))}
-                </Select>
-              ) : (
-                <Badge>
-                  <Text>Indefinido</Text>
-                </Badge>
-              )}
-            </Box>
-          </Grid>
+      
+<WrapContentDetail>
+<BadgeDetail
+                title={'Estudio #'}
+                content={detailMuestra && detailMuestra}
+                text={detailMuestra?.codigo}
+                />
+                 <BadgeDetail 
+                title={'Patologo'}
+                content={detailMuestra && detailMuestra}
+                text={`${detailMuestra?.patologo?.nombres.length > 9
+                  ? detailMuestra?.patologo?.nombres.substring(0, 9) +
+                  "..."
+                  : detailMuestra?.patologo?.nombres
+                  }
+
+                          ${detailMuestra?.patologo?.apellidos.length > 9
+                    ? detailMuestra?.patologo?.apellidos.substring(
+                      0,
+                     3
+                    ) + "..."
+                    : detailMuestra?.patologo?.apellidos
+                  }`}
+                />
+                 <BadgeDetail 
+                title={'Tipo de estudio'}
+                content={detailMuestra && detailMuestra}
+                text={detailMuestra?.tipo}
+                />
+</WrapContentDetail>
+
 
           <Grid
             margin={"30px 10px 20px 10px"}

@@ -112,7 +112,7 @@ const Dashboard = () => {
               {informesNoCompletados.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -120,23 +120,23 @@ const Dashboard = () => {
               ) : (
                 informesNoCompletados.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td style={{fontSize:'13.5px'}} textAlign={'center'} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'}>
+                    <Td style={{fontSize:'13.5px'}} textAlign={'center'}>
                       <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
-                    <Td textAlign={'center'} >
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
                         ? study?.estudio_patologo_name.substring(0, 10) + "..."
                         : study?.estudio_patologo_name}</Link>
@@ -152,7 +152,7 @@ const Dashboard = () => {
               {informesCompletados.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -160,23 +160,23 @@ const Dashboard = () => {
               ) : (
                 informesCompletados.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
-                    <Td textAlign={'center'} >
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
                         ? study?.estudio_patologo_name.substring(0, 10) + "..."
                         : study?.estudio_patologo_name}</Link>

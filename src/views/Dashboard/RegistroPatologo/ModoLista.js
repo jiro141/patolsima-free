@@ -98,7 +98,7 @@ const Dashboard = () => {
               {studiesListPriorityALTA?.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                    <Text textAlign="center" marginTop={'48px'} fontSize={'15px'}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -106,23 +106,23 @@ const Dashboard = () => {
               ) : (
                 studiesListPriorityALTA?.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{study?.codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>
                         {study?.paciente.nombres.length > 8 && study?.paciente.apellidos.length > 8
-                          ? study?.paciente.nombres.substring(0, 5) + "..." + study?.paciente.apellidos.substring(0, 5) + "..."
+                          ? study?.paciente.nombres.substring(0, 5) + "..." + study?.paciente.apellidos.substring(0, 3) + "..."
                           : study?.paciente.nombres + ' ' + study?.paciente.apellidos}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
                       <Link onClick={() => toggleModal(study)}>{study?.paciente.ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{formatDate(study?.created_at)}</Link>
                     </Td>
-                    <Td textAlign={'center'} >
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.tipo}</Link>
                     </Td>
                   </Tr>
@@ -135,7 +135,7 @@ const Dashboard = () => {
               {studiesListPriorityMEDIA?.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                    <Text textAlign="center" marginTop={'48px'} fontSize={'15px'}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -143,23 +143,23 @@ const Dashboard = () => {
               ) : (
                 studiesListPriorityMEDIA?.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{study?.codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>
                         {study?.paciente.nombres.length > 8 && study?.paciente.apellidos.length > 8
                           ? study?.paciente.nombres.substring(0, 5) + "..." + study?.paciente.apellidos.substring(0, 5) + "..."
                           : study?.paciente.nombres + ' ' + study?.paciente.apellidos}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{study?.paciente.ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{formatDate(study?.created_at)}</Link>
                     </Td>
-                    <Td textAlign={'center'} >
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
                       <Link onClick={() => toggleModal(study)}>{study?.tipo}</Link>
                     </Td>
                   </Tr>
@@ -172,7 +172,7 @@ const Dashboard = () => {
               {studiesListPriorityBAJA?.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'20px'}>
+                    <Text textAlign="center" marginTop={'48px'} fontSize={'15px'}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -180,23 +180,23 @@ const Dashboard = () => {
               ) : (
                 studiesListPriorityBAJA?.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{study?.codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>
-                        {study?.paciente.nombres.length > 8 && study?.paciente.apellidos.length > 8
-                          ? study?.paciente.nombres.substring(0, 5) + "..." + study?.paciente.apellidos.substring(0, 5) + "..."
+                        {study?.paciente.nombres.length > 8 || study?.paciente.apellidos.length > 7
+                          ? study?.paciente.nombres.substring(0, 8) + "..." + study?.paciente.apellidos.substring(0, 3) + "..."
                           : study?.paciente.nombres + ' ' + study?.paciente.apellidos}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{study?.paciente.ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{ width: '15%' }}>
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                       <Link onClick={() => toggleModal(study)}>{formatDate(study?.created_at)}</Link>
                     </Td>
-                    <Td textAlign={'center'} >
+                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
                       <Link onClick={() => toggleModal(study)}>{study?.tipo}</Link>
                     </Td>
                   </Tr>

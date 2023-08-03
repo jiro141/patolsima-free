@@ -193,7 +193,10 @@ const Muestra = () => {
     formikMuestra.handleSubmit()
   }
   return (
-    <div style={{ height: "auto" }}>
+    <Box
+    mx={{sm:'3%',lg:'10%',md:'10%'}}
+    my={{sm:'3%',lg:'2%',md:'2%'}}
+    style={{ height: "auto" }}>
       <Box display={'flex'} justifyContent={'center'} margin={'5px'}>
         <Box display={'flex'} justifyContent={'center'} alignItems={'center'} backgroundColor={'#137797'} p={'10px'} borderRadius={'100%'} width={'50px'} height={'50px'}>
           <TitleBigW
@@ -230,18 +233,18 @@ const Muestra = () => {
             }
           </Box>
         </Grid>
-        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap="100px">
+        <Grid templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }} gap={{lg:"100px"}}>
           <Box>
-            <Titlelight title={'Paciente:'} marginBottom={"15px"} >
+            <Titlelight title={'Paciente:'} marginBottom={{lg:'15px'}} >
             </Titlelight>
-            <Text marginBottom={'15px'}>
+            <Text marginBottom={{lg:'15px'}}>
               <Badge>
                 {dataPaciente.nombres} {dataPaciente.apellidos}
               </Badge>
             </Text>
-            <Titlelight title={'Cédula de Identidad:'} marginBottom={"15px"} >
+            <Titlelight title={'Cédula de Identidad:'} marginBottom={{lg:'15px'}} >
             </Titlelight>
-            <Text marginBottom={'15px'}>
+            <Text marginBottom={{lg:'15px'}}>
               <Badge>{dataPaciente.ci}</Badge>
             </Text>
           </Box>
@@ -332,7 +335,7 @@ const Muestra = () => {
       </form>
 
       {(
-        <Box marginTop={'20px'} w={"100%"} display={'flex'} justifyContent={'space-between'} >
+        <Box Box marginTop={'20px'} w={{lg:"100%"}} display={'flex'} justifyContent={{lg:'space-between',sm:'center',md:"space-between"}}   >
 
           {muestraID ?
             <GeneralButton
@@ -373,7 +376,7 @@ const Muestra = () => {
 
 
 
-    </div>
+    </Box>
   );
 };
 

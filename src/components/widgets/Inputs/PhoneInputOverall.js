@@ -15,29 +15,31 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
     setselectFlag(!selectFlag)
   }
   return (
-    <Box >
+    <Box  >
       <Box display={'flex'} justifyContent={'center'} alignItems={'center'}  >
-        <Box onClick={() => setselectFlag(!selectFlag)} _hover={{
+        <Box width={{sm:'20%',lg:'30%',md:'30%'}}  onClick={() => setselectFlag(!selectFlag)}
+      
+        _hover={{
 
           color: "black",
           cursor: "pointer",
-        }} backgroundColor={'#EDF2F7'} className='chakra-input-style' display={'flex'} justifyContent={'space-between'} alignItems={'center'} p={'2px 8px 2px 2px'} marginRight={'10px'} zIndex={100}>
+        }} backgroundColor={'#EDF2F7'} className='chakra-input-style' display={'flex'} justifyContent={'space-between'}  alignItems={'center'} paddingRight={'10px'}  >
           <ReactCountryFlag
             countryCode={countryCode}
             svg
             style={{
-              width: '1.2em',
-              height: '1.2em',
-              marginLeft: '4px',
+              width: '1rem',
+              height: '1rem',
+              marginLeft: '0px',
             }}
           />
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} p={'5px'}>
-            <p style={{ color: '#2d3748' }} >+{numberCode}</p>
-            <ChevronDownIcon fontSize={'15px'} marginRight={'5px'} />
+          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} px={'0px'} >
+            <p style={{ color: '#2d3748',fontSize:'13px' }} >+{numberCode}</p>
+            <ChevronDownIcon fontSize={'13.5px'} marginRight={'5px'} />
           </Box>
         </Box>
 
-        <Box  >
+        <Box width={{sm:'80%'}} >
           <Input
             //style={{marginLeft:'0px', outline:'none'}}
             isRequired
@@ -47,6 +49,7 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
             value={value}
             defaultValue={defaultValue}
             onChange={onChange}
+            
           />
           {errors && (
             <>
@@ -59,8 +62,9 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
           <Box
             // marginTop={'32%'}
             width={{ lg: '40%', md: '40%', sm: '40%' }}
-            zIndex={999} /* Set a higher value for zIndex */
-            bottom={'-60px'}
+          
+            bottom={{lg:'-60px',md:'-60px',sm:'-115px'}}
+            left={{sm:'8%',lg:'50%',md:'50%'}}
             position="absolute" /* Set the position to "absolute" */
           >
             <ul

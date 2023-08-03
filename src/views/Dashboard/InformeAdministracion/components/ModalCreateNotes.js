@@ -10,8 +10,9 @@ export default function ModalCreateNotes({ showModal, toggleModal, titulo, infor
     return (
         <Modal
         size={'2xl'}
+        
            // size={'lg'}
-            //minW={'900px'}
+            
             isOpen={showModal}
             onClose={toggleModal}>
             <ModalOverlay />

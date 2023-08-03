@@ -63,8 +63,10 @@ export const NextStation = ({errors,handleNextSubmit,searchci}) => {
           onClick={handleIncrement}
           cursor='pointer'
           _hover={{ opacity: 0.8}}
+          boxSize={{lg:'3rem',sm:'2rem', md:'3rem'}}
+          marginLeft={{sm:'8px'}}
         >
-          <CiCircleChevRight size={'50px'} color={'#137797'} />
+          <CiCircleChevRight size={'auto'} color={'#137797'} />
         </Box>
       
       
@@ -87,9 +89,9 @@ export const BackStation = () => {
           onClick={handleDeincrement}
           cursor='pointer'
           _hover={{ opacity: 0.8 }}
-          style={{height:'50px'}}
+          boxSize={{lg:'3rem',sm:'2rem', md:'3rem'}}
         >
-           <CiCircleChevLeft size={'50px'} color={'#137797'} />
+           <CiCircleChevLeft size={'auto'} color={'#137797'} />
 
         </Box>
       )}

@@ -191,30 +191,41 @@ const Dashboard = () => {
       <Container
       >
 
-        {/* <CardCambio cambioDelDia={cambioDelDia} /> */}
+       
         <Box marginTop={"30px"} width={'100%'}
           pl={'5px'}>
 
           <TableOrders_Pendientes>
 
             <Tbody>
-              {facturasNoConfirmadas.map((study) => (
+              {
+              facturasNoConfirmadas.length === 0 ? (
+                <Tr>
+                  <Td border={'none'} colSpan={5} textAlign="center">
+                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
+                      No se encontraron resultados
+                    </Text>
+                  </Td>
+                </Tr>
+              ) :
+              
+              facturasNoConfirmadas.map((study) => (
                 <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                     <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
                   </Td>
                   <Td textAlign={'center'}><Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
                     ? study.cliente?.razon_social.substring(0, 40) + "..."
                     : study.cliente?.razon_social}</Link></Td>
-                  <Td textAlign={'center'}>
-                    <Link style={{ width: '15%' }} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Link onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
                   </Td>
-                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                     <Link onClick={() => toggleModal(study)}>
                       {study?.total_usd} $
                     </Link>
                   </Td>
-                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                     <Link textAlign={'center'} onClick={() => toggleModal(study)}>
                       {study.total_bs} Bs
                     </Link>
@@ -227,23 +238,35 @@ const Dashboard = () => {
 
           <TableOrders_Confirmadas>
             <Tbody>
-              {facturasConfirmadas.map((study) => (
+              {
+               facturasConfirmadas.length === 0 ? (
+                <Tr>
+                  <Td border={'none'} colSpan={5} textAlign="center">
+                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
+                      No se encontraron resultados
+                    </Text>
+                  </Td>
+                </Tr>
+              ) :
+              
+              facturasConfirmadas.map((study) => (
                 <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                     <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
                   </Td>
-                  <Td textAlign={'center'}><Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
                     ? study.cliente?.razon_social.substring(0, 40) + "..."
                     : study.cliente?.razon_social}</Link></Td>
-                  <Td textAlign={'center'}>
-                    <Link style={{ width: '15%' }} onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Link  onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
                   </Td>
-                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                     <Link onClick={() => toggleModal(study)}>
                       {study?.total_usd} $
                     </Link>
                   </Td>
-                  <Td textAlign={'center'} style={{ width: '15%' }}>
+                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
                     <Link textAlign={'center'} onClick={() => toggleModal(study)}>
                       {study.total_bs} Bs
                     </Link>

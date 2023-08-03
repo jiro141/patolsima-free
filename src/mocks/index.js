@@ -51,7 +51,7 @@ export const thValuesPatologo = [
   { value: '# MUESTRA' },
   { value: 'NOMBRE Y APELLIDO' },
   { value: 'RIF/CI' },
-  { value: 'FECHA DE RECEPCIÓN' },
+  { value: 'FECHA ' },
   { value: 'TIPO DE ESTUDIO' },
 ]
 

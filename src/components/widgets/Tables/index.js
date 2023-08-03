@@ -421,11 +421,11 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() =>
+             /* onClick={() =>
                 handleSelectIcon(bills)
-              }
+              }*/
             >
-              <BsFillTrashFill color="#137797" />
+             {/* <BsFillTrashFill color="#137797" />*/}
             </Link>
           </Tr>
         ))}

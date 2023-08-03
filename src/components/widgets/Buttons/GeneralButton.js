@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@chakra-ui/react";
+import { Button, Text, Tooltip } from "@chakra-ui/react";
 import React from "react";
 import '../../../css/style.css'
 
@@ -9,17 +9,20 @@ export default function GeneralButton({ type, text, handleClick,pdfContent,disab
         <Button
         size="auto"
         width={'auto'}
-          marginX={"10px"}
+          marginX={{lg:"10px",md:'10px',sm:'10px'}}
           marginY={"30px"}
           border={"solid"}
           color={"#137797"}
           borderColor={"#137797"}
           background={"none"}
-          padding={'10px'}
+          padding={{lg:"10px",md:'10px',sm:'10px'}}
           borderRadius={"20px"}
           onClick={handleClick}
         >
-          {text}
+           <Text fontSize={{sm:'0.9rem',lg:'1rem',md:'1rem'}} >
+           {text}
+        </Text>
+          
         </Button>
       ) 
       : type==='download' ?
@@ -61,8 +64,8 @@ export default function GeneralButton({ type, text, handleClick,pdfContent,disab
              </Tooltip>:
  <Button
  size="auto"
- padding={'10px'}
-   marginX={"10px"}
+ padding={{lg:"10px",md:'10px',sm:'10px'}}
+ marginX={{lg:"10px",md:'10px',sm:'10px'}}
    marginY={"30px"}
    color={"whiteAlpha.900"}
    borderColor={"gray.400"}
@@ -72,7 +75,9 @@ export default function GeneralButton({ type, text, handleClick,pdfContent,disab
   // _hover={{ bg: '#C4DCE5', color: 'white' }}
    disabled={ disabled ? true : false}
  >
-    {text}
+   <Text fontSize={{sm:'0.9rem',lg:'1rem',md:'1rem'}} >
+           {text}
+        </Text>
  </Button>
 
     }

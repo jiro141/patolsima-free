@@ -7,8 +7,11 @@ import { Title } from '../Texts';
 import { postIHQ } from 'api/controllers/informes';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ArrowButton } from '../Buttons/ArrowButton';
+import { useState } from 'react';
 
 export default function AddIHQModal({showModal,toggleModal,idStudy}) {
+  const [step2, setstep2] = useState(false)
     const formik = useFormik({
         initialValues: {
           //informe: idStudy,
@@ -36,10 +39,14 @@ export default function AddIHQModal({showModal,toggleModal,idStudy}) {
        
         },
       });
+
+      const handleNextStep=()=>{
+        setstep2(true)
+      }
   return (
     <Modal
     size={"lg"}
-    
+  
      maxWidth='100%'
    // size='5xl'
      isOpen={showModal}
@@ -64,10 +71,11 @@ export default function AddIHQModal({showModal,toggleModal,idStudy}) {
          <ModalBody>
          <Box>
  
-     <Box display={'flex'} justifyContent={'center'} marginTop={'-30px'} marginBottom={'15px'}>
-     <Title title={'Ingresa los datos'} />
+     <Box  display={'flex'} justifyContent={'center'} marginTop={'-30px'} marginBottom={'15px'}>
+    {
+     <Title title={'Ingresa los datos'} />}
      </Box>
-      <Box>
+      <Box position={'relative'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'flex-end'} px={'5px'} mx={'10px'}>
 
         <InputOverall
           placeholder='Procedimiento'
@@ -83,24 +91,20 @@ export default function AddIHQModal({showModal,toggleModal,idStudy}) {
           onChange={e => formik.setFieldValue('reaccion', e.target.value)}
           //errors={formik.errors.razon_social}
         />
-       {/* <InputOverall
-          placeholder='Diagnostico y observaciones'
-          name={'diagnostico_observaciones'}
-          value={formik.values.telefono_celular}
-          onChange={e => formik.setFieldValue('diagnostico_observaciones', e.target.value)}
-         // errors={formik.errors.telefono_celular}
-        />*/}
+      
         <Textarea  placeholder='Diagnostico y observaciones'      
         name={'diagnostico_observaciones'}
           value={formik.values.telefono_celular}
           onChange={e => formik.setFieldValue('diagnostico_observaciones', e.target.value)}
         />
+{/*<ArrowButton />*/}
+       
 
       </Box>
     
       
       <Button
-      marginTop={'5px'}
+      marginTop={'10px'}
         // marginBottom={{ lg: '-6%', md: '-8%', sm: '-10%' }}
         marginLeft={{ lg: '82%', md: '70%', sm: '77%' }}
         borderRadius={'20px'}

@@ -392,10 +392,10 @@ const {setInformesCompletados}=useInformes()
           {
             <>
 
-              <Button onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
+              <Button display={{lg:'flex',md:'flex',sm:'none'}} onClick={() => cambiarModo('lista')} background={modoVisualizacion !== 'tarjeta' ? "#89bbcc" : 'none'}>
                 <BsListTask size="20px" color="#137797" />
               </Button>
-              <Button onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion === 'tarjeta' ? "#89bbcc" : 'none'}>
+              <Button display={{lg:'flex',md:'flex',sm:'none'}} onClick={() => cambiarModo('tarjeta')} background={modoVisualizacion === 'tarjeta' ? "#89bbcc" : 'none'}>
                 <BsGrid3X3GapFill size="18px" color="#137797" />
               </Button>
             </>

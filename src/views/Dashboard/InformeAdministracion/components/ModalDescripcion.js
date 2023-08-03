@@ -6,7 +6,7 @@ import {
   Select,
   Input,
   Button,
-  Table, Thead, Tbody, Tr, Th, Td
+  Table, Thead, Tbody, Tr, Th, Td, Link
 } from "@chakra-ui/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor, { ClassicEditor } from 'ckeditor5-custom-build/build/ckeditor';
@@ -21,6 +21,8 @@ import { useEffect } from "react";
 import { HistoryInformes } from "api/controllers/informes";
 import { useRef } from "react";
 import { postInformes } from "api/controllers/informes";
+import { formatDate } from "helpers";
+import InputOverall from "components/widgets/Inputs/InputOverall";
 
 
 const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral, detailEstudio }) => {
@@ -274,8 +276,8 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
     <>
       <Box marginTop={'-50px'}  >
         <Text margin={'10px'} color={'gray.900'} fontSize={'20px'}>{titulo}</Text>
-        <Box height={'md'} >
-          <Box minH={'400px'} maxH={'200px'}
+        <Box  >
+          <Box minH={'280px'} maxH={'auto'}
             sx={{
               "&::-webkit-scrollbar": {
                 width: "6px",
@@ -392,11 +394,11 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             {History && <Tbody>
                               {History.map((item) => (
                                 <Tr key={item?.history_id}>
-                                  <Td >{item?.history_id}</Td>
-                                  <Td>{new Date(item?.history_date).toLocaleString()}+</Td>
-                                  <Td>{item?.history_user}</Td>
+                                  <Td style={{fontSize:'13.5px'}} >{item?.history_id}</Td>
+                                  <Td  style={{fontSize:'13.5px'}} >{formatDate(item?.history_date)}</Td>
+                                  <Td  style={{fontSize:'13.5px'}} >{item?.history_user}</Td>
                                   {/* <Td>{item?.history_type}</Td> */}
-                                  <Td>{item?.history_change_reason}</Td>
+                                  <Td  style={{fontSize:'13.5px'}} >{item?.history_change_reason}</Td>
                                 </Tr>
                               ))}
                             </Tbody>}
@@ -404,19 +406,57 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                           : type === 'notas2' ?
                             <Table variant="striped" colorScheme="teal">
                               <Thead>
-                                <Tr>
-
-                                </Tr>
+                              <Tr>
+                                <Th>ID</Th>
+                                <Th>Fecha</Th>
+                                <Th>Estado</Th>
+                                 <Th>Tipo de muestra</Th>
+                                <Th>Notas</Th>
+                              </Tr>
                               </Thead>
                               {detailEstudio && <Tbody>
                                 {detailEstudio.muestras.map((item) => (
                                   <Tr key={item?.id}>
-                                    <Td >{item?.notas}</Td>
+                                    <Td style={{fontSize:'13.5px'}} >{item?.id}</Td>
+                                     <Td style={{fontSize:'13.5px'}}>{formatDate(item?.created_at)}</Td>
+                                     <Td style={{fontSize:'13.5px'}} >{item?.estado}</Td>
+                                     <Td style={{fontSize:'13.5px'}} >{item?.tipo_de_muestra}</Td>
+                                    <Td style={{fontSize:'13.5px'}}>{item?.notas}</Td>
 
                                   </Tr>
                                 ))}
                               </Tbody>}
-                            </Table> : ''
+                            </Table> : type==='resultadosI'  ?
+                            
+                            <Table variant="striped" colorScheme="teal">
+                            <Thead>
+                            <Tr>
+                              <Th>ID</Th>
+                              <Th>Fecha</Th>
+                              <Th>Procedimiento</Th>
+                               <Th>reaccion</Th>
+                              <Th>Diagnostico </Th>
+                             
+                            </Tr>
+                            </Thead>
+                            {detailEstudio && <Tbody>
+                              {detailEstudio.muestras.map((item) => (
+                                <Tr key={item?.id}>
+                                 <Td style={{fontSize:'13.5px'}} >{item?.id}</Td>
+                                
+                                
+                                   <Td style={{fontSize:'13.5px'}}>{formatDate(item?.created_at)}</Td>
+                                   <Td style={{fontSize:'13.5px'}} >{''}</Td>
+                                   <Td style={{fontSize:'13.5px'}} >{''}</Td>
+                                  <Td style={{fontSize:'13.5px'}}>{''}</Td>
+                             
+
+                                </Tr>
+                              ))}
+                            </Tbody>}
+                          </Table>:
+                            
+                            ''
 
             }
           </Box>

@@ -235,7 +235,9 @@ const MedicoCardPostInitial = ({
       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
       padding={"30px"}
       borderRadius="20px"
-      m={"1% 13% 5% 13%"}
+      mx={{sm:'3%',lg:'10%',md:'10%'}}
+      my={{sm:'3%',lg:'2%',md:'2%'}}
+     // m={"1% 13% 5% 13%"}
     >
       
       <form>

@@ -295,6 +295,7 @@ const Dashboard = () => {
         <Modal
           size={'3xl'}
           maxWidth='100%'
+          
           onClose={() => setEnableInforModalDetails(false)}
           isOpen={enableInforModalDetails}>
           <ModalOverlay />

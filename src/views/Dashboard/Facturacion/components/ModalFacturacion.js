@@ -18,7 +18,6 @@ import {
 } from "@chakra-ui/react";
 import { BsFillPencilFill, BsFillFileCheckFill } from "react-icons/bs";
 import '../../../../css/style.css'
-import FacturaTerceros from "./FacturaTerceros";
 import Confirmacion from "./Confirmacion";
 import ModalAbonar from "./ModalAbonar";
 import { toast } from "react-toastify";
@@ -290,13 +289,13 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     return (
         <>
             {loadingDetailFact ?
-                <p><div className="centerLoader">
+                <div className="centerLoader">
                     <CircularProgress
                         value={80}
                         size="80px"
                         color="#137797"
                     />
-                </div></p> : <Box marginTop={'-50px'}  >
+                </div> : <Box marginTop={'-50px'}  >
                     <Box display={'flex'} width={'100%'} justifyContent={'space-between'} padding={'5px'}>
                         <Title
                             title={'Descripción'}
@@ -361,7 +360,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                     <Text fontSize={'16px'} >Muestras</Text>
                                     {studyDetail ? (
                                         <Select style={{ height: '30px' }} >
-                                            {studyDetail?.muestras.map((muestra, index) => (
+                                            {studyDetail?.muestras?.slice().reverse().map((muestra, index) => (
                                                 <option key={index} value={muestra.tipo_de_muestra}>
                                                     {muestra.tipo_de_muestra}
                                                 </option>

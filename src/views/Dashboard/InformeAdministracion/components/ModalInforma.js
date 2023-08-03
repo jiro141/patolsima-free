@@ -41,6 +41,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { generateInformeCompletePdf } from "api/controllers/informes";
 import GreyButton from "components/widgets/Buttons/GreyButton";
 import ModalPrint from "components/widgets/Modals/ModalPrintFact";
+import BadgeDetail from "components/widgets/Cards/BadgeDetail";
+import WrapContentDetail from "components/widgets/Cards/WrapContentDetail";
 
 
 
@@ -168,164 +170,112 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
             backgroundColor={"#89bbcc"}
             color={"#89bbcc"}
           ></Separator>
-          <Grid templateColumns={{ lg: "repeat(3,1fr)", sm: "repeat(2,1fr)" }}>
-            <Box>
-              <Box margin={"10px"}>
-                <SubTitlelight title={"Paciente"} color={"#000"} />
-                {detailEstudio ? (
-                  <Badge>
-                    <Text>
-                      {` ${detailEstudio?.paciente?.nombres.length > 9
-                        ? detailEstudio?.paciente?.nombres.substring(0, 9) +
-                        "..."
-                        : detailEstudio?.paciente?.nombres
-                        }
-    
-                                ${detailEstudio?.paciente?.apellidos.length > 10
-                          ? detailEstudio?.paciente?.apellidos.substring(
-                            0,
-                            10
-                          ) + "..."
-                          : detailEstudio?.paciente?.apellidos
-                        }`}
-                    </Text>
-                  </Badge>
-                ) : (
-                  <Badge>
-                    <Text>Cargando</Text>
-                  </Badge>
-                )}
-              </Box>
-              <Box margin={"10px"}>
-                <SubTitlelight title={"Prioridad"} color={"#000"} />
-                {detailEstudio ? (
-                  <Badge
-                    colorScheme={
-                      detailEstudio?.prioridad === "ALTA"
-                        ? "red"
-                        : detailEstudio?.prioridad === "MEDIA"
-                          ? "purple"
-                          : ""
-                    }
-                  >
-                    <Text>{`${detailEstudio?.prioridad} `}</Text>
-                  </Badge>
-                ) : (
-                  <Badge>
-                    <Text>Cargando</Text>
-                  </Badge>
-                )}
-              </Box>
-            </Box>
-            <Box>
-              <Box margin={"10px"}>
-                <SubTitlelight title={"CI/RIF"} color={"#000"} />
-                {detailEstudio ? (
-                  <Badge>
-                    <Text>{`${detailEstudio?.paciente?.ci}`}</Text>
-                  </Badge>
-                ) : (
-                  <Badge>
-                    <Text>Cargando</Text>
-                  </Badge>
-                )}
-              </Box>
-              {detailEstudio?.medico_tratante && (
-                <Box margin={"10px"}>
-                  <SubTitlelight title={"Medico Tratante"} color={"#000"} />
-                  {detailEstudio?.medico_tratante ? (
-                    <Badge>
-                      <Text>{`${detailEstudio?.medico_tratante?.nombres} ${detailEstudio?.medico_tratante?.apellidos}`}</Text>
-                    </Badge>
-                  ) : (
-                    <></>
-                  )}
-                </Box>
-              )}
-            </Box>
-            <Box pb={"10px"}>
-              <Box margin={"10px"}>
-                {detailEstudio ? (
-                  <Box margin={"10px"}>
-                    <SubTitlelight title={"Telefono "} color={"#000"} />
-                    {detailEstudio?.paciente?.telefono_celular ? (
-                      <Badge>
-                        <Text>{`${detailEstudio?.paciente?.telefono_celular}`}</Text>
-                      </Badge>
-                    ) : (
-                      <></>
-                    )}
-                  </Box>
-                ) : (
-                  ""
-                )}
-              </Box>
-              {detailEstudio && detailEstudio?.medico_tratante && (
-                <Box margin={"10px"}>
-                  <Box margin={"10px"}>
-                    <SubTitlelight title={"Telefono"} color={"#000"} />
-                    {detailEstudio?.medico_tratante?.telefono_celular ? (
-                      <Badge>
-                        <Text>{`${detailEstudio?.medico_tratante?.telefono_celular}`}</Text>
-                      </Badge>
-                    ) : (
-                      <></>
-                    )}
-                  </Box>
-                </Box>
-              )}
-            </Box>
-          </Grid>
-          <Box margin={"8px"} />
-          <Title title={"Información de estudio"} color={"#000"} />
+             
+                <WrapContentDetail>
+                <BadgeDetail 
+                title={'Paciente'}
+                content={detailEstudio && detailEstudio}
+                text={`${detailEstudio?.paciente?.nombres.length > 9
+                  ? detailEstudio?.paciente?.nombres.substring(0, 10) +
+                  "..."
+                  : detailEstudio?.paciente?.nombres
+                  }
+
+                          ${detailEstudio?.paciente?.apellidos.length > 9
+                    ? detailEstudio?.paciente?.apellidos.substring(
+                      0,
+                      3
+                    ) + "..."
+                    : detailEstudio?.paciente?.apellidos
+                  }`}
+                />
+                 <BadgeDetail 
+                title={'RIF/CI'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.paciente?.ci}
+                />
+                
+                <BadgeDetail 
+                title={'Telefono'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.paciente?.telefono_celular}
+                />
+                </WrapContentDetail>
+             
+                <WrapContentDetail>
+                <BadgeDetail 
+                title={'Medico T.'}
+                content={detailEstudio && detailEstudio}
+                text={`${detailEstudio?.medico_tratante?.nombres.length > 9
+                  ? detailEstudio?.medico_tratante?.nombres.substring(0, 9) +
+                  "..."
+                  : detailEstudio?.medico_tratante?.nombres
+                  }
+
+                          ${detailEstudio?.medico_tratante?.apellidos.length > 9
+                    ? detailEstudio?.medico_tratante?.apellidos.substring(
+                      0,
+                     3
+                    ) + "..."
+                    : detailEstudio?.medico_tratante?.apellidos
+                  }`}
+                />
+                  <BadgeDetail 
+                title={'Prioridad'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.prioridad}
+                />
+                
+                <BadgeDetail 
+                title={'Telefono'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.medico_tratante?.telefono_celular}
+                />
+               
+                </WrapContentDetail>
+               
+<Box marginTop={'5%'}>
+<Title title={"Información de estudio"} color={"#000"} />
           <Separator
             marginTop={"8px"}
             width={"70%"}
             backgroundColor={"#89bbcc"}
             color={"#89bbcc"}
           ></Separator>
-          <Grid templateColumns={{ lg: "repeat(4,1fr)", sm: "repeat(2,1fr)" }}>
-            <Box mt={"10px"}>
-              <SubTitlelight title={"Estudio #"} color={"#000"} />
-              {detailEstudio ? (
-                <Badge>
-                  <Text>{`${detailEstudio?.codigo}`}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Cargando</Text>
-                </Badge>
-              )}
-            </Box>
+           <WrapContentDetail>
+           <BadgeDetail 
+                title={'Estudio #'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.codigo}
+                />
+               
+                <BadgeDetail 
+                title={'Patologo'}
+                content={detailEstudio && detailEstudio}
+                text={`${detailEstudio?.patologo?.nombres.length > 9
+                  ? detailEstudio?.patologo?.nombres.substring(0, 9) +
+                  "..."
+                  : detailEstudio?.patologo?.nombres
+                  }
 
-            <Box mt={"10px"}>
-              <SubTitlelight title={"Patologo"} color={"#000"} />
-              {detailEstudio ? (
-                <Badge>
-                  <Text>{`${detailEstudio?.patologo?.nombres} ${detailEstudio?.patologo?.apellidos}`}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Cargando</Text>
-                </Badge>
-              )}
-            </Box>
-            <Box mt={"10px"}>
-              <SubTitlelight title={"Tipo de estudio"} color={"#000"} />
-              {detailEstudio ? (
-                <Badge>
-                  <Text>{`${detailEstudio?.tipo}`}
-                  
-                  </Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Cargando</Text>
-                </Badge>
-              )}
-            </Box>
-          </Grid>
-          <Grid
+                          ${detailEstudio?.patologo?.apellidos.length > 9
+                    ? detailEstudio?.patologo?.apellidos.substring(
+                      0,
+                     3
+                    ) + "..."
+                    : detailEstudio?.patologo?.apellidos
+                  }`}
+                />
+                 <BadgeDetail 
+                title={'Tipo de estudio'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.tipo}
+                />
+                
+           </WrapContentDetail>
+</Box>
+          
+      <Grid
             margin={"50px 10px 20px 10px"}
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
@@ -351,8 +301,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 onChange={() => handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
                 width={"100%"}
                 color="gray.400"
-              //onClick={()=>console.log('clikin')}
-              //defaultValue="Informes anteriores"
+                disabled={detailEstudio?.adjuntos?.length > 0 && detailEstudio?.adjuntos[0] ? false : true}
+             
               >
                 <option hidden colorScheme="gray.400">
                   Anexos
@@ -390,22 +340,15 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
           height={"100%"}
           display={"flex"}
           flexDirection={{ lg: "column", sm: 'row' }}
-          alignItems={"flex-start"}
-          justifyContent={'space-between'}
+          alignItems={"center"}
+          justifyContent={'center'}
         >
-          <Box height="50%" marginTop={"6%"} >
-            <Box
-              margin={"10px"}
-              marginBottom={"5px"}
-              marginTop={"-20%"}
-              width={"100%"}
-            >
-              <GreyButton
+           <Box width={'100%'} height={"100%"} justifyContent={'center'} alignItems={'center'}>
+           <GreyButton
                 handleClick={toggleModalR}
                 title={"Registro de cambios"}
               />
-            </Box>
-            <OutlineBtnModal
+           <OutlineBtnModal
               text={"Descripción Macroscópica "}
               handleClick={toggleModal}
             />
@@ -416,7 +359,14 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
             <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
             <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
             <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
-          </Box>
+            <Box display={{sm:'flex',lg:'none',md:'none'}} width={'100%'} my={'3%'}>
+        <GreyButton
+          handleClick={() => setShowModalEstudioNotas(true)}
+          title={"Notas de estudio"}
+        />
+        </Box>
+           </Box>
+         
         </Box>
       </Grid>
 
@@ -517,23 +467,26 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
       <Box
         display={"flex"}
         alignItems={"center"}
-        justifyContent={"space-between"}
+        justifyContent={{lg:"space-between",md:'space-between',sm:'center' }}
         mb={"-20px"}
         mt={"-30px"}
-        width={"95%"}
+        width={"100%"}
       >
+        <Box display={{sm:'none',lg:'flex',md:'flex'}} width={'100%'}>
         <GreyButton
           handleClick={() => setShowModalEstudioNotas(true)}
           title={"Notas de estudio"}
         />
-        <Box display={"flex"} ml={"60px"}>
+        </Box>
+        
+        <Box display={"flex"} mx={"2.5%"} >
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
           <Button
             // disabled={detailEstudio?.envio_digital ? false : true}
             size="auto"
-            padding={"10px"}
-            marginX={"10px"}
+            padding={{lg:"10px",sm:'10px'}}
+           // marginX={"10px"}
             marginY={"30px"}
             color={"whiteAlpha.900"}
             borderColor={"gray.400"}
@@ -541,7 +494,10 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
             borderRadius={"20px"}
             onClick={handleSubmitGenerateInfor}
           >
+            <Text fontSize={{sm:'0.9rem',lg:'1rem',md:'1rem'}} >
             Generar
+        </Text>
+           
           </Button>
         </Box>
       </Box>

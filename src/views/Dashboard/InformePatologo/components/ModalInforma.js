@@ -34,6 +34,8 @@ import { Separator } from "components/Separator/Separator";
 import GreyButton from "components/widgets/Buttons/GreyButton";
 import { aprobarInforme } from "api/controllers/informes";
 import AddIHQModal from "components/widgets/Modals/AddIHQModal";
+import WrapContentDetail from "components/widgets/Cards/WrapContentDetail";
+import BadgeDetail from "components/widgets/Cards/BadgeDetail";
 
 const ModalInforme = ({
   informeDetail,
@@ -133,7 +135,7 @@ const toggleModalIHResultados= () => {
             backgroundColor={"#89bbcc"}
             color={"#89bbcc"}
           ></Separator>
-          <Grid templateColumns={"repeat(3,1fr)"}>
+         {/* <Grid templateColumns={"repeat(3,1fr)"}>
             <Box>
               <Box margin={"10px"}>
                 <SubTitlelight title={"Paciente"} color={"#000"} />
@@ -242,8 +244,70 @@ const toggleModalIHResultados= () => {
                 </Box>
               )}
             </Box>
-          </Grid>
-          <Box margin={"8px"} />
+          </Grid>*/}
+
+<WrapContentDetail>
+<BadgeDetail 
+                title={'Paciente'}
+                content={detailEstudio && detailEstudio}
+                text={`${detailEstudio?.paciente?.nombres.length > 9
+                  ? detailEstudio?.paciente?.nombres.substring(0, 10) +
+                  "..."
+                  : detailEstudio?.paciente?.nombres
+                  }
+
+                          ${detailEstudio?.paciente?.apellidos.length > 9
+                    ? detailEstudio?.paciente?.apellidos.substring(
+                      0,
+                      3
+                    ) + "..."
+                    : detailEstudio?.paciente?.apellidos
+                  }`}
+                />
+                 <BadgeDetail 
+                title={'RIF/CI'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.paciente?.ci}
+                />
+                 <BadgeDetail 
+                title={'Telefono'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.paciente?.telefono_celular}
+                />
+</WrapContentDetail>
+<WrapContentDetail>
+                <BadgeDetail 
+                title={'Medico T.'}
+                content={detailEstudio && detailEstudio}
+                text={`${detailEstudio?.medico_tratante?.nombres.length > 9
+                  ? detailEstudio?.medico_tratante?.nombres.substring(0, 9) +
+                  "..."
+                  : detailEstudio?.medico_tratante?.nombres
+                  }
+
+                          ${detailEstudio?.medico_tratante?.apellidos.length > 9
+                    ? detailEstudio?.medico_tratante?.apellidos.substring(
+                      0,
+                     3
+                    ) + "..."
+                    : detailEstudio?.medico_tratante?.apellidos
+                  }`}
+                />
+                  <BadgeDetail 
+                title={'Prioridad'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.prioridad}
+                />
+                
+                <BadgeDetail 
+                title={'Telefono'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.medico_tratante?.telefono_celular}
+                />
+               
+                </WrapContentDetail>
+
+       
           <Title title={"Información de estudio"} color={"#000"} />
           <Separator
             marginTop={"8px"}
@@ -251,7 +315,9 @@ const toggleModalIHResultados= () => {
             backgroundColor={"#89bbcc"}
             color={"#89bbcc"}
           ></Separator>
-          <Grid templateColumns={"repeat(4,1fr)"}>
+
+
+         {/* <Grid templateColumns={"repeat(3,1fr)"}>
             <Box mt={"10px"}>
               <SubTitlelight title={"Estudio #"} color={"#000"} />
               {detailEstudio ? (
@@ -289,7 +355,39 @@ const toggleModalIHResultados= () => {
                 </Badge>
               )}
             </Box>
-          </Grid>
+          </Grid>*/}
+          <WrapContentDetail>
+          <BadgeDetail 
+                title={'Estudio #'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.codigo}
+                />
+                  <BadgeDetail 
+                title={'Patologo'}
+                content={detailEstudio && detailEstudio}
+                text={`${detailEstudio?.patologo?.nombres.length > 9
+                  ? detailEstudio?.patologo?.nombres.substring(0, 9) +
+                  "..."
+                  : detailEstudio?.patologo?.nombres
+                  }
+
+                          ${detailEstudio?.patologo?.apellidos.length > 9
+                    ? detailEstudio?.patologo?.apellidos.substring(
+                      0,
+                     3
+                    ) + "..."
+                    : detailEstudio?.patologo?.apellidos
+                  }`}
+                />
+                 <BadgeDetail 
+                title={'Tipo de estudio'}
+                content={detailEstudio && detailEstudio}
+                text={detailEstudio?.tipo}
+                />
+          </WrapContentDetail>
+
+
+
           <Grid
             margin={"50px 10px 20px 10px"}
             templateColumns={"repeat(2,1fr)"}
@@ -313,53 +411,63 @@ const toggleModalIHResultados= () => {
             )}
             {detailEstudio && (
               <Select
+                onChange={() => handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
                 width={"100%"}
                 color="gray.400"
-                onChange={()=>handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
-                defaultValue="Informes anteriores"
+                disabled={detailEstudio?.adjuntos?.length > 0 && detailEstudio?.adjuntos[0] ? false : true}
+             
               >
-                
-                {detailEstudio?.adjuntos &&
-                 <option hidden colorScheme="gray.400">
+                <option hidden colorScheme="gray.400">
                   Anexos
-                </option>}
-                { detailEstudio?.adjuntos?.map((estudio, index) => (
-                  <option key={index} value={estudio.estudio_id}>
+                </option>
+                {detailEstudio?.adjuntos?.map((estudio, index) => (
+                  <option key={index} value={estudio.uri} >
+
                     {estudio.file_name}
+
                   </option>
                 ))}
               </Select>
             )}
-           
+
+            {/*detailEstudio && (
+              <Select
+                width={"100%"}
+                color="gray.400"
+                defaultValue="Informes anteriores"
+              >
+                <option hidden colorScheme="gray.400">
+                  Muestras
+                </option>
+                {detailEstudio?.muestras?.map((estudio, index) => (
+                  <option key={index} value={estudio.estudio_id}>
+                    {estudio.tipo_de_muestra}
+                  </option>
+                ))}
+              </Select>
+            )*/}
           </Grid>
         </Box>
 
         <Box
-          height={"100%"}
-          display={"flex"}
-          flexDirection={"column"}
-          alignItems={"flex-start"}
+           height={"100%"}
+           display={"flex"}
+           flexDirection={{ lg: "column", sm: 'row' }}
+           alignItems={"center"}
+           justifyContent={'center'}
         >
-          <Box height="50%" marginTop={"6%"}>
-            <Box
-              margin={"10px"}
-              marginBottom={"5px"}
-              marginTop={"-20%"}
-              width={"100%"}
-            >
+          <Box width={'100%'} height={"100%"} justifyContent={'center'} alignItems={'center'}>
+           
               <GreyButton
                 handleClick={toggleModalR}
                 title={"Registro de cambios"}
               />
-            </Box>
-
-           {detailEstudio?.tipo==='INMUNOSTOQUIMICA'
+            
+         
+           {detailEstudio?.tipo==='INMUNOSTOQUIMICA' || detailEstudio?.tipo==='INMUNOHISTOQUIMICA'
            ?
            <>
-           <OutlineBtnModal
-              text={"Descripción "}
-              handleClick={toggleModalD}
-            />
+          
              <OutlineBtnModal
               text={"Agregar nuevo proceso"}
               handleClick={toggleModalIH}
@@ -416,7 +524,7 @@ const toggleModalIHResultados= () => {
 
       <ModalCreateNotes
         setShowModal={setShowModalDiag}
-        titulo={"Descripción diagnóstico"}
+        titulo={"Descripción Diagnóstico"}
         toggleModal={toggleModalD}
         showModal={showModalDiag}
         informeDetail={informeDetail}
@@ -438,7 +546,7 @@ const toggleModalIHResultados= () => {
 
       <ModalCreateNotes
         setShowModal={setShowModalBibli}
-        titulo={"Biblografía"}
+        titulo={"Bibliografía"}
         toggleModal={toggleModalB}
         showModal={showModalBibli}
         informeDetail={informeDetail}
@@ -470,7 +578,7 @@ const toggleModalIHResultados= () => {
       />
        <ModalCreateNotes
         setShowModal={setShowModalResultadosIh}
-        titulo={"Resultados"}
+        titulo={"Resultados Inmunohistoquimica"}
         toggleModal={toggleModalIHResultados}
         showModal={showModalResultadosIh}
         informeDetail={informeDetail}
@@ -491,18 +599,18 @@ const toggleModalIHResultados= () => {
       idStudy={detailEstudio?.id}
       />
       <Box
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        mb={"-20px"}
-        mt={"-30px"}
-        width={"95%"}
+         display={"flex"}
+         alignItems={"center"}
+         justifyContent={"space-between"}
+         mb={"-20px"}
+         mt={"-30px"}
+         width={"100%"}
       >
         <GreyButton
           handleClick={()=>setShowModalEstudioNotas(true)}
           title={"Notas de estudio"}
         />
-        <Box display={"flex"} ml={"60px"}>
+        <Box display={"flex"} mx={"2.5%"}>
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
           <Button

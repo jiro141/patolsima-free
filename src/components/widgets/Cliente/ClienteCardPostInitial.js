@@ -341,7 +341,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
       padding={"30px"}
       borderRadius="20px"
-      m={{ lg: "1% 13% 5% 13%", sm: "2%" }}
+      mx={{sm:'3%',lg:'10%',md:'10%'}}
+      my={{sm:'3%',lg:'2%',md:'2%'}}
     >
 
       {
@@ -507,9 +508,9 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         nombres={pacienteName}
       />
       <Box marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'} w={'100%'}>
-        <div style={{ width: "50px" }}>
+        <Box  boxSize={{lg:'3rem',sm:'2rem', md:'3rem'}}>
 
-        </div>
+        </Box>
         <ShowMoreButton handleClick={toggleModal} />
 
         <SaveButton handleSubmit={formik.handleSubmit} isLoading={isLoading} />

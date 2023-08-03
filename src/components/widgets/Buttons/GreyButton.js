@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react'
+import { Button, Text } from '@chakra-ui/react'
 import React from 'react'
 
 export default function GreyButton({handleClick,title}) {
@@ -10,11 +10,14 @@ export default function GreyButton({handleClick,title}) {
     border={'solid 2px'}
     color={'gray.400'}
     borderColor={'gray.400'}
-    w={'80%'}
+    w={'100%'}
     background={'none'}
     borderRadius={'10px'}
     onClick={handleClick}>
-    {title}
+      <Text fontSize={{sm:'0.8rem',lg:'1rem',md:'1rem'}} >
+      {title}
+        </Text>
+    
     </Button>
   )
 }

@@ -45,15 +45,15 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
 
       {onOpenCalendar && (
         <Box
-          marginTop={'8%'}
+          marginTop={'3%'}
           width={{ lg: '80%', md: '50%', sm: '50%' }}
-          zIndex={999} /* Set a higher value for zIndex */
+          zIndex={1000000} /* Set a higher value for zIndex */
           position="absolute" /* Set the position to "absolute" */
           backgroundColor="white" /* Add a solid background color */
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
           borderRadius={'20px'} /* Optional: Add a shadow effect */
         >
-          <div className="wrapbtnClose">
+          <Box width={'95%'} position={'absolute'} display={'flex'}  alignItems={'flex-end'} justifyContent={'flex-end'} mt={'3%'}>
             <Button
               borderRadius={'100%'}
               colorScheme="blue"
@@ -64,9 +64,11 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
             >
               <CloseButton size='sm' />
             </Button>
-          </div>
+          </Box>
 
           <Calendar
+          zIndex={1000}
+         
             onChange={onChange}
             value={value}
             locale="ES"
