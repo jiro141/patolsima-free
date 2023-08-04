@@ -407,9 +407,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             <Table variant="striped" colorScheme="teal">
                               <Thead>
                               <Tr>
-                                <Th>ID</Th>
-                                <Th>Fecha</Th>
-                                <Th>Estado</Th>
+                               
                                  <Th>Tipo de muestra</Th>
                                 <Th>Notas</Th>
                               </Tr>
@@ -417,9 +415,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                               {detailEstudio && <Tbody>
                                 {detailEstudio.muestras.map((item) => (
                                   <Tr key={item?.id}>
-                                    <Td style={{fontSize:'13.5px'}} >{item?.id}</Td>
-                                     <Td style={{fontSize:'13.5px'}}>{formatDate(item?.created_at)}</Td>
-                                     <Td style={{fontSize:'13.5px'}} >{item?.estado}</Td>
+                                   
                                      <Td style={{fontSize:'13.5px'}} >{item?.tipo_de_muestra}</Td>
                                     <Td style={{fontSize:'13.5px'}}>{item?.notas}</Td>
 
@@ -431,8 +427,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             <Table variant="striped" colorScheme="teal">
                             <Thead>
                             <Tr>
-                              <Th>ID</Th>
-                              <Th>Fecha</Th>
+                             
                               <Th>Procedimiento</Th>
                                <Th>reaccion</Th>
                               <Th>Diagnostico </Th>
@@ -442,10 +437,9 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             {detailEstudio && <Tbody>
                               {detailEstudio.muestras.map((item) => (
                                 <Tr key={item?.id}>
-                                 <Td style={{fontSize:'13.5px'}} >{item?.id}</Td>
                                 
                                 
-                                   <Td style={{fontSize:'13.5px'}}>{formatDate(item?.created_at)}</Td>
+                                  
                                    <Td style={{fontSize:'13.5px'}} >{''}</Td>
                                    <Td style={{fontSize:'13.5px'}} >{''}</Td>
                                   <Td style={{fontSize:'13.5px'}}>{''}</Td>

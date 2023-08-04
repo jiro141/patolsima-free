@@ -194,7 +194,7 @@ const Muestra = () => {
   }
   return (
     <Box
-    mx={{sm:'3%',lg:'10%',md:'10%'}}
+    mx={{sm:'3%',lg:'5%',md:'5%'}}
     my={{sm:'3%',lg:'2%',md:'2%'}}
     style={{ height: "auto" }}>
       <Box display={'flex'} justifyContent={'center'} margin={'5px'}>

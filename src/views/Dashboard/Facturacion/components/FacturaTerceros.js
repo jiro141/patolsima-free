@@ -1,4 +1,4 @@
-import { React, useContext, useEffect, useState } from "react";
+import { React, useCallback, useContext, useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -20,11 +20,19 @@ import { getOrdenesByCi } from "api/controllers/facturas";
 import { getFacturasDetail } from "api/controllers/facturas";
 import InputAutoComplete from "components/widgets/Inputs/InputAutoComplete";
 import debounce from "just-debounce-it";
+import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
+import { useClientCiByorder } from "hooks/Facturas/useClientCiByorder";
 
 const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
   const { setfactClientTerceros } = useContext(MainContext)
   const [searchResult, setsearchResult] = useState(false)
+  const [selectSearch, setSelectSearch] = useState(false);
   const [searchci, setsearchci] = useState('')
+ const{pacientsByCi,
+  getPacientsByCi,
+  errorpacientsByCi,
+  loadingpacientsByCi,
+  setpacientsByCi} =useClientCiByorder({searchci})
   
   const formik = useFormik({
     initialValues: {
@@ -96,14 +104,7 @@ console.log(study.cliente.id);
     //  console.log(res[0].cliente);
      const resDetail = await getFacturasDetail(study.id)
      console.log(resDetail);
-    formik.setValues({
-      ci_rif: resDetail.cliente.ci_rif,
-      direccion:resDetail.cliente.direccion,
-      razon_social: resDetail.cliente.razon_social,
-      telefono_celular:resDetail.cliente.telefono_celular,
-      telefono_fijo:resDetail.cliente.telefono_fijo,
-      email:resDetail?.cliente?.email,
-    })
+   
     
      //console.log('ya existe la ci');
    }else{
@@ -131,12 +132,21 @@ console.log(study.cliente.id);
 
   };
 
+  useEffect(() => {
+    if (searchci === "") {
+      formik.resetForm('')
+      //onChange(new Date())
+      // setsearchci("");
+
+    }
+  }, [])
+  
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
       console.log(searchci)
       if (searchci === "") {
         formik.resetForm('')
-        onChange(new Date())
+        //onChange(new Date())
         // setsearchci("");
 
       } if (searchci.length > 0) {
@@ -148,6 +158,24 @@ console.log(study.cliente.id);
     }, 500),
     []
   );
+  const handleSelectSearch = async () => {
+    if (pacientsByCi.length > 0) {
+      const resDetail = await getFacturasDetail(study.id)
+      console.log(resDetail);
+     formik.setValues({
+       ci_rif: resDetail.cliente.ci_rif,
+       direccion:resDetail.cliente.direccion,
+       razon_social: resDetail.cliente.razon_social,
+       telefono_celular:resDetail.cliente.telefono_celular,
+       telefono_fijo:resDetail.cliente.telefono_fijo,
+       email:resDetail?.cliente?.email,
+     })
+      //onChange(data.fecha_nacimiento)
+      setSelectSearch(true);
+     // setOneState('put')
+    }
+  };
+
   return (
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
@@ -166,7 +194,7 @@ console.log(study.cliente.id);
                 searchValue={searchci}
                 onChange={handleChangeCi}
                 resultSearch={pacientsByCi}
-                errors={errorci}
+                errors={errorpacientsByCi}
                 loading={loadingpacientsByCi}
                 placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
@@ -226,7 +254,7 @@ console.log(study.cliente.id);
         bgColor={'#137797'}
         color='#ffff'
         onClick={formik.handleSubmit}>
-        Aceptar
+        Guardar
       </Button>
     </Box>
   );

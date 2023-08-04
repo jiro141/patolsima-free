@@ -43,6 +43,7 @@ import GreyButton from "components/widgets/Buttons/GreyButton";
 import ModalPrint from "components/widgets/Modals/ModalPrintFact";
 import BadgeDetail from "components/widgets/Cards/BadgeDetail";
 import WrapContentDetail from "components/widgets/Cards/WrapContentDetail";
+import AddIHQModal from "components/widgets/Modals/AddIHQModal";
 
 
 
@@ -60,6 +61,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const [pdfUri, setpdfUri] = useState('');
   const [showModalGenerateUri, setShowModalGenerateUri] = useState(false);
   const [showModalDescIh, setShowModalDescIh] = useState(false);
+  const [showModalResultadosIh, setShowModalResultadosIh] = useState(false);
   const { setInformesCompletados, setInformesNoCompletados, informes, getInformes } = useInformes()
 
   const toggleModalNotas = () => {
@@ -154,6 +156,10 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
     window.location.href = url;
 
   };
+  const toggleModalIHResultados= () => {
+    setShowModalResultadosIh(!showModalResultadosIh);
+  };
+
 
   console.log(detailEstudio)
   //console.log(detailEstudio.envio_digital)
@@ -343,12 +349,32 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
           alignItems={"center"}
           justifyContent={'center'}
         >
+          
            <Box width={'100%'} height={"100%"} justifyContent={'center'} alignItems={'center'}>
            <GreyButton
                 handleClick={toggleModalR}
                 title={"Registro de cambios"}
               />
-           <OutlineBtnModal
+              
+          {detailEstudio?.tipo==='INMUNOSTOQUIMICA' || detailEstudio?.tipo==='INMUNOHISTOQUIMICA' ?
+          
+          
+          <>
+             <OutlineBtnModal
+              text={"Agregar nuevo proceso"}
+              handleClick={toggleModalIH}
+             
+            />
+             <OutlineBtnModal
+              text={"Resultados"}
+              handleClick={toggleModalIHResultados}
+             
+            />
+            
+          </>
+        
+            : <>
+            <OutlineBtnModal
               text={"Descripción Macroscópica "}
               handleClick={toggleModal}
             />
@@ -359,13 +385,18 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
             <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
             <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
             <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
+            
+          </>}
+            
             <Box display={{sm:'flex',lg:'none',md:'none'}} width={'100%'} my={'3%'}>
+       
+       
         <GreyButton
           handleClick={() => setShowModalEstudioNotas(true)}
           title={"Notas de estudio"}
         />
         </Box>
-           </Box>
+           </Box> 
          
         </Box>
       </Grid>
@@ -377,7 +408,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         showModal={showModal}
         informeDetail={informeDetail}
         idStudy={detailEstudio?.id}
-        type="micro"
+        type="macro"
+      
         setInformeDetail={setInformeDetail}
         setShowModalGeneral={setShowModalGeneral}
       />
@@ -389,7 +421,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         showModal={showModalMacro}
         informeDetail={informeDetail}
         idStudy={detailEstudio?.id}
-        type="macro"
+        type="micro"
         setShowModalGeneral={setShowModalGeneral}
       />
 
@@ -447,16 +479,21 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         type="notas2"
       //setShowModalGeneral={setShowModalGeneral}
       />
-      <ModalCreateNotes
-        setShowModal={setShowModalDescIh}
-        titulo={"Descripción"}
-        toggleModal={toggleModalIH}
-        showModal={showModalDescIh}
+       <ModalCreateNotes
+        setShowModal={setShowModalResultadosIh}
+        titulo={"Resultados Inmunohistoquimica"}
+        toggleModal={toggleModalIHResultados}
+        showModal={showModalResultadosIh}
         informeDetail={informeDetail}
         idStudy={detailEstudio?.id}
         detailEstudio={detailEstudio}
-        type="desIH"
-      //setShowModalGeneral={setShowModalGeneral}
+        type="resultadosI"
+        //setShowModalGeneral={setShowModalGeneral}
+      />
+     <AddIHQModal
+      showModal={showModalDescIh}
+      toggleModal={toggleModalIH}
+      idStudy={detailEstudio?.id}
       />
       <ModalSendWp
         detailEstudio={detailEstudio}

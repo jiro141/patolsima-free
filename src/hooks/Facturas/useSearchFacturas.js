@@ -1,3 +1,4 @@
+import { getOrdenesByCi } from "api/controllers/facturas";
 import { getFacturasList } from "api/controllers/facturas";
 import { useCallback, useMemo, useState } from "react";
 
@@ -22,6 +23,7 @@ export function useSearchFacturas() {
       setloading(false);
     }
   }, []);
+
 
   
  

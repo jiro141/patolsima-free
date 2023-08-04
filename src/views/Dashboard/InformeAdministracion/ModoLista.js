@@ -62,6 +62,9 @@ const Dashboard = () => {
     getInformesNoCompletados()
   }, [showModalConfirmacion]);
   const [showModal, setShowModal] = useState(false);
+  const [detailInformefromShowMore, setInformeDetailfromShowMore] = useState([]);
+  const [detailEstudiofromShowMore, setdetailEstudiofromShowMore] = useState([]);
+  const [showModalDetail, setShowModalDetail] = useState(false);
 
   const [showModalList, setShowModalList] = useState(false);
   const toggleModalList = () => {
@@ -101,6 +104,17 @@ const Dashboard = () => {
     setIdInforme(study)
     const resStudyDetail = await getStudiesDetail(study.estudio_id)
     setdetailEstudio(resStudyDetail)
+  }
+  const handleSelectInformeFromShowMore = async (id) => {
+    console.log(id);
+    setShowModalDetail(true)
+    const res = await getInformesDetail(id)
+   setInformeDetailfromShowMore(res)
+    //setIdInforme(id)
+    const resStudyDetail = await getStudiesDetail(id)
+    setdetailEstudiofromShowMore(resStudyDetail)
+
+   
   }
   return (
     <>
@@ -195,7 +209,7 @@ const Dashboard = () => {
         handleSelectIcon={toggleModalConfirmacion}
         loading={loading}
         handleBusquedaChange={handleBusquedaChange}
-        handleSelectTBody={informes}
+        handleSelectTBody={handleSelectInformeFromShowMore}
 
       />
       <DeleteModal
@@ -229,6 +243,36 @@ const Dashboard = () => {
           </ModalHeader>
           <ModalBody>
             <ModalInforme detailEstudio={detailEstudio} informeDetail={detailInforme}
+              setInformeDetail={setInformeDetail}
+              setShowModalGeneral={setShowModal}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    
+      <Modal
+        size={'3xl'}
+        maxWidth='100%'
+        onClose={() => setShowModalDetail(false)}
+        isOpen={showModalDetail}>
+        <ModalOverlay />
+        <ModalContent borderRadius={'20px'} bg="#ffff">
+          <ModalHeader>
+            <Button
+              borderRadius={'50%'}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={'95%'}
+              marginTop={'-60px'}
+              bgColor={'#137797'}
+              color='#ffff'
+              onClick={() => setShowModalDetail(false)}>
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody>
+            <ModalInforme detailEstudio={detailEstudiofromShowMore} informeDetail={detailInformefromShowMore}
               setInformeDetail={setInformeDetail}
               setShowModalGeneral={setShowModal}
             />

@@ -96,7 +96,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
 };
 
 const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme) => {
- 
+ console.log(content);
   return content.map((study) => (
     <Link
       onClick={() => {
@@ -116,7 +116,8 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
         <Box
           borderTopLeftRadius={"16px"}
           borderTopRightRadius={"16px"}
-          backgroundColor={'#137797' }
+          backgroundColor={study?.estudio_prioridad === 'ALTA' ? '#FE686A': study?.estudio_prioridad === 'BAJA' ? '#02b464' :
+          '#FC9F02' }
           py={'1px'}
           px={'10px'}
           minH={"15px"}
@@ -126,7 +127,8 @@ const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme)
             type="headPrincipal"
             headTitle={' ' + study.estudio_codigo}
             icon={
-              <BsFillFileEarmarkRichtextFill size={"25px"} color={'#137797'} />
+              <BsFillFileEarmarkRichtextFill size={"25px"} color={study?.estudio_prioridad === 'ALTA' ? '#FE686A': study?.estudio_prioridad === 'BAJA' ? '#02b464' :
+              '#FC9F02' } />
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />
@@ -210,21 +212,19 @@ const renderMuestras = (content, toggleModal, colorA, type,handleSelectInforme) 
             type="headPrincipal"
             headTitle={study.codigo}
             icon={
-              <FaFlask size={"25px"} color={colorA} />
+              <FaFlask size={"25px"} color={study?.prioridad==='ALTA' ? highPriorityColor :study?.prioridad==='MEDIA' ? mediumPriorityColor:lowPriorityColor } />
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />
         </Box>
         <Box className="WrapAlignRow" p={"10px"} width={"100%"}>
-        {!hiddenInformessortp ?
-        <></>
-        :
+        {
         <RowCard
             headTitle={"Tipo"}
             data={
-              study.tipo.length > 10
-                ? study.tipo.substring(0, 10) + "..."
-                : study.tipo
+              study?.tipo?.length > 10
+                ? study?.tipo?.substring(0, 10) + "..."
+                : study?.tipo
             }
             color={useColorModeValue("gray.600", "gray.400")}
           />}
