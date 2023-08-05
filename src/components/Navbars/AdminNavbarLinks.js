@@ -32,23 +32,18 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import { NavLink, useHistory } from "react-router-dom";
-//cookies
-import Cookies from "js-cookie";
 import axios from "axios";
 import { useContext } from "react";
 import routes from "routes.js";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
-import { useState } from "react";
-import { authApi } from "api/authApi";
 import AuthContext from "context/authContext/AuthContext";
 import { useEffect } from "react";
-import { handleTokenRefresh } from "api/controllers/token";
 import MainContext from "context/mainContext/MainContext";
 import { useGroups } from "hooks/Groups/useGroups";
-import { FaSearch } from "react-icons/fa";
-import InputOverallSearch from "components/widgets/Inputs/InputOverallSearch";
 import debounce from "just-debounce-it";
-import { useInformes } from "hooks/Informes/useInformes";
+import InputOverallSearch from "components/widgets/Inputs/InputOverallSearch";
+import { useSearchMuestras } from "hooks/MuestrasPatologo/useSearchMuestras";
+import { useCallback } from "react";
 
 
 
@@ -155,10 +150,10 @@ export default function HeaderLinks(props) {
   //constex para cambian de visualizacion de tarjeta a lista
   //default tarjeta
   const { modoVisualizacion, cambiarModoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { setInformes, setFacturas, filteredFact, sethiddenInformessort, sethiddenFactssort, filteredInforme, setfilteredInforme,filteredInformeP, setInformesp,sethiddenInformessortp,
-    enableSearch, setEnableSearch
+  const {  setFacturas, filteredFact, sethiddenInformessort, sethiddenFactssort, filteredInforme, setfilteredInforme,filteredInformeP, setInformesp,sethiddenInformessortp, setEnableSearch,searchMuestra, setsearchMuestra,informesListp, setInformeslistp,sethiddenInformeslistpsort,filteredInformelistp,setfilteredInformelistp,informesp
   } = useContext(MainContext)
-const {setInformesCompletados}=useInformes()
+
+const {getMuestrasBySearch}=useSearchMuestras({search:searchMuestra})
 
   const cambiarModo = (nuevoModo) => {
     cambiarModoVisualizacion(nuevoModo);
@@ -186,47 +181,60 @@ const {setInformesCompletados}=useInformes()
     //setBusqueda(query);
 
   };
-  //const [filterInfor, setFilterInfor] = useState('');
 
+  const debouncedGetMuestras = useCallback(
+    debounce(async(searchMuestra) => {
+   
+      if (searchMuestra === "") {
+      
+        setsearchMuestra("");
+
+      } if (searchMuestra.length > 0) {
+       const res= getMuestrasBySearch({searchMuestra})
+       console.log(res);
+      }
+       setsearchMuestra('');
+
+    }, 500),
+    []
+  );
 
   const handleBusquedaChangeInformes = (event) => {
-    console.log('informe')
     setfilteredInforme(event.target.value);
     const query = event.target.value;
     console.log(query)
     if (query.startsWith(" ")) return;
-
     sethiddenInformessort(false)
-    //filterInfor(query);
     if (query === '') {
       sethiddenInformessort(true)
     }
-    //setBusqueda(query);
+  };
+  const handleBusquedaChangeInformesList = (event) => {
+    const query = event.target.value;
+    filterInforlistPatologo(query)
+    sethiddenInformeslistpsort(false)
+    if (query === '') {
+      sethiddenInformeslistpsort(true)
+    }
 
   };
 
   const handleBusquedaChangeInformesPatologo = (event) => {
-    console.log('informe')
-    //setfilteredInformeP(event.target.value);
     const query = event.target.value;
-    console.log(query)
+ 
     if (query.startsWith(" ")) return;
-
+    
+    setsearchMuestra(query)
+    filterInforPatologo(query)
     sethiddenInformessortp(false)
-    filterInforPatologo(query);
     setEnableSearch(true)
     if (query === '') {
       sethiddenInformessortp(true)
+      
     }
     
-
-  
-   // setInformesp([])
-    //setBusqueda(query);
-
-
   };
-  // console.log(filteredInforme)
+
   const filterFacts = (searchTearm) => {
     if (location.pathname === "/admin/Facturacion") {
       let resultadoBusqueda = filteredFact.filter((elemento) => {
@@ -276,7 +284,7 @@ const {setInformesCompletados}=useInformes()
               .toLowerCase()
               .includes(searchTearm.toLowerCase())
               ||
-            elemento.medico_tratante?.nombres
+            elemento?.medico_tratante?.nombres
               .toLowerCase()
               .includes(searchTearm.toLowerCase())
         ) {
@@ -288,22 +296,39 @@ const {setInformesCompletados}=useInformes()
 
   }
 
-  const filterInfor = (searchTearm) => {
-    //console.log(filteredInforme)
-    let resultadoBusqueda = filteredInformeP.filter((elemento) => {
-      if (
-        elemento.estudio_tipo
-          .toLowerCase()
-          .includes(searchTearm.toLowerCase()) ||
-        elemento.estudio_codigo
-          .toLowerCase()
-          .includes(searchTearm.toLowerCase())
-      ) {
-        return elemento;
-      }
-    });
-      setInformes(resultadoBusqueda);
+  const filterInforlistPatologo = (searchTearm) => {
+    console.log(filteredInformelistp);
+    let resultadoBusqueda = filteredInformelistp.filter((elemento) => {
+        if (
+          elemento?.estudio_codigo
+            .toLowerCase()
+            .includes(searchTearm.toLowerCase()) ||
+         
+            elemento?.estudio_paciente_name
+              .toLowerCase()
+              .includes(searchTearm.toLowerCase())
+              ||
+            elemento?.estudio_patologo_name
+              .toLowerCase()
+              .includes(searchTearm.toLowerCase())
+        ) {
+          return elemento;
+        }
+      });
+      setInformeslistp(resultadoBusqueda);
+    
+
   }
+useEffect(() => {
+  setInformeslistp([])
+  setfilteredInformelistp([])
+  return () => {
+    sethiddenInformessortp(true)
+    sethiddenInformeslistpsort(true)
+  }
+}, [location])
+
+ 
   return (
     <Flex
       pe={{ sm: "0px", md: "0px" }}
@@ -316,12 +341,13 @@ const {setInformesCompletados}=useInformes()
 
     // gap={"5px"} ?param1=ordenId
     >
-      {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion"  || location.pathname === "/admin/RegistroPatologo" ? (
+      {location.pathname === "/admin/Facturacion" || location.pathname === "/admin/InformeAdministracion"  || location.pathname === "/admin/RegistroPatologo" || location.pathname === "/admin/Informe" ? (
         <InputOverallSearch
           locale={location.pathname}
           onChangeInformes={handleBusquedaChangeInformes}
           onChangeFacturas={handleBusquedaChange}
           onChangeInformesP={handleBusquedaChangeInformesPatologo}
+          onChangelistInformesP={handleBusquedaChangeInformesList}
         />
       ) :
         <InputGroup
@@ -402,16 +428,7 @@ const {setInformesCompletados}=useInformes()
           }
          
          
-      {/* { arrGroup === "administracion" &&  <Button colorScheme="#89bbcc" 
-      _hover={{ backgroundColor: "#EDF2F7" }}  >
-         <a style={{display:'flex', alignItems:'center'}} href="https://patolsima-api-19f65176eefa.herokuapp.com/admin/login/?next=/admin/">
-         <BiSolidCog
-                size={"20px"}
-                style={{ color: "#137798" }}
-              />
-          </a>
-         
-          </Button>} */}
+    
 
           <Button onClick={handleLogout} colorScheme="#89bbcc"
             _hover={{ backgroundColor: "#EDF2F7" }} >

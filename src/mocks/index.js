@@ -40,7 +40,7 @@ export const thValuesFacturasSimples = [
 ];
 export const thValuesInformsSimples = [
 
-  { value: '# MUESTRA' },
+  { value: '# ' },
   { value: 'PACIENTE' },
   { value: 'RIF/CI' },
   { value: 'TIPO DE ESTUDIO' },
@@ -48,8 +48,8 @@ export const thValuesInformsSimples = [
 
 ];
 export const thValuesPatologo = [
-  { value: '# MUESTRA' },
-  { value: 'NOMBRE Y APELLIDO' },
+  { value: '# ' },
+  { value: 'NOMBREs' },
   { value: 'RIF/CI' },
   { value: 'FECHA ' },
   { value: 'TIPO DE ESTUDIO' },
@@ -66,7 +66,7 @@ export const typeStudies = [
 
 export const thValuesInformes = [
   { value: '#' },
-  { value: 'Fecha de impresa' },
+  { value: 'impresa' },
   { value: 'Paciente' },
   { value: 'RIF/CI' },
   { value: 'Tipo de Estudio' },

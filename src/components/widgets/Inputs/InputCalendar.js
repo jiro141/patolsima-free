@@ -9,6 +9,8 @@ import '../../../css/style.css'
 import { useState } from 'react';
 import { formatDate } from "helpers";
 import Calendar from "react-calendar";
+import { useBreakpointValue } from '@chakra-ui/react';
+
 
 export default function InputCalendar({ value, onChange, setOpenCalendar, onOpenCalendar }) {
   const [date, setDate] = useState(new Date());
@@ -36,6 +38,7 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
   const handleCloseCalendar = () => {
     setOpenCalendar(false)
   }
+  
 
   return (
     <div className='wrapCalendarInput'>
@@ -46,7 +49,7 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
       {onOpenCalendar && (
         <Box
           marginTop={'3%'}
-          width={{ lg: '80%', md: '50%', sm: '50%' }}
+          width={{ lg: '80%', md: '60%', sm: '80%' }}
           zIndex={1000000} /* Set a higher value for zIndex */
           position="absolute" /* Set the position to "absolute" */
           backgroundColor="white" /* Add a solid background color */
@@ -66,9 +69,9 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
             </Button>
           </Box>
 
-          <Calendar
+         <Calendar
           zIndex={1000}
-         
+      
             onChange={onChange}
             value={value}
             locale="ES"
@@ -78,6 +81,7 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
             next2Label={null}
             tileDisabled={tileDisabled}
           />
+    
         </Box>
       )}
     </div>

@@ -26,7 +26,6 @@ import { formatDate } from "helpers";
 import InputCalendar from "../Inputs/InputCalendar";
 import { putPacientes } from "api/controllers/pacientes";
 import { NextStation } from "../Buttons/NextStation";
-import { getPacientesListByCi } from "api/controllers/pacientes";
 import { Title } from "../Texts";
 import PhoneInputOverall from "../Inputs/PhoneInputOverall";
 import { COUNTRY_CODE } from "mocks";
@@ -176,12 +175,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   });
 
-  useEffect(() => {
-    if (value) {
-      // formik.resetForm()
-
-    }
-  }, [formik.values]);
+ 
 
 
 
@@ -302,10 +296,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     }, 500),
     []
   );
-  const resetFormValues = () => {
-    //formik.resetForm();
-    onChange(formatDate(new Date())); // También reseteamos el valor del calendario
-  };
+ 
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;

@@ -53,7 +53,8 @@ const Dashboard = () => {
   const [showModalList, setShowModalList] = useState(false);
   const [showModalListDetails, setShowModalListDetails] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenmuestrasPatologosort} = useContext(MainContext);
+  const { informesListp, setInformeslistp,
+    hiddenInformeslistpsort, sethiddenInformeslistpsort,filteredInformelistp} = useContext(MainContext);
   const {muestraALTA,muestraMEDIA,muestraBAJA ,getInformesPatologoAlta,getInformesPatologoMedia,getInformesPatologoBaja,loadingA,loadingM,loadingB}= useInformesPatologo()
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
@@ -81,6 +82,7 @@ const Dashboard = () => {
     peticionGet();
   }, []);
   useEffect(() => {
+    getInformes()
     getInformesPatologoAlta()
     getInformesPatologoMedia()
     getInformesPatologoBaja()
@@ -95,16 +97,12 @@ const Dashboard = () => {
 
 
   const handleSelectInforme = async (id) => {
-    console.log('endpoint here');
-    console.log(id);
     const res = await getInformesDetail(id)
-    console.log(res);
     setInformeDetail(res)
-   // setIdInforme(id)
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudio(resStudyDetail)
   }
-  console.log(muestraMEDIA);
+ 
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
@@ -112,12 +110,13 @@ const Dashboard = () => {
     filtrar(query);
   };
   const filtrar = (terminoBusqueda) => {
-    let resultadoBusqueda = filteredInforme.filter((elemento) => {
+    console.log(filteredInformelistp);
+    let resultadoBusqueda = filteredInformelistp.filter((elemento) => {
       if (
-        elemento.estudio_codigo
+        elemento.estudio_paciente_ci.toString()
           .toLowerCase()
           .includes(terminoBusqueda.toLowerCase()) ||
-        elemento.estudio_patologo_name
+        elemento.estudio_paciente_name
           .toLowerCase()
           .includes(terminoBusqueda.toLowerCase())
 
@@ -128,11 +127,9 @@ const Dashboard = () => {
     setInformes(resultadoBusqueda);
   };
   const handleSelectInformeFromShowMore = async (id) => {
-    console.log(id);
     setShowModalListDetails(true)
     const res = await getInformesDetail(id)
     setInformeDetailfromShowMore(res)
-    //setIdInforme(id)
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudiofromShowMore(resStudyDetail)
 
@@ -145,10 +142,10 @@ const Dashboard = () => {
             <Box  marginTop={"30px"} width={'100%'}
         pl={'5px'} >
           
-            <>
+            { hiddenInformeslistpsort ?<>
               <CardOverall_Infor
                 title={"Prioridad Alta"}
-                content={muestraALTA}
+                content={muestraALTA.slice().reverse()}
                 toggleModal={toggleModal}
                 colorA={highPriorityColor}
                 loading={loadingA}
@@ -158,7 +155,7 @@ const Dashboard = () => {
 
               <CardOverall_Infor
                 title={"Prioridad Media"}
-                content={muestraMEDIA}
+                content={muestraMEDIA.slice().reverse()}
                 toggleModal={toggleModal}
                 colorA={mediumPriorityColor}
                 handleSelectInforme={handleSelectInforme}
@@ -167,14 +164,27 @@ const Dashboard = () => {
               />
               <CardOverall_Infor
                 title={"Prioridad Baja"}
-                content={muestraBAJA}
+                content={muestraBAJA.slice().reverse()}
                 toggleModal={toggleModal}
                 colorA={lowPriorityColor}
                 handleSelectInforme={handleSelectInforme}
                 loading={loadingB}
                 type="other"
               />
+            </> :
+            <>
+             <CardOverall_Infor
+                title={"Resultados"}
+                content={informesListp}
+                toggleModal={toggleModal}
+                //colorA={colorA}
+                //loading={loading}
+                type="search"
+              />
+            
             </>
+            
+            }
 
             <ShowMoreButton handleClick={toggleModalList} />
 
@@ -303,34 +313,8 @@ const Dashboard = () => {
 
 
         
-      {/* <Modal showModalListDetails
-          size={sizeView}
-          maxWidth='100%'
-          isOpen={showModalList}
-          onClose={toggleModalList}>
-          <ModalOverlay />
-          <ModalContent minH={'500px'} borderRadius={'20px'} bg="#ffff">
-            <ModalHeader>
-              <Button
-                borderRadius={'50%'}
-                colorScheme="blue"
-                width="40px"
-                height="40px"
-                marginLeft={'95%'}
-                marginTop={'-60px'}
-                bgColor={'#137797'}
-                color='#ffff'
-                onClick={toggleModalList}>
-                <CloseButton />
-              </Button>
-            </ModalHeader>
-            <ModalBody marginTop={'-5%'}>
-              <ListaInformes />
-            </ModalBody>
-          </ModalContent>
-        </Modal>*/}
-
-<FilteredDataModal
+   
+      <FilteredDataModal
           type='informes'
           thData={thValuesInformes}
           isOpenModal={showModalList}
@@ -338,8 +322,6 @@ const Dashboard = () => {
           tBodyData={informes}
           Busqueda={Busqueda}
           handleSelectTBody={handleSelectInformeFromShowMore}
-          //handleSelectIcon={toggleModalConfirmacion}
-          //loading={loading}
           handleBusquedaChange={handleBusquedaChange}
         />
          <Modal

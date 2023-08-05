@@ -21,7 +21,7 @@ export function TH({ thData }) {
           borderBottom="3px solid"
           borderBottomColor={"gray.500"}
           textAlign="center"
-
+          fontSize={{lg:"12px",sm:'11px',md:'12px'}}
           key={index}
         >
           {item.value}</Th>
@@ -39,10 +39,11 @@ export function TR({
     <Tbody >
       {tBodyData &&
         tBodyData?.map((pacients) => (
-          <Tr key={pacients.id}>
+          <Tr key={pacients.id} style={{fontSize:'13.5px'}}>
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -52,8 +53,9 @@ export function TR({
               {pacients.nombres}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -63,8 +65,9 @@ export function TR({
               {pacients.apellidos}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -74,8 +77,9 @@ export function TR({
               {pacients.ci}
             </Link>
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -85,8 +89,9 @@ export function TR({
               {pacients.telefono_celular}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -96,8 +101,9 @@ export function TR({
               {pacients.email}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -123,10 +129,11 @@ export function TRM({
     <Tbody >
       {tBodyData &&
         tBodyData?.map((medics) => (
-          <Tr key={medics.id}>
+          <Tr key={medics.id}  >
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -136,8 +143,9 @@ export function TRM({
               {medics.nombres}
             </Link>
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -147,8 +155,9 @@ export function TRM({
               {medics.apellidos}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -158,8 +167,9 @@ export function TRM({
               {medics.especialidad}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -169,8 +179,9 @@ export function TRM({
               {medics.telefono_celular}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -180,8 +191,9 @@ export function TRM({
               {medics.email}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -216,9 +228,9 @@ export function TRF({
         tBodyData?.map((bills) => (
           <Tr key={bills.id}>
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
-              style={{ width: '15%' }}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -230,9 +242,9 @@ export function TRF({
 
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
-              style={{ width: '15%' }}
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -243,8 +255,9 @@ export function TRF({
               {bills.fecha_impresion ? formatDate(bills.fecha_impresion) : ''}
             </Link>
             <Link
-              //paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -254,8 +267,9 @@ export function TRF({
               {bills.cliente.razon_social.length > 17 ? bills.cliente.razon_social.substring(0, 17) + '...' : bills.cliente.razon_social}
             </Link>
             <Link
-              // paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // style={{ width: '15%' }}
               // margin={"10px"}
               borderRadius="none"
@@ -268,9 +282,9 @@ export function TRF({
             </Link>
 
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
-              style={{ width: '15%' }}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -282,9 +296,9 @@ export function TRF({
 
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
-              style={{ width:'15%' }}
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -295,8 +309,9 @@ export function TRF({
               {bills.total_bs}
             </Link>
             <Link
-              paddingX={"10px"}
-              as="td"
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+               as="td"
+               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -334,42 +349,43 @@ export function TRI({
     <Tbody >
       {tBodyData &&
         tBodyData?.map((bills) => (
-          <Tr key={bills.id}>
+          <Tr key={bills.id} >
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
+              
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
               onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={'14px'}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
             >
               {bills.estudio_codigo}
             </Link>
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
-              style={{ fontSize: '13px' }}
+              //style={{ fontSize: '13px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
               onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={'14px'}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
             >
               {formatDate(bills.created_at)}
 
             </Link>
             <Link
-              //paddingX={"10px"}
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
               onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={'14px'}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
             >
 
               {bills?.estudio_paciente_name.length > 10
@@ -377,28 +393,28 @@ export function TRI({
                 : bills?.estudio_paciente_name}
             </Link>
             <Link
-              // paddingX={"10px"}
+               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
               onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={'14px'}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
             >
               {bills.estudio_paciente_ci}
             </Link>
 
 
             <Link
-              paddingX={"10px"}
+              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
               as="td"
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
               onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={'14px'}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
             >
               {bills.estudio_tipo}
             </Link>
@@ -410,7 +426,7 @@ export function TRI({
               borderBottom="1px solid"
               borderBottomColor="gray.500"
               onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={'14px'}
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
             >
               {bills.estudio_patologo_name}
             </Link>
@@ -518,6 +534,28 @@ export function TABLE_INFORMES({
       />
     </Table>
   );
+}
+
+export function WrapTables({children}) {
+  return(
+    <Box
+  width={"100%"}
+  maxH={"400px"}
+  overflowY={"auto"}
+  sx={{
+    "&::-webkit-scrollbar": {
+      height:'8px',
+      width: "8px", // Ancho del scroll
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "#89bbcc",
+      height:'8px',
+      width: "8px", // Ancho del scroll
+      borderRadius: "5px", // Color del scroll
+    },
+  }}
+>{children}</Box>
+  )
 }
 
 

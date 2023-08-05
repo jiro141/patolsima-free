@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 
-export default function InputOverallSearch({locale, onChangeInformes,onChangeFacturas,onChangeInformesP,}) {
+export default function InputOverallSearch({locale, onChangeInformes,onChangeFacturas,onChangeInformesP,onChangelistInformesP}) {
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -25,7 +25,7 @@ export default function InputOverallSearch({locale, onChangeInformes,onChangeFac
       {locale==='/admin/Facturacion' ?
       <input
         type="text"
-        placeholder="Buscar..."
+        placeholder="Buscar ..."
         onChange={onChangeFacturas}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -33,13 +33,21 @@ export default function InputOverallSearch({locale, onChangeInformes,onChangeFac
       />: locale==='/admin/RegistroPatologo' ?
       <input
       type="text"
-      placeholder="Buscar..."
+      placeholder="Buscar ..."
       onChange={onChangeInformesP}
       onFocus={handleFocus}
       onBlur={handleBlur}
       className='input-estilo '
       id="miInput"
-    />:
+    />: locale==='/admin/Informe' ?
+    <input
+    type="text"
+    placeholder="Buscar..."
+    onChange={onChangelistInformesP}
+    onFocus={handleFocus}
+    onBlur={handleBlur}
+    className='input-estilo '
+  />:
 
       <input
       type="text"

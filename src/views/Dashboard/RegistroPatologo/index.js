@@ -23,17 +23,16 @@ import { Icon } from "@chakra-ui/react";
 import ModalRegistro from "./components/ModalRegistro";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
-import { getStudiesList } from "api/controllers/estudios";
 import { useMuestrasPatologo } from "hooks/MuestrasPatologo/useMuestrasPatologo";
 import MainContext from "context/mainContext/MainContext";
-import CardOverall_ from "components/widgets/Cards/CardOverall";
 import { CardOverall_Muestra } from "components/widgets/Cards/CardOverall";
 import ModalRegisterInforme from "components/widgets/Modals/ModalRegisterInforme";
 import Container from "components/widgets/utils/Container";
+import { useSearchMuestras } from "hooks/MuestrasPatologo/useSearchMuestras";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { informesp,hiddenInformessortp,setEnableSearch,sethiddenInformessortp} = useContext(MainContext);
+  const { informesp,hiddenInformessortp,setEnableSearch,sethiddenInformessortp,searchMuestra, setsearchMuestra} = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const [studies, setStudies] = useState();
   const [study, setStudy] = useState();
@@ -43,7 +42,10 @@ const Dashboard = () => {
 
  const {muestraALTA,muestraMEDIA,muestraBAJA,getMuestrasPatologoAlta,getMuestrasPatologoMedia,getMuestrasPatologoBaja,loadingA,loadingM,loadingB,getInformes}= useMuestrasPatologo()
 
-
+ const {muestrasBySearch,
+  loadingmuestrasBySearch,
+  errormuestrasBySearch,
+ }=useSearchMuestras({search:searchMuestra})
 
   useEffect(() => {
     getInformes()
@@ -78,7 +80,7 @@ useEffect(() => {
 
 
 
-  console.log(informesp);
+  //console.log(muestrasBySearch);
   const renderStudies = (studies, priorityColor) => {
     const renderDate = (createdAt) => {
       const date = createdAt ? new Date(createdAt) : null;
@@ -185,7 +187,7 @@ useEffect(() => {
             <>
               <CardOverall_Muestra
                 title={"Prioridad Alta"}
-                content={muestraALTA}
+                content={muestraALTA.slice().reverse()}
                 toggleModal={toggleModal}
                 colorA={highPriorityColor}
                 loading={loadingA}
@@ -194,7 +196,7 @@ useEffect(() => {
 
               <CardOverall_Muestra
                 title={"Prioridad Media"}
-                content={muestraMEDIA}
+                content={muestraMEDIA.slice().reverse()}
                 toggleModal={toggleModal}
                 colorA={mediumPriorityColor}
                 loading={loadingM}
@@ -202,7 +204,7 @@ useEffect(() => {
               />
                <CardOverall_Muestra
                 title={"Prioridad Baja"}
-                content={muestraBAJA}
+                content={muestraBAJA.slice().reverse()}
                 toggleModal={toggleModal}
                 colorA={lowPriorityColor}
                 loading={loadingB}

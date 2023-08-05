@@ -161,7 +161,7 @@ const Dashboard = () => {
               {informesHightPriority?.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'15px'}>
+                    <Text textAlign="center" marginTop={'48px'} fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -169,23 +169,33 @@ const Dashboard = () => {
               ) : (
                 informesHightPriority?.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                      <Link onClick={() => toggleModal(study)}>
-                        {study?.estudio_paciente_name.length > 9
-                          ? study?.estudio_paciente_name.substring(0, 8) + "..."
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
+                      <Link onClick={() => handleSelectInforme(study)}>
+                        {study?.estudio_paciente_name.length > 10
+                          ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{formatDate(study?.created_at)}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
                   </Tr>
@@ -198,7 +208,7 @@ const Dashboard = () => {
               {informesMediaPriority?.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'15px'}>
+                    <Text textAlign="center" marginTop={'48px'} fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -206,23 +216,33 @@ const Dashboard = () => {
               ) : (
                 informesMediaPriority?.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 16) + "..."
                           : study?.estudio_paciente_name}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{formatDate(study?.created_at)}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
                   </Tr>
@@ -235,7 +255,7 @@ const Dashboard = () => {
               {informesLowPriority?.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} fontSize={'15px'}>
+                    <Text textAlign="center" marginTop={'48px'} fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -243,23 +263,33 @@ const Dashboard = () => {
               ) : (
                 informesLowPriority?.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 16) + "..."
                           : study?.estudio_paciente_name}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}>
                       <Link onClick={() => handleSelectInforme(study)}>{formatDate(study?.created_at)}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
+                    <Td textAlign={'center'}  paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              as="td"
+              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
                   </Tr>

@@ -21,6 +21,11 @@ export function MainContextProvider({ children }) {
   const [informes, setInformes] = useState([]);
   const [filteredInforme, setfilteredInforme] = useState([]);
   const [hiddenInformessort, sethiddenInformessort] = useState(true);
+
+  //informes list patologo
+  const [informesListp, setInformeslistp] = useState([]);
+  const [filteredInformelistp, setfilteredInformelistp] = useState([]);
+  const [hiddenInformeslistpsort, sethiddenInformeslistpsort] = useState(true);
 //patolgo
   const [informesp, setInformesp] = useState([]);
   const [filteredInformeP, setfilteredInformeP] = useState([]);
@@ -47,8 +52,8 @@ export function MainContextProvider({ children }) {
   //informe data modal
   const [selectInfor, setSelectInfor] = useState([]);
   const [enableInforModalDetails, setEnableInforModalDetails] = useState(false);
-
-
+  const [searchMuestra, setsearchMuestra] = useState('')
+  const [muestrasBySearch, setMuestrasbySearch] = useState([]);
 
   useEffect(() => {
 
@@ -111,6 +116,13 @@ export function MainContextProvider({ children }) {
         enableSearch, setEnableSearch,
         selectInfor, setSelectInfor,
         enableInforModalDetails, setEnableInforModalDetails,
+        searchMuestra, setsearchMuestra,
+        muestrasBySearch, setMuestrasbySearch,
+        informesListp, setInformeslistp,
+        filteredInformelistp, setfilteredInformelistp,
+        hiddenInformeslistpsort, sethiddenInformeslistpsort
+
+
         
 
       }}

@@ -64,8 +64,10 @@ function SignIn() {
         window.localStorage.setItem('access', data.access);
         window.localStorage.setItem('refresh', data.refresh);
         setLoginSuccess(true)
-        //setError(false)
+       if(data){
         history.push('layouts/Admin.js');
+       }
+        
       } catch (error) {
         setShowErrorModal(true)
         console.log(error)

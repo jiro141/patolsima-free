@@ -237,13 +237,11 @@ const renderMuestras = (content, toggleModal, colorA, type,handleSelectInforme) 
             color={useColorModeValue("gray.600", "gray.400")}
           />
           <RowCard
-            headTitle={"Medico"}
-            data={study.medico_tratante ? 
-            <Badge colorScheme='green'>
-             { study.medico_tratante?.nombres?.length > 10
-                ? study.medico_tratante?.nombres?.substring(0, 10) + "..."
-                : study.medico_tratante?.nombres}
-            </Badge>
+            headTitle={"RIF/CI"}
+            data={study.paciente? 
+            
+              study?.paciente?.ci
+           
             
             
             : <Badge >
@@ -297,7 +295,7 @@ export default function CardOverall_({
   };
   return (
     <div style={{}}>
-      <Title title={content.length === 0 ? " " : title} />
+      <Title title={ title} />
       <Box
         boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
         backgroundColor={"#FFFF"}
@@ -420,7 +418,8 @@ export function CardOverall_Infor({
   };
   return (
     <div >
-      <Title title={content.length === 0 ? " " : title} />
+      <Title title={ title} />
+      <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
       <Box
         boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
         backgroundColor={"#FFFF"}
@@ -551,7 +550,7 @@ export function CardOverall_Muestra({
       }
   
     </Heading>*/}
-      <Title title={content.length === 0 ? " " : title} />
+      <Title title={ title} />
       <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
       <Box
         boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"

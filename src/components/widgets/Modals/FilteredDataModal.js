@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import CloseButtonL from "../Buttons/CloseButton";
 import InputSearch from "../Inputs/InputSearch";
-import { TABLE_FACTURAS, TABLE_INFORMES, TABLE_MEDICOS, TABLE_PACIENTS } from "../Tables";
+import { TABLE_FACTURAS, TABLE_INFORMES, TABLE_MEDICOS, TABLE_PACIENTS, WrapTables } from "../Tables";
 import "../../../css/style.css";
 import NotFound from "../others/NotFound";
 import { useContext } from "react";
@@ -61,20 +61,7 @@ export default function FilteredDataModal({
 
               <Center>
                 {type === 'medics' ?
-                  <Box
-                    width={"100%"}
-                    maxH={"400px"}
-                    overflowY={"auto"}
-                    sx={{
-                      "&::-webkit-scrollbar": {
-                        width: "5px", // Ancho del scroll
-                      },
-                      "&::-webkit-scrollbar-thumb": {
-                        background: "#89bbcc",
-                        borderRadius: "10px", // Color del scroll
-                      },
-                    }}
-                  >
+                  <WrapTables>
                     {loading ? (
                       <div className="centerLoader">
                         <CircularProgress
@@ -93,22 +80,9 @@ export default function FilteredDataModal({
                     ) : (
                       <NotFound desc={"No se encontraron los resultados"} />
                     )}
-                  </Box>
+                  </WrapTables>
                   : type === 'facturas' ?
-                    <Box
-                      width={"100%"}
-                      maxH={"400px"}
-                      overflowY={"auto"}
-                      sx={{
-                        "&::-webkit-scrollbar": {
-                          width: "5px", // Ancho del scroll
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                          background: "#89bbcc",
-                          borderRadius: "10px", // Color del scroll
-                        },
-                      }}
-                    >
+                    <WrapTables>
                       {loading ? (
                         <div className="centerLoader">
                           <CircularProgress
@@ -129,22 +103,9 @@ export default function FilteredDataModal({
                       ) : (
                         <NotFound desc={"No se encontraron los resultados"} />
                       )}
-                    </Box>
+                    </WrapTables>
                     : type === 'informes' ?
-                      <Box
-                        width={"100%"}
-                        maxH={"400px"}
-                        overflowY={"auto"}
-                        sx={{
-                          "&::-webkit-scrollbar": {
-                            width: "5px", // Ancho del scroll
-                          },
-                          "&::-webkit-scrollbar-thumb": {
-                            background: "#89bbcc",
-                            borderRadius: "10px", 
-                          },
-                        }}
-                      >
+                      <WrapTables>
                         {loading ? (
                           <div className="centerLoader">
                             <CircularProgress
@@ -163,23 +124,10 @@ export default function FilteredDataModal({
                         ) : (
                           <NotFound desc={"No se encontraron los resultados"} />
                         )}
-                      </Box> :
+                      </WrapTables> :
 
 
-                      <Box
-                        width={"100%"}
-                        maxH={"400px"}
-                        overflowY={"auto"}
-                        sx={{
-                          "&::-webkit-scrollbar": {
-                            width: "5px", // Ancho del scroll
-                          },
-                          "&::-webkit-scrollbar-thumb": {
-                            background: "#89bbcc",
-                            borderRadius: "10px", // Color del scroll
-                          },
-                        }}
-                      >
+                      <WrapTables>
                         {loading ? (
                           <div className="centerLoader">
                             <CircularProgress
@@ -198,7 +146,7 @@ export default function FilteredDataModal({
                         ) : (
                           <NotFound desc={"No se encontraron los resultados"} />
                         )}
-                      </Box>
+                      </WrapTables>
                 }
               </Center>
             </Box>

@@ -59,10 +59,20 @@ export const getStudiesList = async () => {
     }
 }
 //search params
+export const getStudiesListSearch = async ({ searchMuestra }) => {
+    try {
+        console.log('endpoint-->>>');
+        const response = await Axios.get(`/v1/core/estudios/?search=${searchMuestra}`)
+        console.log(response.data.results);
+        return response.data.results
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const getStudiesListPriorityALTA = async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=ALTA&confirmado=true&pagado=true`)
+        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=ALTA&confirmado=true&pagada=true`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {

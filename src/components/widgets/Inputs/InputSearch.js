@@ -8,13 +8,14 @@ import {
 
 export default function InputSearch({title,SearchValue,handleChange}) {
   return (
-    <Box bg="none" py={4} mb={4}>
-      <Grid templateColumns={"1fr 2fr"} maxW="container.lg">
+    <Box bg="none" py={4} mb={4} px={{lg:'20px',md:'20px',sm:'5px'}}>
+      <Grid templateColumns={"1fr 2fr"}  >
         <Text
-          margin={"auto"}
+        mr={'6px'}
+          //margin={"auto"}
           fontWeight={"bold"}
           color="gray.500"
-          fontSize={"24px"}
+          fontSize={{lg:"24px",sm:'15px',md:'24px'}}
         >
           {" "}
           {title}
@@ -25,8 +26,9 @@ export default function InputSearch({title,SearchValue,handleChange}) {
           borderRadius="none"
           borderBottom="1px solid"
           borderBottomColor={"gray.500"}
+          fontSize={{lg:"20px",sm:'15px',md:'20px'}}
           placeholder="Buscar..."
-          size="lg"
+          size={{lg:"lg",sm:'sm'}}
           value={SearchValue}
           onChange={handleChange}
         />

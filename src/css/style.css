@@ -7,11 +7,20 @@
     padding: 6px;
     background: white;
     border: 3px solid #137797;
-    line-height: 1.125em;
+   /* line-height: 1.125em;*/
     font-size: 12px;
     border-radius: 20px;
     color: #137797;
+ 
   }
+  @media screen and (max-width: 540px) {
+    .react-calendar {
+      font-size: 10px;
+      padding: 4px;
+      
+    }
+  }
+  
   .react-calendar--doubleView {
     width: 500px;
   }
@@ -20,7 +29,7 @@
     margin: -0.5em;
   }
   .react-calendar--doubleView .react-calendar__viewContainer > * {
-    width: 50%;
+   /* width: 50%;*/
     margin: 0em;
   }
   .react-calendar,
@@ -258,6 +267,7 @@
     margin-right: 12px;
   }
   .option .option-text{
+    
     font-size: 15px;
     margin-left: 5px;
     color: #333;

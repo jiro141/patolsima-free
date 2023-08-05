@@ -10,7 +10,7 @@ import { getInformesNoCompletados } from "api/controllers/informes";
 export function useInformes() {
 
  const {informes, setInformes,
-    filteredInforme, setfilteredInformeP }= useContext(MainContext)
+    filteredInforme, setfilteredInformelistp,setInformeslistp }= useContext(MainContext)
   
   const [informesCompletados, setInformesCompletados] = useState([]);
   const [informesNoCompletados, setInformesNoCompletados] = useState([]);
@@ -24,8 +24,9 @@ export function useInformes() {
       setloading(true);
       seterror(null);
       const informeList = await getListInforme();
+      setfilteredInformelistp(informeList)
       setInformes(informeList);  
-      setfilteredInformeP(informeList)
+      setInformeslistp(informeList)
      
       
     //  const completados = informeList.filter((item) => item.completado === true);

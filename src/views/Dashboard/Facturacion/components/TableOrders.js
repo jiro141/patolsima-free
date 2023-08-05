@@ -157,7 +157,7 @@ export function TableInforms_Confirmados({ children }) {
           }}>
           <Table >
             <Thead style={{ width: '100%' }}>
-              <TH thData={thValuesInformsSimples} />
+              <TH thData={thValuesInformsSimples}  />
             </Thead>
             {children}
           </Table>

@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactCountryFlag from 'react-country-flag';
-import { FormControl, Input, FormErrorMessage, Text, Box } from "@chakra-ui/react";
+import { FormControl, Input, FormErrorMessage, Text, Box, useBreakpointValue } from "@chakra-ui/react";
 import { useState } from 'react';
 import { BsChevronCompactDown } from 'react-icons/bs';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import "../../../css/style.css";
 import { COUNTRY_CODE } from 'mocks';
+
+
 
 export default function PhoneInputOverall({ value, errors, onChange, placeholder, name, countryCode, setCountryCode, numberCode, setNumberCode, defaultValue }) {
   const [selectFlag, setselectFlag] = useState(false)
@@ -14,16 +16,19 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
     setNumberCode(countryCallingCode)
     setselectFlag(!selectFlag)
   }
+   // Utilizar breakpoints para ajustar los estilos en pantallas pequeñas
+   const isSmallScreen = useBreakpointValue({ base: true, sm: false });
+
   return (
     <Box  >
       <Box display={'flex'} justifyContent={'center'} alignItems={'center'}  >
-        <Box width={{sm:'20%',lg:'30%',md:'30%'}}  onClick={() => setselectFlag(!selectFlag)}
+        <Box width={{sm:'20%',lg:'30%',md:'20%'}}  onClick={() => setselectFlag(!selectFlag)}
       
         _hover={{
 
           color: "black",
           cursor: "pointer",
-        }} backgroundColor={'#EDF2F7'} className='chakra-input-style' display={'flex'} justifyContent={'space-between'}  alignItems={'center'} paddingRight={'10px'}  >
+        }} backgroundColor={'#EDF2F7'} className='chakra-input-style' display={'flex'} justifyContent={'space-between'}  alignItems={'center'} paddingRight={{lg:'10px',sm:'0px',md:'0px'}}  >
           <ReactCountryFlag
             countryCode={countryCode}
             svg
@@ -33,13 +38,14 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
               marginLeft: '0px',
             }}
           />
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} px={'0px'} >
-            <p style={{ color: '#2d3748',fontSize:'13px' }} >+{numberCode}</p>
-            <ChevronDownIcon fontSize={'13.5px'} marginRight={'5px'} />
+          <Box display={{lg:'flex',sm:'flex',md:'flex'}} justifyContent={'space-between'} alignItems={'center'} px={'0px'} >
+            <Text display={{sm:'none',md:'flex',lg:'flex'}} style={{ color: '#2d3748',fontSize:'13px' }} >+{numberCode}</Text>
+            
+            <ChevronDownIcon  fontSize={'13.5px'} marginRight={'5px'} />
           </Box>
         </Box>
 
-        <Box width={{sm:'80%'}} >
+        <Box width={{sm:'80%',lg:'70%'}} >
           <Input
             //style={{marginLeft:'0px', outline:'none'}}
             isRequired
@@ -63,7 +69,7 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
             // marginTop={'32%'}
             width={{ lg: '40%', md: '40%', sm: '40%' }}
           
-            bottom={{lg:'-60px',md:'-60px',sm:'-115px'}}
+            bottom={{lg:'-15%',md:'-60px',sm:'-18%'}}
             left={{sm:'8%',lg:'50%',md:'50%'}}
             position="absolute" /* Set the position to "absolute" */
           >
@@ -82,12 +88,15 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
                       style={{
                         width: '1.2em',
                         height: '1.2em',
-                        marginRight: '1%',
+                        //marginRight: '1%',
                       }}
                     />
-                    <span className="option-text">
+                    <Box >
+                    <Text  className="option-text">
                       +{x.countryCallingCode} {''}
-                    </span>
+                    </Text>
+                    </Box>
+                    
 
                     <span className="option-text">{x.countryNameEn}</span>
                   </li>
