@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import {
   Button,
   FormControl,
@@ -44,9 +44,10 @@ import { BackStation, NextStation } from "../Buttons/NextStation";
 import { useMedicos } from "hooks/Medicos/useMedicos";
 import { Title, Titlelight, SubTitlelight } from "../Texts";
 import PhoneInputOverall from "../Inputs/PhoneInputOverall";
+import debounce from "just-debounce-it";
+import { useMedicoListBySearch } from "hooks/Medicos/useMedicosBySearch";
 
-// iconname-->BsArrowRightCircle 
-//nombre del label  saltar etapa
+
 
 const MedicoCardPostInitial = ({
   registro,
@@ -65,6 +66,7 @@ const MedicoCardPostInitial = ({
   const [countryCode, setCountryCode] = useState('ve');
   const [numberCode, setNumberCode] = useState('58');
   const [selectMedico, setSelectMedico] = useState('');
+  const [search, setSearch] = useState("");
   
   //modal confirmacion eliminacion
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
@@ -77,6 +79,14 @@ const MedicoCardPostInitial = ({
     tabla,
     setTabla
   } = useMedicos();
+
+ const{medicosBySearch,
+  loadingMedicosBySearch,
+  errorMedicosBySearch,
+  getMedicsBySearch,
+  setmedicosBySearch}= useMedicoListBySearch({search})
+
+
   const formik = useFormik({
     initialValues: {
       nombres: "",
@@ -162,8 +172,12 @@ const MedicoCardPostInitial = ({
     peticionGet();
   }, []);
   const handleBusquedaChange = (event) => {
-    setBusqueda(event.target.value);
-    filtrar(event.target.value);
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    
+     setSearch(query);
+    debouncedGetMedicosSearchResult(query)
+   // filtrar(event.target.value);
   };
 
 
@@ -187,26 +201,25 @@ const MedicoCardPostInitial = ({
     }
   };
 
-  //las condicionales y los metodos para filtrar los datos, el metodo filter, toLowerCase es
-  //que toma minusculas y mayusculas por y minusculas
-  const filtrar = (terminoBusqueda) => {
-    let resultadoBusqueda = tabla.filter((elemento) => {
-      if (
-        elemento.nombres
-          .toLowerCase()
-          .includes(terminoBusqueda.toLowerCase()) ||
-        elemento.apellidos
-          .toLowerCase()
-          .includes(terminoBusqueda.toLowerCase()) ||
-        elemento.especialidad
-          .toLowerCase()
-          .includes(terminoBusqueda.toLowerCase())
-      ) {
-        return elemento;
-      }
-    });
-    setMedicos(resultadoBusqueda);
-  };
+useEffect(() => {
+  return () => {
+    setmedicosBySearch([])
+    setMedicos([])
+    setSearch('')
+  }
+}, [mostrarModal])
+
+  const debouncedGetMedicosSearchResult = useCallback(
+    debounce((search) => {
+      if (search === "") {
+        getMedicos()
+      } if (search.length > 0) {      
+        getMedicsBySearch({search})
+        setMedicos(medicosBySearch)
+      }     
+    }, 500),
+    []
+  );
 
   const seleccionarRegistro = async (medico) => {
 
@@ -352,9 +365,9 @@ const MedicoCardPostInitial = ({
           type={"medics"}
           isOpenModal={mostrarModal}
           isToggleModal={toggleModal}
-          Busqueda={Busqueda}
+          Busqueda={search}
           thData={thValuesMedicos}
-          tBodyData={medicos}
+          tBodyData={search ? medicosBySearch : medicos}
           handleSelectTBody={seleccionarRegistro}
           handleSelectIcon={toggleModalConfirmacion}
           loading={loading}

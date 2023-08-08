@@ -149,16 +149,16 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 toast.success("¡Se confirmo la factura correctamente!", {
                     autoClose: 1000,
                 });
-             //window.location.reload();
+             //
              history.push('/admin/Facturacion');
              window.location.reload();
-             //setEnablefactModalDetails(false)
+            
             } else {
                 toast.error("¡Hubo un error al confirmar la factura!", {
                     autoClose: 1000,
                 });
             }
-            history.push('/admin/Facturacion');
+           history.push('/admin/Facturacion');
             window.location.reload();
              //setEnablefactModalDetails(false)
         } catch (error) {
@@ -281,11 +281,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         setfactClientTerceros(null)
     }, [])
 
-    console.log(facturasDetail)
-    console.log(studyDetail)
-    console.log('study detail2->');
-    console.log(studyDetail2)
-    //console.log(factClientTerceros);
+    
     return (
         <>
             {loadingDetailFact ?

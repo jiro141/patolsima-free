@@ -1,6 +1,6 @@
 import { useState, useContext, useCallback } from "react";
 import { Text, Grid, Box, Input } from "@chakra-ui/react";
-import { Formik, useFormik } from "formik";
+import {  useFormik } from "formik";
 import * as Yup from "yup";
 import { getPacientesDetail } from "api/controllers/pacientes";
 import { postPacientes } from "api/controllers/pacientes";
@@ -28,8 +28,8 @@ import { putPacientes } from "api/controllers/pacientes";
 import { NextStation } from "../Buttons/NextStation";
 import { Title } from "../Texts";
 import PhoneInputOverall from "../Inputs/PhoneInputOverall";
-import { COUNTRY_CODE } from "mocks";
 import "../../../css/style.css";
+import { usePacientsListBySearch } from "hooks/Pacients/usePacientsBySearch";
 
 const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
@@ -40,7 +40,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { activeTab, setActiveTab, setTwoState, setOneState, oneState } = useContext(MainContext)
   const [mostrarModal, setMostrarModal] = useState(false);
   const [showPrincipalIn, setShowPrincipalIn] = useState(false);
-  const [Busqueda, setBusqueda] = useState("");
+  const [search, setSearch] = useState("");
   const [pacienteName, setPacienteName] = useState("");
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const [pacienteIdDelete, setPacienteIdDelete] = useState("");
@@ -66,11 +66,18 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     pacientesEstatico,
   } = usePacients();
   const { searchci, setsearchci, errorci, seterrorci } = useSearchPacients();
+
   const {
     pacientsByCi,
     getPacientsByCi,
     loadingpacientsByCi,
   } = usePacientsListCi({ searchci });
+ const{
+  getPacientsBySearch,
+  pacientsBySearch,
+  loadingpacientsBySearch,
+  setpacientsBySearch,
+  errorpacientsBySearch}= usePacientsListBySearch({search})
 
   const formik = useFormik({
     initialValues: {
@@ -117,9 +124,6 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             toast.success("¡El paciente fue guardado correctamente!", {
               autoClose: 1000,
             });
-            //setActiveTab(activeTab + 1)
-            //console.log(activeTab)
-            //setActiveTab(1)
             setTwoState('post')
             return null
           }
@@ -127,7 +131,6 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             toast.error("¡Hubo un error al guardar el paciente!", {
               autoClose: 1000,
             });
-            // formik.resetForm()
           }
           getPacients();
         } catch (error) {
@@ -212,8 +215,9 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     if (query === '') {
       setvalue(true)
     }
-    setBusqueda(query);
-    filtrar(query);
+     setSearch(query);
+    debouncedGetPacientsSearchResult(query)
+    //filtrar(query);
   };
   const seleccionarRegistro = async (paciente) => {
     setOneState("put");
@@ -263,22 +267,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     }
   };
 
-  const filtrar = (terminoBusqueda) => {
-    let resultadoBusqueda = pacientesEstatico.filter((elemento) => {
-      if (
-        elemento.apellidos
-          .toLowerCase()
-          .includes(terminoBusqueda.toLowerCase()) ||
-        elemento.nombres
-          .toLowerCase()
-          .includes(terminoBusqueda.toLowerCase()) ||
-        elemento.ci.toString().includes(terminoBusqueda)
-      ) {
-        return elemento;
-      }
-    });
-    setpacients(resultadoBusqueda);
-  };
+ 
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
       console.log(searchci)
@@ -288,7 +277,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         // setsearchci("");
 
       } if (searchci.length > 0) {
-        getPacientsByCi({ searchci })
+        //getPacientesListByCi({ searchci })
         setSelectSearch(false);
       }
       // setSelectSearch(false);
@@ -296,16 +285,32 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     }, 500),
     []
   );
+
+  useEffect(() => {
+    return () => {
+      setpacients([])
+      setpacientsBySearch([])
+      setSearch("");
+    }
+  }, [mostrarModal])
+  
+  const debouncedGetPacientsSearchResult = useCallback(
+    debounce((search) => {
+      if (search === "") {
+        getPacients()
+      } if (search.length > 0) {
+        getPacientsBySearch({search})
+        setpacients(pacientsBySearch)
+      }     
+    }, 500),
+    []
+  );
  
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;
-
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
-
-
-
   };
 
 
@@ -481,9 +486,9 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       <FilteredDataModal
         isOpenModal={mostrarModal}
         isToggleModal={toggleModal}
-        Busqueda={Busqueda}
+        Busqueda={search}
         thData={thValuesPacientes}
-        tBodyData={pacients}
+        tBodyData={search ? pacientsBySearch: pacients}
         handleSelectTBody={seleccionarRegistro}
         handleSelectIcon={toggleModalConfirmacion}
         loading={loading}

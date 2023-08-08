@@ -276,10 +276,10 @@ const toggleModalIHResultados= () => {
                 />
 </WrapContentDetail>
 <WrapContentDetail>
-                <BadgeDetail 
+<BadgeDetail 
                 title={'Medico T.'}
                 content={detailEstudio && detailEstudio}
-                text={`${detailEstudio?.medico_tratante?.nombres.length > 9
+                text={ detailEstudio?.medico_tratante ?`${detailEstudio?.medico_tratante?.nombres.length > 9
                   ? detailEstudio?.medico_tratante?.nombres.substring(0, 9) +
                   "..."
                   : detailEstudio?.medico_tratante?.nombres
@@ -291,7 +291,7 @@ const toggleModalIHResultados= () => {
                      3
                     ) + "..."
                     : detailEstudio?.medico_tratante?.apellidos
-                  }`}
+                  }` : 'Indefinido'}
                 />
                   <BadgeDetail 
                 title={'Prioridad'}
@@ -302,7 +302,7 @@ const toggleModalIHResultados= () => {
                 <BadgeDetail 
                 title={'Telefono'}
                 content={detailEstudio && detailEstudio}
-                text={detailEstudio?.medico_tratante?.telefono_celular}
+                text={detailEstudio?.medico_tratante ? detailEstudio?.medico_tratante?.telefono_celular : 'Indefinido'}
                 />
                
                 </WrapContentDetail>
@@ -317,45 +317,6 @@ const toggleModalIHResultados= () => {
           ></Separator>
 
 
-         {/* <Grid templateColumns={"repeat(3,1fr)"}>
-            <Box mt={"10px"}>
-              <SubTitlelight title={"Estudio #"} color={"#000"} />
-              {detailEstudio ? (
-                <Badge>
-                  <Text>{`${detailEstudio?.codigo}`}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Cargando</Text>
-                </Badge>
-              )}
-            </Box>
-
-            <Box mt={"10px"}>
-              <SubTitlelight title={"Patologo"} color={"#000"} />
-              {detailEstudio ? (
-                <Badge>
-                  <Text>{`${detailEstudio?.patologo?.nombres} ${detailEstudio?.patologo?.apellidos}`}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Cargando</Text>
-                </Badge>
-              )}
-            </Box>
-            <Box mt={"10px"}>
-              <SubTitlelight title={"Tipo de estudio"} color={"#000"} />
-              {detailEstudio ? (
-                <Badge>
-                  <Text>{`${detailEstudio?.tipo}`}</Text>
-                </Badge>
-              ) : (
-                <Badge>
-                  <Text>Cargando</Text>
-                </Badge>
-              )}
-            </Box>
-          </Grid>*/}
           <WrapContentDetail>
           <BadgeDetail 
                 title={'Estudio #'}
@@ -371,10 +332,10 @@ const toggleModalIHResultados= () => {
                   : detailEstudio?.patologo?.nombres
                   }
 
-                          ${detailEstudio?.patologo?.apellidos.length > 9
+                          ${detailEstudio?.patologo?.apellidos.length > 3
                     ? detailEstudio?.patologo?.apellidos.substring(
                       0,
-                     3
+                     1
                     ) + "..."
                     : detailEstudio?.patologo?.apellidos
                   }`}
@@ -388,7 +349,8 @@ const toggleModalIHResultados= () => {
 
 
 
-          <Grid
+         <Grid
+         display={{lg:'flex',md:'flex',sm:'none'}}
             margin={"50px 10px 20px 10px"}
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
@@ -430,44 +392,29 @@ const toggleModalIHResultados= () => {
               </Select>
             )}
 
-            {/*detailEstudio && (
-              <Select
-                width={"100%"}
-                color="gray.400"
-                defaultValue="Informes anteriores"
-              >
-                <option hidden colorScheme="gray.400">
-                  Muestras
-                </option>
-                {detailEstudio?.muestras?.map((estudio, index) => (
-                  <option key={index} value={estudio.estudio_id}>
-                    {estudio.tipo_de_muestra}
-                  </option>
-                ))}
-              </Select>
-            )*/}
+           
           </Grid>
+          
         </Box>
 
         <Box
-           height={"100%"}
-           display={"flex"}
-           flexDirection={{ lg: "column", sm: 'row' }}
-           alignItems={"center"}
-           justifyContent={'center'}
+          height={"100%"}
+          display={"flex"}
+          flexDirection={{ lg: "column", sm: 'row' }}
+          alignItems={"center"}
+          justifyContent={'center'}
         >
-          <Box width={'100%'} height={"100%"} justifyContent={'center'} alignItems={'center'}>
-           
-              <GreyButton
+          
+           <Box width={'100%'} height={"100%"} justifyContent={'center'} alignItems={'center'}>
+           <GreyButton
                 handleClick={toggleModalR}
                 title={"Registro de cambios"}
               />
-            
-         
-           {detailEstudio?.tipo==='INMUNOSTOQUIMICA' || detailEstudio?.tipo==='INMUNOHISTOQUIMICA'
-           ?
-           <>
+              
+          {detailEstudio?.tipo==='INMUNOSTOQUIMICA' || detailEstudio?.tipo==='INMUNOHISTOQUIMICA' ?
           
+          
+          <>
              <OutlineBtnModal
               text={"Agregar nuevo proceso"}
               handleClick={toggleModalIH}
@@ -478,11 +425,12 @@ const toggleModalIHResultados= () => {
               handleClick={toggleModalIHResultados}
              
             />
-           </>
-           :
-            <>
-             <OutlineBtnModal
-              text={"Descripción Macroscópica"}
+            
+          </>
+        
+            : <>
+            <OutlineBtnModal
+              text={"Descripción Macroscópica "}
               handleClick={toggleModal}
             />
             <OutlineBtnModal
@@ -491,11 +439,63 @@ const toggleModalIHResultados= () => {
             />
             <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
             <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
-
             <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
-            </>
-          }
+            
+          </>}
+            
+            <Box flexDirection={'column'} display={{sm:'flex',lg:'none',md:'none'}} width={'100%'} my={'3%'}>
+       
+       
+        <GreyButton
+          handleClick={() => setShowModalEstudioNotas(true)}
+          title={"Notas de estudio"}
+        />
+        <Box my={'3%'} >
+        {historyMap && (
+              <Select
+                width={"100%"}
+                color="gray.400"
+                defaultValue="Informes anteriores"
+              >
+                <option hidden colorScheme="gray.400">
+                  Informes anteriores
+                </option>
+                {historyMap.map((estudio, index) => (
+                  <option key={index} value={estudio.estudio_id}>
+                    {estudio.estudio_codigo}
+                  </option>
+                ))}
+              </Select>
+            )}
+        </Box>
+          <Box>
+          {detailEstudio && (
+              <Select
+                onChange={() => handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
+                width={"100%"}
+                color="gray.400"
+                disabled={detailEstudio?.adjuntos?.length > 0 && detailEstudio?.adjuntos[0] ? false : true}
+             
+              >
+                <option hidden colorScheme="gray.400">
+                  Anexos
+                </option>
+                {detailEstudio?.adjuntos?.map((estudio, index) => (
+                  <option key={index} value={estudio.uri} >
+
+                    {estudio.file_name}
+
+                  </option>
+                ))}
+              </Select>
+            )}
           </Box>
+        </Box>
+          
+          
+          
+           </Box> 
+         
         </Box>
       </Grid>
 
@@ -506,7 +506,8 @@ const toggleModalIHResultados= () => {
         showModal={showModal}
         informeDetail={informeDetail}
         idStudy={detailEstudio?.id}
-        type="micro"
+        type="macro"
+        
         setInformeDetail={setInformeDetail}
         setShowModalGeneral={setShowModalGeneral}
       />
@@ -518,7 +519,7 @@ const toggleModalIHResultados= () => {
         showModal={showModalMacro}
         informeDetail={informeDetail}
         idStudy={detailEstudio?.id}
-        type="macro"
+       type="micro"
         setShowModalGeneral={setShowModalGeneral}
       />
 
@@ -598,7 +599,7 @@ const toggleModalIHResultados= () => {
       toggleModal={toggleModalIH}
       idStudy={detailEstudio?.id}
       />
-      <Box
+   <Box
          display={"flex"}
          alignItems={"center"}
          justifyContent={"space-between"}
@@ -606,11 +607,13 @@ const toggleModalIHResultados= () => {
          mt={"-30px"}
          width={"100%"}
       >
+        <Box display={{sm:'none',lg:'flex',md:'flex'}} width={'70%'}>
         <GreyButton
-          handleClick={()=>setShowModalEstudioNotas(true)}
+          handleClick={() => setShowModalEstudioNotas(true)}
           title={"Notas de estudio"}
         />
-        <Box display={"flex"} mx={"2.5%"}>
+        </Box>
+        <Box display={"flex"} mx={"2.5%"} justifyContent={{lg:'space-between',md:'space-between',sm:'flex-end'}} width={{lg:'30%',md:'30%',sm:'100%'}}>
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
           <Button
@@ -629,6 +632,8 @@ const toggleModalIHResultados= () => {
           </Button>
         </Box>
       </Box>
+
+
     </>
   );
 };

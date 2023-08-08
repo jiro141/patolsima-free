@@ -31,7 +31,7 @@ export default function InputAutoComplete({
           defaultValue={""}
           isRequired
           placeholder={placeholder}
-          type={"number"}
+          //type={"number"}
           name={name}
           value={searchValue}
           onChange={onChange}

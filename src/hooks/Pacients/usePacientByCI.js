@@ -17,6 +17,7 @@ export function usePacientsListCi({ searchci }) {
       setErrorpacientsByCi(null);
       previousSearch.current = searchci;
       const newPacients = await getPacientesListByCi({ searchci });
+      console.log(newPacients);
       setpacientsByCi(newPacients);
     } catch (e) {
       setErrorpacientsByCi(e.message);

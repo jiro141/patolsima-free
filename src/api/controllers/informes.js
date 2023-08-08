@@ -8,7 +8,7 @@ export const postInformes= async (formData) => {
         console.log(response.data);
         return response;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 
@@ -110,6 +110,16 @@ export const getInformesList= async () => {
         console.log(error);
     }
 }
+//get list by search
+export const getInformesListBySearch= async ({search}) => {
+    // console.log(token);
+    try {
+        const response = await Axios.get(`/v1/core/informes/`)
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
 export const getInformesListNotConfirm= async () => {
     // console.log(token);
     try {
@@ -156,7 +166,8 @@ export const aprobarInforme= async (id) => {
         console.log(response.data);
          return response.data;
     } catch (error) {
-        console.log(error);
+        console.log(error.response.data);
+       // return error.response.data
     }
 }
 //history informe

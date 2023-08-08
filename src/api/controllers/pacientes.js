@@ -19,6 +19,16 @@ export const getPacientesListByCi = async ({ searchci }) => {
         console.log(error);
     }
 }
+export const getPacientesListBySearch = async ({ search }) => {
+    console.log(search);
+    try {
+        const response = await Axios.get(`/v1/core/pacientes/?search=${search}`)
+        console.log(response);
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 //detallado pacientes metodo get
 export const getPacientesDetail = async (id) => {

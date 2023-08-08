@@ -296,6 +296,7 @@ export default function CardOverall_({
   return (
     <div style={{}}>
       <Title title={ title} />
+      <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
       <Box
         boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.2)"
         backgroundColor={"#FFFF"}
@@ -541,15 +542,7 @@ export function CardOverall_Muestra({
   };
   return (
     <div>
-      {/* <Heading size="md">
-      {content.length === 0 ? " " : <>
-      
-      {title}
-      <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
-      </>
-      }
-  
-    </Heading>*/}
+    
       <Title title={ title} />
       <Separator marginTop={'2%'} backgroundColor={colorA} height={'2px'}></Separator>
       <Box

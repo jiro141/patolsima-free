@@ -128,11 +128,11 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
           }
 
-        } else {
+        } /*else {
           toast.error("Se requiere confirmación del patologo y administrador, recuerda confirmar el pago", {
             autoClose: 3000,
           });
-        }
+        }*/
         setEnableInfoModalDetails(false)
         window.location.reload();
       } else {
@@ -212,7 +212,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 <BadgeDetail 
                 title={'Medico T.'}
                 content={detailEstudio && detailEstudio}
-                text={`${detailEstudio?.medico_tratante?.nombres.length > 9
+                text={ detailEstudio?.medico_tratante ?`${detailEstudio?.medico_tratante?.nombres.length > 9
                   ? detailEstudio?.medico_tratante?.nombres.substring(0, 9) +
                   "..."
                   : detailEstudio?.medico_tratante?.nombres
@@ -224,7 +224,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                      3
                     ) + "..."
                     : detailEstudio?.medico_tratante?.apellidos
-                  }`}
+                  }` : 'Indefinido'}
                 />
                   <BadgeDetail 
                 title={'Prioridad'}
@@ -235,7 +235,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 <BadgeDetail 
                 title={'Telefono'}
                 content={detailEstudio && detailEstudio}
-                text={detailEstudio?.medico_tratante?.telefono_celular}
+                text={detailEstudio?.medico_tratante ? detailEstudio?.medico_tratante?.telefono_celular:'Indefinido'}
                 />
                
                 </WrapContentDetail>
@@ -282,6 +282,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 </Box>
           
       <Grid
+       display={{lg:'flex',md:'flex',sm:'none'}}
             margin={"50px 10px 20px 10px"}
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
@@ -509,14 +510,16 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         mt={"-30px"}
         width={"100%"}
       >
-        <Box display={{sm:'none',lg:'flex',md:'flex'}} width={'100%'}>
+        <Box  display={{sm:'none',lg:'flex',md:'none'}} width={'70%'} >
         <GreyButton
           handleClick={() => setShowModalEstudioNotas(true)}
           title={"Notas de estudio"}
         />
+         
+          
         </Box>
         
-        <Box display={"flex"} mx={"2.5%"} >
+        <Box display={"flex"} mx={"2.5%"} justifyContent={'flex-end'} width={'30%'}>
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
           <Button

@@ -16,10 +16,7 @@ import {
   CloseButton,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/react";
-import { BsReceipt } from "react-icons/bs";
 import ModalFacturacion from "./components/ModalFacturacion";
-import ListaFacturas from "./components/ListaFacturas";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import ModoLista from "./ModoLista";
 import { useFacturas } from "hooks/Facturas/useFacturas";
@@ -31,7 +28,6 @@ import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
 import { thValuesFacturas } from "mocks";
 import DeleteModal from "components/widgets/Modals/DeleteModal";
 import { deleteOrden } from "api/controllers/facturas";
-import CardCambio from "components/widgets/Cards/CardCambio";
 import { getFacturasListNoConfirm } from "api/controllers/facturas";
 import { useHistory } from "react-router-dom";
 import Container from "components/widgets/utils/Container";

@@ -9,6 +9,16 @@ export const getMedicosList= async (endpoint) => {
         console.log(error);
     }
 }
+//get medico by search
+export const getMedicosBySearch= async ({ search }) => {
+    try {
+        const response = await Axios.get(`/v1/core/medicos/?search=${search}`)
+        return response.data.results;       
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 //detallado medicos metodo get
 export const getMedicosDetail = async (id) => {

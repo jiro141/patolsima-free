@@ -72,16 +72,16 @@ export const getStudiesListSearch = async ({ searchMuestra }) => {
 
 export const getStudiesListPriorityALTA = async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=ALTA&confirmado=true&pagada=true`)
+        const response = await Axios.get(`/v1/core/estudios/?archived=false&prioridad=ALTA&informe_existe=false&informe_aprobado=false&informe_completado=false`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 export const getStudiesListPriorityMEDIA= async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?prioridad=MEDIA&confirmado=true&pagado=true`)
+        const response = await Axios.get(`/v1/core/estudios/?prioridad=MEDIA&informe_existe=true&informe_existe=false&informe_aprobado=false&informe_completado=false`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {
@@ -90,7 +90,7 @@ export const getStudiesListPriorityMEDIA= async () => {
 }
 export const getStudiesListPriorityBAJA= async () => {
     try {
-        const response = await Axios.get(`/v1/core/estudios/?prioridad=BAJA&confirmado=true&pagado=true`)
+        const response = await Axios.get(`/v1/core/estudios/?prioridad=BAJA&confirmado=true&informe_existe=false&informe_aprobado=false&informe_completado=false`)
         // console.log(response.data.results);
         return response.data.results
     } catch (error) {

@@ -65,7 +65,7 @@ const ModalRegistro = ({ study, close }) => {
   const formik = useFormik({
     initialValues: {
       // estudio: study?.id,
-      notas: detailMuestra?.notas,
+     // notas: detailMuestra?.notas,
       descripcion_macroscopica: null,
       descripcion_microscopica: null,
       diagnostico: null,
@@ -76,6 +76,7 @@ const ModalRegistro = ({ study, close }) => {
       // se agregar resetForm para limpar los campos del
       const newObj = {
         estudio: study.id,
+        notas:detailMuestra?.notas,
         ...formData,
       };
 
@@ -86,10 +87,13 @@ const ModalRegistro = ({ study, close }) => {
           toast.success("¡El informe se ha procesado con exito!", {
             autoClose: 1000,
           });
+         // history.push('/admin/RegistroPatologo');
+             window.location.reload();
         } else {
           toast.error("¡No es posible procesar este informe,verifica si ya lo haz procesado previamente o si no cumple con los requerimientos!", {
             autoClose: 5000,
           });
+          window.location.reload();
         }
         console.log(procesarInforme);
       } catch (error) {
@@ -216,7 +220,7 @@ const handlePutStudies=async()=>{
                  <BadgeDetail 
                 title={'Patologo'}
                 content={detailMuestra && detailMuestra}
-                text={`${detailMuestra?.patologo?.nombres.length > 9
+                text={detailMuestra?.patologo ? `${detailMuestra?.patologo?.nombres.length > 9
                   ? detailMuestra?.patologo?.nombres.substring(0, 9) +
                   "..."
                   : detailMuestra?.patologo?.nombres
@@ -228,7 +232,7 @@ const handlePutStudies=async()=>{
                      3
                     ) + "..."
                     : detailMuestra?.patologo?.apellidos
-                  }`}
+                  }` : 'Indefinido'}
                 />
                  <BadgeDetail 
                 title={'Tipo de estudio'}
