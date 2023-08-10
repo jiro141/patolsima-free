@@ -62,6 +62,7 @@ const ModalRegistro = ({ study, close }) => {
   }, []);
 
   console.log(detailMuestra);
+  console.log(study);
   const formik = useFormik({
     initialValues: {
       // estudio: study?.id,

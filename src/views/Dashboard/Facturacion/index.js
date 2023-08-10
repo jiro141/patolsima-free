@@ -183,7 +183,7 @@ const Dashboard = () => {
           {hiddenFactssort ? (
             <>
               <CardOverall_
-                title={"Ordenes sin confirmar"}
+                title={"Ordenes Sin confirmar"}
                 content={facturasNoConfirmadas}
                 toggleModal={toggleModal}
                 colorA={colorA}
@@ -192,7 +192,7 @@ const Dashboard = () => {
               />
 
               <CardOverall_
-                title={"Ordenes confirmadas"}
+                title={"Ordenes Confirmadas"}
                 content={facturasConfirmadas}
                 toggleModal={toggleModal}
                 colorA={colorA}

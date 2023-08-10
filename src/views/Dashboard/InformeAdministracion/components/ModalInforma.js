@@ -47,8 +47,9 @@ import AddIHQModal from "components/widgets/Modals/AddIHQModal";
 
 
 
+
 const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowModalGeneral,setEnableInfoModalDetails }) => {
-  console.log(detailEstudio);
+ // console.log(detailEstudio);
   const [showModal, setShowModal] = useState(false);
   const [showModalMacro, setShowModalMacro] = useState(false);
   const [showModalDiag, setShowModalDiag] = useState(false);
@@ -90,11 +91,12 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const toggleModalIH = () => {
     setShowModalDescIh(!showModalDescIh);
   };
-  //console.log(informeDetail.paciente.id);
+  console.log(detailEstudio.paciente.id);
+  // informeDetail?.paciente?.id
   useEffect(() => {
     const historyInformes = async () => {
-      if (informeDetail) {
-        const res = await lastInformes(informeDetail?.paciente?.id)
+      if (detailEstudio) {
+        const res = await lastInformes(detailEstudio.paciente?.id)
         setHistoryMap(res);
       }
 
@@ -162,7 +164,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
 
   console.log(detailEstudio)
-  //console.log(detailEstudio.envio_digital)
+  console.log(informeDetail)
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   return (
@@ -522,8 +524,9 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         <Box display={"flex"} mx={"2.5%"} justifyContent={'flex-end'} width={'30%'}>
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
+          <Tooltip label='El informe debe ser aprobado por el patologo antes.'>
           <Button
-            // disabled={detailEstudio?.envio_digital ? false : true}
+             disabled={informeDetail?.aprobado ? false : true}
             size="auto"
             padding={{lg:"10px",sm:'10px'}}
            // marginX={"10px"}
@@ -539,6 +542,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         </Text>
            
           </Button>
+</Tooltip>
+          
         </Box>
       </Box>
     </>

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useContext, useState } from "react";
 import {
   Box,
   Text,
@@ -23,12 +23,21 @@ import { useRef } from "react";
 import { postInformes } from "api/controllers/informes";
 import { formatDate } from "helpers";
 import InputOverall from "components/widgets/Inputs/InputOverall";
+import EditButton from "components/widgets/Buttons/EditButton";
+import '../../../../css/style.css'
+import MainContext from "context/mainContext/MainContext";
+import AddIHQModal from "components/widgets/Modals/AddIHQModal";
 
 
 const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, setInformeDetail, setShowModalGeneral, detailEstudio }) => {
   const [data, setdata] = useState([])
   const [dataResmicro, setdataResmicro] = useState('')
   const [History, setgetHistory] = useState([])
+  const [enableEditResult, setEnableEditResult] = useState(false)
+ const{ setIdResultEdit, setIdStudyEdit}= useContext(MainContext)
+ const [dataResultP, setdataResultP] = useState('')
+ const [dataResultR, setdataResultR] = useState('')
+ const [dataResultd, setdataResultd] = useState('')
 
   useEffect(() => {
     const getHistory = async () => {
@@ -38,6 +47,18 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
     }
     getHistory()
   }, [])
+
+  const handleEditResult=(idResult,idStudy,procedimiento,reaccion,observaciones)=>{
+    setIdResultEdit(idResult);
+    setIdStudyEdit(idStudy);
+    setdataResultP(procedimiento)
+    setdataResultR(reaccion)
+    setdataResultd(observaciones)
+    setEnableEditResult(true)
+  }
+  const toggleModal=()=>{
+    setEnableEditResult(!enableEditResult)
+  }
 
   const handleSubmitData = async () => {
 
@@ -361,7 +382,6 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                         }}
                         onChange={(event, editor) => {
                           const data = editor.getData();
-                          console.log('from other');
                           setdata({ data })
                         }}
                       /> : type === 'bibli' ?
@@ -431,19 +451,28 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                               <Th>Procedimiento</Th>
                                <Th>reaccion</Th>
                               <Th>Diagnostico </Th>
-                             
+                              <Th> </Th>
                             </Tr>
                             </Thead>
-                            {detailEstudio && <Tbody>
-                              {detailEstudio.muestras.map((item) => (
+                            {informeDetail && <Tbody>
+                              {informeDetail?.resultados_inmunostoquimica.map((item) => (
                                 <Tr key={item?.id}>
                                 
                                 
                                   
-                                   <Td style={{fontSize:'13.5px'}} >{''}</Td>
-                                   <Td style={{fontSize:'13.5px'}} >{''}</Td>
-                                  <Td style={{fontSize:'13.5px'}}>{''}</Td>
-                             
+                                   <Td style={{fontSize:'13.5px'}} >
+
+                                    
+                                      {item.procedimiento}
+                                    
+                                    
+                                    
+                                    </Td>
+                                   <Td style={{fontSize:'13.5px'}} >{item.reaccion}</Td>
+                                  <Td style={{fontSize:'13.5px'}}>{item.diagnostico_observaciones}</Td>
+                                 
+                                  <Td style={{fontSize:'13.5px'}}>
+                                    <EditButton handleClick={()=>handleEditResult(item.id,idStudy,item.procedimiento,item.reaccion,item.diagnostico_observaciones)} /></Td>
 
                                 </Tr>
                               ))}
@@ -465,6 +494,14 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
           <SaveButton handleSubmit={handleSubmitData} />
         }
       </div>
+      <AddIHQModal showModal={enableEditResult} setEnableEditResult={setEnableEditResult} type={'edit'} toggleModal={toggleModal}
+       dataResultP={dataResultP}
+       setdataResultP={setdataResultP}
+       dataResultR={dataResultR}
+       dataResultd={dataResultd}
+       idStudy={idStudy}
+       setShowModalG={setShowModal}
+       />
     </>
   );
 }

@@ -54,7 +54,14 @@ export function MainContextProvider({ children }) {
   const [enableInforModalDetails, setEnableInforModalDetails] = useState(false);
   const [searchMuestra, setsearchMuestra] = useState('')
   const [muestrasBySearch, setMuestrasbySearch] = useState([]);
+  const [idResult, setIdResult] = useState('')
+  const [idResultEdit, setIdResultEdit] = useState('')
+  const [idStudyEdit, setIdStudyEdit] = useState('')
+  const [enableEditResult, setEnableEditResult] = useState(false)
+  const [successEditResult, setSuccessEditResult] = useState(false)
 
+
+  // successEditResult, setSuccessEditResult
   useEffect(() => {
 
     const fetchRefreshToken = async () => {
@@ -120,8 +127,12 @@ export function MainContextProvider({ children }) {
         muestrasBySearch, setMuestrasbySearch,
         informesListp, setInformeslistp,
         filteredInformelistp, setfilteredInformelistp,
-        hiddenInformeslistpsort, sethiddenInformeslistpsort
-
+        hiddenInformeslistpsort, sethiddenInformeslistpsort,
+        idResult, setIdResult,
+        idResultEdit, setIdResultEdit,
+        idStudyEdit, setIdStudyEdit,
+        enableEditResult, setEnableEditResult,
+        successEditResult, setSuccessEditResult
 
         
 

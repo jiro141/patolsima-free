@@ -1,5 +1,5 @@
 import { Box, Button, CloseButton, Grid, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, Textarea } from '@chakra-ui/react'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import InputOverall from '../Inputs/InputOverall'
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,42 +7,89 @@ import { Title } from '../Texts';
 import { postIHQ } from 'api/controllers/informes';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ArrowButton } from '../Buttons/ArrowButton';
 import { useState } from 'react';
+import MainContext from 'context/mainContext/MainContext';
+import '../../../css/style.css'
+import { putIHQ } from 'api/controllers/informes';
 
-export default function AddIHQModal({showModal,toggleModal,idStudy}) {
+export default function AddIHQModal({showModal,toggleModal,idStudy,type,dataResultP,
+  dataResultR,
+  dataResultd,setdataResultP, setShowModalG,setEnableEditResult}) {
   const [step2, setstep2] = useState(false)
+ // const [idResult, setIdResult] = useState('')
+ const {idResult, setIdResult, idResultEdit, 
+  idStudyEdit }=useContext(MainContext)
+
     const formik = useFormik({
         initialValues: {
           //informe: idStudy,
-          procedimiento: '',
+          procedimiento:  '',
           reaccion: '',
           diagnostico_observaciones: '',
         },
        
         validateOnChange: false,
         onSubmit: async (formData, { resetForm }) => {
-         const newObjs={
-          informe:idStudy,
-          ...formData
-         }
+console.log(idResultEdit);
+          if(type==='edit'){
+            const newObjs={
+              informe:idStudy,
+              ...formData
+             }
+             
+           try {
+            const res=await putIHQ(idResultEdit,newObjs)
+          
+           if(res){
+            toast.success("¡Actualización exitosa!", {
+              autoClose: 1000,
+            })
+            window.location.reload();
+           }
+           
+           } catch (error) {
+            
+           }
+          }else{
+            const newObjs={
+              informe:idStudy,
+              ...formData
+             }
+             
+           try {
+            const res=await postIHQ(newObjs)
          
-       try {
-        const res=await postIHQ(newObjs)
+           setIdResult(res.id)
+           if(res){
+            toast.success("¡Registro exitoso!", {
+              autoClose: 1000,
+            })
+           }
+           window.location.reload();
+           } catch (error) {
+            
+           }
+          }
        
-        toast.success("¡Registro exitoso!", {
-          autoClose: 1000,
-        });
-       } catch (error) {
-        
-       }
-       
+          setShowModalG(false)
+          setEnableEditResult(false)
         },
       });
 
-      const handleNextStep=()=>{
-        setstep2(true)
-      }
+  
+      
+      useEffect(() => {
+        formik.setValues({
+          procedimiento:  dataResultP,
+          reaccion: dataResultR,
+          diagnostico_observaciones: dataResultd,
+  
+        })
+        return () => {
+         
+        }
+      }, [dataResultP,dataResultR,dataResultd])
+      
   return (
     <Modal
     size={"lg"}
@@ -72,18 +119,21 @@ export default function AddIHQModal({showModal,toggleModal,idStudy}) {
          <Box>
  
      <Box  display={'flex'} justifyContent={'center'} marginTop={'-30px'} marginBottom={'15px'}>
-    {
+    { type==='edit' ?  <Title title={'Edita los datos'} />:
      <Title title={'Ingresa los datos'} />}
      </Box>
       <Box position={'relative'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'flex-end'} px={'5px'} mx={'10px'}>
 
+       {
         <InputOverall
           placeholder='Procedimiento'
           name={'procedimiento'}
+          //defaultValue={dataResultP}
+         
           value={formik.values.procedimiento}
           onChange={e => formik.setFieldValue('procedimiento', e.target.value)}
           //errors={formik.errors.ci_rif}
-        />
+        />}
         <InputOverall
           placeholder='Reaccion'
           name={'reaccion'}
@@ -94,7 +144,7 @@ export default function AddIHQModal({showModal,toggleModal,idStudy}) {
       
         <Textarea  placeholder='Diagnostico y observaciones'      
         name={'diagnostico_observaciones'}
-          value={formik.values.telefono_celular}
+          value={formik.values.diagnostico_observaciones}
           onChange={e => formik.setFieldValue('diagnostico_observaciones', e.target.value)}
         />
 {/*<ArrowButton />*/}

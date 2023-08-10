@@ -95,7 +95,7 @@ export const generateInformeCompletePdf= async (id) => {
 export const getInformesListConfirm= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&aprobado=true&confirmado=true`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&aprobado=true&completado=true`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -121,9 +121,9 @@ export const getInformesListBySearch= async ({search}) => {
     }
 }
 export const getInformesListNotConfirm= async () => {
-    // console.log(token);
+    // console.log(token);/v1/core/informes/?archived=false&aprobado=true&completado=true
     try {
-        const response = await Axios.get(`/v1/core/informes/?aprobado=false`)
+        const response = await Axios.get(`/v1/core/informes/?aprobado=false&completado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -133,16 +133,17 @@ export const getInformesListNotConfirm= async () => {
 export const getInformesListHightPriority= async () => {
     // console.log(token); ?completado=false&aprobado=true
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=ALTA&completado=true&aprobado=false`)
+       
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=ALTA&aprobado=false&completado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
     }
 }
 export const getInformesListMediaPriority= async () => {
-    // console.log(token);
+    // console.log(token); ?completado=false&aprobado=true
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=MEDIA&completado=true&aprobado=false`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=MEDIA&completado=false&aprobado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -151,7 +152,7 @@ export const getInformesListMediaPriority= async () => {
 export const getInformesListLowPriority= async () => {
     // console.log(token);
     try {
-        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=BAJA&completado=true&aprobado=false`)
+        const response = await Axios.get(`/v1/core/informes/?archived=false&prioridad=BAJA&completado=false&aprobado=false`)
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -186,7 +187,7 @@ export const historyInforme= async (id) => {
 export const lastInformes= async (id) => {
 
     try {
-        const response = await Axios.get(`/v1/core/informes/?estudio_paciente_id=${id}`);
+        const response = await Axios.get(`/v1/core/informes/?estudio__paciente_id=${id}`);
         console.log(response.data);
          return response.data.results;
     } catch (error) {
@@ -251,7 +252,18 @@ export const postIHQ = async (data) => {
     try {
         const response = await Axios.post('/v1/core/resultados-inmunostoquimica/',data);
         console.log(response);
-        return response.data.results;
+        return response.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const putIHQ = async (idResult,data) => {
+    console.log(data);
+    try {
+        const response = await Axios.put(`/v1/core/resultados-inmunostoquimica/${idResult}/`,data);
+        console.log(response);
+        return response.data;
     } catch (error) {
         console.log(error.message);
     }

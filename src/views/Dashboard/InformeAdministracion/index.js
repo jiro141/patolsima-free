@@ -228,7 +228,7 @@ const Dashboard = () => {
               <>
                 <CardOverall_Infor
                   type='informes'
-                  title={"Informes sin completar"}
+                  title={"Informes Sin completar"}
                   content={informesNoCompletados}
                   toggleModal={toggleModal}
                   colorA={colorA}

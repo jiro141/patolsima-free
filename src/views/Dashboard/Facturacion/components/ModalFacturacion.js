@@ -59,7 +59,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         loadingStudy } = useFacturaDetail({ studyId: study.id })
     const [studyDetail, setStudyDetail] = useState(null);
     const [studyDetail2, setStudyDetail2] = useState(null);
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useState(true);
+    const [editing2, setEditing2] = useState(true);
     const [pdfContent, setPdfContent] = useState(null);
     const [pdfContentFact, setPdfContentFact] = useState(null);
     const [pdfContentNotaPago, setPdfContentNotaPago] = useState(null);
@@ -68,9 +69,15 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     const [openModalPago, setOpenModalPago] = useState(false);
     const { factClientTerceros, setfactClientTerceros } = useContext(MainContext)
     const [finishFactTerceros, setFinishFactTerceros] = useState(false);
+    const [add2Success, setadd2Success] = useState(false);
 
     const [pagoId, setPagoId] = useState();
     const [data, setData] = useState(
+        {
+            monto_usd: "",
+        }
+    );
+    const [data2, setData2] = useState(
         {
             monto_usd: "",
         }
@@ -166,24 +173,48 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     }
     const aggMonto = async () => {
-        try {
-            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
-            if (putEnviarMonto) {
-                toast.success("¡Se envio el monto correctamente!", {
-                    autoClose: 1000,
-                });
-                getFacturasDetails()
-                setShowModalConfirmacdion(true)
-
-            } else {
-                toast.error("¡Hubo un error al crear el monto!", {
-                    autoClose: 1000,
-                });
+        if(studyDetail2){
+            try {
+           
+                const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2)
+                if (putEnviarMonto) {
+                    toast.success("¡Se envio el monto correctamente!", {
+                        autoClose: 1000,
+                    });
+                    getFacturasDetails()
+                    setShowModalConfirmacdion(true)
+                    setadd2Success(true)
+                } else {
+                    toast.error("¡Hubo un error al crear el monto!", {
+                        autoClose: 1000,
+                    });
+                }
+    
+            } catch (error) {
+                console.log(error);
             }
-
-        } catch (error) {
-            console.log(error);
+        }else{
+            try {
+           
+                const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
+                if (putEnviarMonto) {
+                    toast.success("¡Se envio el monto correctamente!", {
+                        autoClose: 1000,
+                    });
+                    getFacturasDetails()
+                    setShowModalConfirmacdion(true)
+    setEditing2(true)
+                } else {
+                    toast.error("¡Hubo un error al crear el monto!", {
+                        autoClose: 1000,
+                    });
+                }
+    
+            } catch (error) {
+                console.log(error);
+            }
         }
+       
     }
 
     //esta funcion cambia los valores que tienen los inputs
@@ -193,9 +224,18 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
             [key]: value,
         }));
     };
+    const cambiarValoresRegistro2 = (key, value) => {
+        setData2((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
 
     const handleEditClick = () => {
         setEditing(true);
+    };
+    const handleEditClick2 = () => {
+        setEditing2(true);
     };
     const handlePagoIdChange = (pagoId) => {
         setPagoId(handlePagoIdChange);
@@ -280,7 +320,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     useEffect(() => {
         setfactClientTerceros(null)
     }, [])
-
+console.log(facturasDetail);
     
     return (
         <>
@@ -637,10 +677,14 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                             ) : (
                                 <Text fontSize={'14px'}>Loading...</Text>
                             )}
+
+
+
+                           
                         </Box>
                         <Box >
-                            <Box margin={'10px'}>
-                                <Text margin={'5px'} fontSize={'16px'}>Monto</Text>
+                            <Box margin={'10px'} display={'flex'}>
+                                <Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2? 'Monto ' : 'Monto'}</Text>
                                 {facturasDetail ? (
                                     facturasDetail.balance.total_usd !== 0 ? (
                                         <Box>
@@ -676,7 +720,26 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
+                                 {add2Success? <></> :<Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2? 'Monto 2' : ' '}</Text>}
+                                {studyDetail2 &&
+                                        <>
+                                            {editing2 ? (
+                                                <Box display={ add2Success ? 'none' : 'flex'} alignItems={'center'}>
+                                                    <Input h={'60%'} type="number"
+                                                        style={{ marginRight: '8px' }}
+                                                        value={data2?.monto_usd}
+                                                        onChange={e => cambiarValoresRegistro2("monto_usd", e.target.value)} />
+                                                    <CheckButton handleClick={aggMonto} />
+                                                </Box>
+                                            ) : (
+
+                                                <EditButton handleClick={handleEditClick2} />
+                                            )}
+                                        </>
+                                    }
                             </Box>
+
+                           
 
                         </Box >
                         <Box>
