@@ -43,7 +43,7 @@ const ModalInforme = ({
   setInformeDetail,
   setShowModalGeneral,
 }) => {
-  console.log(detailEstudio);
+ // console.log(detailEstudio);
   const [showModal, setShowModal] = useState(false);
   const [showModalMacro, setShowModalMacro] = useState(false);
   const [showModalDiag, setShowModalDiag] = useState(false);
@@ -88,7 +88,7 @@ const toggleModalIHResultados= () => {
   useEffect(() => {
     const historyInformes = async () => {
       if (informeDetail) {
-        const res = await lastInformes(informeDetail?.paciente?.id);
+        const res = await lastInformes(detailEstudio?.paciente?.id);
         setHistoryMap(res);
       }
     };
@@ -355,7 +355,7 @@ const toggleModalIHResultados= () => {
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
           >
-            {historyMap && (
+            {detailEstudio && (
               <Select
                 width={"100%"}
                 color="gray.400"
@@ -472,7 +472,7 @@ const toggleModalIHResultados= () => {
           {detailEstudio && (
               <Select
                 onChange={() => handleOptionClick(detailEstudio?.adjuntos[0]?.uri)}
-                width={"100%"}
+                width={"50%"}
                 color="gray.400"
                 disabled={detailEstudio?.adjuntos?.length > 0 && detailEstudio?.adjuntos[0] ? false : true}
              

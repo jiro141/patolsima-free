@@ -57,11 +57,11 @@ export default function PhoneInputOverall({ value, errors, onChange, placeholder
             onChange={onChange}
             
           />
-          {errors && (
+          {/*errors && (
             <>
               <span>{errors}</span>
             </>
-          )}
+          )*/}
 
         </Box>
         {selectFlag &&

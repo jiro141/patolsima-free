@@ -274,14 +274,10 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       if (searchci === "") {
         formik.resetForm('')
         onChange(new Date())
-        // setsearchci("");
-
       } if (searchci.length > 0) {
-        //getPacientesListByCi({ searchci })
+        getPacientsByCi({ searchci })
         setSelectSearch(false);
       }
-      // setSelectSearch(false);
-
     }, 500),
     []
   );
@@ -376,6 +372,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
                 placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
                 selectSearch={selectSearch}
+                //submit={formik.handleSubmit}
               />
             }
             <InputSelector

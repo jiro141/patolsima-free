@@ -3,16 +3,28 @@ import { useState, useEffect} from "react";
 export function useSearchPacients(){
     const [searchci, setsearchci] = useState('')
     const [errorci, seterrorci] = useState('')
+   useEffect(() => {
+    
+   
+     return () => {
+      seterrorci('')
+     }
+   }, [])
+   
 
     useEffect(() => {
-      if(searchci === ''){
-       // seterrorci('La cedula es obligatoria')
+      if(searchci===''){
+        seterrorci('')
+      }else
+      if(searchci.includes('V-') || searchci.includes('E-') ){
+       seterrorci('')
         return
+      }else{
+        seterrorci('La cedula debe incluir el "V-" o "E-" ')
       }
-      if(searchci.length < 3){
-        seterrorci('La busqueda debe tener al menos 3 caracteres')
-      }
-      seterrorci(null)
+      
+      //seterrorci('')
+      //seterrorci(null)
     }, [searchci])
     return{searchci,setsearchci,errorci,seterrorci}
 }

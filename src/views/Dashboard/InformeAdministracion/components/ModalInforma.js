@@ -91,7 +91,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const toggleModalIH = () => {
     setShowModalDescIh(!showModalDescIh);
   };
-  console.log(detailEstudio.paciente.id);
+ //console.log(detailEstudio.paciente.id);
   // informeDetail?.paciente?.id
   useEffect(() => {
     const historyInformes = async () => {
@@ -110,7 +110,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const handleSubmitGenerateInfor = async () => {
     if (detailEstudio) {
 
-      const res = await completeInforme(detailEstudio.id)
+      const res = await completeInforme(detailEstudio?.id)
 
       if (res) {
         const resGenerate = await generateInformeCompletePdf(detailEstudio?.id)
@@ -124,7 +124,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
           }
           if (!detailEstudio?.envio_digital) {
 
-            console.log(resGenerate.uri);
+           // console.log(resGenerate.uri);
             setpdfUri(resGenerate.uri)
             setShowModalGenerateUri(true)
 
@@ -163,8 +163,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   };
 
 
-  console.log(detailEstudio)
-  console.log(informeDetail)
+ // console.log(detailEstudio)
+ // console.log(informeDetail)
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   return (
