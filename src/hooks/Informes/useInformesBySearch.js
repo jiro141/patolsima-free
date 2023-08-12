@@ -1,3 +1,5 @@
+
+import { getInformesListByCode } from "api/controllers/informes";
 import { getMedicosBySearch } from "api/controllers/medicos";
 import { useCallback, useRef, useState } from "react";
 
@@ -15,8 +17,9 @@ export function useInformeListBySearch({ search }) {
         setLoadingInformeBySearch(true);
         setErrorInformesBySearch(null);
       previousSearch.current = search;
-      const newMedics = await getMedicosBySearch({ search });
-      setinformeBySearch(newMedics);
+      //console.log(search);
+      const newinformes= await getInformesListByCode({ search });
+      setinformeBySearch(newinformes);
     } catch (e) {
         setErrorInformesBySearch(e.message);
     } finally {

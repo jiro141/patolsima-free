@@ -237,10 +237,21 @@ export const getInformesCompletados = async () => {
     }
 }
 export const getInformesNoCompletados = async () => {
-    //const token = localStorage.getItem("access");
-   // Axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+  
     try {
         const response = await Axios.get('/v1/core/informes/?completado=false&aprobado=false');
+        console.log(response);
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getInformesListByCode = async ({search}) => {
+   // const {estudio__codigo}=estudio__codigo;
+    //console.log(estudio__codigo);
+    try {
+        const response = await Axios.get(`/v1/core/informes/?estudio__codigo=${search}`);
         console.log(response);
         return response.data.results;
     } catch (error) {

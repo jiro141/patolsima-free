@@ -65,8 +65,7 @@ const ModalRegistro = ({ study, close }) => {
   console.log(study);
   const formik = useFormik({
     initialValues: {
-      // estudio: study?.id,
-     // notas: detailMuestra?.notas,
+      notas: null,
       descripcion_macroscopica: null,
       descripcion_microscopica: null,
       diagnostico: null,
@@ -74,10 +73,8 @@ const ModalRegistro = ({ study, close }) => {
     },
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      // se agregar resetForm para limpar los campos del
       const newObj = {
         estudio: study.id,
-        notas:detailMuestra?.notas,
         ...formData,
       };
 

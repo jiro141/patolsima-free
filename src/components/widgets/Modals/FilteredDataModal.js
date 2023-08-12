@@ -54,6 +54,7 @@ export default function FilteredDataModal({
           <Box>
             <Box>
               <InputSearch
+              type='informes'
                 SearchValue={Busqueda}
                 title={"Buscar Registro"}
                 handleChange={handleBusquedaChange}

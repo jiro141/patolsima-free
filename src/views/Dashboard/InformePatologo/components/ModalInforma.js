@@ -87,7 +87,7 @@ const toggleModalIHResultados= () => {
   //console.log(informeDetail.paciente.id); 
   useEffect(() => {
     const historyInformes = async () => {
-      if (informeDetail) {
+      if (detailEstudio) {
         const res = await lastInformes(detailEstudio?.paciente?.id);
         setHistoryMap(res);
       }
@@ -98,7 +98,7 @@ const toggleModalIHResultados= () => {
 
   const handleSubmitGenerateInfor = async () => {
     if (detailEstudio) {
-      const res = await aprobarInforme(detailEstudio.id);
+      const res = await aprobarInforme(detailEstudio?.id);
       console.log(res);
       if (res) {
         toast.success("¡Informe aprobado con exito!", {
@@ -115,7 +115,7 @@ const toggleModalIHResultados= () => {
   };
 
   const generarPdf = async () => {
-    const res = await getInformePreview(detailEstudio.id);
+    const res = await getInformePreview(detailEstudio?.id);
     window.open(res, "_blank");
     //console.log(res)
   };
@@ -355,7 +355,7 @@ const toggleModalIHResultados= () => {
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
           >
-            {detailEstudio && (
+            {historyMap && (
               <Select
                 width={"100%"}
                 color="gray.400"
@@ -364,9 +364,9 @@ const toggleModalIHResultados= () => {
                 <option hidden colorScheme="gray.400">
                   Informes anteriores
                 </option>
-                {historyMap.map((estudio, index) => (
-                  <option key={index} value={estudio.estudio_id}>
-                    {estudio.estudio_codigo}
+                {historyMap?.map((estudio, index) => (
+                  <option key={index} value={estudio?.estudio_id}>
+                    {estudio?.estudio_codigo}
                   </option>
                 ))}
               </Select>
@@ -425,6 +425,8 @@ const toggleModalIHResultados= () => {
               handleClick={toggleModalIHResultados}
              
             />
+             <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
+            <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
             
           </>
         

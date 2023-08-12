@@ -1,4 +1,4 @@
-import { React, useState, useContext, useEffect } from "react";
+import { React, useState, useContext, useEffect, useCallback } from "react";
 import {
   Box,
   SimpleGrid,
@@ -42,7 +42,9 @@ import { CardOverall_Infor } from "components/widgets/Cards/CardOverall";
 import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
 import { thValuesInformes } from "mocks";
 import { useInformes } from "hooks/Informes/useInformes";
-//import ModalInforme from "../InformeAdministracion/components/ModalInforma";
+import { useInformeListBySearch } from "hooks/Informes/useInformesBySearch";
+import debounce from "just-debounce-it";
+
 
 const Dashboard = () => {
   const highPriorityColor = "#FE686A";
@@ -59,6 +61,16 @@ const Dashboard = () => {
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
+
+  const [search, setSearch] = useState("");
+
+  const {informeBySearch, 
+   setinformeBySearch,
+   loadingInformeBySearch, 
+   setLoadingInformeBySearch,
+   errorInformesBySearch,
+    setErrorInformesBySearch,
+    getInformesBySearch}= useInformeListBySearch({search})
 
 
   const toggleModal = (informe) => {
@@ -87,6 +99,29 @@ const Dashboard = () => {
     getInformesPatologoMedia()
     getInformesPatologoBaja()
   }, [])
+
+  useEffect(() => {
+    return () => {
+      getInformes()
+      setInformes([])
+      setinformeBySearch([])
+      setSearch("");
+    }
+  }, [showModalList])
+  const debouncedGetPacientsSearchResult = useCallback(
+    debounce((search) => {
+      if (search === "") {
+      //  getPacients()
+      getInformes()
+      } if (search.length > 0) {
+        getInformesBySearch({search})
+       // informeBySearch
+        setInformes(informeBySearch)
+      }     
+    }, 500),
+    []
+  );
+
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   const sizeView = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -106,8 +141,10 @@ const Dashboard = () => {
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
-    setBusqueda(query);
-    filtrar(query);
+   
+     setSearch(query);
+    debouncedGetPacientsSearchResult(query)
+    //filtrar(query);
   };
   const filtrar = (terminoBusqueda) => {
     console.log(filteredInformelistp);
@@ -319,8 +356,8 @@ const Dashboard = () => {
           thData={thValuesInformes}
           isOpenModal={showModalList}
           isToggleModal={toggleModalList}
-          tBodyData={informes}
-          Busqueda={Busqueda}
+          tBodyData={search ? informeBySearch: informes}
+          Busqueda={search}
           handleSelectTBody={handleSelectInformeFromShowMore}
           handleBusquedaChange={handleBusquedaChange}
         />

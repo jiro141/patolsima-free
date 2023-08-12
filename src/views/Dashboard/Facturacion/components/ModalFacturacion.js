@@ -129,7 +129,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
 
 
-    console.log(study);
+    //console.log(study);
 
     useEffect(() => {
         const changeClientByOrder = async () => {
@@ -173,27 +173,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     }
     const aggMonto = async () => {
-        if(studyDetail2){
-            try {
-           
-                const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2)
-                if (putEnviarMonto) {
-                    toast.success("¡Se envio el monto correctamente!", {
-                        autoClose: 1000,
-                    });
-                    getFacturasDetails()
-                    setShowModalConfirmacdion(true)
-                    setadd2Success(true)
-                } else {
-                    toast.error("¡Hubo un error al crear el monto!", {
-                        autoClose: 1000,
-                    });
-                }
-    
-            } catch (error) {
-                console.log(error);
-            }
-        }else{
+       
             try {
            
                 const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
@@ -202,8 +182,9 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                         autoClose: 1000,
                     });
                     getFacturasDetails()
+                    setadd2Success(true)
                     setShowModalConfirmacdion(true)
-    setEditing2(true)
+    
                 } else {
                     toast.error("¡Hubo un error al crear el monto!", {
                         autoClose: 1000,
@@ -213,7 +194,35 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
             } catch (error) {
                 console.log(error);
             }
-        }
+        
+       
+    }
+
+    const aggMonto2 = async () => {
+        
+            try {
+           
+                const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2)
+                if (putEnviarMonto) {
+                    toast.success("¡Se envio el monto correctamente!", {
+                        autoClose: 1000,
+                    });
+                    getFacturasDetails()
+                    setadd2Success(false)
+                    setShowModalConfirmacdion(true)
+                    
+                } else {
+                    toast.error("¡Hubo un error al crear el monto!", {
+                        autoClose: 1000,
+                    });
+                }
+    
+            } catch (error) {
+                console.log(error);
+            }
+        
+           
+        
        
     }
 
@@ -683,11 +692,11 @@ console.log(facturasDetail);
                            
                         </Box>
                         <Box >
-                            <Box margin={'10px'} display={'flex'}>
-                                <Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2? 'Monto ' : 'Monto'}</Text>
+                            <Box marginTop={'5px'} display={'flex'} flexDirection={'column'}>
+                                <Text margin={'5px'} fontSize={'16px'}>{studyDetail2? 'Monto ' : 'Monto'}</Text>
                                 {facturasDetail ? (
                                     facturasDetail.balance.total_usd !== 0 ? (
-                                        <Box>
+                                        <Box display={'flex'} flexDirection={'column'}>
                                             <Text fontSize={'14px'}>
                                                 <Badge>
                                                     Dolares ($)
@@ -720,7 +729,7 @@ console.log(facturasDetail);
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
-                                 {add2Success? <></> :<Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2? 'Monto 2' : ' '}</Text>}
+                                 {add2Success ? <></> :<Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2? 'Monto 2' : ' '}</Text>}
                                 {studyDetail2 &&
                                         <>
                                             {editing2 ? (
@@ -729,7 +738,7 @@ console.log(facturasDetail);
                                                         style={{ marginRight: '8px' }}
                                                         value={data2?.monto_usd}
                                                         onChange={e => cambiarValoresRegistro2("monto_usd", e.target.value)} />
-                                                    <CheckButton handleClick={aggMonto} />
+                                                    <CheckButton handleClick={aggMonto2} />
                                                 </Box>
                                             ) : (
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 // import { useEffect } from "react";
 import {
   Box,
@@ -40,11 +40,14 @@ import DeleteModal from "components/widgets/Modals/DeleteModal";
 import { getInformesCompletados } from "api/controllers/informes";
 import { getInformesNoCompletados } from "api/controllers/informes";
 import { deleteInforme } from "api/controllers/informes";
+import debounce from "just-debounce-it";
+import { useInformeListBySearch } from "hooks/Informes/useInformesBySearch";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails,selectInfor,enableInforModalDetails,setEnableInforModalDetails } = useContext(MainContext);
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
+
 
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
 
@@ -57,6 +60,15 @@ const Dashboard = () => {
  
   const [detailInformefromShowMore, setInformeDetailfromShowMore] = useState([]);
   const [detailEstudiofromShowMore, setdetailEstudiofromShowMore] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const {informeBySearch, 
+   setinformeBySearch,
+   loadingInformeBySearch, 
+   setLoadingInformeBySearch,
+   errorInformesBySearch,
+    setErrorInformesBySearch,
+    getInformesBySearch}= useInformeListBySearch({search})
 
   const colorA = '#137797';
 
@@ -100,12 +112,12 @@ const Dashboard = () => {
     setStudyId(estudio?.estudio_id);
     setPacienteName(estudio?.estudio_paciente_name);
   };
-  const handleBusquedaChange = (event) => {
+  /*const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
     setBusqueda(query);
     filtrar(query);
-  };
+  };*/
 
   const filtrar = (terminoBusqueda) => {
     let resultadoBusqueda = filteredInforme.filter((elemento) => {
@@ -214,7 +226,39 @@ const Dashboard = () => {
 
    
   }
-  //console.log(informes.estudio)
+ 
+
+   const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+   
+     setSearch(query);
+    debouncedGetPacientsSearchResult(query)
+    //filtrar(query);
+  };
+  useEffect(() => {
+    return () => {
+      getInformes()
+      setInformes([])
+      setinformeBySearch([])
+      setSearch("");
+    }
+  }, [showModalList])
+
+  const debouncedGetPacientsSearchResult = useCallback(
+    debounce((search) => {
+      if (search === "") {
+      //  getPacients()
+      getInformes()
+      } if (search.length > 0) {
+        getInformesBySearch({search})
+       // informeBySearch
+        setInformes(informeBySearch)
+      }     
+    }, 500),
+    []
+  );
+  console.log(search)
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
@@ -228,7 +272,7 @@ const Dashboard = () => {
               <>
                 <CardOverall_Infor
                   type='informes'
-                  title={"Informes Sin completar"}
+                  title={"Informes Sin Completar"}
                   content={informesNoCompletados}
                   toggleModal={toggleModal}
                   colorA={colorA}
@@ -329,8 +373,9 @@ const Dashboard = () => {
           thData={thValuesInformes}
           isOpenModal={showModalList}
           isToggleModal={toggleModalList}
-          tBodyData={informes}
-          Busqueda={Busqueda}
+          tBodyData={search ? informeBySearch: informes}
+          
+          Busqueda={search}
           handleSelectTBody={handleSelectInformeFromShowMore}
           handleSelectIcon={toggleModalConfirmacion}
           loading={loading}
