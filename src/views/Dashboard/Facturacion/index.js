@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 // import { useEffect } from "react";
 import {
   Box,
@@ -24,23 +24,25 @@ import ShowMoreButton from "components/widgets/Buttons/ShowMoreButton";
 import CardOverall_ from "components/widgets/Cards/CardOverall";
 import MainContext from "context/mainContext/MainContext";
 import FilteredDataModal from "components/widgets/Modals/FilteredDataModal";
-import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
 import { thValuesFacturas } from "mocks";
 import DeleteModal from "components/widgets/Modals/DeleteModal";
 import { deleteOrden } from "api/controllers/facturas";
 import { getFacturasListNoConfirm } from "api/controllers/facturas";
 import { useHistory } from "react-router-dom";
 import Container from "components/widgets/utils/Container";
+import debounce from "just-debounce-it";
+import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
+
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { hiddenFactssort, archived, setArchived,
     idSelectItem, setidSelectItem,
-    enablefactModalDetails, setEnablefactModalDetails, ordenId
+    enablefactModalDetails, setEnablefactModalDetails, ordenId, facturas, setFacturas
   } = useContext(MainContext);
   const history = useHistory();
   const colorA = "#137797";
-  const [Busqueda, setBusqueda] = useState("");
+  const [search, setSearch] = useState("");
   const [study, setStudy] = useState([]);
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const [showModalConfirmaciodn, setShowModalConfirmacdion] = useState(false);
@@ -49,7 +51,7 @@ const Dashboard = () => {
   const [pacienteName, setPacienteName] = useState("");
   // const [archived, setArchived] = useState(false);
   const {
-    facturas,
+    // facturas,
     getFacturas,
     getCambios,
     cambioDelDia,
@@ -58,16 +60,18 @@ const Dashboard = () => {
     loading,
     getFacturasConfirm, getFacturasNotConfirm,
     setFacturasNoConfirmadas,
-    setFacturasConfirmadas
+    setFacturasConfirmadas,
+    // setFacturas
   } = useFacturas();
   const {
-    getSearchFacturas,
     loadingSF,
     searchFacturas,
     staticFacturas,
     error,
     setSearchFacturas,
-  } = useSearchFacturas();
+    getSearchFacturas
+  } = useSearchFacturas({ search });
+
 
   // console.log(cambioDelDia)
   useEffect(() => {
@@ -75,6 +79,7 @@ const Dashboard = () => {
     getFacturasConfirm()
     getFacturasNotConfirm()
     getCambios();
+
     //setArchived(false)
   }, [showModalConfirmaciodn]);
   useEffect(() => {
@@ -84,6 +89,7 @@ const Dashboard = () => {
     getCambios();
     //setArchived(false)
   }, [abonarSend]);
+
 
   const toggleModalConfirmacion = (factura) => {
     setShowModalConfirmacion(!showModalConfirmacion);
@@ -116,9 +122,37 @@ const Dashboard = () => {
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
-    setBusqueda(query);
-    filtrar(query);
+    setSearch(query);
+    debouncedGetPacientsSearchResult(query)
+    //filtrar(query);
   };
+//   useEffect(() => {
+    
+//     setSearch("");
+//     setSearchFacturas([]);
+//     return () => {
+//       setFacturas([]);
+//     }
+// }, []);
+useEffect(() => {
+  if (searchFacturas.length > 0) {
+    setFacturas(searchFacturas);
+  }
+}, [searchFacturas]);
+
+  const debouncedGetPacientsSearchResult = useCallback(
+    debounce((search) => {
+      if (search === "") {
+        getFacturas();
+      } else if (search.length > 0) {
+        getSearchFacturas({ search });
+        setFacturas(searchFacturas);
+        // setSearchFacturas(result)
+      }
+    }, 500),
+    []
+  );
+
   const filtrar = (terminoBusqueda) => {
     let resultadoBusqueda = staticFacturas.filter((elemento) => {
       if (
@@ -166,10 +200,12 @@ const Dashboard = () => {
 
   const handleCloseFromR = () => {
     history.push('/admin/Facturacion');
-    
+
     setShowModalFromRe(false)
     //window.location.reload();
   }
+
+
 
   return modoVisualizacion === "tarjeta" ? (
     <>
@@ -215,11 +251,6 @@ const Dashboard = () => {
         </Box>
 
       </Container>
-
-
-
-
-
       <Modal
         size={size}
         maxWidth="100%"
@@ -303,12 +334,12 @@ const Dashboard = () => {
           </ModalHeader>
           <ModalBody>
             <ModalFacturacion
-            setEnablefactModalDetails={setEnablefactModalDetails} 
-            setAbonarSend={setAbonarSend} 
-            abonarSend={abonarSend} 
-            setShowModalG={setShowModal} 
-            handleArchivarConfirmFacts={handleArchivarConfirmFacts}
-             setArchived={setArchived} study={idSelectItem} />
+              setEnablefactModalDetails={setEnablefactModalDetails}
+              setAbonarSend={setAbonarSend}
+              abonarSend={abonarSend}
+              setShowModalG={setShowModal}
+              handleArchivarConfirmFacts={handleArchivarConfirmFacts}
+              setArchived={setArchived} study={idSelectItem} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -326,14 +357,14 @@ const Dashboard = () => {
       <FilteredDataModal
         isOpenModal={showModalList}
         isToggleModal={toggleModalList}
-        Busqueda={Busqueda}
+        Busqueda={search}
         handleBusquedaChange={handleBusquedaChange}
         thData={thValuesFacturas}
-        tBodyData={searchFacturas}
+        tBodyData={facturas}
         handleSelectTBody={handleSelectTBody}
         handleSelectIcon={toggleModalConfirmacion}
         type="facturas"
-        // setAbonarSend={setAbonarSend}
+      // setAbonarSend={setAbonarSend}
       />
     </>
   ) : (

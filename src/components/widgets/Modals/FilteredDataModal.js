@@ -24,6 +24,7 @@ export default function FilteredDataModal({
   handleBusquedaChange,
   thData,
   tBodyData,
+  // tBodyDataBySearch,
   handleSelectTBody,
   handleSelectIcon,
   loading,
@@ -31,7 +32,7 @@ export default function FilteredDataModal({
   setAbonarSend
 
 }) {
-
+// console.log(tBodyData,'hola filtre');
   return (
     <Modal
       size={"5xl"}
@@ -54,7 +55,7 @@ export default function FilteredDataModal({
           <Box>
             <Box>
               <InputSearch
-              type='informes'
+                type='informes'
                 SearchValue={Busqueda}
                 title={"Buscar Registro"}
                 handleChange={handleBusquedaChange}

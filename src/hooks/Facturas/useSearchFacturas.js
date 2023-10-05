@@ -1,32 +1,34 @@
-import { getOrdenesByCi } from "api/controllers/facturas";
-import { getFacturasList } from "api/controllers/facturas";
-import { useCallback, useMemo, useState } from "react";
+import { getOrdenListBySearch } from "api/controllers/facturas";
+import { useCallback, useState } from "react";
 
-export function useSearchFacturas() { 
-
+export function useSearchFacturas() {
   const [searchFacturas, setSearchFacturas] = useState([]);
-  const [staticFacturas, setStaticFacturas] = useState([]);
-  const [loadingSF, setloading] = useState(false);
-  const [error, seterror] = useState(false);
+  const [loadingSF, setLoadingSF] = useState(false);
+  const [error, setError] = useState(null);
 
-
-  const getSearchFacturas = useCallback(async () => {
+  const getSearchFacturas = useCallback(async (search) => {
     try {
-      setloading(true);
-      seterror(null);
-      const facturasList = await getFacturasList();
-      setSearchFacturas(facturasList)
-      setStaticFacturas(facturasList)
+      setLoadingSF(true);
+      setError(null);
+      // Llama a la función que obtiene la lista de facturas por búsqueda
+      const facturasList = await getOrdenListBySearch(search);
+      setSearchFacturas(facturasList);
+      console.log(facturasList, 'facturas lisrt');
+      // Actualiza el estado con la lista de facturas
+      
+      console.log(searchFacturas, 'hola');
     } catch (error) {
-      seterror(error.message);
+      setError(error.message);
     } finally {
-      setloading(false);
+      setLoadingSF(false);
     }
   }, []);
 
-
-  
- 
-
-  return {getSearchFacturas,loadingSF,searchFacturas,staticFacturas,error,setSearchFacturas };
+  return {
+    getSearchFacturas,
+    loadingSF,
+    searchFacturas,
+    error,
+    setSearchFacturas
+  };
 }

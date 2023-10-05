@@ -38,12 +38,12 @@ import { useGroups } from "hooks/Groups/useGroups";
 import { useEffect } from "react";
 
 function SidebarResponsive(props) {
-  console.log(props.routes);
+  // console.log(props.routes);
   const {
     getCambios,
     cambioDelDia,
   } = useFacturas();
-  console.log(cambioDelDia);
+  // console.log(cambioDelDia);
   const { getGroups, groups, loading } = useGroups();
   useEffect(() => {
     const getUsersGroups = async () => {

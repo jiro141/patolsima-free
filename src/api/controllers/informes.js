@@ -105,6 +105,7 @@ export const getInformesList= async () => {
     // console.log(token);
     try {
         const response = await Axios.get(`/v1/core/informes/`)
+        console.log(response);
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -112,9 +113,10 @@ export const getInformesList= async () => {
 }
 //get list by search
 export const getInformesListBySearch= async ({search}) => {
-    // console.log(token);
+    // console.log('desde el controlador',search)
     try {
-        const response = await Axios.get(`/v1/core/informes/`)
+        const response = await Axios.get(`/v1/core/estudios/?informe_existe=true&search=${search}`)
+        // console.log(response.data.results,'hola controlador');
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -248,11 +250,10 @@ export const getInformesNoCompletados = async () => {
 }
 
 export const getInformesListByCode = async ({search}) => {
-   // const {estudio__codigo}=estudio__codigo;
-    //console.log(estudio__codigo);
+   console.log('desde constrolador', search);
     try {
         const response = await Axios.get(`/v1/core/informes/?estudio__codigo=${search}`);
-        console.log(response);
+        console.log('desde controllador ',response);
         return response.data.results;
     } catch (error) {
         console.log(error);

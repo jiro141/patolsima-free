@@ -96,7 +96,7 @@ const renderStudies = (content, toggleModal, colorA, type) => {
 };
 
 const renderInformes = (content, toggleModal, colorA, type, handleSelectInforme) => {
- console.log(content);
+//  console.log(content);
   return content.map((study) => (
     <Link
       onClick={() => {

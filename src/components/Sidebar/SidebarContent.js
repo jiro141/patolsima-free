@@ -37,7 +37,7 @@ const SidebarContent = ({ logoText, routes }) => {
 
   const { getGroups, groups, loading } = useGroups();
   const {loginSuccess} = useContext(MainContext)
-  console.log(groups);
+  // console.log(groups);
   useEffect(() => {
     const getUsersGroups = async () => {
       getGroups();
@@ -55,7 +55,7 @@ const SidebarContent = ({ logoText, routes }) => {
     (route) => route.groupName === "patologia"
   );
   let location = useLocation();
-  console.log(cambioDelDia);
+  // console.log(cambioDelDia);
 
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";

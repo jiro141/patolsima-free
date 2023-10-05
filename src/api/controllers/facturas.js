@@ -1,17 +1,18 @@
 //listar facturas metodo get
 import Axios from "api/authApi";
 
-export const getFacturasList= async () => {
-    // console.log(token);
+export const getFacturasList = async () => {
+    
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/`)
+        // console.log('lista',response.data.results);
         return response.data.results;
     } catch (error) {
         console.log(error);
     }
 }
 //filterss
-export const getFacturasListConfirm= async () => {
+export const getFacturasListConfirm = async () => {
     // console.log(token);
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/?confirmada=true`)
@@ -20,7 +21,7 @@ export const getFacturasListConfirm= async () => {
         console.log(error);
     }
 }
-export const getFacturasListNoConfirm= async () => {
+export const getFacturasListNoConfirm = async () => {
     // console.log(token);
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/?pagada=false&confirmada=false`)
@@ -30,7 +31,7 @@ export const getFacturasListNoConfirm= async () => {
     }
 }
 
-export const getFacturasDetail= async (id) => {
+export const getFacturasDetail = async (id) => {
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/${id}`)
         return response.data;
@@ -39,67 +40,77 @@ export const getFacturasDetail= async (id) => {
     }
 }
 //post ordenes
-export const postOrdenes= async (data) => {
+export const postOrdenes = async (data) => {
     console.log(data);
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/`,data)
+        const response = await Axios.post(`/v1/facturacion/ordenes/`, data)
         console.log(response.data);
-         return response.data;
+        return response.data;
     } catch (error) {
         console.log(error.message);
     }
 }
 
 //search ci for terceros
-export const getOrdenesByCi= async (ci) => {
+export const getOrdenesByCi = async (ci) => {
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/?&archived=false&ci=${ci}&confirmada=false&pagada=false`)
         //console.log(response.data);
-         return response.data.results;
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getOrdenListBySearch = async ({ search }) => {
+    // console.log('desde el controlador facturas',search,'hola')
+    try {
+        const response = await Axios.get(`/v1/facturacion/ordenes/?search=${search}`);
+        // console.log(response.data.results,'resultado');
+        return response.data.results;   	
     } catch (error) {
         console.log(error);
     }
 }
 
 //factura a terceros
-export const putFacturaTerceros= async (id,data) => {
+export const putFacturaTerceros = async (id, data) => {
 
     try {
-        const response = await Axios.put(`/v1/facturacion/clientes/${id}/`,data)
-         return response.data;
+        const response = await Axios.put(`/v1/facturacion/clientes/${id}/`, data)
+        return response.data;
     } catch (error) {
         console.log(error);
     }
 }
 
 //put orden update before orden pagada=== true
-export const putChangeIdOrdenClient= async (id,data) => {
+export const putChangeIdOrdenClient = async (id, data) => {
 
     try {
-        const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`,data)
-         return response.data;
+        const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`, data)
+        return response.data;
     } catch (error) {
         console.log(error);
     }
 }
 
-export const postFacturaTerceros= async (data) => {
+export const postFacturaTerceros = async (data) => {
     console.log(data)
     try {
-        const response = await Axios.post(`/v1/facturacion/clientes/`,data)
-        console.log( response.data)
-         return response.data;
+        const response = await Axios.post(`/v1/facturacion/clientes/`, data)
+        console.log(response.data)
+        return response.data;
     } catch (error) {
         console.log(error);
     }
 }
 //factura terceros put client->
-export const putClientFactura= async (id,data) => {
-    console.log(id,data)
+export const putClientFactura = async (id, data) => {
+    console.log(id, data)
     try {
-        const response = await Axios.put(`/v1/facturacion/clientes/${id}/`,data)
-        console.log( response.data)
-         return response.data;
+        const response = await Axios.put(`/v1/facturacion/clientes/${id}/`, data)
+        console.log(response.data)
+        return response.data;
     } catch (error) {
         console.log(error.message);
     }
@@ -113,9 +124,9 @@ export const putClientFactura= async (id,data) => {
 
 //ordenes filtrar por 
 //abonar 
-export const postAbonar= async (data) => {
+export const postAbonar = async (data) => {
     try {
-        const response = await Axios.post(`/v1/facturacion/pagos/`,data)
+        const response = await Axios.post(`/v1/facturacion/pagos/`, data)
         console.log(response)
         return response.data;
     } catch (error) {
@@ -123,7 +134,7 @@ export const postAbonar= async (data) => {
     }
 }
 //delete orden
-export const deleteOrden= async (id) => {
+export const deleteOrden = async (id) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}`)
         return response.data;
@@ -133,17 +144,17 @@ export const deleteOrden= async (id) => {
 }
 
 //confirmar
-export const postConfirmar= async (id) => {
+export const postConfirmar = async (id) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/confirmar/`)
         console.log(response);
-         return response.data;
+        return response.data;
     } catch (error) {
         console.log(error);
     }
 }
 //nota de pago
-export const postNotaPago= async (id) => {
+export const postNotaPago = async (id) => {
     try {
         const response = await Axios.get(`/v1/facturacion/pagos/${id}/nota_de_pago/`)
         return response;
@@ -152,19 +163,19 @@ export const postNotaPago= async (id) => {
     }
 }
 //agregar monto put
-export const putMonto= async (id,data) => {
+export const putMonto = async (id, data) => {
     try {
-        const response = await Axios.put(`/v1/facturacion/itemsorden/${id}/`,data)
+        const response = await Axios.put(`/v1/facturacion/itemsorden/${id}/`, data)
         return response.data;
     } catch (error) {
         console.log(error);
     }
 }
 //Generar factura
-export const postFactura= async (id,data) => {
-    console.log(id,data)
+export const postFactura = async (id, data) => {
+    console.log(id, data)
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`,data)
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`, data)
         return response.data.confirm.s3_file;
     } catch (error) {
         console.log(error);
@@ -172,16 +183,16 @@ export const postFactura= async (id,data) => {
 }
 
 //Generar Recibo
-export const postRecibo= async (id,data) => {
+export const postRecibo = async (id, data) => {
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`,data);
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/recibo/`, data);
         return response.data.confirm.s3_file;
     } catch (error) {
         console.log(error);
     }
 }
 
-export const getNotadePago= async (id) => {
+export const getNotadePago = async (id) => {
     try {
         const response = await Axios.get(`/v1/facturacion/pagos/${id}/nota_de_pago/`);
         return response.data.s3_file;
@@ -191,9 +202,9 @@ export const getNotadePago= async (id) => {
 }
 
 //Archivar orden
-export const postArchivar= async (id,data) => {
+export const postArchivar = async (id, data) => {
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/archivar/`,{})
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/archivar/`, {})
         console.log(response);
         return response.data;
     } catch (error) {

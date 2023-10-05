@@ -21,7 +21,7 @@ export function TH({ thData }) {
           borderBottom="3px solid"
           borderBottomColor={"gray.500"}
           textAlign="center"
-          fontSize={{lg:"12px",sm:'11px',md:'12px'}}
+          fontSize={{ lg: "12px", sm: '11px', md: '12px' }}
           key={index}
         >
           {item.value}</Th>
@@ -39,11 +39,11 @@ export function TR({
     <Tbody >
       {tBodyData &&
         tBodyData?.map((pacients) => (
-          <Tr key={pacients.id} style={{fontSize:'13.5px'}}>
+          <Tr key={pacients.id} style={{ fontSize: '13.5px' }}>
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -53,9 +53,9 @@ export function TR({
               {pacients.nombres}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -65,9 +65,9 @@ export function TR({
               {pacients.apellidos}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -77,9 +77,9 @@ export function TR({
               {pacients.ci}
             </Link>
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -89,9 +89,9 @@ export function TR({
               {pacients.telefono_celular}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -101,9 +101,9 @@ export function TR({
               {pacients.email}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -131,9 +131,9 @@ export function TRM({
         tBodyData?.map((medics) => (
           <Tr key={medics.id}  >
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -143,9 +143,9 @@ export function TRM({
               {medics.nombres}
             </Link>
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -155,9 +155,9 @@ export function TRM({
               {medics.apellidos}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -167,9 +167,9 @@ export function TRM({
               {medics.especialidad}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -179,9 +179,9 @@ export function TRM({
               {medics.telefono_celular}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -191,9 +191,9 @@ export function TRM({
               {medics.email}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -216,9 +216,9 @@ export function TRF({
   // title = "pruebas",
 }) {
   const { setidSelectItem, setEnablefactModalDetails } = useContext(MainContext)
-  console.log(tBodyData);
+  // console.log(tBodyData);
   const handleClickItem = (bills) => {
-    console.log('cliking items');
+    // console.log('cliking items');
     setidSelectItem(bills)
     setEnablefactModalDetails(true)
   }
@@ -228,9 +228,9 @@ export function TRF({
         tBodyData?.map((bills) => (
           <Tr key={bills.id}>
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -242,9 +242,9 @@ export function TRF({
 
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -255,9 +255,9 @@ export function TRF({
               {bills.fecha_impresion ? formatDate(bills.fecha_impresion) : ''}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -267,9 +267,9 @@ export function TRF({
               {bills.cliente.razon_social.length > 17 ? bills.cliente.razon_social.substring(0, 17) + '...' : bills.cliente.razon_social}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // style={{ width: '15%' }}
               // margin={"10px"}
               borderRadius="none"
@@ -282,9 +282,9 @@ export function TRF({
             </Link>
 
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -296,9 +296,9 @@ export function TRF({
 
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -309,9 +309,9 @@ export function TRF({
               {bills.total_bs}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
-               as="td"
-               fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
+              as="td"
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
@@ -337,86 +337,89 @@ export function TRI({
   // title = "pruebas",
 }) {
   const { setSelectInfor, setEnableInforModalDetails } = useContext(MainContext)
- // console.log(tBodyData);
+  // console.log(tBodyData);
 
-  console.log(tBodyData);
+  // console.log(tBodyData);
   const handleClickItem = (bills) => {
-    console.log('cliking items informes');
+    // console.log('cliking items informes');
     setSelectInfor(bills)
     setEnableInforModalDetails(true)
   }
+  // console.log(tBodyData, 'hola tbody');
   return (
+
     <Tbody >
       {tBodyData &&
         tBodyData?.map((bills) => (
           <Tr key={bills.id} >
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
-              
+
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              onClick={() => handleSelectTBody(bills.id ? bills.id : bills.estudio_id)}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
             >
-              {bills.estudio_codigo}
+              {bills.codigo ? bills.codigo : bills.estudio_codigo}
             </Link>
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
               //style={{ fontSize: '13px' }}
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              onClick={() => handleSelectTBody(bills.id ? bills.id : bills.estudio_id)}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
             >
               {formatDate(bills.created_at)}
 
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
               // margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              onClick={() => handleSelectTBody(bills.id ? bills.id : bills.estudio_id)}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
             >
 
-              {bills?.estudio_paciente_name.length > 10
+              {bills?.paciente ? ((bills?.paciente.nombres > 5 + bills?.paciente.apellidos.length > 5) ? (bills?.paciente.nombres + ' ' + bills?.paciente.apellidos.substring(0, 5) + "...")
+                : bills?.paciente.nombres + ' ' + bills?.paciente.apellidos) : bills?.estudio_paciente_name.length > 10
                 ? bills?.estudio_paciente_name.substring(0, 15) + "..."
                 : bills?.estudio_paciente_name}
             </Link>
             <Link
-               paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              onClick={() => handleSelectTBody(bills.id ? bills.id : bills.estudio_id)}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
             >
-              {bills.estudio_paciente_ci}
+              {bills?.paciente ? bills?.paciente.ci : bills?.estudio_paciente_ci}
             </Link>
 
 
             <Link
-              paddingX={{lg:"10px",sm:'0px',md:'10px'}}
+              paddingX={{ lg: "10px", sm: '0px', md: '10px' }}
               as="td"
               margin={"10px"}
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              onClick={() => handleSelectTBody(bills.id ? bills.id : bills.estudio_id)}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
             >
-              {bills.estudio_tipo}
+              {bills.tipo ? bills.tipo : bills.estudio_tipo}
             </Link>
             <Link
               paddingX={"10px"}
@@ -425,10 +428,10 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-              onClick={() => handleSelectTBody(bills.estudio_id)}
-              fontSize={{sm:'11.5px',lg:'14px',md:'14px'}}
+              onClick={() => handleSelectTBody(bills.id ? bills.id : bills.estudio_id)}
+              fontSize={{ sm: '11.5px', lg: '14px', md: '14px' }}
             >
-              {bills.estudio_patologo_name}
+              {bills.patologo ? (bills.patologo.nombres + ' ' + bills.patologo.apellidos) : bills.estudio_patologo_name}
             </Link>
             <Link
               paddingX={"10px"}
@@ -437,11 +440,11 @@ export function TRI({
               borderRadius="none"
               borderBottom="1px solid"
               borderBottomColor="gray.500"
-             /* onClick={() =>
-                handleSelectIcon(bills)
-              }*/
+            /* onClick={() =>
+               handleSelectIcon(bills)
+             }*/
             >
-             {/* <BsFillTrashFill color="#137797" />*/}
+              {/* <BsFillTrashFill color="#137797" />*/}
             </Link>
           </Tr>
         ))}
@@ -536,25 +539,25 @@ export function TABLE_INFORMES({
   );
 }
 
-export function WrapTables({children}) {
-  return(
+export function WrapTables({ children }) {
+  return (
     <Box
-  width={"100%"}
-  maxH={"400px"}
-  overflowY={"auto"}
-  sx={{
-    "&::-webkit-scrollbar": {
-      height:'8px',
-      width: "8px", // Ancho del scroll
-    },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#89bbcc",
-      height:'8px',
-      width: "8px", // Ancho del scroll
-      borderRadius: "5px", // Color del scroll
-    },
-  }}
->{children}</Box>
+      width={"100%"}
+      maxH={"400px"}
+      overflowY={"auto"}
+      sx={{
+        "&::-webkit-scrollbar": {
+          height: '8px',
+          width: "8px", // Ancho del scroll
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "#89bbcc",
+          height: '8px',
+          width: "8px", // Ancho del scroll
+          borderRadius: "5px", // Color del scroll
+        },
+      }}
+    >{children}</Box>
   )
 }
 

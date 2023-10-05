@@ -25,6 +25,7 @@ export function useFacturas() {
       setloading(true);
       seterror(null);
       const facturasList = await getFacturasList();
+      // console.log(facturasList,'desde el hook');
       setFacturas(facturasList);
       setfilteredFact(facturasList)
     } catch (error) {
@@ -36,7 +37,7 @@ export function useFacturas() {
   const getFacturasConfirm = useCallback(async () => {
     try {
       const facturasListConfirm = await getFacturasListConfirm();
-      console.log(facturasListConfirm);
+      // console.log(facturasListConfirm);
       if (facturasListConfirm) {
         const archivedFacts = facturasListConfirm.filter((item) => item.pagada === false && item.archived === false);
         setFacturasConfirmadas(archivedFacts);
@@ -73,7 +74,7 @@ export function useFacturas() {
       setloadingCambio(true);
       seterrorC(null);
       const Cambio = await getCambio();
-      console.log(Cambio);
+      // console.log(Cambio);
       setCambioDelDia(Cambio);
     } catch (error) {
       seterrorC(error.message);
@@ -83,5 +84,5 @@ export function useFacturas() {
   }, []);
 
 
-  return { facturas, getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas, facturasNoConfirmadasFirstId };
+  return {  getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas, facturasNoConfirmadasFirstId };
 }

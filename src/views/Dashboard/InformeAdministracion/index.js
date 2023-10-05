@@ -45,7 +45,7 @@ import { useInformeListBySearch } from "hooks/Informes/useInformesBySearch";
 
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails,selectInfor,enableInforModalDetails,setEnableInforModalDetails } = useContext(MainContext);
+  const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails, selectInfor, enableInforModalDetails, setEnableInforModalDetails } = useContext(MainContext);
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
 
 
@@ -57,18 +57,18 @@ const Dashboard = () => {
   const [pacienteName, setPacienteName] = useState("");
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
- 
+
   const [detailInformefromShowMore, setInformeDetailfromShowMore] = useState([]);
   const [detailEstudiofromShowMore, setdetailEstudiofromShowMore] = useState([]);
   const [search, setSearch] = useState("");
 
-  const {informeBySearch, 
-   setinformeBySearch,
-   loadingInformeBySearch, 
-   setLoadingInformeBySearch,
-   errorInformesBySearch,
+  const { informeBySearch,
+    setinformeBySearch,
+    loadingInformeBySearch,
+    setLoadingInformeBySearch,
+    errorInformesBySearch,
     setErrorInformesBySearch,
-    getInformesBySearch}= useInformeListBySearch({search})
+    getInformesBySearch } = useInformeListBySearch({ search })
 
   const colorA = '#137797';
 
@@ -103,7 +103,7 @@ const Dashboard = () => {
     getInformesCompletados()
     getInformesNoCompletados()
   }, [showModalConfirmacion]);
-  
+
 
 
 
@@ -112,12 +112,7 @@ const Dashboard = () => {
     setStudyId(estudio?.estudio_id);
     setPacienteName(estudio?.estudio_paciente_name);
   };
-  /*const handleBusquedaChange = (event) => {
-    const query = event.target.value;
-    if (query.startsWith(" ")) return;
-    setBusqueda(query);
-    filtrar(query);
-  };*/
+
 
   const filtrar = (terminoBusqueda) => {
     let resultadoBusqueda = filteredInforme.filter((elemento) => {
@@ -224,15 +219,14 @@ const Dashboard = () => {
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudiofromShowMore(resStudyDetail)
 
-   
-  }
- 
 
-   const handleBusquedaChange = (event) => {
+  }
+
+
+  const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
-   
-     setSearch(query);
+    setSearch(query);
     debouncedGetPacientsSearchResult(query)
     //filtrar(query);
   };
@@ -244,21 +238,25 @@ const Dashboard = () => {
       setSearch("");
     }
   }, [showModalList])
+  useEffect(() => {
+    if (informeBySearch.length > 0) {
+      setInformes(informeBySearch);
+    }
+  }, [informeBySearch]);
 
   const debouncedGetPacientsSearchResult = useCallback(
     debounce((search) => {
       if (search === "") {
-      //  getPacients()
-      getInformes()
+        getInformes()
       } if (search.length > 0) {
-        getInformesBySearch({search})
-       // informeBySearch
-        setInformes(informeBySearch)
-      }     
+        getInformesBySearch({ search })
+        setInformes(informeBySearch);
+        // console.log('desde el debouncep', informeBySearch);
+      }
     }, 500),
     []
   );
-  console.log(search)
+  // console.log(search)
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
@@ -335,11 +333,11 @@ const Dashboard = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
-       
+
         <Modal
           size={'3xl'}
           maxWidth='100%'
-          
+
           onClose={() => setEnableInforModalDetails(false)}
           isOpen={enableInforModalDetails}>
           <ModalOverlay />
@@ -373,8 +371,8 @@ const Dashboard = () => {
           thData={thValuesInformes}
           isOpenModal={showModalList}
           isToggleModal={toggleModalList}
-          tBodyData={search ? informeBySearch: informes}
-          
+          tBodyData={informes}
+          // tBodyDataBySearch={search ? informeBySearch : null}
           Busqueda={search}
           handleSelectTBody={handleSelectInformeFromShowMore}
           handleSelectIcon={toggleModalConfirmacion}

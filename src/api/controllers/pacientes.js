@@ -3,7 +3,7 @@ import Axios from "api/authApi";
 import { object } from "yup";
 
 
-export const getPacientesList = async (endpoint) => {
+export const getPacientesList = async () => {
     try {
         const response = await Axios.get(`/v1/core/pacientes/`)
         return response.data.results;
@@ -20,7 +20,7 @@ export const getPacientesListByCi = async ({ searchci }) => {
     }
 }
 export const getPacientesListBySearch = async ({ search }) => {
-    console.log(search);
+    console.log('desde cotrolador pacientes',search);
     try {
         const response = await Axios.get(`/v1/core/pacientes/?search=${search}`)
         console.log(response);
