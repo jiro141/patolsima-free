@@ -17,6 +17,7 @@ export function useClientCiByorder({ searchci }) {
       setErrorpacientsByCi(null);
       previousSearch.current = searchci;
       const newPacients = await getPacientesListByCi({ searchci });
+      console.log(newPacients, 'tercero');
       setpacientsByCi(newPacients);
     } catch (e) {
       setErrorpacientsByCi(e.message);
@@ -24,7 +25,7 @@ export function useClientCiByorder({ searchci }) {
       setLoadingpacientsByCi(false);
     }
   }, []);
- 
+ console.log(pacientsByCi);
 
 
   return {

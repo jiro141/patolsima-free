@@ -53,9 +53,10 @@ export const postOrdenes = async (data) => {
 
 //search ci for terceros
 export const getOrdenesByCi = async (ci) => {
+    console.log(ci, 'ci desde el controladosr');
     try {
-        const response = await Axios.get(`/v1/facturacion/ordenes/?&archived=false&ci=${ci}&confirmada=false&pagada=false`)
-        //console.log(response.data);
+        const response = await Axios.get(`/v1/facturacion/ordenes/?search=${ci}`)
+        console.log(response.data.results, ' controlador');
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -109,7 +110,7 @@ export const putClientFactura = async (id, data) => {
     console.log(id, data)
     try {
         const response = await Axios.put(`/v1/facturacion/clientes/${id}/`, data)
-        console.log(response.data)
+        // console.log(response.data)
         return response.data;
     } catch (error) {
         console.log(error.message);
@@ -127,7 +128,7 @@ export const putClientFactura = async (id, data) => {
 export const postAbonar = async (data) => {
     try {
         const response = await Axios.post(`/v1/facturacion/pagos/`, data)
-        console.log(response)
+        // console.log(response)
         return response.data;
     } catch (error) {
         console.log(error);
@@ -147,7 +148,7 @@ export const deleteOrden = async (id) => {
 export const postConfirmar = async (id) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/confirmar/`)
-        console.log(response);
+        // console.log(response);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -173,7 +174,7 @@ export const putMonto = async (id, data) => {
 }
 //Generar factura
 export const postFactura = async (id, data) => {
-    console.log(id, data)
+    // console.log(id, data)
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`, data)
         return response.data.confirm.s3_file;
@@ -205,7 +206,7 @@ export const getNotadePago = async (id) => {
 export const postArchivar = async (id, data) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/archivar/`, {})
-        console.log(response);
+        // console.log(response);
         return response.data;
     } catch (error) {
         console.log(error);

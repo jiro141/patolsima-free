@@ -23,17 +23,18 @@ import debounce from "just-debounce-it";
 import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
 import { useClientCiByorder } from "hooks/Facturas/useClientCiByorder";
 
-const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
+const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
   const { setfactClientTerceros } = useContext(MainContext)
   const [searchResult, setsearchResult] = useState(false)
   const [selectSearch, setSelectSearch] = useState(false);
   const [searchci, setsearchci] = useState('')
- const{pacientsByCi,
-  getPacientsByCi,
-  errorpacientsByCi,
-  loadingpacientsByCi,
-  setpacientsByCi} =useClientCiByorder({searchci})
-  
+  const { pacientsByCi,
+    getPacientsByCi,
+    errorpacientsByCi,
+    loadingpacientsByCi,
+    setpacientsByCi } = useClientCiByorder({ searchci })
+    console.log(pacientsByCi, ' paciente por ci');
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -53,34 +54,34 @@ const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       console.log(formData);
-      if(searchResult){
+      if (searchResult) {
         try {
-          const resPost = await putClientFactura(study?.cliente?.id,formData)
+          const resPost = await putClientFactura(study?.cliente?.id, formData)
           if (resPost) {
             setfactClientTerceros(resPost)
             //console.log(resPost)
             toast.success("¡Se actualizo el cliente con exito en la factura!", {
               autoClose: 1000,
             });
-  
+
             setShowModal(false)
-           // window.location.reload();
+            // window.location.reload();
           }
         } catch (error) {
           toast.error("¡Ocurrio un error para actualizar el cliente de la factura!", {
             autoClose: 1000,
           });
         }
-      }else{
+      } else {
         try {
           const resPostClient = await postFacturaTerceros(formData)
           if (resPostClient) {
             toast.success("¡Se creo el cliente con exito en la factura!", {
               autoClose: 1000,
             });
-  
+
             setShowModal(false)
-           // window.location.reload();
+            // window.location.reload();
           }
         } catch (error) {
           toast.error("¡Ocurrio un error para crear el cliente de la factura!", {
@@ -88,41 +89,39 @@ const FacturaTerceros = ({ study, setShowModal,setFinishFactTerceros }) => {
           });
         }
       }
-     
+
       setFinishFactTerceros(true)
 
     },
   });
-console.log(study.cliente.id);
+  // console.log(study.cliente.id);
   useEffect(() => {
-    if(study){
-   const searchByCi=async()=>{
-   const res= await getOrdenesByCi('V465456')
-   if(res){
-     //setsearchResult(res[0].cliente)
-     setsearchResult(true)
-    //  console.log(res[0].cliente);
-     const resDetail = await getFacturasDetail(study.id)
-     console.log(resDetail);
-   
-    
-     //console.log('ya existe la ci');
-   }else{
-    console.log('no existe la ci');
-    toast.error("¡No esta el cliente en registro!", {
-      autoClose: 1000,
-    });
-    setsearchResult(false)
-   }
-   
-   }
-   searchByCi()
-    }
-     return () => { }
-   }, [study])
+    if (study) {
+      const searchByCi = async () => {
+        const res = await getOrdenesByCi(pacientsByCi.ci)
+        console.log(res, ' respuesta por ci');
+        if (res) {
+          //setsearchResult(res[0].cliente)
+          setsearchResult(true)
+          //  console.log(res[0].cliente);
+          const resDetail = await getFacturasDetail(study.id)
+          console.log(resDetail);
+        } else {
+          console.log('no existe la ci');
+          toast.error("¡No esta el cliente en registro!", {
+            autoClose: 1000,
+          });
+          setsearchResult(false)
+        }
 
-  
-   const handleChangeCi = (event) => {
+      }
+      searchByCi()
+    }
+    return () => { }
+  }, [study])
+
+
+  const handleChangeCi = (event) => {
     const newQuery = event.target.value;
 
     setsearchci(newQuery);
@@ -140,7 +139,7 @@ console.log(study.cliente.id);
 
     }
   }, [])
-  
+
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
       console.log(searchci)
@@ -160,19 +159,20 @@ console.log(study.cliente.id);
   );
   const handleSelectSearch = async () => {
     if (pacientsByCi.length > 0) {
-      const resDetail = await getFacturasDetail(study.id)
-      console.log(resDetail);
-     formik.setValues({
-       ci_rif: resDetail.cliente.ci_rif,
-       direccion:resDetail.cliente.direccion,
-       razon_social: resDetail.cliente.razon_social,
-       telefono_celular:resDetail.cliente.telefono_celular,
-       telefono_fijo:resDetail.cliente.telefono_fijo,
-       email:resDetail?.cliente?.email,
-     })
+      console.log(pacientsByCi[0].ci,'datos de paciente');
+      const resDetail = await getOrdenesByCi(pacientsByCi[0].ci)
+      console.log(resDetail ,'datos');
+      formik.setValues({
+        ci_rif: resDetail[0].cliente.ci_rif,
+        direccion: resDetail[0].cliente.direccion,
+        razon_social: resDetail[0].cliente.razon_social,
+        telefono_celular: resDetail[0].cliente.telefono_celular,
+        telefono_fijo: resDetail[0].cliente.telefono_fijo,
+        email: resDetail[0]?.cliente?.email,
+      })
       //onChange(data.fecha_nacimiento)
       setSelectSearch(true);
-     // setOneState('put')
+      // setOneState('put')
     }
   };
 
@@ -181,7 +181,7 @@ console.log(study.cliente.id);
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
       <Grid gap={'15px'} margin={'6px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
 
-       {/* <InputOverall
+        {/* <InputOverall
           placeholder='CI/RIF'
           defaultValue={'searchResult?.ci_rif'}
           name={'ci_rif'}
@@ -189,21 +189,22 @@ console.log(study.cliente.id);
           onChange={e => formik.setFieldValue('ci_rif', e.target.value)}
           errors={formik.errors.ci_rif}
         />*/}
-         <InputAutoComplete
-                // name={"ci"}
-                searchValue={searchci}
-                onChange={handleChangeCi}
-                resultSearch={pacientsByCi}
-                errors={errorpacientsByCi}
-                loading={loadingpacientsByCi}
-                placeholder={"Cedula de identidad:"}
-                handleSelectSearch={handleSelectSearch}
-                selectSearch={selectSearch}
-              />
+        <InputAutoComplete
+          // name={"ci"}
+          searchValue={searchci}
+          onChange={handleChangeCi}
+          resultSearch={pacientsByCi}
+          errors={errorpacientsByCi}
+          loading={loadingpacientsByCi}
+          placeholder={"Cedula de identidad:"}
+          handleSelectSearch={handleSelectSearch}
+          selectSearch={selectSearch}
+        />
         <InputOverall
           placeholder='Nombres o razón social'
           name={'razon_social'}
           value={formik.values.razon_social}
+          defaultValue={pacientsByCi.nombres}
           onChange={e => formik.setFieldValue('razon_social', e.target.value)}
           errors={formik.errors.razon_social}
         />
