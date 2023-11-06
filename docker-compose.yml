@@ -13,7 +13,7 @@ services:
     volumes:
       - .:/app
     environment:
-      - REACT_APP_BACKEND_URL=http://localhost:8000
+      - REACT_APP_BACKEND_URL=https://patolsima-api-19f65176eefa.herokuapp.com
 
 networks:
   frontend:
