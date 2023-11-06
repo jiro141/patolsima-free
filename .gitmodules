@@ -1,3 +1,0 @@
-[submodule "nombre_del_submódulo"]
-    path = ruta_local_del_submódulo
-    url = URL_del_repositorio_del_submódulo
