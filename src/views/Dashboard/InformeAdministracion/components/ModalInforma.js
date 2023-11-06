@@ -373,7 +373,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
               handleClick={toggleModalIHResultados}
              
             />
-            <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
+            <OutlineBtnModal text={"Anexos"} handleClick={toggleModalN} />
             <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
             
             

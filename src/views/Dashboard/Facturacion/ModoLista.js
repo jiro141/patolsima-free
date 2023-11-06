@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import {
   Badge,
   Heading,
@@ -45,11 +45,12 @@ import { useContext } from "react";
 import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualizacion";
 import MainContext from "context/mainContext/MainContext";
 import { useHistory } from "react-router-dom";
+import debounce from "just-debounce-it";
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenFactssort, archived, setArchived,
+  const { hiddenFactssort, archived, setArchived,facturas,
     idSelectItem, setidSelectItem,
-    enablefactModalDetails, setEnablefactModalDetails,ordenId
+    enablefactModalDetails, setEnablefactModalDetails,ordenId, setFacturas
   } = useContext(MainContext);
   const history = useHistory();
   const colorA = "#137797";
@@ -62,7 +63,7 @@ const Dashboard = () => {
   // const [pacienteName, setPacienteName] = useState("");
   // const [archived, setArchived] = useState(false);
   const {
-    facturas,
+    
     getFacturas,
     getCambios,
     cambioDelDia,
@@ -73,15 +74,15 @@ const Dashboard = () => {
     setFacturasNoConfirmadas,
     setFacturasConfirmadas
   } = useFacturas();
+  console.log(facturas);
   const {
-    getSearchFacturas,
     loadingSF,
     searchFacturas,
     staticFacturas,
     error,
     setSearchFacturas,
-  } = useSearchFacturas();
-
+    getSearchFacturas
+  } = useSearchFacturas({ search });
   // console.log(cambioDelDia)
   useEffect(() => {
     getFacturas();
@@ -97,10 +98,15 @@ const Dashboard = () => {
     getCambios();
     //setArchived(false)
   }, [abonarSend]);
-
+  useEffect(() => {
+    if (searchFacturas.length > 0) {
+      setFacturas(searchFacturas);
+    }
+  }, [searchFacturas]);
 
   //modal 
   const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState("");
   // const toggleModal = () => {
   //   setShowModal(!showModal);
   // };
@@ -157,12 +163,6 @@ const Dashboard = () => {
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
   const [pacienteName, setPacienteName] = useState("");
 
-  const handleBusquedaChange = (event) => {
-    const query = event.target.value;
-    if (query.startsWith(" ")) return;
-    setBusqueda(query);
-    filtrar(query);
-  };
   const filtrar = (terminoBusqueda) => {
     let resultadoBusqueda = staticFacturas.filter((elemento) => {
       if (
@@ -185,7 +185,25 @@ const Dashboard = () => {
       //toast.error(error.message, { autoClose: 1000 });
     }
   };
-  // console.log(facturasNoConfirmadas)
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    setSearch(query);
+    debouncedGetPacientsSearchResult(query)
+    //filtrar(query);
+  };
+  const debouncedGetPacientsSearchResult = useCallback(
+    debounce((search) => {
+      if (search === "") {
+        getFacturas();
+      } else if (search.length > 0) {
+        getSearchFacturas({ search });
+        setFacturas(searchFacturas);
+        // setSearchFacturas(result)
+      }
+    }, 500),
+    []
+  );
   return (
     <>
       <Container
@@ -307,16 +325,16 @@ const Dashboard = () => {
         </ModalContent>
       </Modal>
       <FilteredDataModal
-         isOpenModal={showModalList}
-         isToggleModal={toggleModalList}
-         Busqueda={Busqueda}
-         handleBusquedaChange={handleBusquedaChange}
-         thData={thValuesFacturas}
-         tBodyData={searchFacturas}
-         handleSelectTBody={handleSelectTBody}
-         handleSelectIcon={toggleModalConfirmacion}
-         type="facturas"
-         setAbonarSend={setAbonarSend}
+        isOpenModal={showModalList}
+        isToggleModal={toggleModalList}
+        Busqueda={search}
+        handleBusquedaChange={handleBusquedaChange}
+        thData={thValuesFacturas}
+        tBodyData={facturas}
+        handleSelectTBody={handleSelectTBody}
+        handleSelectIcon={toggleModalConfirmacion}
+        type="facturas"
+      // setAbonarSend={setAbonarSend}
       />
       <DeleteModal
         isOpen={showModalConfirmacion}

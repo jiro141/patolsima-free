@@ -2,7 +2,7 @@
 import Axios from "api/authApi";
 
 export const getFacturasList = async () => {
-    
+
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/`)
         // console.log('lista',response.data.results);
@@ -53,10 +53,10 @@ export const postOrdenes = async (data) => {
 
 //search ci for terceros
 export const getOrdenesByCi = async (ci) => {
-    console.log(ci, 'ci desde el controladosr');
+    // console.log(ci, 'ci desde el controladosr');
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/?search=${ci}`)
-        console.log(response.data.results, ' controlador');
+        // console.log(response.data.results, ' controlador');
         return response.data.results;
     } catch (error) {
         console.log(error);
@@ -67,7 +67,7 @@ export const getOrdenListBySearch = async ({ search }) => {
     try {
         const response = await Axios.get(`/v1/facturacion/ordenes/?search=${search}`);
         // console.log(response.data.results,'resultado');
-        return response.data.results;   	
+        return response.data.results;
     } catch (error) {
         console.log(error);
     }
@@ -77,7 +77,8 @@ export const getOrdenListBySearch = async ({ search }) => {
 export const putFacturaTerceros = async (id, data) => {
 
     try {
-        const response = await Axios.put(`/v1/facturacion/clientes/${id}/`, data)
+        const response = await Axios.put(`/v1/facturacion/ordenes/${id}/`, data)
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -96,15 +97,26 @@ export const putChangeIdOrdenClient = async (id, data) => {
 }
 
 export const postFacturaTerceros = async (data) => {
-    console.log(data)
+    // console.log(id, data)
     try {
         const response = await Axios.post(`/v1/facturacion/clientes/`, data)
-        console.log(response.data)
+        // console.log(response.data)
         return response.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const postCreateClient = async (data)=>{
+    console.log(data);
+    try {
+        const response = await Axios.post(`/v1/facturacion/clientes/`,data)
+        console.log(response);
     } catch (error) {
         console.log(error);
     }
 }
+
 //factura terceros put client->
 export const putClientFactura = async (id, data) => {
     console.log(id, data)
@@ -212,4 +224,23 @@ export const postArchivar = async (id, data) => {
         console.log(error);
     }
 }
-
+//obtener clientes 
+export const getClientByCi = async ({searchci}) => {
+    console.log(searchci, 'controlador');
+    try {
+        const response = await Axios.get(`/v1/facturacion/clientes/?search=${searchci}`)
+        console.log(response.data.results, 'respuesta');
+        return response.data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getClient = async (search, index) => {
+    // console.log(index, 'index');
+    try {
+        const response = await Axios.get(`/v1/facturacion/clientes/?search=${search}`)
+        return response.data.results[index];
+    } catch (error) {
+        console.log(error);
+    }
+}

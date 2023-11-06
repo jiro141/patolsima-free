@@ -45,7 +45,7 @@ import EditButton from "components/widgets/Buttons/EditButton";
 import { CheckButton } from "components/widgets/Buttons/EditButton";
 import { useHistory } from "react-router-dom";
 
-const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend,setEnablefactModalDetails }) => {
+const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend, setEnablefactModalDetails }) => {
     const history = useHistory();
 
     const {
@@ -156,74 +156,74 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 toast.success("¡Se confirmo la factura correctamente!", {
                     autoClose: 1000,
                 });
-             //
-             history.push('/admin/Facturacion');
-             window.location.reload();
-            
+                //
+                history.push('/admin/Facturacion');
+                window.location.reload();
+
             } else {
                 toast.error("¡Hubo un error al confirmar la factura!", {
                     autoClose: 1000,
                 });
             }
-           history.push('/admin/Facturacion');
+            history.push('/admin/Facturacion');
             window.location.reload();
-             //setEnablefactModalDetails(false)
+            //setEnablefactModalDetails(false)
         } catch (error) {
             console.log(error);
         }
     }
     const aggMonto = async () => {
-       
-            try {
-           
-                const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
-                if (putEnviarMonto) {
-                    toast.success("¡Se envio el monto correctamente!", {
-                        autoClose: 1000,
-                    });
-                    getFacturasDetails()
-                    setadd2Success(true)
-                    setShowModalConfirmacdion(true)
-    
-                } else {
-                    toast.error("¡Hubo un error al crear el monto!", {
-                        autoClose: 1000,
-                    });
-                }
-    
-            } catch (error) {
-                console.log(error);
+
+        try {
+
+            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
+            if (putEnviarMonto) {
+                toast.success("¡Se envio el monto correctamente!", {
+                    autoClose: 1000,
+                });
+                getFacturasDetails()
+                setadd2Success(true)
+                setShowModalConfirmacdion(true)
+
+            } else {
+                toast.error("¡Hubo un error al crear el monto!", {
+                    autoClose: 1000,
+                });
             }
-        
-       
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
     }
 
     const aggMonto2 = async () => {
-        
-            try {
-           
-                const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2)
-                if (putEnviarMonto) {
-                    toast.success("¡Se envio el monto correctamente!", {
-                        autoClose: 1000,
-                    });
-                    getFacturasDetails()
-                    setadd2Success(false)
-                    setShowModalConfirmacdion(true)
-                    
-                } else {
-                    toast.error("¡Hubo un error al crear el monto!", {
-                        autoClose: 1000,
-                    });
-                }
-    
-            } catch (error) {
-                console.log(error);
+
+        try {
+
+            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2)
+            if (putEnviarMonto) {
+                toast.success("¡Se envio el monto correctamente!", {
+                    autoClose: 1000,
+                });
+                getFacturasDetails()
+                setadd2Success(false)
+                setShowModalConfirmacdion(true)
+
+            } else {
+                toast.error("¡Hubo un error al crear el monto!", {
+                    autoClose: 1000,
+                });
             }
-        
-           
-        
-       
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+
+
     }
 
     //esta funcion cambia los valores que tienen los inputs
@@ -329,8 +329,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     useEffect(() => {
         setfactClientTerceros(null)
     }, [])
-console.log(facturasDetail);
-    
+    console.log(facturasDetail);
+
     return (
         <>
             {loadingDetailFact ?
@@ -597,20 +597,16 @@ console.log(facturasDetail);
 
                         </Box>
                     </Grid>
-
-
-                    {facturasDetail && facturasDetail.pagada || abonarSend ?
-                        <></> :
-                        <Button
-                            marginTop={'15px'}
-                            marginBottom={'10px'}
-                            // marginLeft={{ lg: '70%', md: '60%', sm: '40%' }}
-                            borderRadius={'20px'}
-                            bgColor={'#137797'}
-                            color='#ffff'
-                            onClick={() => toggleModal(study)}>
-                            Factura para un tercero
-                        </Button>}
+                    <Button
+                        marginTop={'15px'}
+                        marginBottom={'10px'}
+                        // marginLeft={{ lg: '70%', md: '60%', sm: '40%' }}
+                        borderRadius={'20px'}
+                        bgColor={'#137797'}
+                        color='#ffff'
+                        onClick={() => toggleModal(study)}>
+                        Factura para un tercero
+                    </Button>
 
                     <Separator mb={'15px'}></Separator>
                     {/* <Text margin={'5px'} fontSize={'20px'}>Descripción</Text>*/}
@@ -689,11 +685,11 @@ console.log(facturasDetail);
 
 
 
-                           
+
                         </Box>
                         <Box >
                             <Box marginTop={'5px'} display={'flex'} flexDirection={'column'}>
-                                <Text margin={'5px'} fontSize={'16px'}>{studyDetail2? 'Monto ' : 'Monto'}</Text>
+                                <Text margin={'5px'} fontSize={'16px'}>{studyDetail2 ? 'Monto ' : 'Monto'}</Text>
                                 {facturasDetail ? (
                                     facturasDetail.balance.total_usd !== 0 ? (
                                         <Box display={'flex'} flexDirection={'column'}>
@@ -729,26 +725,26 @@ console.log(facturasDetail);
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
-                                 {add2Success ? <></> :<Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2? 'Monto 2' : ' '}</Text>}
+                                {add2Success ? <></> : <Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2 ? 'Monto 2' : ' '}</Text>}
                                 {studyDetail2 &&
-                                        <>
-                                            {editing2 ? (
-                                                <Box display={ add2Success ? 'none' : 'flex'} alignItems={'center'}>
-                                                    <Input h={'60%'} type="number"
-                                                        style={{ marginRight: '8px' }}
-                                                        value={data2?.monto_usd}
-                                                        onChange={e => cambiarValoresRegistro2("monto_usd", e.target.value)} />
-                                                    <CheckButton handleClick={aggMonto2} />
-                                                </Box>
-                                            ) : (
+                                    <>
+                                        {editing2 ? (
+                                            <Box display={add2Success ? 'none' : 'flex'} alignItems={'center'}>
+                                                <Input h={'60%'} type="number"
+                                                    style={{ marginRight: '8px' }}
+                                                    value={data2?.monto_usd}
+                                                    onChange={e => cambiarValoresRegistro2("monto_usd", e.target.value)} />
+                                                <CheckButton handleClick={aggMonto2} />
+                                            </Box>
+                                        ) : (
 
-                                                <EditButton handleClick={handleEditClick2} />
-                                            )}
-                                        </>
-                                    }
+                                            <EditButton handleClick={handleEditClick2} />
+                                        )}
+                                    </>
+                                }
                             </Box>
 
-                           
+
 
                         </Box >
                         <Box>
@@ -801,12 +797,13 @@ console.log(facturasDetail);
                             <Box margin={'10px'}>
                                 <Text margin={'5px'} fontSize={'16px'}>Total</Text>
                                 {facturasDetail ? (
-                                    <Text fontSize={'14px'}>
+                                    <Text style={{ fontSize: '14px', display: 'flex', alignItems: 'center' }}>
                                         <Badge>
                                             {facturasDetail.balance?.total_usd} $
                                         </Badge>
-
+                                        {facturasDetail.pagada ? <EditButton marginLeft={'20%'} /> : <></>}
                                     </Text>
+
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
@@ -827,7 +824,7 @@ console.log(facturasDetail);
                         facturasDetail && facturasDetail.pagada ?
                             <Box >
 
-                                <Button
+                                {/* <Button
                                     disabled={facturasDetail?.pagada === true ? true : false}
                                     onClick={handleArchivar}
                                     //marginBottom={{ lg: '-10%', md: '-13%', sm: '-25%' }}
@@ -836,7 +833,7 @@ console.log(facturasDetail);
                                     bgColor={'#137797'}
                                     color='#ffff'>
                                     Archivar
-                                </Button>
+                                </Button> */}
                                 <Button
                                     // marginBottom={{ lg: '-10.5%', md: '-13%', sm: '-25%' }}
                                     // marginLeft={{ lg: '20%', md: '20%', sm: '12%' }}
@@ -851,6 +848,14 @@ console.log(facturasDetail);
                                 <GeneralButton
                                     text="Generar Factura"
                                     handleClick={generarFactura}
+                                />
+                                <GeneralButton
+                                    text="Nota de debito"
+                                // handleClick={generarFactura}
+                                />
+                                <GeneralButton
+                                    text="Nota de credito"
+                                // handleClick={generarFactura}
                                 />
                             </Box> :
 
@@ -931,7 +936,15 @@ console.log(facturasDetail);
                 openModalFact2={openModalFact2}
             />
 
-            <AddAbonarModal setAbonarSend={setAbonarSend} openModalPago={openModalPago} setOpenModalPago={setOpenModalPago} facturasDetail={facturasDetail} isOpen={showModalAbonar} setShowModal={setShowModalAbonar} idOrden={facturasDetail?.id} setPdfContent={setPdfContentNotaPago} />
+            <AddAbonarModal
+                setAbonarSend={setAbonarSend}
+                openModalPago={openModalPago}
+                setOpenModalPago={setOpenModalPago}
+                facturasDetail={facturasDetail}
+                isOpen={showModalAbonar}
+                setShowModal={setShowModalAbonar}
+                idOrden={facturasDetail?.id}
+                setPdfContent={setPdfContentNotaPago} />
 
 
         </>

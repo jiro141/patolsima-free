@@ -36,7 +36,7 @@ const SidebarContent = ({ logoText, routes }) => {
   } = useFacturas();
 
   const { getGroups, groups, loading } = useGroups();
-  const {loginSuccess} = useContext(MainContext)
+  const { loginSuccess } = useContext(MainContext)
   // console.log(groups);
   useEffect(() => {
     const getUsersGroups = async () => {
@@ -47,13 +47,17 @@ const SidebarContent = ({ logoText, routes }) => {
   }, []);
 
   const arrGroup = groups ? groups[0] : '';
-
+// console.log(routes);
   const adminRoutes = routes.filter(
     (route) => route.groupName === "administracion"
   );
   const patologiaRoutes = routes.filter(
     (route) => route.groupName === "patologia"
   );
+  const tecnicoRoutes = routes.filter(
+    (route) => route.groupName === "tecnico"
+  );
+  // console.log(tecnicoRoutes);
   let location = useLocation();
   // console.log(cambioDelDia);
 
@@ -179,6 +183,125 @@ const SidebarContent = ({ logoText, routes }) => {
       );
     });
   };
+  const createLinksTecnico = (routes) => {
+    // Chakra Color Mode
+    const activeBg = useColorModeValue("#89bbcc", "gray.700");
+    const inactiveBg = useColorModeValue("transparet");
+    const activeColor = useColorModeValue("#137798", "white");
+    const inactiveColor = useColorModeValue("gray.400", "gray.400");
+    const colorIcon = useColorModeValue("gray.400");
+
+    return tecnicoRoutes.map((prop, key) => {
+      if (prop.hide) {
+        return null;
+      }
+      return (
+        <>
+          {
+            <NavLink to={prop.layout + prop.path} key={prop.name}>
+              {activeRoute(prop.layout + prop.path) === "active" ? (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg={activeBg}
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  py="8px"
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={"none"}
+                        color={activeColor}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={activeColor} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              ) : (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg="transparent"
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  py="8px"
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={inactiveBg}
+                        color={colorIcon}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={inactiveColor} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              )}
+            </NavLink>
+          }
+        </>
+      );
+    });
+  }
   const createLinksAdmin = (routes) => {
     // Chakra Color Mode
     const activeBg = useColorModeValue("#89bbcc", "gray.700");
@@ -422,6 +545,7 @@ const SidebarContent = ({ logoText, routes }) => {
 
   const linksAdmin = <>{createLinksAdmin(routes)}</>;
   const linksPatology = <>{createLinks(routes)}</>;
+  const linksTecnico = <>{createLinksTecnico(routes)}</>
   const linksAll = <>{createLinksAll(routes)}</>;
   const activeBg = useColorModeValue("#89bbcc", "gray.700");
   const inactiveBg = useColorModeValue("transparet");
@@ -463,8 +587,8 @@ const SidebarContent = ({ logoText, routes }) => {
               }}
               py="8px"
               borderRadius="15px"
-              // w="100%"
-              >
+            // w="100%"
+            >
               <Text fontWeight={'bold'} my="auto" fontSize="md" color={'#FFFF'}>BCV: {cambioDelDia}</Text>
             </Box>
           </Box>
@@ -483,7 +607,7 @@ const SidebarContent = ({ logoText, routes }) => {
           <Box pt={"10px"} mb="5px">
             <Box margin={"100px 0 20px 0"}>
               <Separator></Separator>
-             {/* <Text marginTop={"10px"} marginLeft={"13px"}>
+              {/* <Text marginTop={"10px"} marginLeft={"13px"}>
                 {arrGroup === "administracion"
                   ? `Administración`
                   : arrGroup === "patologo"
@@ -494,11 +618,14 @@ const SidebarContent = ({ logoText, routes }) => {
           </Box>
           <Stack direction="column" mb="40px">
             <Box>
-              {  arrGroup && arrGroup === "patologo"
+              {arrGroup && arrGroup === "patologo"
                 ? linksPatology
                 : arrGroup === "administracion"
-                  ? linksAdmin
-                  : linksAll}
+                  ? linksAdmin :
+                  arrGroup === "tecnico" ?
+                    linksTecnico
+                    :
+                    linksAll}
               <Separator></Separator>
             </Box>
           </Stack>

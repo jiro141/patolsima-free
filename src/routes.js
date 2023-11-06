@@ -17,19 +17,19 @@ import {
   PersonIcon,
   DocumentIcon,
 } from "components/Icons/Icons";
- const categorias = {
+const categorias = {
   administracion: [
     {
-      groupName:"administracion",
+      groupName: "administracion",
       path: "/RegistroAdministracion",
       name: "Registro",
       icon: <HomeIcon color="inherit" />,
       component: RegistroAdministradcion,
       layout: "/admin",
-      type:'admin'
+      type: 'admin'
     },
     {
-      groupName:"administracion",
+      groupName: "administracion",
       path: "/Facturacion",
       name: "Facturación",
       icon: <BsReceiptCutoff color="inherit" />,
@@ -37,7 +37,7 @@ import {
       layout: "/admin",
     },
     {
-      groupName:"administracion",
+      groupName: "administracion",
       path: "/InformeAdministracion",
       name: "Informe",
       icon: <BsFillClipboardPlusFill color="inherit" />,
@@ -49,7 +49,7 @@ import {
   ],
   patologia: [
     {
-      groupName:"patologia",
+      groupName: "patologia",
       path: "/RegistroPatologo",
       name: "Pendientes",
       icon: <DocumentIcon color="inherit" />,
@@ -57,7 +57,7 @@ import {
       layout: "/admin",
     },
     {
-      groupName:"patologia",
+      groupName: "patologia",
       path: "/Informe",
       name: "Informe",
       icon: <BsFillClipboardPlusFill color="inherit" />,
@@ -67,6 +67,16 @@ import {
     },
     // ...otros componentes de la categoría "patologia"...
   ],
+  tecnico: [
+    {
+      groupName: "tecnico",
+      path: "/RegistroPatologo",
+      name: "Pendientes",
+      icon: <DocumentIcon color="inherit" />,
+      component: RegistroPatologo,
+      layout: "/admin",
+    }
+  ]
   // ...otras categorías...
 };
 
@@ -113,13 +123,31 @@ export const dashRoutesPatologo = [
     hide: true
   },
 ];
+export const dashRoutesTecnico = [
+  ...categorias.tecnico,
+  {
+    path: "/signin",
+    component: SignIn,
+    layout: "/auth",
+    hide: true
+  },
+  {
+    path: "/Home",
+    component: Dashboard,
+    layout: "/admin",
+    hide: true
+  },
+  {
+    path: "/signup",
+    component: SignUp,
+    layout: "/auth",
+    hide: true
+  },
+];
 var dashRoutes = [
-  
-
-    ...categorias.administracion,
-  
+  ...categorias.administracion,
   ...categorias.patologia,
- 
+  ...categorias.tecnico,
   {
     path: "/signin",
     component: SignIn,

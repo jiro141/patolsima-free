@@ -7,7 +7,7 @@ import AdminNavbar from 'components/Navbars/AdminNavbar.js';
 import SidebarContent from 'components/Sidebar';
 import React, { useState, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
-import { dashRoutesAdministracion, dashRoutesPatologo } from 'routes.js';
+import { dashRoutesAdministracion, dashRoutesPatologo, dashRoutesTecnico } from 'routes.js';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
@@ -21,7 +21,7 @@ import { ModoVisualizacionProvider } from "components/ModoVisualizacion/ModoVisu
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Dashboard(props) {
-	const dashRoutes = [...dashRoutesAdministracion, ...dashRoutesPatologo];
+	const dashRoutes = [...dashRoutesAdministracion, ...dashRoutesPatologo, ...dashRoutesTecnico];
 	const { ...rest } = props;
 	// states and functions
 	const [sidebarVariant, setSidebarVariant] = useState('transparent');

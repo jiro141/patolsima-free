@@ -1,6 +1,7 @@
 import { getPacientesDetail } from "api/controllers/pacientes";
 import { getPacientesListByCi } from "api/controllers/pacientes";
 import { useCallback, useMemo, useRef, useState } from "react";
+import { getClientByCi } from "api/controllers/facturas";
 
 export function useClientCiByorder({ searchci }) {
   const [pacientsByCi, setpacientsByCi] = useState([]);
@@ -11,13 +12,14 @@ export function useClientCiByorder({ searchci }) {
   const previousSearch = useRef(searchci);
 
   const getPacientsByCi = useCallback(async ({ searchci }) => {
+    console.log(searchci);
     if (searchci === previousSearch.current) return;
     try {
       setLoadingpacientsByCi(true);
       setErrorpacientsByCi(null);
       previousSearch.current = searchci;
-      const newPacients = await getPacientesListByCi({ searchci });
-      console.log(newPacients, 'tercero');
+      const newPacients = await getClientByCi({ searchci });
+      // console.log(newPacients, 'tercero');
       setpacientsByCi(newPacients);
     } catch (e) {
       setErrorpacientsByCi(e.message);
@@ -25,7 +27,7 @@ export function useClientCiByorder({ searchci }) {
       setLoadingpacientsByCi(false);
     }
   }, []);
- console.log(pacientsByCi);
+//  console.log(pacientsByCi);
 
 
   return {
