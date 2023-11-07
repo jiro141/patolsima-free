@@ -47,9 +47,8 @@ import AddIHQModal from "components/widgets/Modals/AddIHQModal";
 
 
 
-
-const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowModalGeneral,setEnableInfoModalDetails }) => {
- // console.log(detailEstudio);
+const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowModalGeneral, setEnableInfoModalDetails }) => {
+  console.log(informeDetail);
   const [showModal, setShowModal] = useState(false);
   const [showModalMacro, setShowModalMacro] = useState(false);
   const [showModalDiag, setShowModalDiag] = useState(false);
@@ -91,12 +90,11 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const toggleModalIH = () => {
     setShowModalDescIh(!showModalDescIh);
   };
- //console.log(detailEstudio.paciente.id);
-  // informeDetail?.paciente?.id
+  //console.log(informeDetail.paciente.id);
   useEffect(() => {
     const historyInformes = async () => {
-      if (detailEstudio) {
-        const res = await lastInformes(detailEstudio.paciente?.id)
+      if (informeDetail) {
+        const res = await lastInformes(informeDetail?.paciente?.id)
         setHistoryMap(res);
       }
 
@@ -109,13 +107,10 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
   const handleSubmitGenerateInfor = async () => {
     if (detailEstudio) {
-
-      const res = await completeInforme(detailEstudio?.id)
-
+      const res = await completeInforme(detailEstudio.id)
       if (res) {
         const resGenerate = await generateInformeCompletePdf(detailEstudio?.id)
         console.log(resGenerate);
-        
         if (resGenerate) {
           if (detailEstudio?.envio_digital) {
             setShowModalSendWp(true)
@@ -123,18 +118,17 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
             return
           }
           if (!detailEstudio?.envio_digital) {
-
-           // console.log(resGenerate.uri);
+            console.log(resGenerate.uri);
             setpdfUri(resGenerate.uri)
             setShowModalGenerateUri(true)
-
+            return
           }
 
-        } /*else {
+        } else {
           toast.error("Se requiere confirmación del patologo y administrador, recuerda confirmar el pago", {
             autoClose: 3000,
           });
-        }*/
+        }
         setEnableInfoModalDetails(false)
         window.location.reload();
       } else {
@@ -163,8 +157,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   };
 
 
- // console.log(detailEstudio)
- // console.log(informeDetail)
+  console.log(detailEstudio)
+  //console.log(detailEstudio.envio_digital)
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   return (
@@ -214,7 +208,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 <BadgeDetail 
                 title={'Medico T.'}
                 content={detailEstudio && detailEstudio}
-                text={ detailEstudio?.medico_tratante ?`${detailEstudio?.medico_tratante?.nombres.length > 9
+                text={`${detailEstudio?.medico_tratante?.nombres.length > 9
                   ? detailEstudio?.medico_tratante?.nombres.substring(0, 9) +
                   "..."
                   : detailEstudio?.medico_tratante?.nombres
@@ -226,7 +220,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                      3
                     ) + "..."
                     : detailEstudio?.medico_tratante?.apellidos
-                  }` : 'Indefinido'}
+                  }`}
                 />
                   <BadgeDetail 
                 title={'Prioridad'}
@@ -237,7 +231,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 <BadgeDetail 
                 title={'Telefono'}
                 content={detailEstudio && detailEstudio}
-                text={detailEstudio?.medico_tratante ? detailEstudio?.medico_tratante?.telefono_celular:'Indefinido'}
+                text={detailEstudio?.medico_tratante?.telefono_celular}
                 />
                
                 </WrapContentDetail>
@@ -284,7 +278,6 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 </Box>
           
       <Grid
-       display={{lg:'flex',md:'flex',sm:'none'}}
             margin={"50px 10px 20px 10px"}
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
@@ -373,9 +366,6 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
               handleClick={toggleModalIHResultados}
              
             />
-            <OutlineBtnModal text={"Anexos"} handleClick={toggleModalN} />
-            <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
-            
             
           </>
         
@@ -515,21 +505,18 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         mt={"-30px"}
         width={"100%"}
       >
-        <Box  display={{sm:'none',lg:'flex',md:'none'}} width={'70%'} >
+        <Box display={{sm:'none',lg:'flex',md:'flex'}} width={'100%'}>
         <GreyButton
           handleClick={() => setShowModalEstudioNotas(true)}
           title={"Notas de estudio"}
         />
-         
-          
         </Box>
         
-        <Box display={"flex"} mx={"2.5%"} justifyContent={'flex-end'} width={'30%'}>
+        <Box display={"flex"} mx={"2.5%"} >
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
-          <Tooltip label='El informe debe ser aprobado por el patologo antes.'>
           <Button
-             disabled={informeDetail?.aprobado ? false : true}
+            disabled={informeDetail?.aprobado === false ? true : false}
             size="auto"
             padding={{lg:"10px",sm:'10px'}}
            // marginX={"10px"}
@@ -545,8 +532,6 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         </Text>
            
           </Button>
-</Tooltip>
-          
         </Box>
       </Box>
     </>
