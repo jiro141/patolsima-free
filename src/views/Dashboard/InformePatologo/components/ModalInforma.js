@@ -53,9 +53,12 @@ const ModalInforme = ({
   const [showModalSendWp, setShowModalSendWp] = useState(false);
   const [showModalEstudioNotas, setShowModalEstudioNotas] = useState(false);
   const [historyMap, setHistoryMap] = useState([]);
+  const [showModalAnexos, setShowModalAnexos] = useState(false);
   const [showModalDescIh, setShowModalDescIh] = useState(false);
   const [showModalResultadosIh, setShowModalResultadosIh] = useState(false);
-
+  const toggleModalAnexos = () => {
+    setShowModalAnexos(!showModalAnexos);
+  }
   const toggleModal = async () => {
     setShowModal(!showModal);
   };
@@ -78,12 +81,12 @@ const ModalInforme = ({
   const toggleModalNotas = () => {
     setShowModalEstudioNotas(!showModalEstudioNotas);
   };
-  const toggleModalIH= () => {
+  const toggleModalIH = () => {
     setShowModalDescIh(!showModalDescIh);
-};
-const toggleModalIHResultados= () => {
-  setShowModalResultadosIh(!showModalResultadosIh);
-};
+  };
+  const toggleModalIHResultados = () => {
+    setShowModalResultadosIh(!showModalResultadosIh);
+  };
   //console.log(informeDetail.paciente.id); 
   useEffect(() => {
     const historyInformes = async () => {
@@ -93,7 +96,7 @@ const toggleModalIHResultados= () => {
       }
     };
     historyInformes();
-    return () => {};
+    return () => { };
   }, []);
 
   const handleSubmitGenerateInfor = async () => {
@@ -121,7 +124,7 @@ const toggleModalIHResultados= () => {
   };
   const handleOptionClick = (url) => {
     window.location.href = url;
-    
+
   };
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: "2xl" });
   return (
@@ -135,7 +138,7 @@ const toggleModalIHResultados= () => {
             backgroundColor={"#89bbcc"}
             color={"#89bbcc"}
           ></Separator>
-         {/* <Grid templateColumns={"repeat(3,1fr)"}>
+          {/* <Grid templateColumns={"repeat(3,1fr)"}>
             <Box>
               <Box margin={"10px"}>
                 <SubTitlelight title={"Paciente"} color={"#000"} />
@@ -246,68 +249,68 @@ const toggleModalIHResultados= () => {
             </Box>
           </Grid>*/}
 
-<WrapContentDetail>
-<BadgeDetail 
-                title={'Paciente'}
-                content={detailEstudio && detailEstudio}
-                text={`${detailEstudio?.paciente?.nombres.length > 9
-                  ? detailEstudio?.paciente?.nombres.substring(0, 10) +
-                  "..."
-                  : detailEstudio?.paciente?.nombres
-                  }
+          <WrapContentDetail>
+            <BadgeDetail
+              title={'Paciente'}
+              content={detailEstudio && detailEstudio}
+              text={`${detailEstudio?.paciente?.nombres.length > 9
+                ? detailEstudio?.paciente?.nombres.substring(0, 10) +
+                "..."
+                : detailEstudio?.paciente?.nombres
+                }
 
                           ${detailEstudio?.paciente?.apellidos.length > 9
-                    ? detailEstudio?.paciente?.apellidos.substring(
-                      0,
-                      3
-                    ) + "..."
-                    : detailEstudio?.paciente?.apellidos
-                  }`}
-                />
-                 <BadgeDetail 
-                title={'RIF/CI'}
-                content={detailEstudio && detailEstudio}
-                text={detailEstudio?.paciente?.ci}
-                />
-                 <BadgeDetail 
-                title={'Telefono'}
-                content={detailEstudio && detailEstudio}
-                text={detailEstudio?.paciente?.telefono_celular}
-                />
-</WrapContentDetail>
-<WrapContentDetail>
-                <BadgeDetail 
-                title={'Medico T.'}
-                content={detailEstudio && detailEstudio}
-                text={`${detailEstudio?.medico_tratante?.nombres.length > 9
-                  ? detailEstudio?.medico_tratante?.nombres.substring(0, 9) +
-                  "..."
-                  : detailEstudio?.medico_tratante?.nombres
-                  }
+                  ? detailEstudio?.paciente?.apellidos.substring(
+                    0,
+                    3
+                  ) + "..."
+                  : detailEstudio?.paciente?.apellidos
+                }`}
+            />
+            <BadgeDetail
+              title={'RIF/CI'}
+              content={detailEstudio && detailEstudio}
+              text={detailEstudio?.paciente?.ci}
+            />
+            <BadgeDetail
+              title={'Telefono'}
+              content={detailEstudio && detailEstudio}
+              text={detailEstudio?.paciente?.telefono_celular}
+            />
+          </WrapContentDetail>
+          <WrapContentDetail>
+            <BadgeDetail
+              title={'Medico T.'}
+              content={detailEstudio && detailEstudio}
+              text={`${detailEstudio?.medico_tratante?.nombres.length > 9
+                ? detailEstudio?.medico_tratante?.nombres.substring(0, 9) +
+                "..."
+                : detailEstudio?.medico_tratante?.nombres
+                }
 
                           ${detailEstudio?.medico_tratante?.apellidos.length > 9
-                    ? detailEstudio?.medico_tratante?.apellidos.substring(
-                      0,
-                     3
-                    ) + "..."
-                    : detailEstudio?.medico_tratante?.apellidos
-                  }`}
-                />
-                  <BadgeDetail 
-                title={'Prioridad'}
-                content={detailEstudio && detailEstudio}
-                text={detailEstudio?.prioridad}
-                />
-                
-                <BadgeDetail 
-                title={'Telefono'}
-                content={detailEstudio && detailEstudio}
-                text={detailEstudio?.medico_tratante?.telefono_celular}
-                />
-               
-                </WrapContentDetail>
+                  ? detailEstudio?.medico_tratante?.apellidos.substring(
+                    0,
+                    3
+                  ) + "..."
+                  : detailEstudio?.medico_tratante?.apellidos
+                }`}
+            />
+            <BadgeDetail
+              title={'Prioridad'}
+              content={detailEstudio && detailEstudio}
+              text={detailEstudio?.prioridad}
+            />
 
-       
+            <BadgeDetail
+              title={'Telefono'}
+              content={detailEstudio && detailEstudio}
+              text={detailEstudio?.medico_tratante?.telefono_celular}
+            />
+
+          </WrapContentDetail>
+
+
           <Title title={"Información de estudio"} color={"#000"} />
           <Separator
             marginTop={"8px"}
@@ -317,7 +320,7 @@ const toggleModalIHResultados= () => {
           ></Separator>
 
 
-         {/* <Grid templateColumns={"repeat(3,1fr)"}>
+          {/* <Grid templateColumns={"repeat(3,1fr)"}>
             <Box mt={"10px"}>
               <SubTitlelight title={"Estudio #"} color={"#000"} />
               {detailEstudio ? (
@@ -357,33 +360,33 @@ const toggleModalIHResultados= () => {
             </Box>
           </Grid>*/}
           <WrapContentDetail>
-          <BadgeDetail 
-                title={'Estudio #'}
-                content={detailEstudio && detailEstudio}
-                text={detailEstudio?.codigo}
-                />
-                  <BadgeDetail 
-                title={'Patologo'}
-                content={detailEstudio && detailEstudio}
-                text={`${detailEstudio?.patologo?.nombres.length > 9
-                  ? detailEstudio?.patologo?.nombres.substring(0, 9) +
-                  "..."
-                  : detailEstudio?.patologo?.nombres
-                  }
+            <BadgeDetail
+              title={'Estudio #'}
+              content={detailEstudio && detailEstudio}
+              text={detailEstudio?.codigo}
+            />
+            <BadgeDetail
+              title={'Patologo'}
+              content={detailEstudio && detailEstudio}
+              text={`${detailEstudio?.patologo?.nombres.length > 9
+                ? detailEstudio?.patologo?.nombres.substring(0, 9) +
+                "..."
+                : detailEstudio?.patologo?.nombres
+                }
 
                           ${detailEstudio?.patologo?.apellidos.length > 9
-                    ? detailEstudio?.patologo?.apellidos.substring(
-                      0,
-                     3
-                    ) + "..."
-                    : detailEstudio?.patologo?.apellidos
-                  }`}
-                />
-                 <BadgeDetail 
-                title={'Tipo de estudio'}
-                content={detailEstudio && detailEstudio}
-                text={detailEstudio?.tipo}
-                />
+                  ? detailEstudio?.patologo?.apellidos.substring(
+                    0,
+                    3
+                  ) + "..."
+                  : detailEstudio?.patologo?.apellidos
+                }`}
+            />
+            <BadgeDetail
+              title={'Tipo de estudio'}
+              content={detailEstudio && detailEstudio}
+              text={detailEstudio?.tipo}
+            />
           </WrapContentDetail>
 
 
@@ -415,7 +418,7 @@ const toggleModalIHResultados= () => {
                 width={"100%"}
                 color="gray.400"
                 disabled={detailEstudio?.adjuntos?.length > 0 && detailEstudio?.adjuntos[0] ? false : true}
-             
+
               >
                 <option hidden colorScheme="gray.400">
                   Anexos
@@ -450,51 +453,58 @@ const toggleModalIHResultados= () => {
         </Box>
 
         <Box
-           height={"100%"}
-           display={"flex"}
-           flexDirection={{ lg: "column", sm: 'row' }}
-           alignItems={"center"}
-           justifyContent={'center'}
+          height={"100%"}
+          display={"flex"}
+          flexDirection={{ lg: "column", sm: 'row' }}
+          alignItems={"center"}
+          justifyContent={'center'}
         >
-          <Box width={'100%'} height={"100%"} justifyContent={'center'} alignItems={'center'}>
-           
-              <GreyButton
-                handleClick={toggleModalR}
-                title={"Registro de cambios"}
-              />
-            
-         
-           {detailEstudio?.tipo==='INMUNOSTOQUIMICA' || detailEstudio?.tipo==='INMUNOHISTOQUIMICA'
-           ?
-           <>
-          
-             <OutlineBtnModal
-              text={"Agregar nuevo proceso"}
-              handleClick={toggleModalIH}
-             
-            />
-             <OutlineBtnModal
-              text={"Resultados"}
-              handleClick={toggleModalIHResultados}
-             
-            />
-           </>
-           :
-            <>
-             <OutlineBtnModal
-              text={"Descripción Macroscópica"}
-              handleClick={toggleModal}
-            />
-            <OutlineBtnModal
-              text={"Descripción Microscópica"}
-              handleClick={toggleModalM}
-            />
-            <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
-            <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
+          <Box width={'100%'} height={"100%"} justifyContent={'center'} alignItems={'center'} marginTop={'-20%'}>
 
-            <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
-            </>
-          }
+            {/* <GreyButton
+              handleClick={toggleModalR}
+              title={"Registro de cambios"}
+            /> */}
+
+
+            {detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA'
+              ?
+              <>
+
+                <OutlineBtnModal
+                  text={"Agregar nuevo proceso"}
+                  handleClick={toggleModalIH}
+
+                />
+                <OutlineBtnModal
+                  text={"Resultados"}
+                  handleClick={toggleModalIHResultados}
+
+                />
+                <OutlineBtnModal
+                  text={"Descripción Microscópica"}
+                  handleClick={toggleModalM}
+                />
+                <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
+                <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
+                <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
+              </>
+              :
+              <>
+                <OutlineBtnModal
+                  text={"Descripción Macroscópica"}
+                  handleClick={toggleModal}
+                />
+                <OutlineBtnModal
+                  text={"Descripción Microscópica"}
+                  handleClick={toggleModalM}
+                />
+                <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
+                <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
+
+                <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
+              </>
+            }
           </Box>
         </Box>
       </Grid>
@@ -563,9 +573,9 @@ const toggleModalIHResultados= () => {
         informeDetail={informeDetail}
         idStudy={detailEstudio?.id}
         type="register"
-        //setShowModalGeneral={setShowModalGeneral}
+      //setShowModalGeneral={setShowModalGeneral}
       />
-       <ModalCreateNotes
+      <ModalCreateNotes
         setShowModal={setShowModalEstudioNotas}
         titulo={"Notas de estudio"}
         toggleModal={toggleModalNotas}
@@ -574,9 +584,19 @@ const toggleModalIHResultados= () => {
         idStudy={detailEstudio?.id}
         detailEstudio={detailEstudio}
         type="notas2"
-        //setShowModalGeneral={setShowModalGeneral}
+      //setShowModalGeneral={setShowModalGeneral}
       />
-       <ModalCreateNotes
+      <ModalCreateNotes
+        setShowModal={setShowModalAnexos}
+        titulo={"Anexos"}
+        toggleModal={toggleModalAnexos}
+        showModal={showModalAnexos}
+        informeDetail={informeDetail}
+        idStudy={detailEstudio?.id}
+        type="micro"
+        setShowModalGeneral={setShowModalGeneral}
+      />
+      <ModalCreateNotes
         setShowModal={setShowModalResultadosIh}
         titulo={"Resultados Inmunohistoquimica"}
         toggleModal={toggleModalIHResultados}
@@ -585,39 +605,46 @@ const toggleModalIHResultados= () => {
         idStudy={detailEstudio?.id}
         detailEstudio={detailEstudio}
         type="resultadosI"
-        //setShowModalGeneral={setShowModalGeneral}
+      //setShowModalGeneral={setShowModalGeneral}
       />
-     
+
       <ModalSendWp
         detailEstudio={detailEstudio}
         isOpen={showModalSendWp}
         setOpenModal={setShowModalSendWp}
       />
       <AddIHQModal
-      showModal={showModalDescIh}
-      toggleModal={toggleModalIH}
-      idStudy={detailEstudio?.id}
+        showModal={showModalDescIh}
+        toggleModal={toggleModalIH}
+        idStudy={detailEstudio?.id}
       />
       <Box
-         display={"flex"}
-         alignItems={"center"}
-         justifyContent={"space-between"}
-         mb={"-20px"}
-         mt={"-30px"}
-         width={"100%"}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={{ lg: "space-between", md: 'space-between', sm: 'center' }}
+        mb={"-20px"}
+        mt={"-30px"}
+        width={"100%"}
       >
-        <GreyButton
-          handleClick={()=>setShowModalEstudioNotas(true)}
-          title={"Notas de estudio"}
-        />
-        <Box display={"flex"} mx={"2.5%"}>
+        <Box display={{ sm: 'none', lg: 'grid', md: 'flex' }} gridTemplateColumns={'1fr 1fr'} gap={'20px'} width={'100%'}>
+          <GreyButton
+            handleClick={() => setShowModalEstudioNotas(true)}
+            title={"Notas de estudio"}
+          />
+          <GreyButton
+            handleClick={toggleModalR}
+            title={"Registro de cambios"}
+          />
+        </Box>
+
+        <Box display={"flex"} mx={"2.5%"} >
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
           <Button
-            // disabled={detailEstudio?.envio_digital ? false : true}
+            disabled={informeDetail?.aprobado === false ? true : false}
             size="auto"
-            padding={"10px"}
-            marginX={"10px"}
+            padding={{ lg: "10px", sm: '10px' }}
+            // marginX={"10px"}
             marginY={"30px"}
             color={"whiteAlpha.900"}
             borderColor={"gray.400"}
@@ -625,7 +652,10 @@ const toggleModalIHResultados= () => {
             borderRadius={"20px"}
             onClick={handleSubmitGenerateInfor}
           >
-            Aprobar
+            <Text fontSize={{ sm: '0.9rem', lg: '1rem', md: '1rem' }} >
+              Generar
+            </Text>
+
           </Button>
         </Box>
       </Box>
