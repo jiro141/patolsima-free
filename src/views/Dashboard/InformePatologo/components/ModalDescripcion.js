@@ -38,6 +38,9 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
         case 'Bibliografía':
             field_name = 'bibliografia';
             break;
+        case 'Anexos':
+            field_name = 'anexos';
+            break;
         default:
             break;
     }
@@ -46,13 +49,13 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
         // descripcion_macroscopica: Yup.string().required('La descripción macroscópica es requerida'),
         // Agrega otras validaciones para los demás campos si es necesario
     });
-    
+
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async (formData) => {
             formData[field_name] = editorData;
-           
+
             console.log(formData);
             try {
                 const enviarInforme = await updateInforme(idStudy, formData);
@@ -72,7 +75,7 @@ const ModalDescripcion = ({ titulo, idStudy }) => {
                         height={'500px'}
                         editor={Editor}
                         data={editorData}
-                        config={{...{patolsima_informe_id: idStudy}, ...CKEditorDefaultConfig}}
+                        config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                         onReady={(editor) => {
                             // Lógica adicional cuando el editor está listo
                         }}
