@@ -48,14 +48,14 @@ const categorias = {
     // ...otros componentes de la categoría "administracion"...
   ],
   patologia: [
-    {
-      groupName: "patologia",
-      path: "/RegistroPatologo",
-      name: "Pendientes",
-      icon: <DocumentIcon color="inherit" />,
-      component: RegistroPatologo,
-      layout: "/admin",
-    },
+    // {
+    //   groupName: "patologia",
+    //   path: "/RegistroPatologo",
+    //   name: "Pendientes",
+    //   icon: <DocumentIcon color="inherit" />,
+    //   component: RegistroPatologo,
+    //   layout: "/admin",
+    // },
     {
       groupName: "patologia",
       path: "/Informe",

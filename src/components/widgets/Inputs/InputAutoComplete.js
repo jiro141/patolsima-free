@@ -47,7 +47,7 @@ export default function InputAutoComplete({
               {resultSearch.slice(0,1).map((data, index) => {
                 return (
                   <ListItem  key={index} color={"gray.500"} onClick={() => handleSelectSearch(index)}>
-                    {`${data.ci_rif}`}
+                   {data.ci_rif ? `${data.ci_rif}` : `${data.ci}`}
                   </ListItem>
                 );
               })}

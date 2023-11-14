@@ -60,6 +60,9 @@ function SidebarResponsive(props) {
   const patologiaRoutes = props.routes.filter(
     (route) => route.groupName === "patologia"
   );
+  const tecnicoRoutes = props.routes.filter(
+    (route) => route.groupName === "tecnico"
+  );
   // to check for active links and opened collapses
   let location = useLocation();
   // this is for the rest of the collapses
@@ -189,6 +192,125 @@ function SidebarResponsive(props) {
       );
     });
   };
+  const createLinksTecnico = (routes) => {
+    // Chakra Color Mode
+    const activeBg = useColorModeValue("#89bbcc", "gray.700");
+    const inactiveBg = useColorModeValue("transparet");
+    const activeColor = useColorModeValue("#137798", "white");
+    const inactiveColor = useColorModeValue("gray.400", "gray.400");
+    const colorIcon = useColorModeValue("gray.400");
+
+    return tecnicoRoutes.map((prop, key) => {
+      if (prop.hide) {
+        return null;
+      }
+      return (
+        <>
+          {
+            <NavLink to={prop.layout + prop.path} key={prop.name}>
+              {activeRoute(prop.layout + prop.path) === "active" ? (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg={activeBg}
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  py="8px"
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={"none"}
+                        color={activeColor}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={activeColor} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              ) : (
+                <Button
+                  boxSize="initial"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  bg="transparent"
+                  mb={{
+                    xl: "5px",
+                  }}
+                  mx={{
+                    xl: "auto",
+                  }}
+                  py="8px"
+                  ps={{
+                    sm: "10px",
+                    xl: "16px",
+                  }}
+                  borderRadius="15px"
+                  _hover="none"
+                  w="100%"
+                  _active={{
+                    bg: "inherit",
+                    transform: "none",
+                    borderColor: "transparent",
+                  }}
+                  _focus={{
+                    boxShadow: "none",
+                  }}
+                >
+                  <Flex>
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <IconBox
+                        bg={inactiveBg}
+                        color={colorIcon}
+                        h="30px"
+                        w="30px"
+                        me="12px"
+                      >
+                        {prop.icon}
+                      </IconBox>
+                    )}
+                    <Text color={inactiveColor} my="auto" fontSize="sm">
+                      {prop.name}
+                    </Text>
+                  </Flex>
+                </Button>
+              )}
+            </NavLink>
+          }
+        </>
+      );
+    });
+  }
   const createLinksAdmin = (routes) => {
     // Chakra Color Mode
     const activeBg = useColorModeValue("#89bbcc", "gray.700");
@@ -315,6 +437,7 @@ function SidebarResponsive(props) {
 
   const linksAdmin = <>{createLinksAdmin(routes)}</>;
   const linksPatology = <>{createLinks(routes)}</>;
+  const linksTecnico = <>{createLinksTecnico(routes)}</>
   const activeBg = useColorModeValue("#89bbcc", "gray.700");
   const inactiveBg = useColorModeValue("transparet");
   const activeColor = useColorModeValue("#137798", "white");
@@ -446,11 +569,14 @@ function SidebarResponsive(props) {
                     </Box>
                     <Stack direction="column" >
                       <Box>
-                        {arrGroup === "patologo"
+                        {arrGroup && arrGroup === "patologo"
                           ? linksPatology
                           : arrGroup === "administracion"
-                            ? linksAdmin
-                            : null}
+                            ? linksAdmin :
+                            arrGroup === "tecnico" ?
+                              linksTecnico
+                              :
+                              linksAdmin}
                       </Box>
                       <Separator></Separator>
                     </Stack>

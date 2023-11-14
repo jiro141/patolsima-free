@@ -470,6 +470,11 @@ const ModalInforme = ({
             {detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA'
               ?
               <>
+              <OutlineBtnModal
+                  text={"Muestra recibida"}
+                  handleClick={toggleModalIH}
+
+                />
 
                 <OutlineBtnModal
                   text={"Agregar nuevo proceso"}
@@ -486,7 +491,7 @@ const ModalInforme = ({
                   handleClick={toggleModalM}
                 />
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
-                <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
+                {/* <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} /> */}
                 <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
               </>
               :

@@ -16,7 +16,7 @@ import {
   CloseButton,
   ModalHeader,
 } from "@chakra-ui/react";
-
+import { getNumeroFactura } from "api/controllers/facturas";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,10 +35,11 @@ export default function ModalNumFactura({
   setOpenModalFact2,
   openModalFact2
 }) {
-
+  const [numero, setNumero] = useState('')
+  // console.log(numero);
   const formik = useFormik({
     initialValues: {
-      n_factura: '',
+      n_factura: numero,
 
     },
     validationSchema: Yup.object({
@@ -47,11 +48,8 @@ export default function ModalNumFactura({
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-
-      //console.log(newObj);
       try {
         const facturaPost = await postFactura(study?.id, formData);
-
         if (facturaPost) {
           toast.success("¡La factura se ha generado con exito!", {
             autoClose: 1000,
@@ -72,6 +70,20 @@ export default function ModalNumFactura({
       return;
     },
   });
+  const peticionGet = async () => {
+    try {
+      const numeroFactura = await getNumeroFactura()
+      // console.log(numeroFactura);
+      setNumero(numeroFactura+1);
+      formik.setFieldValue("n_factura", numeroFactura + 1);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    peticionGet();
+  }, []);
 
   //console.log(facturasDetail);
   return (
@@ -101,14 +113,15 @@ export default function ModalNumFactura({
           </ModalHeader>
           <ModalBody>
             <Box marginTop={"-50px"}>
-              <Box style={{ marginBottom: '20px' }}>
-                <Title title={'Ingresa el número de facturación'} />
+              <Box textAlign={'center'} >
+                <Title title={'El número de facturación'} />
               </Box>
 
               <Box flexDirection={'row'} width={"100%"} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
-                <Text fontSize={'15px'} mr={'5px'} >Factura #:</Text>
+                <Text fontSize={'20px'} mr={'5px'} marginY={'8%'} >Factura #: {numero}</Text>
                 <Box ml={'2px'}>
-                  <InputOverall
+
+                  {/* <InputOverall
                     placeholder="548692"
                     //disabled={estudioID || estudioId2 ? false : true}
                     name={"n_factura"}
@@ -118,7 +131,7 @@ export default function ModalNumFactura({
                     }
                     errors={formik.errors.n_factura}
 
-                  />
+                  /> */}
                 </Box>
               </Box>
 

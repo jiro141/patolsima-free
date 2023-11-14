@@ -44,7 +44,7 @@ export default function AddAbonarModal({
     getCambios,
     cambioDelDia,
   } = useFacturas();
-  console.log(setAbonarSend);
+  // console.log(setAbonarSend);
 
   useEffect(() => {
     getCambios();
@@ -136,7 +136,7 @@ export default function AddAbonarModal({
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
-  console.log(selectedOption);
+  // console.log(selectedOption);
 
   useEffect(() => {
     if (openModalPago) {

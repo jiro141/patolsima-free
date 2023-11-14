@@ -107,10 +107,10 @@ export const postFacturaTerceros = async (data) => {
     }
 }
 
-export const postCreateClient = async (data)=>{
+export const postCreateClient = async (data) => {
     console.log(data);
     try {
-        const response = await Axios.post(`/v1/facturacion/clientes/`,data)
+        const response = await Axios.post(`/v1/facturacion/clientes/`, data)
         console.log(response);
     } catch (error) {
         console.log(error);
@@ -225,7 +225,7 @@ export const postArchivar = async (id, data) => {
     }
 }
 //obtener clientes 
-export const getClientByCi = async ({searchci}) => {
+export const getClientByCi = async ({ searchci }) => {
     console.log(searchci, 'controlador');
     try {
         const response = await Axios.get(`/v1/facturacion/clientes/?search=${searchci}`)
@@ -240,6 +240,16 @@ export const getClient = async (search, index) => {
     try {
         const response = await Axios.get(`/v1/facturacion/clientes/?search=${search}`)
         return response.data.results[index];
+    } catch (error) {
+        console.log(error);
+    }
+}
+// numero de factura
+export const getNumeroFactura = async () => {
+    try {
+        const response = await Axios.get(`/v1/facturacion/offsetfactura/`)
+        return response.data.results[0].factura_offset;
+        // console.log(response);
     } catch (error) {
         console.log(error);
     }

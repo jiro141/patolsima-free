@@ -195,7 +195,17 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
       <Grid gap={'15px'} margin={'6px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
-        <InputAutoComplete
+        {/* <InputAutoComplete
+          name={"ci"}
+          searchValue={searchci}
+          onChange={handleChangeCi}
+          resultSearch={pacientsByCi}
+          errors={errorpacientsByCi}
+          loading={loadingpacientsByCi}
+          placeholder={"Cedula de identidad:"}
+          handleSelectSearch={handleSelectSearch}
+         /> */}
+         <InputAutoComplete
           // name={"ci"}
           searchValue={searchci}
           onChange={handleChangeCi}
@@ -204,7 +214,9 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
           loading={loadingpacientsByCi}
           placeholder={"Cedula de identidad:"}
           handleSelectSearch={handleSelectSearch}
-         />
+          selectSearch={selectSearch}
+        />
+
 
         <InputOverall
           placeholder='Nombres o razón social'

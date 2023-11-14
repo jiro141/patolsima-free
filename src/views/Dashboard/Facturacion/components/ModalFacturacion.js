@@ -89,7 +89,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 setStudyDetail(study);
             }
             if (itemOrden2) {
-                console.log('study2-->');
+                // console.log('study2-->');
                 const study = await getStudiesDetail(itemOrden2);
                 setStudyDetail2(study);
             }
@@ -138,7 +138,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                     const res = await putChangeIdOrdenClient(study.id, {
                         cliente_id: study?.cliente?.id
                     })
-                    console.log(res);
+                    // console.log(res);
                 }
             }
         }
@@ -329,7 +329,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     useEffect(() => {
         setfactClientTerceros(null)
     }, [])
-    console.log(facturasDetail);
+    // console.log(facturasDetail);
 
     return (
         <>
