@@ -50,27 +50,27 @@ const Dashboard = () => {
   const highPriorityColor = "#FE686A";
   const mediumPriorityColor = "#FC9F02";
   const lowPriorityColor = "#02B464";
- // const [informes, setInformes] = useState();
+  // const [informes, setInformes] = useState();
   const [showModal, setShowModal] = useState(false);
   const [showModalList, setShowModalList] = useState(false);
   const [showModalListDetails, setShowModalListDetails] = useState(false);
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
   const { informesListp, setInformeslistp,
-    hiddenInformeslistpsort, sethiddenInformeslistpsort,filteredInformelistp} = useContext(MainContext);
-  const {muestraALTA,muestraMEDIA,muestraBAJA ,getInformesPatologoAlta,getInformesPatologoMedia,getInformesPatologoBaja,loadingA,loadingM,loadingB}= useInformesPatologo()
+    hiddenInformeslistpsort, sethiddenInformeslistpsort, filteredInformelistp } = useContext(MainContext);
+  const { muestraALTA, muestraMEDIA, muestraBAJA, getInformesPatologoAlta, getInformesPatologoMedia, getInformesPatologoBaja, loadingA, loadingM, loadingB } = useInformesPatologo()
   const [detailInforme, setInformeDetail] = useState([]);
   const [detailEstudio, setdetailEstudio] = useState([]);
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
 
   const [search, setSearch] = useState("");
 
-  const {informeBySearch, 
-   setinformeBySearch,
-   loadingInformeBySearch, 
-   setLoadingInformeBySearch,
-   errorInformesBySearch,
+  const { informeBySearch,
+    setinformeBySearch,
+    loadingInformeBySearch,
+    setLoadingInformeBySearch,
+    errorInformesBySearch,
     setErrorInformesBySearch,
-    getInformesBySearch}= useInformeListBySearch({search})
+    getInformesBySearch } = useInformeListBySearch({ search })
 
 
   const toggleModal = (informe) => {
@@ -111,13 +111,13 @@ const Dashboard = () => {
   const debouncedGetPacientsSearchResult = useCallback(
     debounce((search) => {
       if (search === "") {
-      //  getPacients()
-      getInformes()
+        //  getPacients()
+        getInformes()
       } if (search.length > 0) {
-        getInformesBySearch({search})
-       // informeBySearch
+        getInformesBySearch({ search })
+        // informeBySearch
         setInformes(informeBySearch)
-      }     
+      }
     }, 500),
     []
   );
@@ -137,12 +137,12 @@ const Dashboard = () => {
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudio(resStudyDetail)
   }
- 
+
   const handleBusquedaChange = (event) => {
     const query = event.target.value;
     if (query.startsWith(" ")) return;
-   
-     setSearch(query);
+
+    setSearch(query);
     debouncedGetPacientsSearchResult(query)
     //filtrar(query);
   };
@@ -170,16 +170,16 @@ const Dashboard = () => {
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudiofromShowMore(resStudyDetail)
 
-   
+
   }
   return (
     modoVisualizacion === 'tarjeta' ? (
       <>
         <Container>
-            <Box  marginTop={"30px"} width={'100%'}
-        pl={'5px'} >
-          
-            { hiddenInformeslistpsort ?<>
+          <Box marginTop={"30px"} width={'100%'}
+            pl={'5px'} >
+
+            {hiddenInformeslistpsort ? <>
               <CardOverall_Infor
                 title={"Prioridad Alta"}
                 content={muestraALTA.slice().reverse()}
@@ -209,18 +209,18 @@ const Dashboard = () => {
                 type="other"
               />
             </> :
-            <>
-             <CardOverall_Infor
-                title={"Resultados"}
-                content={informesListp}
-                toggleModal={toggleModal}
-                //colorA={colorA}
-                //loading={loading}
-                type="search"
-              />
-            
-            </>
-            
+              <>
+                <CardOverall_Infor
+                  title={"Resultados"}
+                  content={informesListp}
+                  toggleModal={toggleModal}
+                  //colorA={colorA}
+                  //loading={loading}
+                  type="search"
+                />
+
+              </>
+
             }
 
             <ShowMoreButton handleClick={toggleModalList} />
@@ -316,15 +316,16 @@ const Dashboard = () => {
               Ver más</Button>*/}
           </Box>
         </Container>
-       
-         <Modal
+
+        <Modal
           size={"4xl"}
           maxWidth='100%'
           isOpen={showModal}
           onClose={toggleModal}
-          >
+          
+        >
           <ModalOverlay />
-          <ModalContent borderRadius={'20px'} bg="#ffff">
+          <ModalContent borderRadius={'20px'} bg="#ffff" >
             <ModalHeader>
               <Button
                 borderRadius={'50%'}
@@ -341,32 +342,32 @@ const Dashboard = () => {
             </ModalHeader>
             <ModalBody>
               <ModalInforme id={detailInforme} informeDetail={detailInforme}
-              detailEstudio={detailEstudio}
-              setInformeDetail={setInformeDetail}
-              setShowModalGeneral={setShowModal} />
+                detailEstudio={detailEstudio}
+                setInformeDetail={setInformeDetail}
+                setShowModalGeneral={setShowModal} />
             </ModalBody>
           </ModalContent>
         </Modal>
 
 
-        
-   
-      <FilteredDataModal
+
+
+        <FilteredDataModal
           type='informes'
           thData={thValuesInformes}
           isOpenModal={showModalList}
           isToggleModal={toggleModalList}
-          tBodyData={search ? informeBySearch: informes}
+          tBodyData={search ? informeBySearch : informes}
           Busqueda={search}
           handleSelectTBody={handleSelectInformeFromShowMore}
           handleBusquedaChange={handleBusquedaChange}
         />
-         <Modal
+        <Modal
           size={"3xl"}
           maxWidth='100%'
           isOpen={showModalListDetails}
-          onClose={()=>setShowModalListDetails(false)}
-          >
+          onClose={() => setShowModalListDetails(false)}
+        >
           <ModalOverlay />
           <ModalContent borderRadius={'20px'} bg="#ffff">
             <ModalHeader>
@@ -379,15 +380,15 @@ const Dashboard = () => {
                 marginTop={'-60px'}
                 bgColor={'#137797'}
                 color='#ffff'
-                onClick={()=>setShowModalListDetails(false)}>
+                onClick={() => setShowModalListDetails(false)}>
                 <CloseButton />
               </Button>
             </ModalHeader>
             <ModalBody>
               <ModalInforme id={detailInforme} informeDetail={detailInformefromShowMore}
-              detailEstudio={detailEstudiofromShowMore}
-              setInformeDetail={setInformeDetail}
-              setShowModalGeneral={setShowModal} />
+                detailEstudio={detailEstudiofromShowMore}
+                setInformeDetail={setInformeDetail}
+                setShowModalGeneral={setShowModal} />
             </ModalBody>
           </ModalContent>
         </Modal>
