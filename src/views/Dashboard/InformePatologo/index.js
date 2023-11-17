@@ -75,7 +75,7 @@ const Dashboard = () => {
 
   const toggleModal = (informe) => {
     setShowModal(!showModal);
-    setInformeDetail(informe.estudio_id)
+    setInformeDetail(informe?.estudio_id);
   };
 
   const toggleModalList = () => {
@@ -318,7 +318,7 @@ const Dashboard = () => {
         </Container>
 
         <Modal
-          size={"4xl"}
+          size={"3xl"}
           maxWidth='100%'
           isOpen={showModal}
           onClose={toggleModal}

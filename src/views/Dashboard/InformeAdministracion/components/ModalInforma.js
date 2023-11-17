@@ -97,8 +97,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   //console.log(informeDetail.paciente.id);
   useEffect(() => {
     const historyInformes = async () => {
-      if (informeDetail) {
-        const res = await lastInformes(informeDetail?.paciente?.id)
+      if (detailEstudio) {
+        const res = await lastInformes(detailEstudio?.paciente?.id)
         setHistoryMap(res);
       }
 
@@ -167,7 +167,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   return (
     <>
-      <Grid templateColumns={{ lg: "2fr 1fr", sm: "1fr" }}>
+      <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }} {...(detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA' ? { height: { base: 'auto', md: '55vh' } } : {})}>
         <Box marginTop={"-20px"}>
           <Title title={"Información General"} color={"#000"} />
           <Separator
@@ -356,13 +356,15 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
               title={"Registro de cambios"}
             /> */}
 
-            {detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA' ?
+            {detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA'
+              ?
               <>
                 <OutlineBtnModal
                   text={"Muestra recibida"}
                   handleClick={toggleModalIH}
 
                 />
+
                 <OutlineBtnModal
                   text={"Agregar nuevo proceso"}
                   handleClick={toggleModalIH}
@@ -378,13 +380,13 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                   handleClick={toggleModalM}
                 />
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
-                {/* <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} /> */}
+                <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
                 <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
               </>
-
-              : <>
+              :
+              <>
                 <OutlineBtnModal
-                  text={"Descripción Macroscópica "}
+                  text={"Descripción Macroscópica"}
                   handleClick={toggleModal}
                 />
                 <OutlineBtnModal
@@ -393,9 +395,10 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 />
                 <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
+                <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
                 <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
-
-              </>}
+              </>
+            }
 
             <Box display={{ sm: 'flex', lg: 'none', md: 'none' }} width={'100%'} my={'3%'}>
               {/* <GreyButton
@@ -439,7 +442,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         showModal={showModalAnexos}
         informeDetail={informeDetail}
         idStudy={detailEstudio?.id}
-        type="micro"
+        type="anexos"
         setShowModalGeneral={setShowModalGeneral}
       />
       <ModalCreateNotes

@@ -15,12 +15,13 @@ import * as Yup from 'yup';
 import { updateInforme } from "api/controllers/informes";
 
 const ModalDescripcion = ({ titulo, idStudy }) => {
+    // console.log(titulo, 'titulo');
     const [editorData, setEditorData] = useState('');
     let field_name;
     const initialValues = {
         estudio: idStudy,
     };
-    console.log(initialValues);
+    // console.log(initialValues);
     // console.log(initialValues);
     switch (titulo) {
         case 'Descripción macroscópica':

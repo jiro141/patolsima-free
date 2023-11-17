@@ -187,6 +187,7 @@ export const historyInforme= async (id) => {
 
 //informes anteriores
 export const lastInformes= async (id) => {
+    console.log(id, 'id informe');
 
     try {
         const response = await Axios.get(`/v1/core/informes/?estudio__paciente_id=${id}`);

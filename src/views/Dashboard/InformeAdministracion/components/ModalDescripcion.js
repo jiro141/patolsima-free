@@ -34,21 +34,21 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
   const [dataResmicro, setdataResmicro] = useState('')
   const [History, setgetHistory] = useState([])
   const [enableEditResult, setEnableEditResult] = useState(false)
- const{ setIdResultEdit, setIdStudyEdit}= useContext(MainContext)
- const [dataResultP, setdataResultP] = useState('')
- const [dataResultR, setdataResultR] = useState('')
- const [dataResultd, setdataResultd] = useState('')
+  const { setIdResultEdit, setIdStudyEdit } = useContext(MainContext)
+  const [dataResultP, setdataResultP] = useState('')
+  const [dataResultR, setdataResultR] = useState('')
+  const [dataResultd, setdataResultd] = useState('')
 
   useEffect(() => {
     const getHistory = async () => {
       const getData = await HistoryInformes(idStudy)
-      console.log(getData);
+      // console.log(getData);
       setgetHistory(getData)
     }
     getHistory()
   }, [])
 
-  const handleEditResult=(idResult,idStudy,procedimiento,reaccion,observaciones)=>{
+  const handleEditResult = (idResult, idStudy, procedimiento, reaccion, observaciones) => {
     setIdResultEdit(idResult);
     setIdStudyEdit(idStudy);
     setdataResultP(procedimiento)
@@ -56,7 +56,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
     setdataResultd(observaciones)
     setEnableEditResult(true)
   }
-  const toggleModal=()=>{
+  const toggleModal = () => {
     setEnableEditResult(!enableEditResult)
   }
 
@@ -145,8 +145,8 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
           bibliografia: data.data
         }
         const res = await postInformes(idStudy, newObj)
-        console.log('res bibli ->')
-        console.log(res)
+        // console.log('res bibli ->')
+        // console.log(res)
         if (res) {
           toast.success("¡El informe se ha creado con exito!", {
             autoClose: 1000,
@@ -241,8 +241,28 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
           bibliografia: data.data
         }
         const res = await updateInforme(idStudy, newObj)
-        console.log('res bibli ->')
-        console.log(res)
+        // console.log('res bibli ->')
+        // console.log(res)
+        if (res) {
+          toast.success("¡El informe se ha actualizado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al actualizar el informe!", {
+            autoClose: 1000,
+          });
+        }
+      }
+      if (type === 'anexos') {
+        const newObj = {
+          estudio: idStudy,
+          anexos: data.data
+        }
+        const res = await updateInforme(idStudy, newObj)
+        // console.log('res anexos ->')
+        // console.log(res)
         if (res) {
           toast.success("¡El informe se ha actualizado con exito!", {
             autoClose: 1000,
@@ -273,7 +293,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
   //console.log(dataResmicro);
 
   const editorRef = useRef();
-  console.log(editorRef.current)
+  // console.log(editorRef.current)
   const editorConfig = {
     toolbar: {
       items: [
@@ -321,7 +341,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                   <CKEditor
 
                     editor={Editor}
-                    config={{ ...{ patolsima_informe_id: idStudy },...CKEditorDefaultConfig }}
+                    config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                     data={
                       informeDetail?.descripcion_microscopica === null ? ' ' :
                         informeDetail?.descripcion_microscopica || dataResmicro
@@ -332,7 +352,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                     }}
                     onChange={(event, editor) => {
                       const data = editor.getData();
-                      console.log(data);
+                      // console.log(data);
                       setdata({ data })
                     }}
                   />
@@ -352,7 +372,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                     }}
                     onChange={(event, editor) => {
                       const data = editor.getData();
-                      console.log('from other');
+                      // console.log('from other');
                       setdata({ data })
                     }}
                   /> : type === 'diag' ?
@@ -384,102 +404,116 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                           const data = editor.getData();
                           setdata({ data })
                         }}
-                      /> : type === 'bibli' ?
+                      /> : type === 'anexos' ?
                         <CKEditor
                           editor={Editor}
                           config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                           data={
-                            informeDetail?.bibliografia === null ? ' ' : informeDetail?.bibliografia
+                            informeDetail?.anexos === null ? ' ' : informeDetail?.anexos
                           }
                           onReady={(editor) => {
                             console.log("CKEditor5 React Component is ready to use!", editor);
                           }}
                           onChange={(event, editor) => {
                             const data = editor.getData();
-                            console.log('from other');
                             setdata({ data })
                           }}
-                        /> : type === 'register' ?
+                        /> : type === 'bibli' ?
+                          <CKEditor
+                            editor={Editor}
+                            config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
+                            data={
+                              informeDetail?.bibliografia === null ? ' ' : informeDetail?.bibliografia
+                            }
+                            onReady={(editor) => {
+                              console.log("CKEditor5 React Component is ready to use!", editor);
+                            }}
+                            onChange={(event, editor) => {
+                              const data = editor.getData();
+                              console.log('from other');
+                              setdata({ data })
+                            }}
+                          /> : type === 'register' ?
 
-                          <Table variant="striped" colorScheme="teal">
-                            <Thead>
-                              <Tr>
-                                <Th>ID</Th>
-                                <Th>Fecha</Th>
-                                <Th>Usuario</Th>
-                                {/* <Th>Tipo</Th> */}
-                                <Th>Descripción</Th>
-                              </Tr>
-                            </Thead>
-                            {History && <Tbody>
-                              {History.map((item) => (
-                                <Tr key={item?.history_id}>
-                                  <Td style={{fontSize:'13.5px'}} >{item?.history_id}</Td>
-                                  <Td  style={{fontSize:'13.5px'}} >{formatDate(item?.history_date)}</Td>
-                                  <Td  style={{fontSize:'13.5px'}} >{item?.history_user}</Td>
-                                  {/* <Td>{item?.history_type}</Td> */}
-                                  <Td  style={{fontSize:'13.5px'}} >{item?.history_change_reason}</Td>
-                                </Tr>
-                              ))}
-                            </Tbody>}
-                          </Table>
-                          : type === 'notas2' ?
                             <Table variant="striped" colorScheme="teal">
                               <Thead>
-                              <Tr>
-                               
-                                 <Th>Tipo de muestra</Th>
-                                <Th>Notas</Th>
-                              </Tr>
+                                <Tr>
+                                  <Th>ID</Th>
+                                  <Th>Fecha</Th>
+                                  <Th>Usuario</Th>
+                                  {/* <Th>Tipo</Th> */}
+                                  <Th>Descripción</Th>
+                                </Tr>
                               </Thead>
-                              {detailEstudio && <Tbody>
-                                {detailEstudio.muestras.map((item) => (
-                                  <Tr key={item?.id}>
-                                   
-                                     <Td style={{fontSize:'13.5px'}} >{item?.tipo_de_muestra}</Td>
-                                    <Td style={{fontSize:'13.5px'}}>{item?.notas}</Td>
-
+                              {History && <Tbody>
+                                {History.map((item) => (
+                                  <Tr key={item?.history_id}>
+                                    <Td style={{ fontSize: '13.5px' }} >{item?.history_id}</Td>
+                                    <Td style={{ fontSize: '13.5px' }} >{formatDate(item?.history_date)}</Td>
+                                    <Td style={{ fontSize: '13.5px' }} >{item?.history_user}</Td>
+                                    {/* <Td>{item?.history_type}</Td> */}
+                                    <Td style={{ fontSize: '13.5px' }} >{item?.history_change_reason}</Td>
                                   </Tr>
                                 ))}
                               </Tbody>}
-                            </Table> : type==='resultadosI'  ?
-                            
-                            <Table variant="striped" colorScheme="teal">
-                            <Thead>
-                            <Tr>
-                             
-                              <Th>Procedimiento</Th>
-                               <Th>reaccion</Th>
-                              <Th>Diagnostico </Th>
-                              <Th> </Th>
-                            </Tr>
-                            </Thead>
-                            {informeDetail && <Tbody>
-                              {informeDetail?.resultados_inmunostoquimica.map((item) => (
-                                <Tr key={item?.id}>
-                                
-                                
-                                  
-                                   <Td style={{fontSize:'13.5px'}} >
+                            </Table>
+                            : type === 'notas2' ?
+                              <Table variant="striped" colorScheme="teal">
+                                <Thead>
+                                  <Tr>
 
-                                    
-                                      {item.procedimiento}
-                                    
-                                    
-                                    
-                                    </Td>
-                                   <Td style={{fontSize:'13.5px'}} >{item.reaccion}</Td>
-                                  <Td style={{fontSize:'13.5px'}}>{item.diagnostico_observaciones}</Td>
-                                 
-                                  <Td style={{fontSize:'13.5px'}}>
-                                    <EditButton handleClick={()=>handleEditResult(item.id,idStudy,item.procedimiento,item.reaccion,item.diagnostico_observaciones)} /></Td>
+                                    <Th>Tipo de muestra</Th>
+                                    <Th>Notas</Th>
+                                  </Tr>
+                                </Thead>
+                                {detailEstudio && <Tbody>
+                                  {detailEstudio.muestras.map((item) => (
+                                    <Tr key={item?.id}>
 
-                                </Tr>
-                              ))}
-                            </Tbody>}
-                          </Table>:
-                            
-                            ''
+                                      <Td style={{ fontSize: '13.5px' }} >{item?.tipo_de_muestra}</Td>
+                                      <Td style={{ fontSize: '13.5px' }}>{item?.notas}</Td>
+
+                                    </Tr>
+                                  ))}
+                                </Tbody>}
+                              </Table> : type === 'resultadosI' ?
+
+                                <Table variant="striped" colorScheme="teal">
+                                  <Thead>
+                                    <Tr>
+
+                                      <Th>Procedimiento</Th>
+                                      <Th>reaccion</Th>
+                                      <Th>Diagnostico </Th>
+                                      <Th> </Th>
+                                    </Tr>
+                                  </Thead>
+                                  {informeDetail && <Tbody>
+                                    {informeDetail?.resultados_inmunostoquimica.map((item) => (
+                                      <Tr key={item?.id}>
+
+
+
+                                        <Td style={{ fontSize: '13.5px' }} >
+
+
+                                          {item.procedimiento}
+
+
+
+                                        </Td>
+                                        <Td style={{ fontSize: '13.5px' }} >{item.reaccion}</Td>
+                                        <Td style={{ fontSize: '13.5px' }}>{item.diagnostico_observaciones}</Td>
+
+                                        <Td style={{ fontSize: '13.5px' }}>
+                                          <EditButton handleClick={() => handleEditResult(item.id, idStudy, item.procedimiento, item.reaccion, item.diagnostico_observaciones)} /></Td>
+
+                                      </Tr>
+                                    ))}
+                                  </Tbody>}
+                                </Table> :
+
+                                ''
 
             }
           </Box>
@@ -495,13 +529,13 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
         }
       </div>
       <AddIHQModal showModal={enableEditResult} setEnableEditResult={setEnableEditResult} type={'edit'} toggleModal={toggleModal}
-       dataResultP={dataResultP}
-       setdataResultP={setdataResultP}
-       dataResultR={dataResultR}
-       dataResultd={dataResultd}
-       idStudy={idStudy}
-       setShowModalG={setShowModal}
-       />
+        dataResultP={dataResultP}
+        setdataResultP={setdataResultP}
+        dataResultR={dataResultR}
+        dataResultd={dataResultd}
+        idStudy={idStudy}
+        setShowModalG={setShowModal}
+      />
     </>
   );
 }

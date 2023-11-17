@@ -111,7 +111,7 @@ export const getStudiesDetail = async (id) => {
 export const putStudiesDetail = async (id,data) => {
     try {
         const response = await Axios.put(`/v1/core/estudios/${id}/`,data)
-        console.log(response.data);
+        // console.log(response.data);
         return response.data
     } catch (error) {
         console.log(error);
