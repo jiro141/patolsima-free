@@ -283,7 +283,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
           </Box>
 
           <Grid
-            style={detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA' ? { margin: "20% 10px -10px 0px" } : { margin: "50px 10px 10px 0px" }}
+            margin={"20% 10px -10px 0px"}
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
           >
@@ -385,7 +385,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
               </>
               :
-              <>
+              <Box marginTop={'5%'}>
                 <OutlineBtnModal
                   text={"Descripción Macroscópica"}
                   handleClick={toggleModal}
@@ -398,7 +398,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
                 <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
                 <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
-              </>
+              </Box>
             }
 
             <Box display={{ sm: 'flex', lg: 'none', md: 'none' }} width={'100%'} my={'3%'}>
