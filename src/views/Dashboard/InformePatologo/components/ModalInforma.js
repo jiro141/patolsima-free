@@ -394,7 +394,7 @@ const ModalInforme = ({
 
 
           <Grid
-            margin={"50px 10px 20px 10px"}
+            style={detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA' ? { margin: "90px 10px -10px 0px" } : { margin: "50px 10px 10px 0px" }}
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
           >

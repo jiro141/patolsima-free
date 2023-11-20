@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import {
   Badge,
   Heading,
@@ -21,6 +21,7 @@ import {
   CloseButton,
   useBreakpointValue
 } from "@chakra-ui/react";
+import debounce from "just-debounce-it";
 import { FaFlask } from "react-icons/fa";
 import { Icon } from "@chakra-ui/react";
 import ListaInformes from "./components/ListaInformes";
@@ -39,10 +40,12 @@ import { getInformesCompletados } from "api/controllers/informes";
 import { getInformesNoCompletados } from "api/controllers/informes";
 import DeleteModal from "components/widgets/Modals/DeleteModal";
 import { deleteInforme } from "api/controllers/informes";
+import { useInformeListBySearch } from "hooks/Informes/useInformesBySearch";
 
 const Dashboard = () => {
   const { informes, getInformes, informesCompletados, informesNoCompletados, filteredInforme, loading, error, setInformes, getInformesNotConfirm, getInformesConfirm } = useInformes()
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
+  const [search, setSearch] = useState("");
   const { hiddenInformessort, sethiddenInformessort, enableInfoModalDetails, setEnableInfoModalDetails } = useContext(MainContext);
   useEffect(() => {
     getInformes();
@@ -53,7 +56,14 @@ const Dashboard = () => {
   const [detailInforme, setInformeDetail] = useState();
   const [studyId, setStudyId] = useState('');
   const [pacienteName, setPacienteName] = useState("");
-  console.log(informesCompletados);
+  const { informeBySearch,
+    setinformeBySearch,
+    loadingInformeBySearch,
+    setLoadingInformeBySearch,
+    errorInformesBySearch,
+    setErrorInformesBySearch,
+    getInformesBySearch } = useInformeListBySearch({ search })
+  // console.log(informesCompletados);
   useEffect(() => {
     getInformes();
     getInformesNotConfirm()
@@ -82,17 +92,43 @@ const Dashboard = () => {
       //toast.error(error.message, { autoClose: 1000 });
     }
   };
-  
+  const handleBusquedaChange = (event) => {
+    const query = event.target.value;
+    if (query.startsWith(" ")) return;
+    setSearch(query);
+    debouncedGetPacientsSearchResult(query)
+    //filtrar(query);
+  };
+  useEffect(() => {
+    return () => {
+      getInformes()
+      setInformes([])
+      setinformeBySearch([])
+      setSearch("");
+    }
+  }, [showModalList])
+  useEffect(() => {
+    if (informeBySearch.length > 0) {
+      setInformes(informeBySearch);
+    }
+  }, [informeBySearch]);
+  const debouncedGetPacientsSearchResult = useCallback(
+    debounce((search) => {
+      if (search === "") {
+        getInformes()
+      } if (search.length > 0) {
+        getInformesBySearch({ search })
+        setInformes(informeBySearch);
+        // console.log('desde el debouncep', informeBySearch);
+      }
+    }, 500),
+    []
+  );
+
   const toggleModalConfirmacion = (estudio) => {
     setShowModalConfirmacion(!showModalConfirmacion);
     setStudyId(estudio?.estudio_id);
     setPacienteName(estudio?.estudio_paciente_name);
-  };
-  const handleBusquedaChange = (event) => {
-    const query = event.target.value;
-    if (query.startsWith(" ")) return;
-    setBusqueda(query);
-    filtrar(query);
   };
   //tamaños de modal
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
@@ -109,12 +145,12 @@ const Dashboard = () => {
     console.log(id);
     setShowModalDetail(true)
     const res = await getInformesDetail(id)
-   setInformeDetailfromShowMore(res)
+    setInformeDetailfromShowMore(res)
     //setIdInforme(id)
     const resStudyDetail = await getStudiesDetail(id)
     setdetailEstudiofromShowMore(resStudyDetail)
 
-   
+
   }
   return (
     <>
@@ -126,7 +162,7 @@ const Dashboard = () => {
               {informesNoCompletados.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
+                    <Text textAlign="center" marginTop={'48px'} style={{ fontSize: '15px' }}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -134,23 +170,23 @@ const Dashboard = () => {
               ) : (
                 informesNoCompletados.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td style={{fontSize:'13.5px'}} textAlign={'center'} >
+                    <Td style={{ fontSize: '13.5px' }} textAlign={'center'} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
-                    <Td style={{fontSize:'13.5px'}} textAlign={'center'}>
+                    <Td style={{ fontSize: '13.5px' }} textAlign={'center'}>
                       <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
                         ? study?.estudio_patologo_name.substring(0, 10) + "..."
                         : study?.estudio_patologo_name}</Link>
@@ -166,7 +202,7 @@ const Dashboard = () => {
               {informesCompletados.length === 0 ? (
                 <Tr>
                   <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
+                    <Text textAlign="center" marginTop={'48px'} style={{ fontSize: '15px' }}>
                       No se encontraron resultados
                     </Text>
                   </Td>
@@ -174,23 +210,23 @@ const Dashboard = () => {
               ) : (
                 informesCompletados.map((study) => (
                   <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_codigo}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
                       <Link onClick={() => handleSelectInforme(study)}>
                         {study?.estudio_paciente_name.length > 16
                           ? study?.estudio_paciente_name.substring(0, 10) + "..."
                           : study?.estudio_paciente_name}
                       </Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_paciente_ci}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_tipo}</Link>
                     </Td>
-                    <Td textAlign={'center'} style={{fontSize:'13.5px'}} >
+                    <Td textAlign={'center'} style={{ fontSize: '13.5px' }} >
                       <Link onClick={() => handleSelectInforme(study)}>{study?.estudio_patologo_name.length > 16
                         ? study?.estudio_patologo_name.substring(0, 10) + "..."
                         : study?.estudio_patologo_name}</Link>
@@ -204,13 +240,18 @@ const Dashboard = () => {
           <ShowMoreButton handleClick={toggleModalList} />
         </Box>
       </Container >
-      <FilteredDataModal type='informes' thData={thValuesInformes} isOpenModal={showModalList} isToggleModal={toggleModalList} tBodyData={informes}
-        Busqueda={Busqueda}
+      <FilteredDataModal
+        type='informes'
+        thData={thValuesInformes}
+        isOpenModal={showModalList}
+        isToggleModal={toggleModalList}
+        tBodyData={informes}
+        // tBodyDataBySearch={search ? informeBySearch : null}
+        Busqueda={search}
+        handleSelectTBody={handleSelectInformeFromShowMore}
         handleSelectIcon={toggleModalConfirmacion}
         loading={loading}
         handleBusquedaChange={handleBusquedaChange}
-        handleSelectTBody={handleSelectInformeFromShowMore}
-
       />
       <DeleteModal
         isOpen={showModalConfirmacion}
@@ -249,7 +290,7 @@ const Dashboard = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    
+
       <Modal
         size={'3xl'}
         maxWidth='100%'

@@ -35,7 +35,8 @@ export default function AddAbonarModal({
   setOpenModalPago,
   openModalPago,
   setPdfContent,
-  setAbonarSend
+  setAbonarSend,
+  titulo
 }) {
   const [valueInput, setvalueInput] = useState([]);
   const [valueInputBs, setvalueInputBs] = useState([]);
@@ -45,7 +46,7 @@ export default function AddAbonarModal({
     cambioDelDia,
   } = useFacturas();
   // console.log(setAbonarSend);
-
+console.log(titulo);
   useEffect(() => {
     getCambios();
   }, []);
@@ -175,7 +176,7 @@ export default function AddAbonarModal({
           <Box marginTop={"-50px"} >
 
             <Box display={'flex'} width={'100%'} justifyContent={'center'}>
-              <Title title={'¿Cuánto desea abonar?'} />
+              <Title title={titulo ? titulo : "¿Cuánto desea abonar?"} />
             </Box>
             <Grid
               margin={"10px 0 10px 0"}
