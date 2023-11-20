@@ -95,7 +95,7 @@ const Muestra = () => {
       const newObj = {
         paciente_id: pacienteID,
         medico_tratante_id: medicoID || null,
-        patologo_id: null,
+        patologo_id: 3,
         ...formData,
       };
       //console.log(newObj);

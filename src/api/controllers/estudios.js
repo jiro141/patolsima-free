@@ -109,6 +109,8 @@ export const getStudiesDetail = async (id) => {
 }
 
 export const putStudiesDetail = async (id,data) => {
+    console.log(id, 'este es el id');
+    console.log(data, 'esta es la data ');
     try {
         const response = await Axios.put(`/v1/core/estudios/${id}/`,data)
         // console.log(response.data);

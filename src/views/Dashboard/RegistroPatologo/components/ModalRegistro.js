@@ -105,6 +105,7 @@ const ModalRegistro = ({ study, close }) => {
   // console.log(editedNotes);
   const formik2 = useFormik({
     initialValues: {
+      patologo_id: 1,
       notas: editedNotes,
     },
     onSubmit: async (values) => {
