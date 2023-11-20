@@ -167,7 +167,8 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const size = useBreakpointValue({ base: "sm", lg: "5xl", md: '2xl' });
   return (
     <>
-      <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }} {...(detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA' ? { height: { base: 'auto', md: '55vh' } } : {})}>
+      <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }}
+        height={{ base: 'auto', md: '55vh' }}>
         <Box marginTop={"-20px"}>
           <Title title={"Información General"} color={"#000"} />
           <Separator
@@ -282,7 +283,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
           </Box>
 
           <Grid
-            style={detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA' ? { margin: "90px 10px -10px 0px" } : { margin: "50px 10px 10px 0px" }}
+            style={detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA' ? { margin: "20% 10px -10px 0px" } : { margin: "50px 10px 10px 0px" }}
             templateColumns={"repeat(2,1fr)"}
             gap={"20px"}
           >
