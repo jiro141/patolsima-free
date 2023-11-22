@@ -503,7 +503,7 @@ const ModalInforme = ({
               <Box marginTop={'5%'}>
                 <OutlineBtnModal
                   text={"Descripción Macroscópica"}
-                  handleClick={toggleModalM}
+                  handleClick={toggleModal}
                 />
                 <OutlineBtnModal
                   text={"Descripción Microscópica"}

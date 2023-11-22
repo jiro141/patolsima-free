@@ -258,7 +258,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
       if (type === 'anexos') {
         const newObj = {
           estudio: idStudy,
-          anexos: data.data
+          muestra_recibida: data.data
         }
         const res = await updateInforme(idStudy, newObj)
         // console.log('res anexos ->')
@@ -387,7 +387,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                       config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                       data={
                         informeDetail?.muestra_recibida === null ? ' ' :
-                          informeDetail?.muestra_recibida || dataResmicro
+                          informeDetail?.muestra_recibida
                       }
                       onReady={(editor) => {
 
