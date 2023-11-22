@@ -56,7 +56,7 @@ const ModalInforme = ({
   const [showModalAnexos, setShowModalAnexos] = useState(false);
   const [showModalDescIh, setShowModalDescIh] = useState(false);
   const [showModalResultadosIh, setShowModalResultadosIh] = useState(false);
-  const [showModalMuestra,setShowModalMuestra]=useState(false);
+  const [showModalMuestra, setShowModalMuestra] = useState(false);
   const toggleModalAnexos = () => {
     setShowModalAnexos(!showModalAnexos);
   }
@@ -472,7 +472,7 @@ const ModalInforme = ({
             /> */}
 
 
-{detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA'
+            {detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA'
               ?
               <>
                 <OutlineBtnModal
@@ -493,20 +493,21 @@ const ModalInforme = ({
                 />
                 <OutlineBtnModal
                   text={"Descripción Microscópica"}
-                  handleClick={toggleModalM}
+                  handleClick={toggleModal}
                 />
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
                 <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
                 <OutlineBtnModal text={"Bibliografía"} handleClick={toggleModalB} />
               </>
               :
+
               <Box marginTop={'5%'}>
                 <OutlineBtnModal
-                  text={"Descripción Macroscópica"}
+                  text={"Descripción Microscópica"}
                   handleClick={toggleModal}
                 />
                 <OutlineBtnModal
-                  text={"Descripción Microscópica"}
+                  text={"Descripción Macroscópica "}
                   handleClick={toggleModalM}
                 />
                 <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
