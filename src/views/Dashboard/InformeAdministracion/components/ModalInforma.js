@@ -63,7 +63,11 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
   const [showModalGenerateUri, setShowModalGenerateUri] = useState(false);
   const [showModalDescIh, setShowModalDescIh] = useState(false);
   const [showModalResultadosIh, setShowModalResultadosIh] = useState(false);
+  const [showModalMuestra,setShowModalMuestra]=useState(false);
   const { setInformesCompletados, setInformesNoCompletados, informes, getInformes } = useInformes()
+  const toggleModalMuestra = () => {
+    setShowModalMuestra(!showModalMuestra);
+  }
   const toggleModalAnexos = () => {
     setShowModalAnexos(!showModalAnexos);
   }
@@ -362,7 +366,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
               <>
                 <OutlineBtnModal
                   text={"Muestra recibida"}
-                  handleClick={toggleModalIH}
+                  handleClick={toggleModalMuestra}
 
                 />
 
@@ -510,6 +514,16 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
         detailEstudio={detailEstudio}
         type="notas2"
       //setShowModalGeneral={setShowModalGeneral}
+      />
+      <ModalCreateNotes
+        setShowModal={setShowModalMuestra}
+        titulo={"Muestra recibida"}
+        toggleModal={toggleModalMuestra}
+        showModal={showModalMuestra}
+        informeDetail={informeDetail}
+        idStudy={detailEstudio?.id}
+        type="muestra"
+        setShowModalGeneral={setShowModalGeneral}
       />
       <ModalCreateNotes
         setShowModal={setShowModalResultadosIh}

@@ -56,8 +56,12 @@ const ModalInforme = ({
   const [showModalAnexos, setShowModalAnexos] = useState(false);
   const [showModalDescIh, setShowModalDescIh] = useState(false);
   const [showModalResultadosIh, setShowModalResultadosIh] = useState(false);
+  const [showModalMuestra,setShowModalMuestra]=useState(false);
   const toggleModalAnexos = () => {
     setShowModalAnexos(!showModalAnexos);
+  }
+  const toggleModalMuestra = () => {
+    setShowModalMuestra(!showModalMuestra);
   }
   const toggleModal = async () => {
     setShowModal(!showModal);
@@ -473,7 +477,7 @@ const ModalInforme = ({
               <>
                 <OutlineBtnModal
                   text={"Muestra recibida"}
-                  handleClick={toggleModalIH}
+                  handleClick={toggleModalMuestra}
 
                 />
 
@@ -489,7 +493,7 @@ const ModalInforme = ({
                 />
                 <OutlineBtnModal
                   text={"Descripción Microscópica"}
-                  handleClick={toggleModalM}
+                  handleClick={toggleModal}
                 />
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
                 <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
@@ -499,7 +503,7 @@ const ModalInforme = ({
               <Box marginTop={'5%'}>
                 <OutlineBtnModal
                   text={"Descripción Macroscópica"}
-                  handleClick={toggleModal}
+                  handleClick={toggleModalM}
                 />
                 <OutlineBtnModal
                   text={"Descripción Microscópica"}
@@ -603,6 +607,16 @@ const ModalInforme = ({
         setShowModalGeneral={setShowModalGeneral}
       />
       <ModalCreateNotes
+        setShowModal={setShowModalMuestra}
+        titulo={"Muestra recibida"}
+        toggleModal={toggleModalMuestra}
+        showModal={showModalMuestra}
+        informeDetail={informeDetail}
+        idStudy={detailEstudio?.id}
+        type="muestra"
+        setShowModalGeneral={setShowModalGeneral}
+      />
+      <ModalCreateNotes
         setShowModal={setShowModalResultadosIh}
         titulo={"Resultados Inmunohistoquimica"}
         toggleModal={toggleModalIHResultados}
@@ -647,7 +661,7 @@ const ModalInforme = ({
           <GeneralButton text={"Vista previa"} handleClick={generarPdf} />
 
           <Button
-            disabled={informeDetail?.aprobado === false ? true : false}
+            // disabled={informeDetail?.aprobado === false ? true : false}
             size="auto"
             padding={{ lg: "10px", sm: '10px' }}
             // marginX={"10px"}
@@ -659,7 +673,7 @@ const ModalInforme = ({
             onClick={handleSubmitGenerateInfor}
           >
             <Text fontSize={{ sm: '0.9rem', lg: '1rem', md: '1rem' }} >
-              Generar
+              Aprobar
             </Text>
 
           </Button>

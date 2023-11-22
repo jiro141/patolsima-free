@@ -254,3 +254,14 @@ export const getNumeroFactura = async () => {
         console.log(error);
     }
 }
+
+export const postNotaDebito = async (id) => {
+    try {
+        const response = await Axios.get(`/v1/facturacion/ordenes/${id}/notadebito`)
+        console.log(response);
+        return response.data;
+       
+    } catch (error) {
+        console.log(error);
+    }
+}

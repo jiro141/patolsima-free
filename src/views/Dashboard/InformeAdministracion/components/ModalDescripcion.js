@@ -275,6 +275,26 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
           });
         }
       }
+      if (type === 'muestra') {
+        const newObj = {
+          estudio: idStudy,
+          anexos: data.data
+        }
+        const res = await updateInforme(idStudy, newObj)
+        // console.log('res anexos ->')
+        // console.log(res)
+        if (res) {
+          toast.success("¡El informe se ha actualizado con exito!", {
+            autoClose: 1000,
+          });
+          setShowModalGeneral(false)
+          //setShowModal(false)
+        } else {
+          toast.error("¡Hubo un error al actualizar el informe!", {
+            autoClose: 1000,
+          });
+        }
+      }
     }
 
   }
@@ -358,58 +378,67 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                   />
 
                 </>
+                :
+                type === 'muestra' ?
+                  <>
+                    <CKEditor
+
+                      editor={Editor}
+                      config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
+                      data={
+                        informeDetail?.muestra_recibida === null ? ' ' :
+                          informeDetail?.muestra_recibida || dataResmicro
+                      }
+                      onReady={(editor) => {
+
+                        editorRef.current = editor;
+                      }}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        // console.log(data);
+                        setdata({ data })
+                      }}
+                    />
+
+                  </>
 
 
-                : type === 'macro' ?
-                  <CKEditor
-                    editor={Editor}
-                    config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
-                    data={
-                      informeDetail?.descripcion_macroscopica === null ? ' ' : informeDetail?.descripcion_macroscopica
-                    }
-                    onReady={(editor) => {
-                      console.log("CKEditor5 React Component is ready to use!", editor);
-                    }}
-                    onChange={(event, editor) => {
-                      const data = editor.getData();
-                      // console.log('from other');
-                      setdata({ data })
-                    }}
-                  /> : type === 'diag' ?
+                  : type === 'macro' ?
                     <CKEditor
                       editor={Editor}
                       config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                       data={
-                        informeDetail?.diagnostico === null ? ' ' : informeDetail?.diagnostico
+                        informeDetail?.descripcion_macroscopica === null ? ' ' : informeDetail?.descripcion_macroscopica
                       }
                       onReady={(editor) => {
                         console.log("CKEditor5 React Component is ready to use!", editor);
                       }}
                       onChange={(event, editor) => {
                         const data = editor.getData();
-                        console.log('from other');
+                        // console.log('from other');
                         setdata({ data })
                       }}
-                    /> : type === 'notas' ?
+                    /> : type === 'diag' ?
                       <CKEditor
                         editor={Editor}
                         config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                         data={
-                          informeDetail?.notas === null ? ' ' : informeDetail?.notas
+                          informeDetail?.diagnostico === null ? ' ' : informeDetail?.diagnostico
                         }
                         onReady={(editor) => {
                           console.log("CKEditor5 React Component is ready to use!", editor);
                         }}
                         onChange={(event, editor) => {
                           const data = editor.getData();
+                          console.log('from other');
                           setdata({ data })
                         }}
-                      /> : type === 'anexos' ?
+                      /> : type === 'notas' ?
                         <CKEditor
                           editor={Editor}
                           config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                           data={
-                            informeDetail?.anexos === null ? ' ' : informeDetail?.anexos
+                            informeDetail?.notas === null ? ' ' : informeDetail?.notas
                           }
                           onReady={(editor) => {
                             console.log("CKEditor5 React Component is ready to use!", editor);
@@ -418,102 +447,116 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
                             const data = editor.getData();
                             setdata({ data })
                           }}
-                        /> : type === 'bibli' ?
+                        /> : type === 'anexos' ?
                           <CKEditor
                             editor={Editor}
                             config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
                             data={
-                              informeDetail?.bibliografia === null ? ' ' : informeDetail?.bibliografia
+                              informeDetail?.anexos === null ? ' ' : informeDetail?.anexos
                             }
                             onReady={(editor) => {
                               console.log("CKEditor5 React Component is ready to use!", editor);
                             }}
                             onChange={(event, editor) => {
                               const data = editor.getData();
-                              console.log('from other');
                               setdata({ data })
                             }}
-                          /> : type === 'register' ?
+                          /> : type === 'bibli' ?
+                            <CKEditor
+                              editor={Editor}
+                              config={{ ...{ patolsima_informe_id: idStudy }, ...CKEditorDefaultConfig }}
+                              data={
+                                informeDetail?.bibliografia === null ? ' ' : informeDetail?.bibliografia
+                              }
+                              onReady={(editor) => {
+                                console.log("CKEditor5 React Component is ready to use!", editor);
+                              }}
+                              onChange={(event, editor) => {
+                                const data = editor.getData();
+                                console.log('from other');
+                                setdata({ data })
+                              }}
+                            /> : type === 'register' ?
 
-                            <Table variant="striped" colorScheme="teal">
-                              <Thead>
-                                <Tr>
-                                  <Th>ID</Th>
-                                  <Th>Fecha</Th>
-                                  <Th>Usuario</Th>
-                                  {/* <Th>Tipo</Th> */}
-                                  <Th>Descripción</Th>
-                                </Tr>
-                              </Thead>
-                              {History && <Tbody>
-                                {History.map((item) => (
-                                  <Tr key={item?.history_id}>
-                                    <Td style={{ fontSize: '13.5px' }} >{item?.history_id}</Td>
-                                    <Td style={{ fontSize: '13.5px' }} >{formatDate(item?.history_date)}</Td>
-                                    <Td style={{ fontSize: '13.5px' }} >{item?.history_user}</Td>
-                                    {/* <Td>{item?.history_type}</Td> */}
-                                    <Td style={{ fontSize: '13.5px' }} >{item?.history_change_reason}</Td>
-                                  </Tr>
-                                ))}
-                              </Tbody>}
-                            </Table>
-                            : type === 'notas2' ?
                               <Table variant="striped" colorScheme="teal">
                                 <Thead>
                                   <Tr>
-
-                                    <Th>Tipo de muestra</Th>
-                                    <Th>Notas</Th>
+                                    <Th>ID</Th>
+                                    <Th>Fecha</Th>
+                                    <Th>Usuario</Th>
+                                    {/* <Th>Tipo</Th> */}
+                                    <Th>Descripción</Th>
                                   </Tr>
                                 </Thead>
-                                {detailEstudio && <Tbody>
-                                  {detailEstudio.muestras.map((item) => (
-                                    <Tr key={item?.id}>
-
-                                      <Td style={{ fontSize: '13.5px' }} >{item?.tipo_de_muestra}</Td>
-                                      <Td style={{ fontSize: '13.5px' }}>{item?.notas}</Td>
-
+                                {History && <Tbody>
+                                  {History.map((item) => (
+                                    <Tr key={item?.history_id}>
+                                      <Td style={{ fontSize: '13.5px' }} >{item?.history_id}</Td>
+                                      <Td style={{ fontSize: '13.5px' }} >{formatDate(item?.history_date)}</Td>
+                                      <Td style={{ fontSize: '13.5px' }} >{item?.history_user}</Td>
+                                      {/* <Td>{item?.history_type}</Td> */}
+                                      <Td style={{ fontSize: '13.5px' }} >{item?.history_change_reason}</Td>
                                     </Tr>
                                   ))}
                                 </Tbody>}
-                              </Table> : type === 'resultadosI' ?
-
+                              </Table>
+                              : type === 'notas2' ?
                                 <Table variant="striped" colorScheme="teal">
                                   <Thead>
                                     <Tr>
 
-                                      <Th>Procedimiento</Th>
-                                      <Th>reaccion</Th>
-                                      <Th>Diagnostico </Th>
-                                      <Th> </Th>
+                                      <Th>Tipo de muestra</Th>
+                                      <Th>Notas</Th>
                                     </Tr>
                                   </Thead>
-                                  {informeDetail && <Tbody>
-                                    {informeDetail?.resultados_inmunostoquimica.map((item) => (
+                                  {detailEstudio && <Tbody>
+                                    {detailEstudio.muestras.map((item) => (
                                       <Tr key={item?.id}>
 
-
-
-                                        <Td style={{ fontSize: '13.5px' }} >
-
-
-                                          {item.procedimiento}
-
-
-
-                                        </Td>
-                                        <Td style={{ fontSize: '13.5px' }} >{item.reaccion}</Td>
-                                        <Td style={{ fontSize: '13.5px' }}>{item.diagnostico_observaciones}</Td>
-
-                                        <Td style={{ fontSize: '13.5px' }}>
-                                          <EditButton handleClick={() => handleEditResult(item.id, idStudy, item.procedimiento, item.reaccion, item.diagnostico_observaciones)} /></Td>
+                                        <Td style={{ fontSize: '13.5px' }} >{item?.tipo_de_muestra}</Td>
+                                        <Td style={{ fontSize: '13.5px' }}>{item?.notas}</Td>
 
                                       </Tr>
                                     ))}
                                   </Tbody>}
-                                </Table> :
+                                </Table> : type === 'resultadosI' ?
 
-                                ''
+                                  <Table variant="striped" colorScheme="teal">
+                                    <Thead>
+                                      <Tr>
+
+                                        <Th>Procedimiento</Th>
+                                        <Th>reaccion</Th>
+                                        <Th>Diagnostico </Th>
+                                        <Th> </Th>
+                                      </Tr>
+                                    </Thead>
+                                    {informeDetail && <Tbody>
+                                      {informeDetail?.resultados_inmunostoquimica.map((item) => (
+                                        <Tr key={item?.id}>
+
+
+
+                                          <Td style={{ fontSize: '13.5px' }} >
+
+
+                                            {item.procedimiento}
+
+
+
+                                          </Td>
+                                          <Td style={{ fontSize: '13.5px' }} >{item.reaccion}</Td>
+                                          <Td style={{ fontSize: '13.5px' }}>{item.diagnostico_observaciones}</Td>
+
+                                          <Td style={{ fontSize: '13.5px' }}>
+                                            <EditButton handleClick={() => handleEditResult(item.id, idStudy, item.procedimiento, item.reaccion, item.diagnostico_observaciones)} /></Td>
+
+                                        </Tr>
+                                      ))}
+                                    </Tbody>}
+                                  </Table> :
+
+                                  ''
 
             }
           </Box>

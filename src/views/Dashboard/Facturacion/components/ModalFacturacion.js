@@ -852,7 +852,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 <GeneralButton
                                     text="Nota de débito"
                                     handleClick={() => setShowModalAbonar(!showModalAbonar)}
-                                    titulo= "Monto de la nota de debito"
+                                    
                                 />
                                 <GeneralButton
                                     text="Nota de credito"
@@ -945,7 +945,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 isOpen={showModalAbonar}
                 setShowModal={setShowModalAbonar}
                 idOrden={facturasDetail?.id}
-                setPdfContent={setPdfContentNotaPago} />
+                setPdfContent={setPdfContentNotaPago} 
+                titulo={"Monto de la nota de debito"}/>
 
 
         </>
