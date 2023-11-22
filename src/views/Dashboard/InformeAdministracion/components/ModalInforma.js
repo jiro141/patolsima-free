@@ -463,7 +463,7 @@ const ModalInforme = ({ informeDetail, detailEstudio, setInformeDetail, setShowM
 
       <ModalCreateNotes
         setShowModal={setShowModalDiag}
-        titulo={"Descripción Diagnóstico"}
+        titulo={"Diagnóstico"}
         toggleModal={toggleModalD}
         showModal={showModalDiag}
         informeDetail={informeDetail}

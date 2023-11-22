@@ -472,7 +472,7 @@ const ModalInforme = ({
             /> */}
 
 
-            {detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA'
+{detailEstudio?.tipo === 'INMUNOSTOQUIMICA' || detailEstudio?.tipo === 'INMUNOHISTOQUIMICA'
               ?
               <>
                 <OutlineBtnModal
@@ -493,7 +493,7 @@ const ModalInforme = ({
                 />
                 <OutlineBtnModal
                   text={"Descripción Microscópica"}
-                  handleClick={toggleModal}
+                  handleClick={toggleModalM}
                 />
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
                 <OutlineBtnModal text={"Anexos"} handleClick={toggleModalAnexos} />
@@ -544,7 +544,7 @@ const ModalInforme = ({
 
       <ModalCreateNotes
         setShowModal={setShowModalDiag}
-        titulo={"Descripción Diagnóstico"}
+        titulo={"Diagnóstico"}
         toggleModal={toggleModalD}
         showModal={showModalDiag}
         informeDetail={informeDetail}

@@ -258,7 +258,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
       if (type === 'anexos') {
         const newObj = {
           estudio: idStudy,
-          muestra_recibida: data.data
+          anexos: data.data
         }
         const res = await updateInforme(idStudy, newObj)
         // console.log('res anexos ->')
@@ -278,7 +278,7 @@ const ModalDescripcion = ({ titulo, idStudy, informeDetail, setShowModal, type, 
       if (type === 'muestra') {
         const newObj = {
           estudio: idStudy,
-          anexos: data.data
+          muestra_recibida: data.data
         }
         const res = await updateInforme(idStudy, newObj)
         // console.log('res anexos ->')
