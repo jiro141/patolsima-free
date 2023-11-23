@@ -503,12 +503,12 @@ const ModalInforme = ({
 
               <Box marginTop={'5%'}>
                 <OutlineBtnModal
-                  text={"Descripción Microscópica"}
-                  handleClick={toggleModal}
-                />
-                <OutlineBtnModal
                   text={"Descripción Macroscópica "}
                   handleClick={toggleModalM}
+                />
+                <OutlineBtnModal
+                  text={"Descripción Microscópica"}
+                  handleClick={toggleModal}
                 />
                 <OutlineBtnModal text={"Diagnóstico"} handleClick={toggleModalD} />
                 <OutlineBtnModal text={"Notas"} handleClick={toggleModalN} />
@@ -522,7 +522,7 @@ const ModalInforme = ({
 
       <ModalCreateNotes
         setShowModal={setShowModal}
-        titulo={"Descripción Macroscópica"}
+        titulo={"Descripción Microscópica"}
         toggleModal={toggleModal}
         showModal={showModal}
         informeDetail={informeDetail}
@@ -534,7 +534,7 @@ const ModalInforme = ({
 
       <ModalCreateNotes
         setShowModal={setShowModalMacro}
-        titulo={"Descripción Microscópica"}
+        titulo={"Descripción Macroscópica"}
         toggleModal={toggleModalM}
         showModal={showModalMacro}
         informeDetail={informeDetail}

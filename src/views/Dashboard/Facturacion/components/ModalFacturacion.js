@@ -801,7 +801,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                         <Badge>
                                             {facturasDetail.balance?.total_usd} $
                                         </Badge>
-                                        {facturasDetail.pagada ? <EditButton marginLeft={'20%'} /> : <></>}
+                                        {facturasDetail.pagada}
                                     </Text>
 
                                 ) : (

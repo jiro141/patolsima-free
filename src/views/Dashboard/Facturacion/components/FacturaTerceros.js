@@ -55,7 +55,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     onSubmit: async (formData, { resetForm }) => {
       console.log('data', formData);
       try {
-        console.log('entro pero aqui no');
+        // console.log('entro pero aqui no');
         const resPost = await putClientFactura(tercero.id, formData);
         if (resPost) {
           setfactClientTerceros(resPost);
@@ -87,7 +87,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
       setFinishFactTerceros(true)
     },
   });
-
+  // console.log(formik.values,'ver datos');
 
   // probando factura a terceros de dos formas
   const enviar = async () => {
@@ -97,7 +97,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
       const resPost = await postFacturaTerceros(formData);
       if (resPost) {
         setfactClientTerceros(resPost);
-        toast.success("¡Se actualizó el cliente con éxito!", { autoClose: 1000 });
+        toast.success("¡Se creo el cliente con éxito!", { autoClose: 1000 });
 
         const clienteOrd = {
           cliente_id: tercero.id
@@ -153,11 +153,11 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
 
 
   const handleChangeCi = (event) => {
+    // console.log(event, 'evento');
     const newQuery = event.target.value;
-console.log(newQuery, ' datos de busqueda');
+    console.log(newQuery, ' datos de busqueda');
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
-
   };
 
   useEffect(() => {
@@ -173,6 +173,8 @@ console.log(newQuery, ' datos de busqueda');
         setSelectSearch(false);
       } if (searchci.length > 0) {
         getPacientsByCi({ searchci })
+        console.log(searchci);
+        setsearchci(searchci)
         setSelectSearch(true);
       }
       setSelectSearch(false);
@@ -202,16 +204,6 @@ console.log(newQuery, ' datos de busqueda');
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
       <Grid gap={'15px'} margin={'6px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
-        {/* <InputAutoComplete
-          name={"ci"}
-          searchValue={searchci}
-          onChange={handleChangeCi}
-          resultSearch={pacientsByCi}
-          errors={errorpacientsByCi}
-          loading={loadingpacientsByCi}
-          placeholder={"Cedula de identidad:"}
-          handleSelectSearch={handleSelectSearch}
-         /> */}
         <InputAutoComplete
           searchValue={searchci !== '' ? searchci : formik.values.ci_rif}
           onChange={handleChangeCi}
@@ -222,6 +214,13 @@ console.log(newQuery, ' datos de busqueda');
           handleSelectSearch={handleSelectSearch}
           selectSearch={selectSearch}
         />
+        {/* <InputOverall
+          placeholder="Cedula de identidad:"
+          name={'ci_rif'}
+          value={formik.values.ci_rif}
+          // defaultValue={tercero.razon_social}
+          onChange={e => formik.setFieldValue('ci_rif', e.target.value)}
+          errors={formik.errors.ci_rif} /> */}
 
 
         <InputOverall

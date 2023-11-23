@@ -29,7 +29,7 @@ export default function InputAutoComplete({
     <div style={{ position: "relative" }}>
       <FormControl isInvalid={errors} mb={3}>
         <Input
-          defaultValue={""}
+          // defaultValue={""}
           isRequired
           placeholder={placeholder}
           //type={"number"}
