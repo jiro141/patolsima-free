@@ -69,7 +69,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     const [openModalPago, setOpenModalPago] = useState(false);
     const { factClientTerceros, setfactClientTerceros } = useContext(MainContext)
     const [finishFactTerceros, setFinishFactTerceros] = useState(false);
-    const [add2Success, setadd2Success] = useState(false);
+    const [add2Success, setAdd2Success] = useState(false);
 
     const [pagoId, setPagoId] = useState();
     const [data, setData] = useState(
@@ -178,11 +178,13 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
             const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
             if (putEnviarMonto) {
+                // setAdd2Success(false)
+                setShowModalConfirmacdion(true)
                 toast.success("¡Se envio el monto correctamente!", {
                     autoClose: 1000,
                 });
                 getFacturasDetails()
-                setadd2Success(true)
+                // setAdd2Success(true)
                 setShowModalConfirmacdion(true)
 
             } else {
@@ -197,34 +199,34 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
 
 
     }
-
+    // console.log(add2Success, 'estado');
+    // console.log(facturasDetail);
     const aggMonto2 = async () => {
-
         try {
-
-            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2)
+            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2);
             if (putEnviarMonto) {
-                toast.success("¡Se envio el monto correctamente!", {
-                    autoClose: 1000,
-                });
-                getFacturasDetails()
-                setadd2Success(false)
-                setShowModalConfirmacdion(true)
-
+                toast.success("¡Se envió el monto correctamente!", { autoClose: 1000 });
+                getFacturasDetails();
+                setShowModalConfirmacion(true);
             } else {
-                toast.error("¡Hubo un error al crear el monto!", {
-                    autoClose: 1000,
-                });
+                toast.error("¡Hubo un error al crear el monto!", { autoClose: 1000 });
             }
-
         } catch (error) {
             console.log(error);
         }
+    };
+    
+    useEffect(() => {
+        if (facturasDetail?.items_orden[1]?.monto_usd !== "0.00") {
+            setAdd2Success(true);
+            // console.log('entro');
+        } else {
+            setAdd2Success(false); // Aquí se establece en false si el monto es cero
+        }
+    }, [facturasDetail?.items_orden[1]?.monto_usd]);
+    
+    
 
-
-
-
-    }
 
     //esta funcion cambia los valores que tienen los inputs
     const cambiarValoresRegistro = (key, value) => {
@@ -725,11 +727,11 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 ) : (
                                     <Text fontSize={'14px'}>Loading...</Text>
                                 )}
-                                {add2Success ? <></> : <Text margin={'5px'} textAlign={'center'} fontSize={'16px'}>{studyDetail2 ? 'Monto 2' : ' '}</Text>}
+                                {add2Success ? <></> : <Text margin={'5px'} textAlign={'left'} fontSize={'16px'}>{studyDetail2 ? 'Monto 2' : ' '}</Text>}
                                 {studyDetail2 &&
                                     <>
                                         {editing2 ? (
-                                            <Box display={add2Success ? 'none' : 'flex'} alignItems={'center'}>
+                                            <Box display={add2Success ? 'none' : 'flex'} alignItems={'left'}>
                                                 <Input h={'60%'} type="number"
                                                     style={{ marginRight: '8px' }}
                                                     value={data2?.monto_usd}
@@ -737,8 +739,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                                 <CheckButton handleClick={aggMonto2} />
                                             </Box>
                                         ) : (
-
-                                            <EditButton handleClick={handleEditClick2} />
+                                            <></>
+                                            // <EditButton handleClick={handleEditClick2} />
                                         )}
                                     </>
                                 }
@@ -852,7 +854,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 <GeneralButton
                                     text="Nota de débito"
                                     handleClick={() => setShowModalAbonar(!showModalAbonar)}
-                                    
+
                                 />
                                 <GeneralButton
                                     text="Nota de credito"
@@ -945,8 +947,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 isOpen={showModalAbonar}
                 setShowModal={setShowModalAbonar}
                 idOrden={facturasDetail?.id}
-                setPdfContent={setPdfContentNotaPago} 
-                titulo={"Monto de la nota de debito"}/>
+                setPdfContent={setPdfContentNotaPago}
+                titulo={"Monto de la nota de debito"} />
 
 
         </>
