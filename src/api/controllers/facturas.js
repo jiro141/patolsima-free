@@ -256,10 +256,20 @@ export const getNumeroFactura = async () => {
     }
 }
 
-export const postNotaDebito = async (id) => {
+export const postNotaDebito = async (id,data) => {
     try {
-        const response = await Axios.get(`/v1/facturacion/ordenes/${id}/notadebito`)
+        const response = await Axios.get(`/v1/facturacion/ordenes/${id}/notadebito`,data)
         console.log(response);
+        return response.data;
+       
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const postNotaCredito = async (id) => {
+    try {
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/notacredito/`)
+        console.log(response,'esta es la respuesta de nota de credito');
         return response.data;
        
     } catch (error) {

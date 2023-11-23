@@ -32,6 +32,7 @@ import { useHistory } from "react-router-dom";
 import Container from "components/widgets/utils/Container";
 import debounce from "just-debounce-it";
 import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
+import Reporte from "./components/Reporte"
 
 
 const Dashboard = () => {
@@ -48,8 +49,13 @@ const Dashboard = () => {
   const [showModalConfirmaciodn, setShowModalConfirmacdion] = useState(false);
   const [abonarSend, setAbonarSend] = useState(false);
   const [facturaIdDelete, setfacturaIdDelete] = useState("");
+  const [modalReporte, setModalReporte] = useState(false);
   const [pacienteName, setPacienteName] = useState("");
   // const [archived, setArchived] = useState(false);
+  const toggleModalReporte = () => {
+    setModalReporte(!modalReporte);
+    console.log('funciona');
+  }
   const {
     // facturas,
     getFacturas,
@@ -126,19 +132,19 @@ const Dashboard = () => {
     debouncedGetPacientsSearchResult(query)
     //filtrar(query);
   };
-//   useEffect(() => {
-    
-//     setSearch("");
-//     setSearchFacturas([]);
-//     return () => {
-//       setFacturas([]);
-//     }
-// }, []);
-useEffect(() => {
-  if (searchFacturas.length > 0) {
-    setFacturas(searchFacturas);
-  }
-}, [searchFacturas]);
+  //   useEffect(() => {
+
+  //     setSearch("");
+  //     setSearchFacturas([]);
+  //     return () => {
+  //       setFacturas([]);
+  //     }
+  // }, []);
+  useEffect(() => {
+    if (searchFacturas.length > 0) {
+      setFacturas(searchFacturas);
+    }
+  }, [searchFacturas]);
 
   const debouncedGetPacientsSearchResult = useCallback(
     debounce((search) => {
@@ -248,6 +254,7 @@ useEffect(() => {
           )}
 
           <ShowMoreButton handleClick={toggleModalList} />
+          <Button onClick={toggleModalReporte}>Generar reporte</Button>
         </Box>
 
       </Container>
@@ -305,6 +312,18 @@ useEffect(() => {
           </ModalHeader>
           <ModalBody>
             <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModalFromRe} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={newIdOrder} abonarSend={abonarSend} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      <Modal
+        size={"lg"}
+        maxWidth='100%'
+        isOpen={modalReporte}
+        onClose={toggleModalReporte}>
+        <ModalOverlay />
+        <ModalContent marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
+          <ModalBody>
+            <Reporte />
           </ModalBody>
         </ModalContent>
       </Modal>

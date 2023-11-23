@@ -12,7 +12,7 @@ import Calendar from "react-calendar";
 import { useBreakpointValue } from '@chakra-ui/react';
 
 
-export default function InputCalendar({ value, onChange, setOpenCalendar, onOpenCalendar }) {
+export default function InputCalendar({ v, value, onChange, setOpenCalendar, onOpenCalendar }) {
   const [date, setDate] = useState(new Date());
 
   const formatShortWeekday = (locale, date) => {
@@ -38,7 +38,7 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
   const handleCloseCalendar = () => {
     setOpenCalendar(false)
   }
-  
+
 
   return (
     <div className='wrapCalendarInput'>
@@ -49,14 +49,14 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
       {onOpenCalendar && (
         <Box
           marginTop={'3%'}
-          width={{ lg: '80%', md: '60%', sm: '80%' }}
+          width={v ? { lg: '100%', md: '60%', sm: '80%' } : { lg: '80%', md: '60%', sm: '80%' }}
           zIndex={1000000} /* Set a higher value for zIndex */
           position="absolute" /* Set the position to "absolute" */
           backgroundColor="white" /* Add a solid background color */
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
           borderRadius={'20px'} /* Optional: Add a shadow effect */
         >
-          <Box width={'95%'} position={'absolute'} display={'flex'}  alignItems={'flex-end'} justifyContent={'flex-end'} mt={'3%'}>
+          <Box width={'95%'} position={'absolute'} display={'flex'} alignItems={'flex-end'} justifyContent={'flex-end'} mt={'3%'}>
             <Button
               borderRadius={'100%'}
               colorScheme="blue"
@@ -69,9 +69,9 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
             </Button>
           </Box>
 
-         <Calendar
-          zIndex={1000}
-      
+          <Calendar
+            zIndex={1000}
+
             onChange={onChange}
             value={value}
             locale="ES"
@@ -81,7 +81,7 @@ export default function InputCalendar({ value, onChange, setOpenCalendar, onOpen
             next2Label={null}
             tileDisabled={tileDisabled}
           />
-    
+
         </Box>
       )}
     </div>

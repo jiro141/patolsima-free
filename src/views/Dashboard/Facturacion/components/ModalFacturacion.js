@@ -44,6 +44,7 @@ import { Title } from "components/widgets/Texts";
 import EditButton from "components/widgets/Buttons/EditButton";
 import { CheckButton } from "components/widgets/Buttons/EditButton";
 import { useHistory } from "react-router-dom";
+import { postNotaCredito } from "api/controllers/facturas";
 
 const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend, setEnablefactModalDetails }) => {
     const history = useHistory();
@@ -147,7 +148,17 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     }, [finishFactTerceros])
 
-
+    const notaCredito = async ()=>{
+        try {
+            const postCredito = await postNotaCredito(facturasDetail?.id);
+            console.log(postCredito);
+            if (postCredito) {
+                setShowModalConfirmacion(true);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const confirmar = async () => {
         try {
@@ -857,7 +868,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 />
                                 <GeneralButton
                                     text="Nota de credito"
-                                // handleClick={generarFactura}
+                                handleClick={notaCredito}
                                 />
                             </Box> :
 
