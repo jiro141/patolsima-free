@@ -313,7 +313,7 @@ const ModalRegistro = ({ study, close }) => {
               </Select>
             </Box>
 
-            {editMode ? (
+            {/* {editMode ? (
               <Box>
                 {editMode ? (
                   <form onSubmit={formik2.handleSubmit}>
@@ -342,8 +342,8 @@ const ModalRegistro = ({ study, close }) => {
                     </Box>
                   </Box>
                 )}
-              </Box>
-            ) : (
+              </Box> */}
+            
               <Box>
                 <Box
                   className="chakra-input-style"
@@ -356,15 +356,14 @@ const ModalRegistro = ({ study, close }) => {
                     <p>{detailMuestra?.notas}</p>
                   </Box>
                 </Box>
-                <Box display={"flex"} justifyContent={"flex-end"} mt={2}>
+                {/* <Box display={"flex"} justifyContent={"flex-end"} mt={2}>
                   <Button isDisabled={true} onClick={() => {
                     handlePutStudies(); // Llamar a la función de actualización aquí
                     setEditMode(false); // Cambiar al modo de visualización después de guardar los cambios
                   }}>Guardar cambios</Button>
-                </Box>
+                </Box> */}
               </Box>
-
-            )}
+ 
           </Grid>
           <Box display={"flex"} justifyContent={"flex-end"} my={"-27px"}>
             <GeneralButton text="Procesar" handleClick={formik.handleSubmit} />
