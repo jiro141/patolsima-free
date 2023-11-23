@@ -173,10 +173,9 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     }
     const aggMonto = async () => {
-
         try {
-
-            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data)
+            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data);
+            // console.log(putEnviarMonto, 'hola');
             if (putEnviarMonto) {
                 // setAdd2Success(false)
                 setShowModalConfirmacdion(true)
@@ -185,7 +184,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 });
                 getFacturasDetails()
                 // setAdd2Success(true)
-                setShowModalConfirmacdion(true)
+                // setShowModalConfirmacdion(true)
 
             } else {
                 toast.error("¡Hubo un error al crear el monto!", {
@@ -203,7 +202,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     // console.log(facturasDetail);
     const aggMonto2 = async () => {
         try {
-            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data2);
+            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[0]?.id, data2);
             if (putEnviarMonto) {
                 toast.success("¡Se envió el monto correctamente!", { autoClose: 1000 });
                 getFacturasDetails();
@@ -215,9 +214,9 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
             console.log(error);
         }
     };
-    
+    console.log(add2Success,'estado');
     useEffect(() => {
-        if (facturasDetail?.items_orden[1]?.monto_usd !== "0.00") {
+        if (facturasDetail?.items_orden[1]?.monto_usd !== "0.00" && facturasDetail?.items_orden[0]?.monto_usd !== "0.00") {
             setAdd2Success(true);
             // console.log('entro');
         } else {

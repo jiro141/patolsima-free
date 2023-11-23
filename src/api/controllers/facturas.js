@@ -177,6 +177,7 @@ export const postNotaPago = async (id) => {
 }
 //agregar monto put
 export const putMonto = async (id, data) => {
+    console.log(id,'id debe ser 31');
     try {
         const response = await Axios.put(`/v1/facturacion/itemsorden/${id}/`, data)
         return response.data;
