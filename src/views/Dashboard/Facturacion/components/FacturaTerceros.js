@@ -53,75 +53,82 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      console.log('data',formData);
-      if (selectSearch) {
-        try {
-          console.log('entro pero aqui no');
-          const resPost = await putClientFactura(tercero.id, formData);
-          if (resPost) {
-            setfactClientTerceros(resPost);
-            toast.success("¡Se actualizó el cliente con éxito!", {
-              autoClose: 1000,
-            });
-            setTimeout(async () => {
-              const clienteOrd = {
-                cliente_id: tercero.id
-              };
-              const postTercero = await putFacturaTerceros(study.id, clienteOrd);
-              if (postTercero) {
-                toast.success("¡Se actualizó el cliente en la factura con éxito!", {
-                  autoClose: 1200,
-                });
-                setShowModal(false);
-              } else {
-                toast.error("¡Ocurrió un error al actualizar el cliente de la factura!", {
-                  autoClose: 1200,
-                });
-              }
-            }, 1500);
-          }
-        } catch (error) {
-          toast.error("¡Ocurrió un error al actualizar el cliente!", {
+      console.log('data', formData);
+      try {
+        console.log('entro pero aqui no');
+        const resPost = await putClientFactura(tercero.id, formData);
+        if (resPost) {
+          setfactClientTerceros(resPost);
+          toast.success("¡Se actualizó el cliente con éxito!", {
             autoClose: 1000,
           });
+          setTimeout(async () => {
+            const clienteOrd = {
+              cliente_id: tercero.id
+            };
+            const postTercero = await putFacturaTerceros(study.id, clienteOrd);
+            if (postTercero) {
+              toast.success("¡Se actualizó el cliente en la factura con éxito!", {
+                autoClose: 1200,
+              });
+              setShowModal(false);
+            } else {
+              toast.error("¡Ocurrió un error al actualizar el cliente de la factura!", {
+                autoClose: 1200,
+              });
+            }
+          }, 1500);
         }
-
-      } else {
-        try {
-          console.log('entro');
-          const resPost = await postCreateClient(formData);
-          if (resPost) {
-            setfactClientTerceros(resPost);
-            toast.success("¡Se creo el cliente con éxito!", {
-              autoClose: 1000,
-            });
-            setTimeout(async () => {
-              const clienteOrd = {
-                cliente_id: tercero.id
-              };
-              const postTercero = await putFacturaTerceros(study.id, clienteOrd);
-              if (postTercero) {
-                toast.success("¡Se actualizó el cliente en la factura con éxito!", {
-                  autoClose: 1200,
-                });
-                setShowModal(false);
-              } else {
-                toast.error("¡Ocurrió un error al actualizar el cliente de la factura!", {
-                  autoClose: 1200,
-                });
-              }
-            }, 1500);
-          }
-        } catch (error) {
-          toast.error("¡Ocurrió un error al actualizar el cliente!", {
-            autoClose: 1000,
-          });
-        }
+      } catch (error) {
+        toast.error("¡Ocurrió un error al actualizar el cliente!", {
+          autoClose: 1000,
+        });
       }
       setFinishFactTerceros(true)
     },
   });
-  console.log(selectSearch);
+
+
+  // probando factura a terceros de dos formas
+  const enviar = async () => {
+    try {
+      const formData = formik.values;
+
+      const resPost = await postFacturaTerceros(formData);
+      if (resPost) {
+        setfactClientTerceros(resPost);
+        toast.success("¡Se actualizó el cliente con éxito!", { autoClose: 1000 });
+
+        const clienteOrd = {
+          cliente_id: tercero.id
+        };
+        const postTercero = await putFacturaTerceros(study.id, clienteOrd);
+        if (postTercero) {
+          toast.success("¡Se actualizó el cliente en la factura con éxito!", { autoClose: 1200 });
+          setShowModal(false);
+        } else {
+          toast.error("¡Ocurrió un error al actualizar el cliente de la factura!", { autoClose: 1200 });
+        }
+      }
+    } catch (error) {
+      toast.error("¡Ocurrió un error al actualizar el cliente!", { autoClose: 1000 });
+    }
+    setFinishFactTerceros(true);
+  };
+  const handleClick = () => {
+    // Verificar el estado y ejecutar la función correspondiente
+    if (selectSearch) {
+      formik.handleSubmit(); // Llama al método handleSubmit de formik
+    } else {
+      // console.log('aqui si entro');
+      enviar(); // Llama al método handleSubmit de enviar
+    }
+  };
+
+
+
+
+  // console.log(selectSearch);
   useEffect(() => {
     if (study) {
       const searchByCi = async () => {
@@ -147,7 +154,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;
-
+console.log(newQuery, ' datos de busqueda');
     setsearchci(newQuery);
     debouncedGetPacients(newQuery);
 
@@ -205,9 +212,8 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
           placeholder={"Cedula de identidad:"}
           handleSelectSearch={handleSelectSearch}
          /> */}
-         <InputAutoComplete
-          // name={"ci"}
-          searchValue={searchci}
+        <InputAutoComplete
+          searchValue={searchci !== '' ? searchci : formik.values.ci_rif}
           onChange={handleChangeCi}
           resultSearch={pacientsByCi}
           errors={errorpacientsByCi}
@@ -270,7 +276,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
         borderRadius={'20px'}
         bgColor={'#137797'}
         color='#ffff'
-        onClick={formik.handleSubmit}>
+        onClick={handleClick}>
         Guardar
       </Button>
     </Box>

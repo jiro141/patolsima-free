@@ -22,6 +22,7 @@ export default function InputAutoComplete({
   handleSelectSearch,
   selectSearch,
 }) {
+  console.log(searchValue,' valor de ci');
   const { oneState } = useContext(MainContext);
 
   return (
