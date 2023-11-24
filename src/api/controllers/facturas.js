@@ -257,8 +257,13 @@ export const getNumeroFactura = async () => {
 }
 
 export const postNotaDebito = async (id, data) => {
+    console.log(id.orden);
+    console.log(id.monto);
+    const monto = {
+        monto: id.monto
+    }
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/notadebito`, data)
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id.orden}/notadebito`, monto)
         console.log(response);
         return response.data;
 
@@ -298,4 +303,14 @@ export const postReporte = async (dateI, dateF) => {
     }
 };
 
+export const getNumeroFacturas = async () => {
+    try {
+        const response = await Axios.get(`/v1/facturacion/reporte/ultimafactura`)
+        console.log(response.data.n_factura, 'esta es la respuesta');
+        return response.data.n_factura;
+
+    } catch (error) {
+        console.log(error);
+    }
+};
 

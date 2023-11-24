@@ -5,6 +5,7 @@ import { getCambio } from "api/controllers/tazaDia";
 import MainContext from "context/mainContext/MainContext";
 import { useContext } from "react";
 import { useCallback, useMemo, useState } from "react";
+import { getNumeroFacturas } from "api/controllers/facturas";
 
 export function useFacturas() {
   // const [facturas, setFacturas] = useState([]);
@@ -18,7 +19,20 @@ export function useFacturas() {
   const [errorC, seterrorC] = useState(false);
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
+  const [numero, setNumero] = useState('')
 
+  const getNumero = useCallback(async () => {
+    try {
+      setloading(true);
+      seterror(null);
+      const numeroFactura = await getNumeroFacturas();
+      setNumero(numeroFactura);
+    } catch (error) {
+      seterror(error.message);
+    } finally {
+      setloading(false);
+    }
+  })
 
   const getFacturas = useCallback(async () => {
     try {
@@ -84,5 +98,5 @@ export function useFacturas() {
   }, []);
 
 
-  return {  getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas, facturasNoConfirmadasFirstId };
+  return { getFacturas, facturasConfirmadas, facturasNoConfirmadas, loading, error, getCambios, cambioDelDia, loadingCambio, errorC, getFacturasConfirm, getFacturasNotConfirm, setFacturasConfirmadas, setFacturasNoConfirmadas, facturasNoConfirmadasFirstId, getNumero };
 }

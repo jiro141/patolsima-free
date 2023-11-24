@@ -35,19 +35,17 @@ export default function AddAbonarModal({
   setOpenModalPago,
   openModalPago,
   setPdfContent,
-  setAbonarSend,
-  titulo
+  setAbonarSend
 }) {
   const [valueInput, setvalueInput] = useState([]);
   const [valueInputBs, setvalueInputBs] = useState([]);
   const [selectedOption, setSelectedOption] = useState('dolar');
-  // console.log(titulo, 'este es ek titulo');
   const {
     getCambios,
     cambioDelDia,
   } = useFacturas();
-  // console.log(setAbonarSend);
-console.log(titulo);
+  console.log(setAbonarSend);
+
   useEffect(() => {
     getCambios();
   }, []);
@@ -126,77 +124,6 @@ console.log(titulo);
 
 
   };
-  const handleDebito = async () => {
-    // 
-    if (selectedOption === 'dolar') {
-      const newObj = {
-        orden: facturasDetail.id,
-        monto: valueInput,
-      };
-
-      try {
-        const sendAbonar = await postAbonar(newObj);
-        //console.log(sendAbonar);
-        if (sendAbonar) {
-          toast.success("¡El abono fue guardado correctamente!", {
-            autoClose: 1000,
-          });
-          setIdPago(sendAbonar.id);
-          setShowModal(false);
-          setOpenModalPago(true)
-          setAbonarSend(true)
-          //getStudyDetail()
-        } else {
-          toast.error("¡Hubo un error al abonar la factura!", {
-            autoClose: 1000,
-          });
-        }
-      } catch (error) {
-        toast.error(error.menssage, {
-          autoClose: 1000,
-        });
-      }
-
-
-    } else {
-
-
-      ///bolivares
-      let dolarValue = valueInputBs / cambioDelDia
-
-      const newObj = {
-        orden: facturasDetail.id,
-        monto_usd: parseInt(dolarValue),
-      };
-
-      try {
-        const sendAbonar = await postAbonar(newObj);
-        //console.log(sendAbonar);
-        if (sendAbonar) {
-          toast.success("¡El abono fue guardado correctamente!", {
-            autoClose: 1000,
-          });
-          setIdPago(sendAbonar.id)
-
-          setShowModal(false);
-          setOpenModalPago(true)
-          setAbonarSend(true)
-          //getStudyDetail()
-        } else {
-          toast.error("¡Hubo un error al abonar la factura!", {
-            autoClose: 1000,
-          });
-        }
-      } catch (error) {
-        toast.error(error.menssage, {
-          autoClose: 1000,
-        });
-      }
-
-    }
-
-
-  };
   const generarReciboPago = async () => {
     const resPago = await getNotadePago(idPago)
     if (resPago) {
@@ -209,7 +136,7 @@ console.log(titulo);
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
-  // console.log(selectedOption);
+  console.log(selectedOption);
 
   useEffect(() => {
     if (openModalPago) {
@@ -248,7 +175,7 @@ console.log(titulo);
           <Box marginTop={"-50px"} >
 
             <Box display={'flex'} width={'100%'} justifyContent={'center'}>
-              <Title title={titulo ? titulo : "¿Cuánto desea abonar?"} />
+              <Title title={'¿Cuánto desea abonar?'} />
             </Box>
             <Grid
               margin={"10px 0 10px 0"}

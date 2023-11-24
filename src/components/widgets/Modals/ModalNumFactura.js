@@ -16,7 +16,7 @@ import {
   CloseButton,
   ModalHeader,
 } from "@chakra-ui/react";
-import { getNumeroFactura } from "api/controllers/facturas";
+import { getNumeroFacturas } from "api/controllers/facturas";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,31 +35,8 @@ export default function ModalNumFactura({
   setOpenModalFact2,
   openModalFact2
 }) {
-  const [numero, setNumero] = useState('')
-  // console.log(numero);
-  // const formik = useFormik({
-  //   validateOnChange: false,
-  //   onSubmit: async (formData, { resetForm }) => {
-  //     try {
-  //       const facturaPost = await postFactura(study?.id);
-  //       if (facturaPost) {
-  //         toast.success("¡La factura se ha generado con éxito!", {
-  //           autoClose: 1000,
-  //         });
-  //         console.log(facturaPost);
-  //         setPdfContentFact(facturaPost.uri);
-  //         setOpenModalFact2(true);
-  //         setShowModal(false);
-  //       } else {
-  //         toast.error("¡Hubo un error al generar la factura!", {
-  //           autoClose: 1000,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  // });
+  const [numero, setNumero] = useState('');
+  console.log(numero, 'numero');
   const enviar = async () => {
     try {
       const facturaPost = await postFactura(study?.id);
@@ -82,10 +59,10 @@ export default function ModalNumFactura({
   }
   const peticionGet = async () => {
     try {
-      const numeroFactura = await getNumeroFactura()
+      const numeroFactura = await getNumeroFacturas()
       // console.log(numeroFactura);
       setNumero(numeroFactura + 1);
-      formik.setFieldValue("n_factura", numeroFactura + 1);
+      // formik.setFieldValue("n_factura", numeroFactura + 1);
 
     } catch (error) {
       console.log(error);
@@ -124,7 +101,7 @@ export default function ModalNumFactura({
           <ModalBody>
             <Box marginTop={"-50px"}>
               <Box textAlign={'center'} >
-                <Title title={'El número de facturación'} />
+                <Title title={'La siguiente factura sera:'} />
               </Box>
 
               <Box flexDirection={'row'} width={"100%"} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>

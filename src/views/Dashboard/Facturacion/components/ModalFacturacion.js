@@ -45,7 +45,7 @@ import EditButton from "components/widgets/Buttons/EditButton";
 import { CheckButton } from "components/widgets/Buttons/EditButton";
 import { useHistory } from "react-router-dom";
 import { postNotaCredito } from "api/controllers/facturas";
-
+import ModalDebito from "components/widgets/Modals/ModalDebito";
 const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend, setEnablefactModalDetails }) => {
     const history = useHistory();
 
@@ -71,6 +71,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     const { factClientTerceros, setfactClientTerceros } = useContext(MainContext)
     const [finishFactTerceros, setFinishFactTerceros] = useState(false);
     const [add2Success, setAdd2Success] = useState(false);
+    const [showModalDebito, setShowModalDebito] = useState(false);
 
     const [pagoId, setPagoId] = useState();
     const [data, setData] = useState(
@@ -859,16 +860,16 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                     Generar recibo
                                 </Button> */}
                                 <GeneralButton
-                                text="Generar recibo"
-                                handleClick={generarRecibo}
-                                 />
+                                    text="Generar recibo"
+                                    handleClick={generarRecibo}
+                                />
                                 <GeneralButton
                                     text="Generar factura"
                                     handleClick={generarFactura}
                                 />
                                 <GeneralButton
                                     text="Nota de débito"
-                                    handleClick={() => setShowModalAbonar(!showModalAbonar)}
+                                    handleClick={() => setShowModalDebito(!showModalDebito)}
 
                                 />
                                 <GeneralButton
@@ -961,6 +962,16 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 facturasDetail={facturasDetail}
                 isOpen={showModalAbonar}
                 setShowModal={setShowModalAbonar}
+                idOrden={facturasDetail?.id}
+                setPdfContent={setPdfContentNotaPago}
+                titulo={"Monto de la nota de debito"} />
+            <ModalDebito
+                setAbonarSend={setAbonarSend}
+                openModal={showModalDebito}
+                setOpenModal={setShowModalDebito}
+                facturasDetail={facturasDetail}
+                isOpen={showModalDebito}
+                setShowModal={setShowModalDebito}
                 idOrden={facturasDetail?.id}
                 setPdfContent={setPdfContentNotaPago}
                 titulo={"Monto de la nota de debito"} />
