@@ -177,7 +177,7 @@ export const postNotaPago = async (id) => {
 }
 //agregar monto put
 export const putMonto = async (id, data) => {
-    console.log(id,'id debe ser 31');
+    console.log(id, 'id debe ser 31');
     try {
         const response = await Axios.put(`/v1/facturacion/itemsorden/${id}/`, data)
         return response.data;
@@ -186,10 +186,10 @@ export const putMonto = async (id, data) => {
     }
 }
 //Generar factura
-export const postFactura = async (id, data) => {
+export const postFactura = async (id) => {
     // console.log(id, data)
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`, data)
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/factura/`)
         return response.data.confirm.s3_file;
     } catch (error) {
         console.log(error);
@@ -256,12 +256,12 @@ export const getNumeroFactura = async () => {
     }
 }
 
-export const postNotaDebito = async (id,data) => {
+export const postNotaDebito = async (id, data) => {
     try {
-        const response = await Axios.get(`/v1/facturacion/ordenes/${id}/notadebito`,data)
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id}/notadebito`, data)
         console.log(response);
         return response.data;
-       
+
     } catch (error) {
         console.log(error);
     }
@@ -269,10 +269,33 @@ export const postNotaDebito = async (id,data) => {
 export const postNotaCredito = async (id) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/notacredito/`)
-        console.log(response,'esta es la respuesta de nota de credito');
+        console.log(response, 'esta es la respuesta de nota de credito');
         return response.data;
-       
+
     } catch (error) {
         console.log(error);
     }
 }
+
+export const postReporte = async (dateI, dateF) => {
+    console.log(dateI);
+    try {
+        const response = await Axios.get(`/v1/facturacion/reporte/download_csv/?start_date=${dateI}&end_date=${dateF}`);
+        const baseURL = response.config.baseURL;
+        const requestURL = response.config.url;
+        const modifiedRequestURL = requestURL.substring(1);
+        console.log(baseURL, 'esta es la respuesta de reporte');
+        console.log(modifiedRequestURL, 'esta es la respuesta de reporte');
+
+        return {
+            data: response.data,
+            baseURL: baseURL,
+            requestURL: modifiedRequestURL
+        };
+    } catch (error) {
+        console.log(error);
+        throw error; // Lanzar el error para manejarlo en el lugar donde se llama a postReporte
+    }
+};
+
+

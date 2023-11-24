@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 
 export const formatDate = (dateString) => {
+  // console.log(dateString,'datos');
   return format(new Date(dateString), "yyyy-MM-dd ");
 };
 

@@ -37,44 +37,54 @@ export default function ModalNumFactura({
 }) {
   const [numero, setNumero] = useState('')
   // console.log(numero);
-  const formik = useFormik({
-    initialValues: {
-      n_factura: numero,
-
-    },
-    validationSchema: Yup.object({
-      // notas: Yup.string().required("El campo es obligatorio"),
-      n_factura: Yup.number().required("El campo es obligatorio"),
-    }),
-    validateOnChange: false,
-    onSubmit: async (formData, { resetForm }) => {
-      try {
-        const facturaPost = await postFactura(study?.id, formData);
-        if (facturaPost) {
-          toast.success("¡La factura se ha generado con exito!", {
-            autoClose: 1000,
-          });
-          console.log(facturaPost)
-          setPdfContentFact(facturaPost.uri)
-          setOpenModalFact2(true)
-          setShowModal(false)
-
-        } else {
-          toast.error("¡Hubo un error al generar la factura!", {
-            autoClose: 1000,
-          });
-        }
-      } catch (error) {
-        console.log(error);
+  // const formik = useFormik({
+  //   validateOnChange: false,
+  //   onSubmit: async (formData, { resetForm }) => {
+  //     try {
+  //       const facturaPost = await postFactura(study?.id);
+  //       if (facturaPost) {
+  //         toast.success("¡La factura se ha generado con éxito!", {
+  //           autoClose: 1000,
+  //         });
+  //         console.log(facturaPost);
+  //         setPdfContentFact(facturaPost.uri);
+  //         setOpenModalFact2(true);
+  //         setShowModal(false);
+  //       } else {
+  //         toast.error("¡Hubo un error al generar la factura!", {
+  //           autoClose: 1000,
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  // });
+  const enviar = async () => {
+    try {
+      const facturaPost = await postFactura(study?.id);
+      if (facturaPost) {
+        toast.success("¡La factura se ha generado con éxito!", {
+          autoClose: 1000,
+        });
+        console.log(facturaPost);
+        setPdfContentFact(facturaPost.uri);
+        setOpenModalFact2(true);
+        setShowModal(false);
+      } else {
+        toast.error("¡Hubo un error al generar la factura!", {
+          autoClose: 1000,
+        });
       }
-      return;
-    },
-  });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const peticionGet = async () => {
     try {
       const numeroFactura = await getNumeroFactura()
       // console.log(numeroFactura);
-      setNumero(numeroFactura+1);
+      setNumero(numeroFactura + 1);
       formik.setFieldValue("n_factura", numeroFactura + 1);
 
     } catch (error) {
@@ -142,7 +152,7 @@ export default function ModalNumFactura({
                   borderRadius={"20px"}
                   bgColor={"#137797"}
                   color="#ffff"
-                  onClick={formik.handleSubmit}
+                  onClick={enviar}
                 >
                   Generar factura
                 </Button>

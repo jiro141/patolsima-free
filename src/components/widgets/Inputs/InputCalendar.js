@@ -12,9 +12,9 @@ import Calendar from "react-calendar";
 import { useBreakpointValue } from '@chakra-ui/react';
 
 
-export default function InputCalendar({ v, value, onChange, setOpenCalendar, onOpenCalendar }) {
-  const [date, setDate] = useState(new Date());
-
+export default function InputCalendar({ onChangeI, onChangeF, v, value, onChange, setOpenCalendar, onOpenCalendar }) {
+//  console.log(value,'final');
+ 
   const formatShortWeekday = (locale, date) => {
     return date.toLocaleDateString(locale, { weekday: 'short' }).charAt(0);
   }
@@ -49,7 +49,7 @@ export default function InputCalendar({ v, value, onChange, setOpenCalendar, onO
       {onOpenCalendar && (
         <Box
           marginTop={'3%'}
-          width={v ? { lg: '100%', md: '60%', sm: '80%' } : { lg: '80%', md: '60%', sm: '80%' }}
+          width={v ? { lg: '100%', md: '100%', sm: '100%' } : { lg: '80%', md: '60%', sm: '80%' }}
           zIndex={1000000} /* Set a higher value for zIndex */
           position="absolute" /* Set the position to "absolute" */
           backgroundColor="white" /* Add a solid background color */
@@ -71,8 +71,7 @@ export default function InputCalendar({ v, value, onChange, setOpenCalendar, onO
 
           <Calendar
             zIndex={1000}
-
-            onChange={onChange}
+            onChange={onChangeF ? onChangeF : (onChangeI ? onChangeI : onChange)}
             value={value}
             locale="ES"
             formatShortWeekday={formatShortWeekday}

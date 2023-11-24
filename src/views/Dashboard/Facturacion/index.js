@@ -253,8 +253,22 @@ const Dashboard = () => {
             />
           )}
 
-          <ShowMoreButton handleClick={toggleModalList} />
-          <Button onClick={toggleModalReporte}>Generar reporte</Button>
+          <Box width={{ lg: '50%', md: '100%', sm: '100%' }}>
+            <Box display={{ lg: 'flex', md: 'flex', sm: 'block' }} gap={'20px'} justifyContent={'space-evenly'}>
+              <ShowMoreButton handleClick={toggleModalList} />
+              <Button
+                borderRadius={'20px'}
+                paddingX={{ lg: '30px', sm: '20px', md: '20px' }}
+                // marginTop='20px'
+                bgColor={'#89bbcc'}
+                color='#ffff'
+                onClick={toggleModalReporte}>
+                <Text fontSize={{ sm: '0.8rem', lg: '1rem', md: '1rem' }} >
+                  Generar reporte
+                </Text>
+              </Button>
+            </Box>
+          </Box>
         </Box>
 
       </Container>
@@ -321,7 +335,22 @@ const Dashboard = () => {
         isOpen={modalReporte}
         onClose={toggleModalReporte}>
         <ModalOverlay />
-        <ModalContent marginTop={"15%"} bg="#ffff" borderRadius={"20px"}>
+        <ModalContent marginTop={"12%"} bg="#ffff" borderRadius={"20px"}>
+          <ModalHeader>
+            <Button
+              borderRadius={"50%"}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={"93%"}
+              marginTop={"-60px"}
+              bgColor={"#137797"}
+              color="#ffff"
+              onClick={toggleModalReporte}
+            >
+              <CloseButton />
+            </Button>
+          </ModalHeader>
           <ModalBody>
             <Reporte />
           </ModalBody>

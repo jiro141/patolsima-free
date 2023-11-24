@@ -148,7 +148,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     }, [finishFactTerceros])
 
-    const notaCredito = async ()=>{
+    const notaCredito = async () => {
         try {
             const postCredito = await postNotaCredito(facturasDetail?.id);
             console.log(postCredito);
@@ -184,8 +184,9 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
         }
     }
     const aggMonto = async () => {
+        const id = facturasDetail?.items_orden[1]?.id ? facturasDetail?.items_orden[1]?.id : facturasDetail?.items_orden[0]?.id
         try {
-            const putEnviarMonto = await putMonto(facturasDetail?.items_orden[1]?.id, data);
+            const putEnviarMonto = await putMonto(id, data);
             // console.log(putEnviarMonto, 'hola');
             if (putEnviarMonto) {
                 // setAdd2Success(false)
@@ -225,7 +226,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
             console.log(error);
         }
     };
-    console.log(add2Success,'estado');
+    console.log(add2Success, 'estado');
     useEffect(() => {
         if (facturasDetail?.items_orden[1]?.monto_usd !== "0.00" && facturasDetail?.items_orden[0]?.monto_usd !== "0.00") {
             setAdd2Success(true);
@@ -234,8 +235,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
             setAdd2Success(false); // Aquí se establece en false si el monto es cero
         }
     }, [facturasDetail?.items_orden[1]?.monto_usd]);
-    
-    
+
+
 
 
     //esta funcion cambia los valores que tienen los inputs
@@ -846,7 +847,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                     color='#ffff'>
                                     Archivar
                                 </Button> */}
-                                <Button
+                                {/* <Button
                                     // marginBottom={{ lg: '-10.5%', md: '-13%', sm: '-25%' }}
                                     // marginLeft={{ lg: '20%', md: '20%', sm: '12%' }}
                                     borderRadius={'20px'}
@@ -856,9 +857,13 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                     onClick={generarRecibo}
                                 >
                                     Generar recibo
-                                </Button>
+                                </Button> */}
                                 <GeneralButton
-                                    text="Generar Factura"
+                                text="Generar recibo"
+                                handleClick={generarRecibo}
+                                 />
+                                <GeneralButton
+                                    text="Generar factura"
                                     handleClick={generarFactura}
                                 />
                                 <GeneralButton
@@ -868,7 +873,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 />
                                 <GeneralButton
                                     text="Nota de credito"
-                                handleClick={notaCredito}
+                                    handleClick={notaCredito}
                                 />
                             </Box> :
 
