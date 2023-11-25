@@ -263,9 +263,9 @@ export const postNotaDebito = async (id, data) => {
         monto: id.monto
     }
     try {
-        const response = await Axios.post(`/v1/facturacion/ordenes/${id.orden}/notadebito`, monto)
+        const response = await Axios.post(`/v1/facturacion/ordenes/${id.orden}/notadebito/`, monto)
         console.log(response);
-        return response.data;
+        return response.data.confirm.s3_file.uri;
 
     } catch (error) {
         console.log(error);
@@ -274,8 +274,8 @@ export const postNotaDebito = async (id, data) => {
 export const postNotaCredito = async (id) => {
     try {
         const response = await Axios.post(`/v1/facturacion/ordenes/${id}/notacredito/`)
-        console.log(response, 'esta es la respuesta de nota de credito');
-        return response.data;
+        // console.log(response, 'esta es la respuesta de nota de credito');
+        return response.data.confirm.s3_file.uri;
 
     } catch (error) {
         console.log(error);

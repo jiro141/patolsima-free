@@ -72,7 +72,10 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     const [finishFactTerceros, setFinishFactTerceros] = useState(false);
     const [add2Success, setAdd2Success] = useState(false);
     const [showModalDebito, setShowModalDebito] = useState(false);
-
+    const [pdfContentDebito, setPdfContentDebito] = useState(false);
+    const [isOpenDebito, setOpenDebito] = useState(false);
+    const [isOpenCredito, setOpenCredito] = useState(false);
+    const [pdfContentCredito, setPdfContentCredito] = useState(false);
     const [pagoId, setPagoId] = useState();
     const [data, setData] = useState(
         {
@@ -152,9 +155,18 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     const notaCredito = async () => {
         try {
             const postCredito = await postNotaCredito(facturasDetail?.id);
-            console.log(postCredito);
+            // console.log(postCredito);
             if (postCredito) {
-                setShowModalConfirmacion(true);
+                setOpenCredito(true);
+                setPdfContentCredito(postCredito);
+                toast.success("¡La nota de credito fue generada correctamente!", {
+                    autoClose: 1000,
+                });
+
+            } else {
+                toast.error("¡Hubo un error al acreditar la factura!", {
+                    autoClose: 1000,
+                })
             }
         } catch (error) {
             console.log(error);
@@ -921,8 +933,8 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                     <ModalPrint text={'¿Desea descargar el recibo ?'} isOpen={openModalFact} setOpenModal={setOpenModalFact} pdfContent={pdfContent} />
                     {/* <ModalPrint text={'¿Desea descargar la factura ?'} isOpen={openModalFact2} setOpenModal={setOpenModalFact2} pdfContent={pdfContentFact} />*/}
                     <ModalPrint text={'¿Desea descargar la nota de pago ?'} isOpen={openModalPago} setOpenModal={setOpenModalPago} pdfContent={pdfContentNotaPago} type={'nota'} />
-
-                    {/** */}
+                    <ModalPrint text={'¿Desea descargar la nota de debito?'} isOpen={isOpenDebito} setOpenModal={setOpenDebito} pdfContent={pdfContentDebito} />
+                    <ModalPrint text={'¿Desea descargar la nota de credito?'} isOpen={isOpenCredito} setOpenModal={setOpenCredito} pdfContent={pdfContentCredito} />
 
                 </Box >
             }
@@ -963,17 +975,16 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 isOpen={showModalAbonar}
                 setShowModal={setShowModalAbonar}
                 idOrden={facturasDetail?.id}
-                setPdfContent={setPdfContentNotaPago}
-                titulo={"Monto de la nota de debito"} />
+                setPdfContent={setPdfContentNotaPago} />
             <ModalDebito
                 setAbonarSend={setAbonarSend}
-                openModal={showModalDebito}
-                setOpenModal={setShowModalDebito}
+                openModal={isOpenDebito}
+                setOpenModal={setOpenDebito}
                 facturasDetail={facturasDetail}
                 isOpen={showModalDebito}
                 setShowModal={setShowModalDebito}
                 idOrden={facturasDetail?.id}
-                setPdfContent={setPdfContentNotaPago}
+                setPdfContent={setPdfContentDebito}
                 titulo={"Monto de la nota de debito"} />
 
 

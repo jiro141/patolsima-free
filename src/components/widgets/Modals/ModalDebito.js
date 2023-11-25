@@ -37,7 +37,7 @@ export default function ModalDebito({
     setPdfContent,
     setAbonarSend
 }) {
-    console.log('hola');
+    // console.log('hola');
     const [valueInput, setvalueInput] = useState([]);
     const [valueInputBs, setvalueInputBs] = useState([]);
     const [selectedOption, setSelectedOption] = useState('dolar');
@@ -69,8 +69,7 @@ export default function ModalDebito({
                     toast.success("¡La nota de debito fue generada correctamente!", {
                         autoClose: 1000,
                     });
-                    setIdPago(sendAbonar.id)
-
+                    setPdfContent(sendAbonar);
                     setShowModal(false);
                     setOpenModal(true)
                     setAbonarSend(true)
@@ -105,8 +104,7 @@ export default function ModalDebito({
                     toast.success("¡La nota de debito fue generada correctamente!", {
                         autoClose: 1000,
                     });
-                    setIdPago(sendAbonar.id)
-
+                    setPdfContent(sendAbonar);
                     setShowModal(false);
                     setOpenModal(true)
                     setAbonarSend(true)
