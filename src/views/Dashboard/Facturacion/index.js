@@ -253,13 +253,14 @@ const Dashboard = () => {
             />
           )}
 
-          <Box width={{ lg: '50%', md: '100%', sm: '100%' }}>
-            <Box display={{ lg: 'flex', md: 'flex', sm: 'block' }} gap={'20px'} justifyContent={'space-evenly'}>
+          <Box display={{lg:'flex',md:'flex',sm:'block'}} width={{ lg: '50%', md: '100%', sm: '100%' }}>
+            {/* <Box display={{ lg: 'flex', md: 'flex', sm: 'block' }} gap={'20px'} justifyContent={'space-evenly'}> */}
               <ShowMoreButton handleClick={toggleModalList} />
               <Button
                 borderRadius={'20px'}
                 paddingX={{ lg: '30px', sm: '20px', md: '20px' }}
-                // marginTop='20px'
+                marginTop={{lg:'0',md:'0',sm:'20px'}}
+                marginX={{lg:'20px',md:'10px',sm:'0'}}
                 bgColor={'#89bbcc'}
                 color='#ffff'
                 onClick={toggleModalReporte}>
@@ -268,7 +269,7 @@ const Dashboard = () => {
                 </Text>
               </Button>
             </Box>
-          </Box>
+          {/* </Box> */}
         </Box>
 
       </Container>

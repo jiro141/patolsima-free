@@ -18,7 +18,7 @@ import MainContext from "context/mainContext/MainContext";
 import { putClientFactura } from "api/controllers/facturas";
 import { getOrdenesByCi } from "api/controllers/facturas";
 import { getFacturasDetail } from "api/controllers/facturas";
-import InputAutoComplete from "components/widgets/Inputs/InputAutoComplete";
+import InputAuto from "components/widgets/Inputs/InputAuto";
 import debounce from "just-debounce-it";
 import { useSearchFacturas } from "hooks/Facturas/useSearchFacturas";
 import { useClientCiByorder } from "hooks/Facturas/useClientCiByorder";
@@ -53,7 +53,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      console.log('data', formData);
+      // console.log('data', formData);
       try {
         // console.log('entro pero aqui no');
         const resPost = await putClientFactura(tercero.id, formData);
@@ -137,7 +137,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
           const resDetail = await getFacturasDetail(study.id)
           setsearchResult(true);
         } else {
-          console.log('no existe la ci');
+          // console.log('no existe la ci');
           toast.error("¡No esta el cliente en registro!", {
             autoClose: 1000,
           });
@@ -173,7 +173,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
         setSelectSearch(false);
       } if (searchci.length > 0) {
         getPacientsByCi({ searchci })
-        console.log(searchci);
+        // console.log(searchci);
         setsearchci(searchci)
         setSelectSearch(true);
       }
@@ -186,26 +186,26 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     if (pacientsByCi.length > 0) {
       setSelectSearch(true);
       const selectedPatient = pacientsByCi[index];
-      const resDetail = await getClient(selectedPatient.ci_rif, index)
-      setTercero(resDetail);
+      // Asignar directamente los valores a formik.values
       formik.setValues({
-        ci_rif: resDetail.ci_rif,
-        direccion: resDetail.direccion,
-        razon_social: resDetail.razon_social,
-        telefono_celular: resDetail.telefono_celular,
-        telefono_fijo: resDetail.telefono_fijo,
-        email: resDetail.email,
-      })
+        ci_rif: selectedPatient.ci_rif,
+        direccion: selectedPatient.direccion,
+        razon_social: selectedPatient.razon_social,
+        telefono_celular: selectedPatient.telefono_celular,
+        telefono_fijo: selectedPatient.telefono_fijo,
+        email: selectedPatient.email,
+      });
     } else {
       setSelectSearch(false)
     }
   };
+  // console.log(searchci,'cosas');
   return (
     <Box>
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
       <Grid gap={'15px'} margin={'6px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
-        <InputAutoComplete
-          searchValue={searchci !== '' ? searchci : formik.values.ci_rif}
+        <InputAuto
+          searchValue={searchci}
           onChange={handleChangeCi}
           resultSearch={pacientsByCi}
           errors={errorpacientsByCi}

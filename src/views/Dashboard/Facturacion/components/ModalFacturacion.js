@@ -46,6 +46,7 @@ import { CheckButton } from "components/widgets/Buttons/EditButton";
 import { useHistory } from "react-router-dom";
 import { postNotaCredito } from "api/controllers/facturas";
 import ModalDebito from "components/widgets/Modals/ModalDebito";
+import ConfimacionModal from "components/widgets/Modals/ConfimacionModal";
 const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setShowModalG, setShowModalConfirmacdion, setAbonarSend, abonarSend, setEnablefactModalDetails }) => {
     const history = useHistory();
 
@@ -72,6 +73,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     const [finishFactTerceros, setFinishFactTerceros] = useState(false);
     const [add2Success, setAdd2Success] = useState(false);
     const [showModalDebito, setShowModalDebito] = useState(false);
+    const [showModalCredito, setShowModalCredito] = useState(false);
     const [pdfContentDebito, setPdfContentDebito] = useState(false);
     const [isOpenDebito, setOpenDebito] = useState(false);
     const [isOpenCredito, setOpenCredito] = useState(false);
@@ -153,24 +155,24 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
     }, [finishFactTerceros])
 
     const notaCredito = async () => {
-        try {
-            const postCredito = await postNotaCredito(facturasDetail?.id);
-            // console.log(postCredito);
-            if (postCredito) {
-                setOpenCredito(true);
-                setPdfContentCredito(postCredito);
-                toast.success("¡La nota de credito fue generada correctamente!", {
-                    autoClose: 1000,
-                });
+        // try {
+        //     const postCredito = await postNotaCredito(facturasDetail?.id);
+        //     // console.log(postCredito);
+        //     if (postCredito) {
+        //         setOpenCredito(true);
+        //         setPdfContentCredito(postCredito);
+        //         toast.success("¡La nota de credito fue generada correctamente!", {
+        //             autoClose: 1000,
+        //         });
 
-            } else {
-                toast.error("¡Hubo un error al acreditar la factura!", {
-                    autoClose: 1000,
-                })
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        //     } else {
+        //         toast.error("¡Hubo un error al acreditar la factura!", {
+        //             autoClose: 1000,
+        //         })
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
     const confirmar = async () => {
@@ -886,7 +888,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                                 />
                                 <GeneralButton
                                     text="Nota de credito"
-                                    handleClick={notaCredito}
+                                    handleClick={() => setShowModalCredito(!showModalCredito)}
                                 />
                             </Box> :
 
@@ -985,6 +987,16 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
                 setShowModal={setShowModalDebito}
                 idOrden={facturasDetail?.id}
                 setPdfContent={setPdfContentDebito}
+                titulo={"Monto de la nota de debito"} />
+                <ConfimacionModal
+                setAbonarSend={setAbonarSend}
+                openModal={isOpenDebito}
+                setOpenModal={setOpenCredito}
+                facturasDetail={facturasDetail}
+                isOpen={showModalCredito}
+                setShowModal={setShowModalCredito}
+                idOrden={facturasDetail?.id}
+                setPdfContent={setPdfContentCredito}
                 titulo={"Monto de la nota de debito"} />
 
 
