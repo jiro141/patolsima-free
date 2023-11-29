@@ -46,11 +46,12 @@ import ModoVisualizacionContext from "components/ModoVisualizacion/ModoVisualiza
 import MainContext from "context/mainContext/MainContext";
 import { useHistory } from "react-router-dom";
 import debounce from "just-debounce-it";
+import Reporte from "./components/Reporte"
 const Dashboard = () => {
   const { modoVisualizacion } = useContext(ModoVisualizacionContext);
-  const { hiddenFactssort, archived, setArchived,facturas,
+  const { hiddenFactssort, archived, setArchived, facturas,
     idSelectItem, setidSelectItem,
-    enablefactModalDetails, setEnablefactModalDetails,ordenId, setFacturas
+    enablefactModalDetails, setEnablefactModalDetails, ordenId, setFacturas
   } = useContext(MainContext);
   const history = useHistory();
   const colorA = "#137797";
@@ -59,11 +60,16 @@ const Dashboard = () => {
   const [showModalConfirmacion, setShowModalConfirmacion] = useState(false);
   const [showModalConfirmaciodn, setShowModalConfirmacdion] = useState(false);
   const [abonarSend, setAbonarSend] = useState(false);
+  const [modalReporte, setModalReporte] = useState(false);
   // const [facturaIdDelete, setfacturaIdDelete] = useState("");
   // const [pacienteName, setPacienteName] = useState("");
   // const [archived, setArchived] = useState(false);
+  const toggleModalReporte = () => {
+    setModalReporte(!modalReporte);
+    console.log('funciona');
+  }
   const {
-    
+
     getFacturas,
     getCambios,
     cambioDelDia,
@@ -209,7 +215,7 @@ const Dashboard = () => {
       <Container
       >
 
-       
+
         <Box marginTop={"30px"} width={'100%'}
           pl={'5px'}>
 
@@ -217,85 +223,100 @@ const Dashboard = () => {
 
             <Tbody>
               {
-              facturasNoConfirmadas.length === 0 ? (
-                <Tr>
-                  <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
-                      No se encontraron resultados
-                    </Text>
-                  </Td>
-                </Tr>
-              ) :
-              
-              facturasNoConfirmadas.map((study) => (
-                <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
-                  </Td>
-                  <Td textAlign={'center'}><Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
-                    ? study.cliente?.razon_social.substring(0, 40) + "..."
-                    : study.cliente?.razon_social}</Link></Td>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
-                  </Td>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link onClick={() => toggleModal(study)}>
-                      {study?.total_usd} $
-                    </Link>
-                  </Td>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link textAlign={'center'} onClick={() => toggleModal(study)}>
-                      {study.total_bs} Bs
-                    </Link>
-                  </Td>
+                facturasNoConfirmadas.length === 0 ? (
+                  <Tr>
+                    <Td border={'none'} colSpan={5} textAlign="center">
+                      <Text textAlign="center" marginTop={'48px'} style={{ fontSize: '15px' }}>
+                        No se encontraron resultados
+                      </Text>
+                    </Td>
+                  </Tr>
+                ) :
 
-                </Tr>
-              ))}
+                  facturasNoConfirmadas.map((study) => (
+                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
+                      </Td>
+                      <Td textAlign={'center'}><Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
+                        ? study.cliente?.razon_social.substring(0, 40) + "..."
+                        : study.cliente?.razon_social}</Link></Td>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
+                      </Td>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link onClick={() => toggleModal(study)}>
+                          {study?.total_usd} $
+                        </Link>
+                      </Td>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link textAlign={'center'} onClick={() => toggleModal(study)}>
+                          {study.total_bs} Bs
+                        </Link>
+                      </Td>
+
+                    </Tr>
+                  ))}
             </Tbody>
           </TableOrders_Pendientes>
 
           <TableOrders_Confirmadas>
             <Tbody>
               {
-               facturasConfirmadas.length === 0 ? (
-                <Tr>
-                  <Td border={'none'} colSpan={5} textAlign="center">
-                    <Text textAlign="center" marginTop={'48px'} style={{fontSize:'15px'}}>
-                      No se encontraron resultados
-                    </Text>
-                  </Td>
-                </Tr>
-              ) :
-              
-              facturasConfirmadas.map((study) => (
-                <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
-                  </Td>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
-                    ? study.cliente?.razon_social.substring(0, 40) + "..."
-                    : study.cliente?.razon_social}</Link></Td>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link  onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
-                  </Td>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link onClick={() => toggleModal(study)}>
-                      {study?.total_usd} $
-                    </Link>
-                  </Td>
-                  <Td textAlign={'center'} style={{fontSize:'13.5px'}}>
-                    <Link textAlign={'center'} onClick={() => toggleModal(study)}>
-                      {study.total_bs} Bs
-                    </Link>
-                  </Td>
+                facturasConfirmadas.length === 0 ? (
+                  <Tr>
+                    <Td border={'none'} colSpan={5} textAlign="center">
+                      <Text textAlign="center" marginTop={'48px'} style={{ fontSize: '15px' }}>
+                        No se encontraron resultados
+                      </Text>
+                    </Td>
+                  </Tr>
+                ) :
 
-                </Tr>
-              ))}
+                  facturasConfirmadas.map((study) => (
+                    <Tr borderBottom={'solid 2px'} borderColor={'gray.400'} key={study.id}>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link onClick={() => toggleModal(study)}>{formatDate(study?.fecha_recepcion)}</Link>
+                      </Td>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link onClick={() => toggleModal(study)}> {study.cliente?.razon_social.length > 16
+                          ? study.cliente?.razon_social.substring(0, 40) + "..."
+                          : study.cliente?.razon_social}</Link></Td>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link onClick={() => toggleModal(study)}>{study?.cliente?.ci_rif}</Link>
+                      </Td>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link onClick={() => toggleModal(study)}>
+                          {study?.total_usd} $
+                        </Link>
+                      </Td>
+                      <Td textAlign={'center'} style={{ fontSize: '13.5px' }}>
+                        <Link textAlign={'center'} onClick={() => toggleModal(study)}>
+                          {study.total_bs} Bs
+                        </Link>
+                      </Td>
+
+                    </Tr>
+                  ))}
             </Tbody>
           </TableOrders_Confirmadas>
 
-          <ShowMoreButton handleClick={toggleModalList} />
+          <Box display={{ lg: 'flex', md: 'flex', sm: 'block' }} width={{ lg: '50%', md: '100%', sm: '100%' }}>
+            {/* <Box display={{ lg: 'flex', md: 'flex', sm: 'block' }} gap={'20px'} justifyContent={'space-evenly'}> */}
+            <ShowMoreButton handleClick={toggleModalList} />
+            <Button
+              borderRadius={'20px'}
+              paddingX={{ lg: '30px', sm: '20px', md: '20px' }}
+              marginTop={{ lg: '0', md: '0', sm: '20px' }}
+              marginX={{ lg: '20px', md: '10px', sm: '0' }}
+              bgColor={'#89bbcc'}
+              color='#ffff'
+              onClick={toggleModalReporte}>
+              <Text fontSize={{ sm: '0.8rem', lg: '1rem', md: '1rem' }} >
+                Generar reporte
+              </Text>
+            </Button>
+          </Box>
         </Box>
       </Container>
       <Modal
@@ -320,7 +341,34 @@ const Dashboard = () => {
             </Button>
           </ModalHeader>
           <ModalBody>
-            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={ idSelectItem } abonarSend={abonarSend} />
+            <ModalFacturacion setAbonarSend={setAbonarSend} setShowModalConfirmacdion={setShowModalConfirmacdion} setShowModalG={setShowModal} handleArchivarConfirmFacts={handleArchivarConfirmFacts} setArchived={setArchived} study={idSelectItem} abonarSend={abonarSend} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>`
+      <Modal
+        size={"lg"}
+        maxWidth='100%'
+        isOpen={modalReporte}
+        onClose={toggleModalReporte}>
+        <ModalOverlay />
+        <ModalContent marginTop={"12%"} bg="#ffff" borderRadius={"20px"}>
+          <ModalHeader>
+            <Button
+              borderRadius={"50%"}
+              colorScheme="blue"
+              width="40px"
+              height="40px"
+              marginLeft={"93%"}
+              marginTop={"-60px"}
+              bgColor={"#137797"}
+              color="#ffff"
+              onClick={toggleModalReporte}
+            >
+              <CloseButton />
+            </Button>
+          </ModalHeader>
+          <ModalBody>
+            <Reporte />
           </ModalBody>
         </ModalContent>
       </Modal>

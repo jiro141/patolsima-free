@@ -205,6 +205,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
       <Text marginTop={'-10%'} fontSize={'20px'}>Datos de cliente</Text>
       <Grid gap={'15px'} margin={'6px'} templateColumns={{ lg: 'repeat(2,1fr)', sm: 'repeat(1,1fr)' }}>
         <InputAuto
+          setsearchci={setsearchci}
           searchValue={searchci}
           onChange={handleChangeCi}
           resultSearch={pacientsByCi}

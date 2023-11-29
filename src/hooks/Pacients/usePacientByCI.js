@@ -1,4 +1,3 @@
-import { getPacientesDetail } from "api/controllers/pacientes";
 import { getPacientesListByCi } from "api/controllers/pacientes";
 import { useCallback, useMemo, useRef, useState } from "react";
 
@@ -6,7 +5,7 @@ export function usePacientsListCi({ searchci }) {
   const [pacientsByCi, setpacientsByCi] = useState([]);
   const [loadingpacientsByCi, setLoadingpacientsByCi] = useState(false);
   const [errorpacientsByCi, setErrorpacientsByCi] = useState(false);
-  const [pacienteID,setPacienteID]=useState('');
+  const [pacienteID, setPacienteID] = useState('');
 
   const previousSearch = useRef(searchci);
 
@@ -17,7 +16,6 @@ export function usePacientsListCi({ searchci }) {
       setErrorpacientsByCi(null);
       previousSearch.current = searchci;
       const newPacients = await getPacientesListByCi({ searchci });
-      console.log(newPacients);
       setpacientsByCi(newPacients);
     } catch (e) {
       setErrorpacientsByCi(e.message);
@@ -25,7 +23,7 @@ export function usePacientsListCi({ searchci }) {
       setLoadingpacientsByCi(false);
     }
   }, []);
- 
+
 
 
   return {
