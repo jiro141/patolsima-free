@@ -28,7 +28,9 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
   const { setfactClientTerceros, factClientTerceros } = useContext(MainContext)
   const [searchResult, setsearchResult] = useState(false)
   const [selectSearch, setSelectSearch] = useState(false);
-  const [tercero, setTercero] = useState([])
+  // const [finishFactTerceros, setFinishFactTerceros] = useState(false);
+  const [tercero, setTercero] = useState([]);
+  const [terceroPost, setTerceroPost] = useState(null);
   const [searchci, setsearchci] = useState('');
   const { pacientsByCi,
     getPacientsByCi,
@@ -96,30 +98,46 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
       if (formData.ci_rif === '') {
         formData.ci_rif = searchci;
       }
-      // console.log(formData, 'data de post');
+
       const resPost = await postFacturaTerceros(formData);
-      // console.log(resPost,'despues del post');
+
       if (resPost) {
-        // setTercero(resPost);
-        setfactClientTerceros(resPost);
-        toast.success("¡Se creo el cliente con éxito!", { autoClose: 1000 });
-        const clienteOrd = {
-          cliente_id: factClientTerceros.id
-        };
-        console.log(tercero,'datos nuevos');
-        const postTercero = await putFacturaTerceros(study.id, clienteOrd);
-        if (postTercero) {
-          toast.success("¡Se actualizó el cliente en la factura con éxito!", { autoClose: 1200 });
-          setShowModal(false);
-        } else {
-          toast.error("¡Ocurrió un error al actualizar el cliente de la factura!", { autoClose: 1200 });
-        }
+        setTerceroPost(resPost);
+        toast.success("¡Se creó el cliente con éxito!", { autoClose: 1000 });
       }
     } catch (error) {
       toast.error("¡Ocurrió un error al actualizar el cliente!", { autoClose: 1000 });
     }
     setFinishFactTerceros(true);
   };
+
+  useEffect(() => {
+    if (terceroPost) {
+      console.log(terceroPost, 'datos del tercero');
+
+      const clienteOrd = {
+        cliente_id: terceroPost.id
+      };
+
+      const actualizarClienteFactura = async () => {
+        try {
+          const postTercero = await putFacturaTerceros(study.id, clienteOrd);
+
+          if (postTercero) {
+            toast.success("¡Se actualizó el cliente en la factura con éxito!", { autoClose: 1200 });
+            setShowModal(false);
+          } else {
+            toast.error("¡Ocurrió un error al actualizar el cliente de la factura!", { autoClose: 1200 });
+          }
+        } catch (error) {
+          toast.error("¡Ocurrió un error al actualizar el cliente de la factura!", { autoClose: 1200 });
+        }
+      };
+
+      actualizarClienteFactura();
+    }
+  }, [terceroPost]);
+
   const handleClick = () => {
     // Verificar el estado y ejecutar la función correspondiente
     if (selectSearch) {
