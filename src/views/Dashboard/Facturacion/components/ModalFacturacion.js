@@ -233,7 +233,7 @@ const ModalFacturacion = ({ study, setArchived, handleArchivarConfirmFacts, setS
             if (putEnviarMonto) {
                 toast.success("¡Se envió el monto correctamente!", { autoClose: 1000 });
                 getFacturasDetails();
-                setShowModalConfirmacion(true);
+                // setShowModalConfirmacion(true);
             } else {
                 toast.error("¡Hubo un error al crear el monto!", { autoClose: 1000 });
             }
