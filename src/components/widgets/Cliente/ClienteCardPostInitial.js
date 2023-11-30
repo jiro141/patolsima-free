@@ -1,6 +1,6 @@
 import { useState, useContext, useCallback } from "react";
 import { Text, Grid, Box, Input } from "@chakra-ui/react";
-import {  useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getPacientesDetail } from "api/controllers/pacientes";
 import { postPacientes } from "api/controllers/pacientes";
@@ -35,7 +35,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
   const { setFormValues, pacienteID, setPacienteID } = useContext(
     ModoVisualizacionContext
   );
-
+  
 
   const { activeTab, setActiveTab, setTwoState, setOneState, oneState } = useContext(MainContext)
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -72,12 +72,12 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     getPacientsByCi,
     loadingpacientsByCi,
   } = usePacientsListCi({ searchci });
- const{
-  getPacientsBySearch,
-  pacientsBySearch,
-  loadingpacientsBySearch,
-  setpacientsBySearch,
-  errorpacientsBySearch}= usePacientsListBySearch({search})
+  const {
+    getPacientsBySearch,
+    pacientsBySearch,
+    loadingpacientsBySearch,
+    setpacientsBySearch,
+    errorpacientsBySearch } = usePacientsListBySearch({ search })
 
   const formik = useFormik({
     initialValues: {
@@ -105,6 +105,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
       let dateformat = formatDate(date)
+      console.log(dateformat, 'formato de data');
       let dateNew = dateformat.trim()
       // console.log(typeof dateNew)
       if (oneState === 'post' && activeTab === 0) {
@@ -178,7 +179,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
 
   });
 
- 
+
 
 
 
@@ -215,7 +216,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     if (query === '') {
       setvalue(true)
     }
-     setSearch(query);
+    setSearch(query);
     debouncedGetPacientsSearchResult(query)
     //filtrar(query);
   };
@@ -252,6 +253,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       console.log(error);
     }
   };
+  console.log(date, 'formato de data');
   const toggleModalConfirmacion = (paciente) => {
     setShowModalConfirmacion(!showModalConfirmacion);
     setPacienteName(paciente.nombres);
@@ -267,7 +269,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
     }
   };
 
- 
+
   const debouncedGetPacients = useCallback(
     debounce((searchci) => {
       console.log(searchci)
@@ -289,19 +291,19 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       setSearch("");
     }
   }, [mostrarModal])
-  
+
   const debouncedGetPacientsSearchResult = useCallback(
     debounce((search) => {
       if (search === "") {
         getPacients()
       } if (search.length > 0) {
-        getPacientsBySearch({search})
+        getPacientsBySearch({ search })
         setpacients(pacientsBySearch)
-      }     
+      }
     }, 500),
     []
   );
- 
+
 
   const handleChangeCi = (event) => {
     const newQuery = event.target.value;
@@ -333,8 +335,8 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
       boxShadow="0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
       padding={"30px"}
       borderRadius="20px"
-      mx={{sm:'3%',lg:'10%',md:'10%'}}
-      my={{sm:'3%',lg:'2%',md:'2%'}}
+      mx={{ sm: '3%', lg: '10%', md: '10%' }}
+      my={{ sm: '3%', lg: '2%', md: '2%' }}
     >
 
       {
@@ -372,7 +374,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
                 placeholder={"Cedula de identidad:"}
                 handleSelectSearch={handleSelectSearch}
                 selectSearch={selectSearch}
-                //submit={formik.handleSubmit}
+              //submit={formik.handleSubmit}
               />
             }
             <InputSelector
@@ -414,8 +416,12 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
             templateColumns={{ lg: "repeat(2,1fr)", sm: "1fr" }}
             gap={{ lg: "20px", sm: "5px" }}
           >
-           
-            <InputCalendar onOpenCalendar={onOpenCalendar} value={date} onChange={handleDateChange} setOpenCalendar={setOpenCalendar} />
+
+            <InputCalendar
+              onOpenCalendar={onOpenCalendar}
+              value={date}
+              onChange={handleDateChange}
+              setOpenCalendar={setOpenCalendar} />
             <InputOverall
               name="direccion"
               value={formik.values.direccion}
@@ -443,7 +449,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
               onChange={(e) => formik.setFieldValue("email", e.target.value)}
               errors={formik.errors.email}
             />
-          
+
 
             {selectPacient || selectSearch ?
               <div>
@@ -485,7 +491,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         isToggleModal={toggleModal}
         Busqueda={search}
         thData={thValuesPacientes}
-        tBodyData={search ? pacientsBySearch: pacients}
+        tBodyData={search ? pacientsBySearch : pacients}
         handleSelectTBody={seleccionarRegistro}
         handleSelectIcon={toggleModalConfirmacion}
         loading={loading}
@@ -501,7 +507,7 @@ const ClienteCardPostInitial = ({ setRegistro, isLoading }) => {
         nombres={pacienteName}
       />
       <Box marginTop={'10px'} display={'flex'} alignItems={'center'} justifyContent={'space-between'} w={'100%'}>
-        <Box  boxSize={{lg:'3rem',sm:'2rem', md:'3rem'}}>
+        <Box boxSize={{ lg: '3rem', sm: '2rem', md: '3rem' }}>
 
         </Box>
         <ShowMoreButton handleClick={toggleModal} />

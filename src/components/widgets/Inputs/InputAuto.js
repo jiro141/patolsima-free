@@ -22,7 +22,7 @@ export default function InputAuto({
   selectSearch,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-
+console.log(searchValue,'este es valor de la ci');
   useEffect(() => {
     if (searchValue === '') {
       setIsOpen(false);

@@ -39,7 +39,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     initialValues: {
       email: '',
       direccion: '',
-      telefono_fijo: null,
+      telefono_fijo: '',
       telefono_celular: '',
       razon_social: '',
       ci_rif: ''
@@ -53,7 +53,6 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     }),
     validateOnChange: false,
     onSubmit: async (formData, { resetForm }) => {
-      // console.log('data', formData);
       try {
         // console.log('entro pero aqui no');
         const resPost = await putClientFactura(tercero.id, formData);
@@ -94,14 +93,20 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     try {
       const formData = formik.values;
 
+      if (formData.ci_rif === '') {
+        formData.ci_rif = searchci;
+      }
+      // console.log(formData, 'data de post');
       const resPost = await postFacturaTerceros(formData);
+      // console.log(resPost,'despues del post');
       if (resPost) {
+        // setTercero(resPost);
         setfactClientTerceros(resPost);
         toast.success("¡Se creo el cliente con éxito!", { autoClose: 1000 });
-
         const clienteOrd = {
-          cliente_id: tercero.id
+          cliente_id: factClientTerceros.id
         };
+        console.log(tercero,'datos nuevos');
         const postTercero = await putFacturaTerceros(study.id, clienteOrd);
         if (postTercero) {
           toast.success("¡Se actualizó el cliente en la factura con éxito!", { autoClose: 1200 });
@@ -134,7 +139,8 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
       const searchByCi = async () => {
         const res = await getOrdenesByCi(pacientsByCi.ci_rif)
         if (res) {
-          const resDetail = await getFacturasDetail(study.id)
+          const resDetail = await getFacturasDetail(study.id);
+          // setTercero(resDetail);
           setsearchResult(true);
         } else {
           // console.log('no existe la ci');
@@ -186,6 +192,8 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
     if (pacientsByCi.length > 0) {
       setSelectSearch(true);
       const selectedPatient = pacientsByCi[index];
+      setTercero(selectedPatient);
+      // console.log(selectedPatient,'datos de tercer');
       // Asignar directamente los valores a formik.values
       formik.setValues({
         ci_rif: selectedPatient.ci_rif,
