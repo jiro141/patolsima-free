@@ -100,7 +100,7 @@ const FacturaTerceros = ({ study, setShowModal, setFinishFactTerceros }) => {
       }
 
       const resPost = await postFacturaTerceros(formData);
-
+      setfactClientTerceros(resPost);
       if (resPost) {
         setTerceroPost(resPost);
         toast.success("¡Se creó el cliente con éxito!", { autoClose: 1000 });

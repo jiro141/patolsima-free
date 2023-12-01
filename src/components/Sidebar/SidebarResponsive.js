@@ -61,7 +61,7 @@ function SidebarResponsive(props) {
     (route) => route.groupName === "patologia"
   );
   const tecnicoRoutes = props.routes.filter(
-    (route) => route.groupName === "tecnico"
+    (route) => route.groupName === "Asi_tecnico"
   );
   // to check for active links and opened collapses
   let location = useLocation();

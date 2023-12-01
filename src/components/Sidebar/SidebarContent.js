@@ -55,7 +55,7 @@ const SidebarContent = ({ logoText, routes }) => {
     (route) => route.groupName === "patologia"
   );
   const tecnicoRoutes = routes.filter(
-    (route) => route.groupName === "tecnico"
+    (route) => route.groupName === "Asi_tecnico"
   );
   // console.log(tecnicoRoutes);
   let location = useLocation();
