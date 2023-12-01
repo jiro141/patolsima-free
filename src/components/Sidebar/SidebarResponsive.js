@@ -52,8 +52,8 @@ function SidebarResponsive(props) {
     };
     getUsersGroups();
   }, []);
-  const arrGroup = groups ? groups[0] : '';
-
+  const arrGroup = groups && groups.length >= 2 ? groups[1] : (groups && groups.length === 1 ? groups[0] : '');
+console.log(arrGroup,'grupos');
   const adminRoutes = props.routes.filter(
     (route) => route.groupName === "administracion"
   );
@@ -61,7 +61,7 @@ function SidebarResponsive(props) {
     (route) => route.groupName === "patologia"
   );
   const tecnicoRoutes = props.routes.filter(
-    (route) => route.groupName === "Asi_tecnico"
+    (route) => route.groupName === "tecnico"
   );
   // to check for active links and opened collapses
   let location = useLocation();
@@ -573,7 +573,7 @@ function SidebarResponsive(props) {
                           ? linksPatology
                           : arrGroup === "administracion"
                             ? linksAdmin :
-                            arrGroup === "tecnico" ?
+                            arrGroup === "Asi_tecnico" ?
                               linksTecnico
                               :
                               linksAdmin}

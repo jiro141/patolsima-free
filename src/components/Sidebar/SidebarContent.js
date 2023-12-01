@@ -46,8 +46,8 @@ const SidebarContent = ({ logoText, routes }) => {
     getUsersGroups();
   }, []);
 
-  const arrGroup = groups ? groups[0] : '';
-// console.log(routes);
+  const arrGroup = groups && groups.length >= 2 ? groups[1] : (groups && groups.length === 1 ? groups[0] : '');
+  // console.log(routes);
   const adminRoutes = routes.filter(
     (route) => route.groupName === "administracion"
   );
@@ -55,7 +55,7 @@ const SidebarContent = ({ logoText, routes }) => {
     (route) => route.groupName === "patologia"
   );
   const tecnicoRoutes = routes.filter(
-    (route) => route.groupName === "Asi_tecnico"
+    (route) => route.groupName === "tecnico"
   );
   // console.log(tecnicoRoutes);
   let location = useLocation();
@@ -622,7 +622,7 @@ const SidebarContent = ({ logoText, routes }) => {
                 ? linksPatology
                 : arrGroup === "administracion"
                   ? linksAdmin :
-                  arrGroup === "tecnico" ?
+                  arrGroup === "Asi_tecnico" ?
                     linksTecnico
                     :
                     linksAll}
